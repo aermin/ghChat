@@ -1,0 +1,35 @@
+{
+  "name": "airchat",
+  "version": "1.0.0",
+  "description": "server of airchat",
+  "author": "hxvin <hxvin@foxmail.com>",
+  "private": true,
+  "scripts": {
+    "init_sql": "node ./init/index.js",
+    "start": "gulp start",
+    "dev": "node --inspect ../server"
+  },
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "dependencies": {
+    "async": "0.2.9",
+    "jsonwebtoken": "^8.1.0",
+    "koa": "^2.3.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-cors": "0.0.16",
+    "koa-router": "^7.2.1",
+    "koa-static": "^4.0.0",
+    "koa2-cors": "^2.0.5",
+    "md5": "^2.2.1",
+    "mysql": "2.x",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2",
+    "socket.io": "^2.0.3",
+    "uuid": "^3.2.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-nodemon": "^2.2.1"
+  }
+}
