@@ -1,0 +1,182 @@
+.login {
+  // background-color: #39ace7;
+  font-family: "Poppins", sans-serif;
+  height: 100vh;
+
+  .wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    min-height: 100%;
+    // padding: 0.4rem;
+    #formContent {
+      -webkit-border-radius: 0.2rem 0.2rem 0.2rem 0.2rem;
+      border-radius: 0.2rem 0.2rem 0.2rem 0.2rem;
+      background: #fff;
+      padding: 0.6rem;
+      width: 80%;
+      max-width: 5rem;
+      position: relative;
+      padding: 0;
+      -webkit-box-shadow: 0 0.6rem 1.2rem 0 rgba(0, 0, 0, 0.3);
+      box-shadow: 0 0.6rem 1.2rem 0 rgba(0, 0, 0, 0.3);
+      text-align: center;
+
+      h2 {
+        text-align: center;
+        font-size: 0.26rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        display: inline-block;
+        margin: 0.4rem 0.08rem 0.1rem;
+        color: #cccccc;
+      }
+
+      .active {
+        color: #39ace7;
+      }
+      // .underlineHover:after {
+      //   display: block;
+      //   left: 0;
+      //   bottom: -0.1rem;
+      //   width: 0;
+      //   height: 0.02rem;
+      //   background-color: #39ace7;
+      //   content: "";
+      //   transition: width 0.2s;
+      // }
+      // // .underlineHover:hover {
+      // //     color: #0d0d0d;
+      // // }
+      // .underlineHover:hover:after {
+      //   width: 100%;
+      // }
+      form {
+        input[type=button],
+        input[type=reset],
+        input[type=submit] {
+          background-color: #39ace7;
+          border: none;
+          color: white;
+          padding: 0.15rem 0.8rem;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          text-transform: uppercase;
+          font-size: 0.13rem;
+          -webkit-box-shadow: 0 0.1rem 0.3rem 0 rgba(95, 186, 233, 0.4);
+          box-shadow: 0 0.1rem 0.3rem 0 rgba(95, 186, 233, 0.4);
+          -webkit-border-radius: 0.05rem 0.05rem 0.05rem 0.05rem;
+          border-radius: 0.05rem 0.05rem 0.05rem 0.05rem;
+          margin: 0.05rem 0.2rem 0.4rem;
+          -webkit-transition: all 0.3s ease-in-out;
+          -moz-transition: all 0.3s ease-in-out;
+          -ms-transition: all 0.3s ease-in-out;
+          -o-transition: all 0.3s ease-in-out;
+          transition: all 0.3s ease-in-out;
+        }
+
+        input[type=button]:hover,
+        input[type=reset]:hover,
+        input[type=submit]:hover {
+          background-color: #39ace7;
+        }
+
+        input[type=button]:active,
+        input[type=reset]:active,
+        input[type=submit]:active {
+          -moz-transform: scale(0.95);
+          -webkit-transform: scale(0.95);
+          -o-transform: scale(0.95);
+          -ms-transform: scale(0.95);
+          transform: scale(0.95);
+        }
+
+        input[type=password],
+        input[type=text] {
+          background-color: #f6f6f6;
+          border: none;
+          color: #0d0d0d;
+          padding: 0.15rem 0.32rem;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 0.16rem;
+          margin: 0.05rem;
+          width: 85%;
+          border: 0.02rem solid #f6f6f6;
+          -webkit-transition: all 0.5s ease-in-out;
+          -moz-transition: all 0.5s ease-in-out;
+          -ms-transition: all 0.5s ease-in-out;
+          -o-transition: all 0.5s ease-in-out;
+          transition: all 0.5s ease-in-out;
+          -webkit-border-radius: 0.05rem 0.05rem 0.05rem 0.05rem;
+          border-radius: 0.05rem 0.05rem 0.05rem 0.05rem;
+        }
+
+        input[type=text]:focus {
+          background-color: #fff;
+          border-bottom: 0.02rem solid #5fbae9;
+        }
+
+        input[type=password]:focus {
+          background-color: #fff;
+          border-bottom: 0.02rem solid #5fbae9;
+        }
+
+        input[type=text]:placeholder {
+          color: #cccccc;
+        }
+
+        input[type=password]:placeholder {
+          color: #cccccc;
+        }
+      }
+    }
+
+    .fadeInDown {
+      -webkit-animation-name: fadeInDown;
+      animation-name: fadeInDown;
+      -webkit-animation-duration: 1s;
+      animation-duration: 1s;
+      -webkit-animation-fill-mode: both;
+      animation-fill-mode: both;
+    }
+    @-webkit-keyframes fadeInDown {
+      0% {
+        opacity: 0;
+        -webkit-transform: translate3d(0, -100%, 0);
+        transform: translate3d(0, -100%, 0);
+      }
+
+      100% {
+        opacity: 1;
+        -webkit-transform: none;
+        transform: none;
+      }
+    }
+    @keyframes fadeInDown {
+      0% {
+        opacity: 0;
+        -webkit-transform: translate3d(0, -100%, 0);
+        transform: translate3d(0, -100%, 0);
+      }
+
+      100% {
+        opacity: 1;
+        -webkit-transform: none;
+        transform: none;
+      }
+    }
+  }
+}
+
+*:focus {
+  outline: none;
+}
+
+#icon {
+  width: 60%;
+}

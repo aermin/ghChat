@@ -1,0 +1,64 @@
+.wrapper {
+  // height: 100vh;
+  padding-top: 0.6rem;
+  z-index: 1;
+
+  ul {
+    width: 100%;
+    padding-bottom: 1.6rem;
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: column;
+
+    li {
+      list-style-type: none;
+    }
+  }
+
+  .input-msg {
+    height: 0.46rem;
+    position: fixed;
+    bottom: 0.03rem;
+    display: flex;
+    display: -webkit-flex;
+    /* Safari */
+    width: 100%;
+    z-index: 999;
+
+    textarea {
+      width: 87.8%;
+      margin: 0 0.06rem;
+      padding-top: 0.07rem;
+      padding-left: 0.06rem;
+      border-radius: 0.02rem;
+      outline: none;
+      resize: none;
+      border: none;
+      overflow-y: hidden;
+      font: 0.16rem/0.18rem 'Microsoft Yahei';
+    }
+
+    p.btn {
+      font-size: 0.2rem;
+      display: flex;
+      display: -webkit-flex;
+      /* Safari */
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      margin-right: 0.06rem;
+      height: 100%;
+      width: 11%;
+      background: #ccc;
+      color: white;
+      border-radius: 0.02rem;
+      cursor: not-allowed;
+      font-family: 'Microsoft Yahei';
+
+      &.enable {
+        background: #1E90FF;
+        cursor: pointer;
+      }
+    }
+  }
+}

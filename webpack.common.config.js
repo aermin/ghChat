@@ -26,7 +26,7 @@ commonConfig = {
             use: ['babel-loader?cacheDirectory=true'],
             include: path.join(__dirname, 'src')
         }, {
-            test: /\.(png|jpg|gif)$/,
+            test: /\.(png|jpg|gif|svg)$/,
             use: [{
                 loader: 'url-loader',
                 options: {
