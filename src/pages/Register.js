@@ -5,6 +5,7 @@ import {
 import '../assets/loginregister.scss';
 import icon from '../assets/icon.svg';
 import axios from 'axios'
+import MessageBox from '../components/MessageBox'
 
 export default class Register extends Component {
 	constructor(props){
@@ -20,12 +21,8 @@ export default class Register extends Component {
 				messageBoxEvent: "" // 弹窗事件名称
 			}
         };
-        
-    this.nameChange = this.nameChange.bind(this);
-    this.passwordChange = this.passwordChange.bind(this);
-    this.register = this.register.bind(this);
 	}
-    register () {
+    register = () => {
         if (this.state.name !== "" && this.state.password !== "") {
             axios.post(
                 '/api/v1/register', {
@@ -40,6 +37,14 @@ export default class Register extends Component {
                         // this.messageBox.messageBoxEvent = 'register'
                         // this.messageBox.visible = true;
                         // this.messageBox.message = "您已注册成功";
+                        this.setState({
+                            messageBox: {
+                                visible: true,
+                                message: "您已注册成功", //弹窗内容
+                                hasCancel: true, //弹窗是否有取消键
+                                messageBoxEvent: 'register' // 弹窗事件名称
+                            }
+                          });
                     } else {
                         console.log("error");
                         // this.$message({
@@ -65,18 +70,32 @@ export default class Register extends Component {
         }
 
     }
-    nameChange(event){
+    nameChange = (event) =>{
         this.setState({name: event.target.value});
     }
-    passwordChange(event){
+    passwordChange = (event) =>{
         this.setState({password: event.target.value});
     }
+
+    closeMessageBox = () =>{
+        this.setState({
+            visible: false,
+            alertTip: '',
+          })
+    }
+
+    confirm = (messageBoxEvent)=>{
+        console.log("messageBoxEvent", messageBoxEvent)
+    }
+
     render() {
         return (
             <div className="login">
                 {/* <Message-box :visible="this.messageBox.visible" :messageBoxEvent="this.messageBox.messageBoxEvent" @confirm="confirm" :hasCancel=false>
                     <p slot="content">{{this.messageBox.message}}</p>
                 </Message-box> */}
+                <MessageBox title = {this.messageBox.title} content = {this.messageBox.message} visible ={this.messageBox.visible} messageBoxEvent ={this.messageBox.messageBoxEvent} confirm = {messageBoxEvent => this.confirm(messageBoxEvent)}>
+                </MessageBox>
                 <div className="wrapper fadeInDown">
                     <div id="formContent">
                         <Link to="/login">
