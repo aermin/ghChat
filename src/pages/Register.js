@@ -1,21 +1,23 @@
 import React, {Component} from 'react';
 import {
-  Link
+  Link,
+  withRouter
 } from 'react-router-dom'
 import '../assets/loginregister.scss';
 import icon from '../assets/icon.svg';
-import axios from 'axios'
-import MessageBox from '../components/MessageBox'
+import axios from 'axios';
+import MessageBox from '../components/MessageBox';
 
 export default class Register extends Component {
-	constructor(props){
-		super(props);
+	constructor(){
+		super();
 
     	this.state = {
             name: '',
-			password: '',
+            password: '',
 			messageBox: {
-				visible: false,
+                visible: false,
+                title:"提示",
 				message: "", //弹窗内容
 				hasCancel: true, //弹窗是否有取消键
 				messageBoxEvent: "" // 弹窗事件名称
@@ -32,16 +34,11 @@ export default class Register extends Component {
                 console.log(res);
                 if (res) {
                     if (res.data.success) {
-                        console.log("您已注册成功");
                         //弹窗
-                        // this.messageBox.messageBoxEvent = 'register'
-                        // this.messageBox.visible = true;
-                        // this.messageBox.message = "您已注册成功";
                         this.setState({
                             messageBox: {
                                 visible: true,
                                 message: "您已注册成功", //弹窗内容
-                                hasCancel: true, //弹窗是否有取消键
                                 messageBoxEvent: 'register' // 弹窗事件名称
                             }
                           });
@@ -73,29 +70,23 @@ export default class Register extends Component {
     nameChange = (event) =>{
         this.setState({name: event.target.value});
     }
+    
     passwordChange = (event) =>{
         this.setState({password: event.target.value});
     }
 
-    closeMessageBox = () =>{
+    confirm =  messageBoxEvent => {
         this.setState({
             visible: false,
-            alertTip: '',
-          })
-    }
-
-    confirm = (messageBoxEvent)=>{
-        console.log("messageBoxEvent", messageBoxEvent)
+        })
+        this.props.history.push("/login");
     }
 
     render() {
         return (
             <div className="login">
-                {/* <Message-box :visible="this.messageBox.visible" :messageBoxEvent="this.messageBox.messageBoxEvent" @confirm="confirm" :hasCancel=false>
-                    <p slot="content">{{this.messageBox.message}}</p>
-                </Message-box> */}
-                <MessageBox title = {this.messageBox.title} content = {this.messageBox.message} visible ={this.messageBox.visible} messageBoxEvent ={this.messageBox.messageBoxEvent} confirm = {messageBoxEvent => this.confirm(messageBoxEvent)}>
-                </MessageBox>
+                <MessageBox  title = {this.state.messageBox.title} content = {this.state.messageBox.message} visible = {this.state.messageBox.visible} messageBoxEvent ={this.state.messageBox.messageBoxEvent} confirm = {this.confirm} hasCancel= {false} />
+            
                 <div className="wrapper fadeInDown">
                     <div id="formContent">
                         <Link to="/login">
