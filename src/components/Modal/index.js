@@ -2,24 +2,24 @@ import React, {Component} from 'react';
 import './style.scss';
 
 
-export default class MessageBox extends Component {
+export default class Modal extends Component {
 	constructor(props){
 		super(props);
              this.state = {}
              console.log("props",props);
         }
         cancel = () => {
-            this.props.closeMessageBox();
+            this.props.cancel(this.props.modalEvent);
         }
         confirm = () => {
-            this.props.confirm(this.props.messageBoxEvent);
+            this.props.confirm(this.props.modalEvent);
         }
         render() {
             return (
                 <div>
-                    {this.props.visible && <div className="message-box" >
+                    {this.props.visible && <div className="modal" >
                         <div className="bg"></div>
-                        <div className="message-box-wrapper">
+                        <div className="modal-wrapper">
                             <h1> {this.props.title} </h1>
                             {/* <input v-if="canInput" type="text" v-model="canInputText" maxlength="10" placeholder="最多10个字哦"> */}
                             {/* <form className="editor-info" v-if="canEditorInfo">

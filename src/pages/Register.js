@@ -6,7 +6,7 @@ import {
 import '../assets/loginregister.scss';
 import icon from '../assets/icon.svg';
 import axios from 'axios';
-import MessageBox from '../components/MessageBox';
+import Modal from '../components/Modal';
 
 export default class Register extends Component {
 	constructor(){
@@ -15,12 +15,12 @@ export default class Register extends Component {
     	this.state = {
             name: '',
             password: '',
-			messageBox: {
+			modal: {
                 visible: false,
                 title:"提示",
 				message: "", //弹窗内容
 				hasCancel: true, //弹窗是否有取消键
-				messageBoxEvent: "" // 弹窗事件名称
+				modalEvent: "" // 弹窗事件名称
 			}
         };
 	}
@@ -36,10 +36,10 @@ export default class Register extends Component {
                     if (res.data.success) {
                         //弹窗
                         this.setState({
-                            messageBox: {
+                            modal: {
                                 visible: true,
                                 message: "您已注册成功", //弹窗内容
-                                messageBoxEvent: 'register' // 弹窗事件名称
+                                modalEvent: 'register' // 弹窗事件名称
                             }
                           });
                     } else {
@@ -75,7 +75,7 @@ export default class Register extends Component {
         this.setState({password: event.target.value});
     }
 
-    confirm =  messageBoxEvent => {
+    confirm =  modalEvent => {
         this.setState({
             visible: false,
         })
@@ -85,7 +85,7 @@ export default class Register extends Component {
     render() {
         return (
             <div className="login">
-                <MessageBox  title = {this.state.messageBox.title} content = {this.state.messageBox.message} visible = {this.state.messageBox.visible} messageBoxEvent ={this.state.messageBox.messageBoxEvent} confirm = {this.confirm} hasCancel= {false} />
+                <Modal  title = {this.state.modal.title} content = {this.state.modal.message} visible = {this.state.modal.visible} modalEvent ={this.state.modal.modalEvent} confirm = {this.confirm} hasCancel= {false} />
             
                 <div className="wrapper fadeInDown">
                     <div id="formContent">
