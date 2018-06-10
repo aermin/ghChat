@@ -1,0 +1,16 @@
+.tips {
+    position: fixed;
+    top: 0.23rem;
+    left: 50%;
+    font-size: 0.14rem;
+    transform: translate(-50%, 0);
+    z-index: 999999999;
+    .icon {
+        pointer-events: all;
+        padding: 0.12rem 0.18rem;
+        border-radius: 0.06rem;
+        box-shadow: 0 0.02rem 0.08rem rgba(0, 0, 0, .2);
+        background: #fff;
+        color: #495060;
+    }
+}

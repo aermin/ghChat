@@ -1,21 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>react-chat</title>
-    <script src="http://at.alicdn.com/t/font_541713_6k7oo8m50xu323xr.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>react-chat</title>
+  <script src="http://at.alicdn.com/t/font_541713_6k7oo8m50xu323xr.js"></script>
 </head>
+<style type="text/css">
+  .icon {
+     width: 1em; height: 1em;
+     vertical-align: -0.15em;
+     fill: currentColor;
+     overflow: hidden;
+  }
+</style>
 <body>
-    <div id="app"></div>
-    <script src="http://ooytyiziz.bkt.clouddn.com/socket.io.js"></script>
-    <!-- <script>
-      const socket = io('http://localhost:3000');
-      const userInfo = JSON.parse(localStorage.getItem("userInfo"))
-      if (userInfo) {
-        socket.emit('update', userInfo.user_id);
-      }
-    </script> -->
+  <div id="app"></div>
+  <script src="http://ooytyiziz.bkt.clouddn.com/socket.io.js"></script>
+  <script>
+    const socket = io('http://localhost:3000');
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"))
+    if (userInfo) {
+      socket.emit('update', userInfo.user_id);
+    }
+  </script>
 </body>
+
 </html>
