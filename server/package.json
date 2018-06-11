@@ -23,7 +23,7 @@
     "koa2-cors": "^2.0.5",
     "md5": "^2.2.1",
     "mysql": "2.x",
-    "request": "^2.83.0",
+    "request": "^2.87.0",
     "request-promise": "^4.2.2",
     "socket.io": "^2.0.3",
     "uuid": "^3.2.1"

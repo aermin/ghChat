@@ -1,7 +1,7 @@
 /*********************************************************************
  * NAN - Native Abstractions for Node.js
  *
- * Copyright (c) 2017 NAN contributors
+ * Copyright (c) 2018 NAN contributors
  *
  * MIT License <https://github.com/nodejs/nan/blob/master/LICENSE.md>
  ********************************************************************/
@@ -102,6 +102,10 @@ inline Maybe<bool> Set(
   return obj->Set(isolate->GetCurrentContext(), index, value);
 }
 
+#if NODE_MODULE_VERSION < NODE_4_0_MODULE_VERSION
+#include "nan_define_own_property_helper.h"  // NOLINT(build/include)
+#endif
+
 inline Maybe<bool> DefineOwnProperty(
     v8::Local<v8::Object> obj
   , v8::Local<v8::String> key
@@ -109,8 +113,18 @@ inline Maybe<bool> DefineOwnProperty(
   , v8::PropertyAttribute attribs = v8::None) {
   v8::Isolate *isolate = v8::Isolate::GetCurrent();
   v8::HandleScope scope(isolate);
+#if NODE_MODULE_VERSION >= NODE_4_0_MODULE_VERSION
   return obj->DefineOwnProperty(isolate->GetCurrentContext(), key, value,
                                 attribs);
+#else
+  Maybe<v8::PropertyAttribute> maybeCurrent =
+      obj->GetPropertyAttributes(isolate->GetCurrentContext(), key);
+  if (maybeCurrent.IsNothing()) {
+    return Nothing<bool>();
+  }
+  v8::PropertyAttribute current = maybeCurrent.FromJust();
+  return imp::DefineOwnPropertyHelper(current, obj, key, value, attribs);
+#endif
 }
 
 NAN_DEPRECATED inline Maybe<bool> ForceSet(

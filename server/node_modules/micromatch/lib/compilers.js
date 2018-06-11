@@ -29,7 +29,7 @@ module.exports = function(snapdragon) {
 
   snapdragon.use(function() {
     this.options.star = this.options.star || function(/*node*/) {
-      return '[^/]*?';
+      return '[^\\\\/]*?';
     };
   });
 
@@ -50,7 +50,7 @@ function escapeExtglobs(compiler) {
   compiler.set('paren', function(node) {
     var val = '';
     visit(node, function(tok) {
-      if (tok.val) val += '\\' + tok.val;
+      if (tok.val) val += (/^\W/.test(tok.val) ? '\\' : '') + tok.val;
     });
     return this.emit(val, node);
   });

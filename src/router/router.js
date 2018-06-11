@@ -9,6 +9,7 @@ import Bundle from './Bundle';
 // import Counter from 'bundle-loader?lazy&name=counter!../pages/Counter/Counter';
 // import UserInfo from 'bundle-loader?lazy&name=userInfo!../pages/UserInfo/UserInfo';
 import Register from 'bundle-loader?lazy&name=Register!../pages/Register';
+import Robot from 'bundle-loader?lazy&name=Robot!../pages/Robot';
 
 const Loading = function () {
     return <div>Loading...</div>
@@ -37,6 +38,7 @@ const getRouter = () => (
                 <Route path="/counter" component={createComponent(Counter)}/>
                 <Route path="/userinfo" component={createComponent(UserInfo)}/> */}
                 <Route path="/register" component={createComponent(Register)}/>
+                <Route path="/robot" component={createComponent(Robot)}/>
             </Switch>
         </div>
     </Router>

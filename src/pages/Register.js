@@ -51,7 +51,7 @@ export default class Register extends Component {
                           });
                     } else {
                         console.log("error11");
-                        this.state.isShow = true;
+                        // this.state.isShow = true;
                         // this.$message({
                         //     message: res.data.message,
                         //     type: "error"
@@ -67,15 +67,14 @@ export default class Register extends Component {
             })
         } else {
             const content = this.state.name === "" ? "请输入用户名" : "请输入密码";
-            console.log("1111111111");
-            this.setState({
-                message:{
-                    isShow:true,
-                    type: 'warn',
-                    content:content,
-                    time:3000
-                }
-            })
+            // this.setState({
+            //     message:{
+            //         isShow:true,
+            //         type: 'warn',
+            //         content:content,
+            //         time:3000
+            //     }
+            // })
             // console.log("message", message);
             // this.$message({
             //     message: message,
@@ -103,7 +102,7 @@ export default class Register extends Component {
         return (
             <div className="login">
                 <Modal  title = {this.state.modal.title} content = {this.state.modal.message} visible = {this.state.modal.visible} modalEvent ={this.state.modal.modalEvent} confirm = {this.confirm} hasCancel= {false} />
-                <Message isShow = {this.state.message.isShow}  type = {this.state.message.type}  content = {this.state.message.content} />
+                {/* <Message isShow = {this.state.message.isShow}  type = {this.state.message.type}  content = {this.state.message.content} /> */}
                 <div className="wrapper fadeInDown">
                     <div id="formContent">
                         <Link to="/login">

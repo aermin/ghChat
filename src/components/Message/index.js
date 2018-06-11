@@ -37,6 +37,16 @@ export default class Message extends Component {
     return (
       <div>
         {this.state.isShow && <div className="tips">
+        {/* {this.props.type ===  'success' && 
+          <svg className="icon" aria-hidden="true" style="font-size : 0.2rem">
+              <use xlink:href="#icon-success1" />
+            </svg>}
+        {this.props.type ===  'warn' &&  <svg className="icon" aria-hidden="true" style="font-size : 0.2rem">
+              <use xlink:href="#icon-warn1" />
+            </svg>}
+        {this.props.type ===  'error' && <svg className="icon" aria-hidden="true" style="font-size : 0.2rem">
+              <use xlink:href="#icon-error1" />
+            </svg>} */}
             {this.props.content}
           </div>}
       </div>  
