@@ -17,7 +17,8 @@ class Robot extends Component {
                 currentTab: 2,
                 time: toNomalTime(Date.parse(new Date()) / 1000),
                 inputMsg: "",
-                img: "",
+                // img: "",
+                userInfo:{},
                 isScrollToBottom: true
              }
         }
@@ -27,9 +28,9 @@ class Robot extends Component {
 			}, 0)
         }
         componentWillMount(){
-            const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-            // this.img = userInfo.avator;
-            this.img = "http://ooytyiziz.bkt.clouddn.com/robot.gif";
+            this.setState({
+                userInfo:JSON.parse(localStorage.getItem("userInfo"))
+            }) 
         }
         componentDidMount(){
             setTimeout(() => {
@@ -63,7 +64,7 @@ class Robot extends Component {
                 //  <li>{number}</li>
                  <li key={index}>
                  {msg.user && <ChatItem  img="http://ooytyiziz.bkt.clouddn.com/robot.gif" msg={msg.message} name={msg.user} time={this.state.time} />}
-                 {!msg.user && <ChatItem me="true" img={this.state.img}  msg={msg.message} time={this.state.time} />}
+                 {!msg.user && <ChatItem me="true" img={this.state.userInfo.avator}  msg={msg.message} name={this.state.userInfo.name} time={this.state.time} />}
               </li>
             );
             return (
