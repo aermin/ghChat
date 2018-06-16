@@ -4,7 +4,16 @@ import "../../assets/loginregister.scss";
 import icon from "../../assets/icon.svg";
 import axios from "axios";
 import Modal from "../../components/Modal";
-import Message from "../../components/Message";
+import Notification from 'rc-notification';
+import "../../assets/notification.scss";
+
+function notification(content){
+  Notification.newInstance({}, notification => {
+    notification.notice({
+      content: content,
+    });
+  });
+}
 
 export default class Login extends Component {
   constructor() {
@@ -13,12 +22,6 @@ export default class Login extends Component {
     this.state = {
       name: "",
       password: "",
-      message: {
-        content: "",
-        isShow: false,
-        type: "success",
-        time: 3000
-      },
       modal: {
         visible: false,
         title: "提示",
@@ -34,7 +37,6 @@ export default class Login extends Component {
           name: this.state.name,
           password: this.state.password
         }).then(res => {
-          console.log(res);
           if (res && res.data.success) {
              //保存soket.io
             socket.emit('login', res.data.userInfo.user_id);
@@ -49,36 +51,15 @@ export default class Login extends Component {
                 }
               });
             } else {
-              console.log("error11");
-              // this.state.isShow = true;
-              // this.$message({
-              //     message: res.data.message,
-              //     type: "error"
-              // });
+              notification(res.data.message);
             }
         })
         .catch(err => {
-          console.log(err);
-          // this.$message({
-          //     message: '服务器出错啦',
-          //     type: "error"
-          // });
+          notification(err);
         });
     } else {
       const content = this.state.name === "" ? "请输入用户名" : "请输入密码";
-      // this.setState({
-      //     message:{
-      //         isShow:true,
-      //         type: 'warn',
-      //         content:content,
-      //         time:3000
-      //     }
-      // })
-      // console.log("message", message);
-      // this.$message({
-      //     message: message,
-      //     type: "warn"
-      // });
+      notification(content);
     }
   };
   nameChange = event => {

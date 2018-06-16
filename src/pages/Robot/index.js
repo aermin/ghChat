@@ -61,7 +61,6 @@ class Robot extends Component {
         render() {
             console.log("this.props.robotMsg", this.props.robotMsg)
             const listItems = this.props.robotMsg.map((msg,index) =>
-                //  <li>{number}</li>
                  <li key={index}>
                  {msg.user && <ChatItem  img="http://ooytyiziz.bkt.clouddn.com/robot.gif" msg={msg.message} name={msg.user} time={this.state.time} />}
                  {!msg.user && <ChatItem me="true" img={this.state.userInfo.avator}  msg={msg.message} name={this.state.userInfo.name} time={this.state.time} />}
