@@ -4,17 +4,7 @@ import "../../assets/loginregister.scss";
 import icon from "../../assets/icon.svg";
 import axios from "axios";
 import Modal from "../../components/Modal";
-import Notification from 'rc-notification';
-import "../../assets/notification.scss";
-
-
-function notification(content){
-  Notification.newInstance({}, notification => {
-    notification.notice({
-      content: content,
-    });
-  });
-}
+import notification from "../../components/Notification";
 
 export default class Register extends Component {
   constructor() {
@@ -50,15 +40,15 @@ export default class Register extends Component {
                 }
               });
             } else {
-              notification(res.data.message);
+              notification(res.data.message,'error');
           }
         })
         .catch(err => {
-          notification(err);
+          notification(err,'error');
         });
     } else {
-      const content = this.state.name === "" ? "请输入用户名" : "请输入密码";
-      notification(content);
+      const msg = this.state.name === "" ? "请输入用户名" : "请输入密码";
+      notification(msg,'warn');
     }
   };
   nameChange = event => {
@@ -127,3 +117,5 @@ export default class Register extends Component {
     );
   }
 }
+
+
