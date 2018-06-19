@@ -1,0 +1,82 @@
+.wrapper {
+    // height: 100vh;
+    padding-top: 0.8rem;
+    background-color: #fff;
+    z-index: 1;
+    ul {
+        background-color: #fff;
+        padding-bottom: 0.5rem;
+        li {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            align-items: center;
+            margin: 0 0.2rem;
+            list-style-type: none;
+            a {
+                position: relative;
+                .img {
+                    width: 0.8rem;
+                    height: 0.8rem;
+                    margin-right: 0.04rem;
+                    border-radius: 50%;
+                    display: inline-block;
+                }
+                span {
+                    font-size: 0.2rem;
+                    border-radius: 50%;
+                    padding: 0 0.088rem;
+                    position: absolute;
+                    top: 0.2rem;
+                    left: 0.7rem;
+                    color: #fff;
+                    z-index: 2;
+                }
+                .private-unread {
+                    background-color: red;
+                }
+                .group-unread {
+                    background-color: #98d1f2;
+                }
+                //  ::after {
+                //   content: "";
+                //   width: 0.26rem;
+                //   height: 0.26rem;
+                //   display: inline-block;
+                //   border-radius: 50%;
+                //   background-color: red;
+                //   position: absolute;
+                //   left: -0.08rem;
+                //   z-index: -1;
+                // }
+            }
+            .content {
+                display: inline-block;
+                margin-left: 0.2rem;
+                max-width: 80%;
+                .title {
+                    font-size: 0.32rem;
+                    span {
+                        font-size: 0.28rem;
+                        color: #676767;
+                        position: absolute;
+                        right: 0.5rem;
+                    }
+                }
+                .message {
+                    color: #676767;
+                    font-size: 0.24rem;
+                    max-height: 0.72rem;
+                    overflow: hidden;
+                    position: relative;
+                }
+                .message :after {
+                    content: "...";
+                    position: absolute;
+                    bottom: 0;
+                    right: 0;
+                }
+            }
+        }
+    }
+}

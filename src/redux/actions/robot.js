@@ -3,6 +3,7 @@ export const INSERT_USER_MSG = "robot/USER_INPUT_MSG";
 import axios from "axios";
 
 export const insertUserMsg = data => {
+    console.log("insertUserMsg~~")
     return {
       type: INSERT_USER_MSG,
       data
@@ -10,6 +11,7 @@ export const insertUserMsg = data => {
   }
 
 export const getRobotMsg = data => {
+    console.log("getRobotMsg~~")
       // 返回函数，异步dispatch
     return async dispatch => {
             axios.get("/api/v1/robot", {
@@ -17,10 +19,6 @@ export const getRobotMsg = data => {
             }).then(res => {
                 if (res) {
                     if (res.data.data.code === 100000) {
-                        // commit("robotMsgMutation", {
-                        //     message: res.data.data.text,
-                        //     user: "robot"
-                        // });
                         dispatch({
                             type: GET_ROBOT_MSG,
                             data:{
@@ -30,10 +28,6 @@ export const getRobotMsg = data => {
                           })
                     } else if (res.data.data.code === 200000) {
                         let message = res.data.data.text + res.data.data.url;
-                        // commit("robotMsgMutation", {
-                        //     message: data,
-                        //     user: "robot"
-                        // });
                         dispatch({
                             type: GET_ROBOT_MSG,
                             data:{
@@ -42,10 +36,6 @@ export const getRobotMsg = data => {
                             }
                           })
                     } else if (res.data.data.code === 302000) {
-                        // commit("robotMsgMutation", {
-                        //     message: "暂不支持此类对话",
-                        //     user: "robot"
-                        // });
                         dispatch({
                             type: GET_ROBOT_MSG,
                             data:{
@@ -54,10 +44,6 @@ export const getRobotMsg = data => {
                             }
                           })
                     } else {
-                        // commit("robotMsgMutation", {
-                        //     message: "暂不支持此类对话",
-                        //     user: "robot"
-                        // });
                         dispatch({
                             type: GET_ROBOT_MSG,
                             data:{
@@ -71,15 +57,5 @@ export const getRobotMsg = data => {
             .catch(err => {
                 console.log(err);
             });
-            // let result = await API.getProduction();
-            // result.map(item => {
-            // item.selectStatus = false;
-            // item.selectNum = 0;
-            // return item;
-            // })
-            // dispatch({
-            // type: pro.GETPRODUCTION,
-            // dataList: result,
-            // })
     }
 }

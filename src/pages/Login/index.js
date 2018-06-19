@@ -65,7 +65,7 @@ export default class Login extends Component {
     this.setState({
       visible: false
     });
-    this.props.history.push("/robot");
+    this.props.history.push("/");
   };
 
   render() {

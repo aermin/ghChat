@@ -1,42 +1,44 @@
 import React, {Component} from 'react';
-import ChatItem from '../../components/ChatItem';
-
-export default class HomePageList extends Component {
+import {connect} from 'react-redux';
+import {getHomePageList,getHome} from "../../redux/actions/homePageList";
+import './style.scss';
+class HomePageList extends Component {
 	constructor(){
 		super();
-
          	this.state = {}
         }
 
-        componentWillMount(){
-            
+        componentDidMount(){
+             this.props.getHomePageList();
         }
          
         render() {
-            const listItems = this.props.msgList.map((data,index) =>
+            const listItems = this.props.allMsgList.map((data,index) =>
                 <li key={index}>
                     {data.type === 'group' && <a href="">
-                    <img src={data.group_avatar} alt="群头像" className="img" />
+                    <img src={data.group_avator} alt="群头像" className="img" />
                     {data.unread &&<span className="group-unread">{data.unread}</span>}
                     </a>}
                     {data.type === 'private' && <a href="">
-                    <img src={data.group_avatar} alt="用户头像" className="img" />
+                    <img src={data.avator} alt="用户头像" className="img" />
                     {data.unread &&<span className="private-unread">{data.unread}</span>}
                     </a>}
                 </li>
              );
             return (
                 <div>
-                    <div class="wrapper">
-                    <ul>{listItems}</ul>
+                    <div className="wrapper">
+                         <ul>{listItems}</ul>
                     </div>
                 </div>
             )
        }
 }
 
-export default connect(state => ({
-    allMsgList: state.allMsgList
-  }), {
-    getHomePageList
-  })(HomePageList);
+// export default connect(state => ({
+//     allMsgList: state.allMsgList
+//   }), {getHome})(HomePageList);
+
+  export default connect(state => ({
+    allMsgList: state.homePageList.allMsgList
+  }), {getHomePageList})(HomePageList);

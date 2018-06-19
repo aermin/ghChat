@@ -7,7 +7,6 @@ import ChatItem from '../../components/ChatItem';
 import {
 	toNomalTime
 } from "../../utils/transformTime";
-import axios from "axios";
 
 class Robot extends Component {
 	constructor(){
