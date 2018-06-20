@@ -3,7 +3,6 @@ export const INSERT_USER_MSG = "robot/USER_INPUT_MSG";
 import axios from "axios";
 
 export const insertUserMsg = data => {
-    console.log("insertUserMsg~~")
     return {
       type: INSERT_USER_MSG,
       data
@@ -11,7 +10,6 @@ export const insertUserMsg = data => {
   }
 
 export const getRobotMsg = data => {
-    console.log("getRobotMsg~~")
       // 返回函数，异步dispatch
     return async dispatch => {
             axios.get("/api/v1/robot", {
