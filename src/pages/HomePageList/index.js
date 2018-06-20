@@ -15,14 +15,14 @@ class HomePageList extends Component {
         render() {
             const listItems = this.props.allMsgList.map((data,index) =>
                 <li key={index}>
-                    {data.type === 'group' && <a href="">
-                    <img src={data.group_avator} alt="群头像" className="img" />
-                    {data.unread &&<span className="group-unread">{data.unread}</span>}
-                    </a>}
-                    {data.type === 'private' && <a href="">
-                    <img src={data.avator} alt="用户头像" className="img" />
-                    {data.unread &&<span className="private-unread">{data.unread}</span>}
-                    </a>}
+                    <a href="">
+                    <img src={data.type === 'group' ? data.group_avator : data.avator } alt={data.type === 'group' ? "群头像" : "用户头像"} className="img" />
+                    {data.unread &&<span className={data.type === 'group' ? "group-unread" :"private-unread" }>{data.unread}</span>}
+                    </a>
+                    <div class="content">
+                        <div className="title">{data.type === 'group' ? data.group_name : data.name}<span>{data.time}</span></div>
+                        <div className="message">{data.message}</div>
+                    </div>
                 </li>
              );
             return (
@@ -30,14 +30,10 @@ class HomePageList extends Component {
                     <div className="wrapper">
                          <ul>{listItems}</ul>
                     </div>
-                </div>
+                </div>          
             )
        }
 }
-
-// export default connect(state => ({
-//     allMsgList: state.allMsgList
-//   }), {getHome})(HomePageList);
 
   export default connect(state => ({
     allMsgList: state.homePageList.allMsgList

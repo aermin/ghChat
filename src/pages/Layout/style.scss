@@ -1,0 +1,54 @@
+.layout-wrapper{
+    display: flex;
+    .layout-left{
+        border: 1px solid red;
+        width: 30%;
+    }
+    
+    .layout-right {
+        border: 1px solid green;
+        width: 70%;
+    }
+}
+
+
+@media screen and (max-width: 648px) {
+    .layout-wrapper{
+        min-width: 100%;
+        .layout-left{
+            width: 100%;
+        }
+        .layout-right {
+            width: 0;
+        }
+    }
+
+}
+
+@media screen and (min-width: 1025px) {
+    .layout-wrapper{
+        min-width: 100%;
+        .layout-left{
+            width: 30%;
+        }
+        .layout-right {
+            width: 70%;
+        }
+    }
+
+}
+
+// @media screen and (min-width: 1025px) {
+//     .manager-one,
+//     .manager-three,
+//     .pane-one{
+//         width: 30%;
+//     }
+//     .pane-two{
+//         width: 70%;
+//     }
+//     .manager-two,
+//     .pane-three{
+//         width: 40%;
+//     }
+// }

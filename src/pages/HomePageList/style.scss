@@ -5,14 +5,15 @@
     z-index: 1;
     ul {
         background-color: #fff;
-        padding-bottom: 0.5rem;
+        // padding-bottom: 0.5rem;
         li {
             display: -webkit-box;
             display: -ms-flexbox;
             display: flex;
             align-items: center;
-            margin: 0 0.2rem;
+            // margin: 0 0.2rem;
             list-style-type: none;
+            border: #98d1f2 1px solid;
             a {
                 position: relative;
                 .img {
@@ -59,8 +60,9 @@
                     span {
                         font-size: 0.28rem;
                         color: #676767;
-                        position: absolute;
-                        right: 0.5rem;
+                        // position: absolute;
+                        // right: 0.5rem;
+                        // float: left;
                     }
                 }
                 .message {
