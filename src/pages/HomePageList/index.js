@@ -19,18 +19,16 @@ class HomePageList extends Component {
                     <img src={data.type === 'group' ? data.group_avator : data.avator } alt={data.type === 'group' ? "群头像" : "用户头像"} className="img" />
                     {data.unread &&<span className={data.type === 'group' ? "group-unread" :"private-unread" }>{data.unread}</span>}
                     </a>
-                    <div class="content">
+                    <div className="content">
                         <div className="title">{data.type === 'group' ? data.group_name : data.name}<span>{data.time}</span></div>
                         <div className="message">{data.message}</div>
                     </div>
                 </li>
              );
             return (
-                <div>
-                    <div className="wrapper">
+                    <div className="home-page-list-wrapper">
                          <ul>{listItems}</ul>
-                    </div>
-                </div>          
+                    </div>       
             )
        }
 }

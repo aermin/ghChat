@@ -1,4 +1,7 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {setCurrentTab} from "../../redux/actions/tabs";
+import './style.scss';
 
 class Tabs extends Component {
 	constructor(){
@@ -23,22 +26,22 @@ class Tabs extends Component {
         render() {
             return (
                 <div className="tabs-wrapper">
-                    <div className="tab-one" onClick = {this.clickTabOne}>
+                    <div className="tab tab-one" onClick = {this.clickTabOne}>
                         <svg className="icon " aria-hidden="true" >
                             <use  xlinkHref={this.props.currentTab === 1 ? "#icon-messagefill" : "#icon-message1"}></use>
                         </svg> 
                     </div>
-                    <div className="tab-two" onClick = {this.clickTabTwo}>
+                    <div className="tab tab-two" onClick = {this.clickTabTwo}>
                         <svg className="icon " aria-hidden="true" >
                             <use  xlinkHref={this.props.currentTab === 2 ? "#icon-zhinengfenxi1" : "#icon-zhinenghua"}></use>
                         </svg> 
                     </div>
-                    <div className="tab-three" onClick = {this.clickTabThree}>
+                    <div className="tab tab-three" onClick = {this.clickTabThree}>
                         <svg className="icon " aria-hidden="true" >
                             <use  xlinkHref={this.props.currentTab === 3 ? "#icon-group_fill" : "#icon-group"}></use>
                         </svg>
                     </div>
-                    <div className="tab-four" onClick = {this.clickTabFour}>
+                    <div className="tab tab-four" onClick = {this.clickTabFour}>
                         <svg className="icon " aria-hidden="true" >
                             <use  xlinkHref={this.props.currentTab === 4 ? "#icon-myfill" : "#icon-my"}></use>
                         </svg>  
@@ -49,7 +52,7 @@ class Tabs extends Component {
 }
 
 export default connect(state => ({
-    currentTab: state.currentTab
+    currentTab: state.tabs.currentTab
   }), {
     setCurrentTab
   })(Tabs);

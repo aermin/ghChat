@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import HomePageList from '../HomePageList/index'
-import './style.scss'
+import HomePageList from '../HomePageList/index';
+import Tabs from '../../components/Tabs';
+import './style.scss';
 
 
 export default class Layout extends Component {
@@ -14,7 +15,9 @@ export default class Layout extends Component {
             return (
                 <div className = 'layout-wrapper'>
                        <div className = 'layout-left'>
+                             <Tabs />
                             <HomePageList />
+                        
                        </div>
                        <div className= 'layout-right'>
 

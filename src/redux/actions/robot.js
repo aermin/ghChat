@@ -7,7 +7,7 @@ export const insertUserMsg = data => {
       type: INSERT_USER_MSG,
       data
     }
-  }
+}
 
 export const getRobotMsg = data => {
       // 返回函数，异步dispatch
