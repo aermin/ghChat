@@ -1,43 +1,37 @@
-.header-wrapper{
+.header-wrapper {
     position: absolute;
     z-index: 9;
     width: 100%;
     background-color: #46a5f3de;
+
     img{
         width: 0.8rem;
         height: 0.8rem;
         border-radius: 50%;
     }
+
     .search-box {
-        // display:inline-block;
         display: flex;
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
         left: 1rem;
-        display: -webkit-flex;
         background-color: #fff;
         height: 0.6rem;
-        // padding: 0.1rem;
-        // width: 100%;
         .icon {
             width: 0.5rem;
             height: 0.5rem;
             margin: 0 0 0 0.4rem;
         }
-        // input {
         /*在IE10+浏览器中, 使用css即可隐藏input文本输入框右侧的叉号*/
-        ::-ms-reveal,
-        input[type=text]::-ms-clear {
+        ::-ms-reveal,input[type=text]::-ms-clear {
             display: none;
         }
-        ::-ms-reveal,
-        input::-ms-clear {
+        ::-ms-reveal,input::-ms-clear {
             display: none;
         }
         input {
             /*去除点击出现轮廓颜色*/
-            // width: 90%;
             outline: none;
             border: 0.01rem solid #fff;
             padding-left: 0.05rem;
@@ -48,4 +42,5 @@
             /*padding已在重置样式中去除，如果没有去除，记得有padding哦*/
         }
     }
+
 }

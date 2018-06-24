@@ -18,7 +18,6 @@ export default class ChatItem extends Component {
     }
     render() {
         return (
-            <div>
                 <div className="chat-item">
                     {!this.props.me && <div className="otherchat">
                         <img src={this.props.img} alt="" className="img" onClick={this.lookInfo} />
@@ -37,10 +36,7 @@ export default class ChatItem extends Component {
                             </div>
                             <div className="msg">{this.props.msg}</div>
                     </div>}
-
-
                 </div>
-            </div>
         )
     }
 }

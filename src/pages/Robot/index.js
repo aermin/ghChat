@@ -66,8 +66,7 @@ class Robot extends Component {
               </li>
             );
             return (
-                <div>
-                    <div className="wrapper">
+                    <div className="robot-wrapper">
                         <ul>
                             {listItems}
                         </ul>
@@ -76,7 +75,6 @@ class Robot extends Component {
                             <p className="btn" onClick={this.sendMessage}>发送</p>
                         </div>
                     </div>
-                </div>
             )
        }
 }
