@@ -4,6 +4,10 @@
     .layout-left{
         border: 1px solid red;
         width: 30%;
+        position: relative;
+        .home-page-list-wrapper{
+            margin-top: 1.2rem;
+        }
     }
     
     .layout-right {
