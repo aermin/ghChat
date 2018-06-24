@@ -1,26 +1,25 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {setCurrentTab} from "../../redux/actions/tabs";
+import {setTabShow} from "../../redux/actions/whichShow";
 import './style.scss';
 
 class Tabs extends Component {
 	constructor(){
 		super();
-
          	this.state = {}
         }
 
         clickTabOne = () =>{
-            this.props.setCurrentTab(1);
+            this.props.setTabShow(1);
         }
         clickTabTwo = () =>{
-            this.props.setCurrentTab(2);
+            this.props.setTabShow(2);
         }
         clickTabThree = () =>{
-            this.props.setCurrentTab(3);
+            this.props.setTabShow(3);
         }
         clickTabFour = () =>{
-            this.props.setCurrentTab(4);
+            this.props.setTabShow(4);
         }
         
         render() {
@@ -28,22 +27,22 @@ class Tabs extends Component {
                 <div className="tabs-wrapper">
                     <div className="tab tab-one" onClick = {this.clickTabOne}>
                         <svg className="icon " aria-hidden="true" >
-                            <use  xlinkHref={this.props.currentTab === 1 ? "#icon-messagefill" : "#icon-message1"}></use>
+                            <use  xlinkHref={this.props.tabShow === 1 ? "#icon-messagefill" : "#icon-message1"}></use>
                         </svg> 
                     </div>
                     <div className="tab tab-two" onClick = {this.clickTabTwo}>
                         <svg className="icon " aria-hidden="true" >
-                            <use  xlinkHref={this.props.currentTab === 2 ? "#icon-zhinengfenxi1" : "#icon-zhinenghua"}></use>
+                            <use  xlinkHref={this.props.tabShow === 2 ? "#icon-zhinengfenxi1" : "#icon-zhinenghua"}></use>
                         </svg> 
                     </div>
                     <div className="tab tab-three" onClick = {this.clickTabThree}>
                         <svg className="icon " aria-hidden="true" >
-                            <use  xlinkHref={this.props.currentTab === 3 ? "#icon-group_fill" : "#icon-group"}></use>
+                            <use  xlinkHref={this.props.tabShow === 3 ? "#icon-group_fill" : "#icon-group"}></use>
                         </svg>
                     </div>
                     <div className="tab tab-four" onClick = {this.clickTabFour}>
                         <svg className="icon " aria-hidden="true" >
-                            <use  xlinkHref={this.props.currentTab === 4 ? "#icon-myfill" : "#icon-my"}></use>
+                            <use  xlinkHref={this.props.tabShow === 4 ? "#icon-myfill" : "#icon-my"}></use>
                         </svg>  
                     </div>
                 </div>
@@ -52,7 +51,7 @@ class Tabs extends Component {
 }
 
 export default connect(state => ({
-    currentTab: state.tabs.currentTab
+    tabShow: state.whichShow.tabShow
   }), {
-    setCurrentTab
+    setTabShow
   })(Tabs);

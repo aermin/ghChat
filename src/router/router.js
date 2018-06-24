@@ -26,20 +26,12 @@ const createComponent = component => props => (
 
 const getRouter = () => (
   <Router>
-    <div>
-      {/* <ul>
-                <li><Link to="/">首页</Link></li>
-                <li><Link to="/page1">Page1</Link></li>
-                <li><Link to="/counter">Counter</Link></li>
-                <li><Link to="/userinfo">UserInfo</Link></li>
-            </ul> */}
       <Switch>
         <Route exact path="/" component={createComponent(Layout)}/>
         <Route path="/register" component={createComponent(Register)} />
         <Route path="/login" component={createComponent(Login)} />
         <Route path="/robot" component={createComponent(Robot)} />
       </Switch>
-    </div>
   </Router>
 );
 

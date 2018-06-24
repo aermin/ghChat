@@ -1,16 +1,16 @@
-import {SET_CURRENT_TABS}  from '../actions/tabs';
+import {SET_TAB_SHOW}  from '../actions/whichShow';
 
 const initState  = {
-    currentTab : 1
+    tabShow : 1
 }
 
 export default function reducer(state = initState, action) {
     console.log(state ,"==tabs==", action)
     switch (action.type) {
-        case SET_CURRENT_TABS:
+        case SET_TAB_SHOW:
             return {
                 ...state,
-                currentTab: action.data
+                tabShow: action.data
             };
         default:
             return state;

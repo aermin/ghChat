@@ -4,7 +4,7 @@ import counter from './reducers/counter';
 import userInfo from './reducers/userInfo';
 import robot from './reducers/robot';
 import homePageList from './reducers/homePageList';
-import tabs from './reducers/tabs';
+import whichShow from './reducers/whichShow';
 
 
 export default combineReducers({
@@ -12,5 +12,5 @@ export default combineReducers({
     userInfo,
     robot,
     homePageList,
-    tabs
+    whichShow
 });
