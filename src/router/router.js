@@ -11,7 +11,6 @@ import Bundle from "./Bundle";
 import Layout from "bundle-loader?lazy&name=Layout!../pages/Layout";
 import Register from "bundle-loader?lazy&name=Register!../pages/Register";
 import Login from "bundle-loader?lazy&name=Register!../pages/Login";
-import Robot from "bundle-loader?lazy&name=Robot!../pages/Robot";
 
 
 const Loading = function() {
@@ -30,7 +29,6 @@ const getRouter = () => (
         <Route exact path="/" component={createComponent(Layout)}/>
         <Route path="/register" component={createComponent(Register)} />
         <Route path="/login" component={createComponent(Login)} />
-        <Route path="/robot" component={createComponent(Robot)} />
       </Switch>
   </Router>
 );

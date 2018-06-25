@@ -1,51 +1,57 @@
+@import "../../assets/base.scss";
 .robot-wrapper {
-    // height: 100vh;
-    padding-top: 32px;
-    z-index: 1;
+    padding-top: 5.8rem;
+    height: 100%;
+    width: 100%;
+    position: relative;
     ul {
         display: flex;
         flex-direction: column;
         width: 100%;
         padding-bottom: 82px;
-        // touch-action:none !important;
         li {
             margin-top: -52px;
             padding: 0;
         }
     }
     .input-msg {
-        height: 24px;
-        position: fixed;
-        bottom: 32px;
+        // height: 24px;
+        position: absolute;
+        bottom: 0;
         display: flex;
         width: 100%;
-        z-index: 999;
+        background-color: $gray-tab;
+        padding: 10px;
+        svg {
+            font-size: 36px;
+        }
         textarea {
-            width: 87.8%;
-            margin: 0 4px;
-            padding-top: 4px;
-            padding-left: 4px;
+            width: 85%;
+            // margin: 0 6px;
+            padding-top: 26px;
+            // padding-left: 4px;
             border-radius: 2px;
             outline: none;
             resize: none;
-            border: none;
-            overflow-y: hidden;
-            font: 10px 'Microsoft Yahei';
+            // border: none;
+            // border-top: 1px solid #555;
+            // overflow-y: hidden;
+            // font: 10px 'Microsoft Yahei';
         }
         p.btn {
-            font-size: 12px;
+            font-size: 14px;
+            // padding:14px 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            margin-right: 4px;
-            height: 100%;
-            width: 11%;
+            // text-align: center;
+            // margin-right: 4px;
+            // height: 100%;
+            width: 14%;
             background: #ccc;
-            color: white;
-            border-radius: 2px;
-            // cursor: not-allowed;
-            font-family: 'Microsoft Yahei';
+            // color: white;
+            // border-radius: 2px;
+            // font-family: 'Microsoft Yahei';
         }
     }
 }

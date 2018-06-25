@@ -2,7 +2,7 @@
     position: absolute;
     z-index: 9;
     width: 100%;
-    background-color: #46a5f3de;
+    background-color: #62B2F2;
     display: flex;
     padding: 8px;
     img{
@@ -15,7 +15,7 @@
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        left: 70px;
+        left: 76px;
         border-radius: 4px;
         // width: 80px;
         background-color: #fff;
@@ -47,7 +47,7 @@
     .add {
         font-size: 26px;
         position: absolute;
-        right: 12px;
+        right: 10px;
         top: 50%;
         transform: translateY(-50%);
     }

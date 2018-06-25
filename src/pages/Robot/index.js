@@ -11,12 +11,10 @@ import {
 class Robot extends Component {
 	constructor(){
 		super();
-
          	this.state = {
                 currentTab: 2,
                 time: toNomalTime(Date.parse(new Date()) / 1000),
                 inputMsg: "",
-                // img: "",
                 userInfo:{},
                 isScrollToBottom: true
              }
@@ -43,18 +41,12 @@ class Robot extends Component {
         }
         sendMessage = async () =>{
 			if (this.state.inputMsg.trim() == '') return;
-			// this.$store.commit('robotMsgMutation', { //提交自己的内容
-			// 	message: this.state.inputMsg
-            // })
             this.props.insertUserMsg(
                 { message: this.state.inputMsg}
             );//提交自己的内容
             this.props.getRobotMsg(
                 { message: this.state.inputMsg}
-            ); //提交由自己输入内容作为参数请求接口异步得来的内容（机器人的回复）
-			// await this.$store.dispatch('robatMsgAction', { //提交由自己输入内容作为参数请求接口异步得来的内容（机器人的回复）
-			// 	message: this.state.inputMsg
-			// })
+            ); 
 			this.state.inputMsg = '';
 		}
         render() {
@@ -71,6 +63,8 @@ class Robot extends Component {
                             {listItems}
                         </ul>
                         <div className="input-msg">
+                            <svg className="icon emoji" aria-hidden="true"><use  xlinkHref="#icon-smile"></use></svg>
+                             
                             <textarea value={this.state.inputMsg} onChange={this.inputMsgChange}></textarea>
                             <p className="btn" onClick={this.sendMessage}>发送</p>
                         </div>

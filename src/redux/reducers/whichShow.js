@@ -1,7 +1,8 @@
-import {SET_TAB_SHOW}  from '../actions/whichShow';
+import {SET_TAB_SHOW , SET_ROBOT_SHOW}  from '../actions/whichShow';
 
 const initState  = {
-    tabShow : 1
+    tabShow : 1,
+    robotShow: false
 }
 
 export default function reducer(state = initState, action) {
@@ -12,7 +13,14 @@ export default function reducer(state = initState, action) {
                 ...state,
                 tabShow: action.data
             };
+        case SET_ROBOT_SHOW:
+            return {
+                ...state,
+                robotShow: action.data
+            }
         default:
             return state;
         }
 }
+
+
