@@ -1,3 +1,4 @@
+@import "../../assets/base.scss";
 .layout-wrapper{
     display: flex;
     height: 100vh;
@@ -28,7 +29,7 @@
                 width: 100%;
                 position: fixed;
                 bottom: 0;
-                border-top: 1px solid #eee;
+                border-top: 1px solid $border;
             }
             .home-page-list-wrapper{
                 width: 100%;
@@ -50,7 +51,7 @@
             .tabs-wrapper{
                 padding-top: 120px;
                 height: 100%;
-                border-right: 1px solid #eee;
+                border-right: 1px solid $border;
                 .tab{
                     padding-bottom: 30px;
                 }

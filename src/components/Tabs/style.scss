@@ -1,6 +1,7 @@
+@import "../../assets/base.scss";
 .tabs-wrapper{
     font-size: 30px;
-    background-color: rgb(243, 243, 243);
+    background-color: $gray-tab;
     .tab .icon{
         font-size: 44px;
         padding: 6px;
