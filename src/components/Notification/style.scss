@@ -1,17 +1,21 @@
 
 .rc-notification {
     position: fixed;
-    top: 0.23rem;
+    top: 14px;
     left: 50%;
-    font-size: 0.14rem;
+    font-size: 12px;
     transform: translate(-50%, 0);
     z-index: 999999999;
     .all-icon {
+        font-size: 14px;
         pointer-events: all;
-        padding: 0.12rem 0.18rem;
-        border-radius: 0.06rem;
-        box-shadow: 0 0.02rem 0.08rem rgba(0, 0, 0, .2);
+        padding: 10px 12px;
+        border-radius: 6px;
+        box-shadow: 0 1px 6px rgba(0, 0, 0, .2);
         background: #fff;
         color: #495060;
+        .icon{
+            margin-right:4px;
+        }
     }
 }

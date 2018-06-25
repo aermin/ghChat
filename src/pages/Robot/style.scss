@@ -1,49 +1,49 @@
 .robot-wrapper {
     // height: 100vh;
-    padding-top: 0.6rem;
+    padding-top: 32px;
     z-index: 1;
     ul {
         display: flex;
         flex-direction: column;
         width: 100%;
-        padding-bottom: 1.6rem;
+        padding-bottom: 82px;
         // touch-action:none !important;
         li {
-            margin-top: -1rem;
+            margin-top: -52px;
             padding: 0;
         }
     }
     .input-msg {
-        height: 0.46rem;
+        height: 24px;
         position: fixed;
-        bottom: 0.62rem;
+        bottom: 32px;
         display: flex;
         width: 100%;
         z-index: 999;
         textarea {
             width: 87.8%;
-            margin: 0 0.06rem;
-            padding-top: 0.07rem;
-            padding-left: 0.06rem;
-            border-radius: 0.02rem;
+            margin: 0 4px;
+            padding-top: 4px;
+            padding-left: 4px;
+            border-radius: 2px;
             outline: none;
             resize: none;
             border: none;
             overflow-y: hidden;
-            font: 0.16rem/0.18rem 'Microsoft Yahei';
+            font: 10px 'Microsoft Yahei';
         }
         p.btn {
-            font-size: 0.2rem;
+            font-size: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            margin-right: 0.06rem;
+            margin-right: 4px;
             height: 100%;
             width: 11%;
             background: #ccc;
             color: white;
-            border-radius: 0.02rem;
+            border-radius: 2px;
             // cursor: not-allowed;
             font-family: 'Microsoft Yahei';
         }

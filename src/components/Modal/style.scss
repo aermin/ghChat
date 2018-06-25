@@ -24,8 +24,8 @@
     width: 50%;
     height: auto;
     background-color: white;
-    border-radius: 0.1rem;
-    border-top: 0.01rem solid white;
+    border-radius: 8px;
+    border-top: 1px solid white;
     animation: fade 1s ease 1 forwards;
     text-align: center;
     z-index: 999;
@@ -41,13 +41,13 @@
     }
     h1 {
         text-align: center;
-        font-size: 0.18rem;
-        margin: 0.16rem 0.01rem 0.2rem;
+        font-size: 16px;
+        margin: 16px 1px 20px;
     }
     p {
-        font-size: 0.18rem;
+        font-size: 16px;
         color: rgba(0, 0, 0, 0.808);
-        margin-bottom: 0.18rem;
+        margin-bottom: 16px;
     }
     /*在IE10+浏览器中, 使用css即可隐藏input文本输入框右侧的叉号*/
     ::-ms-reveal,
@@ -63,10 +63,10 @@
         /*去除点击出现轮廓颜色*/
         width: 60%;
         outline: none;
-        border: 0.01rem solid #fff;
-        border-bottom: 0.01rem solid #999;
-        padding: 0.06rem 0 0.1rem 0.1rem;
-        font-size: 0.28rem;
+        border: 1px solid #fff;
+        border-bottom: 1px solid #999;
+        padding: 6px 0 10px 10px;
+        font-size: 28px;
         -webkit-appearance: none;
         /*去除系统默认的样式，苹果手机上的阴影*/
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -74,26 +74,26 @@
         /*padding已在重置样式中去除，如果没有去除，记得有padding哦*/
     }
     .hasCancel {
-        height: 0.6rem;
+        height:40px;
         p {
             background: transparent;
             color: #1678E5;
-            font-size: 0.14rem;
-            height: 0.6rem;
-            line-height: 0.6rem;
+            font-size: 14px;
+            height:40px;
+            line-height:40px;
             width: 50%;
             position: absolute;
         }
         p:nth-of-type(1) {
-            border-top: 0.01rem solid #B4B4B4;
-            border-right: 0.01rem solid #B4B4B4;
+            border-top: 1px solid #B4B4B4;
+            border-right: 1px solid #B4B4B4;
             left: 0;
-            border-radius: 0 0 0 0.1rem;
+            border-radius: 0 0 0 8px;
         }
         p:nth-of-type(2) {
-            border-top: 0.01rem solid #B4B4B4;
+            border-top: 1px solid #B4B4B4;
             right: 0;
-            border-radius: 0 0 0.1rem 0;
+            border-radius: 0 0 8px 0;
         }
         p:focus,
         p:hover {
@@ -105,20 +105,20 @@
         }
     }
     .noCancel {
-        height: 0.6rem;
+        height:40px;
         p {
             background: transparent;
             color: #1678E5;
-            height: 0.6rem;
-            font-size: 0.14rem;
-            line-height: 0.6rem;
+            height:40px;
+            font-size: 16px;
+            line-height:40px;
             width: 100%;
             position: absolute;
             text-decoration: none;
             border-top: 1px solid #B4B4B4;
             left: 0;
             right: 0;
-            border-radius: 0 0 0 0.1rem;
+            border-radius: 0 0 0 8px;
         }
         p:focus,
         p:hover {
@@ -134,15 +134,15 @@
         display: -ms-flexbox;
         flex-direction: column;
         justify-content: center;
-        font-size: 0.2rem;
+        font-size: 16px;
         div {
             width: 100%;
-            margin: 0.3rem auto;
+            margin: 20px auto;
             select {
                 width: 60%;
             }
             input {
-                font-size: 0.1rem;
+                font-size: 8px;
             }
         }
     }
