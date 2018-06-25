@@ -1,0 +1,38 @@
+@import "../../assets/base.scss";
+
+.input-msg {
+    height: 50px;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    width: 100%;
+    background-color: $gray-tab;
+    padding: 8px 10px ;
+    svg {
+        font-size: 34px;
+        margin: 0 4px;
+    }
+    textarea {
+        width: 78%;
+        margin: 0 8px;
+        // padding-top: 26px;
+        // padding-left: 4px;
+        border-radius: 2px;
+        outline: none;
+        resize: none;
+        border: 1px solid #fff;
+        overflow-y: hidden;
+        font: 14px 'Microsoft Yahei';
+    }
+    p.btn {
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 14%;
+        background: #ccc;
+        color: white;
+        border-radius: 2px;
+        font-family: 'Microsoft Yahei';
+    }
+}

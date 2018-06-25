@@ -4,6 +4,7 @@ import {getRobotMsg , insertUserMsg} from "../../redux/actions/robot";
 
 import './style.scss';
 import ChatItem from '../../components/ChatItem';
+import InputArea from '../../components/InputArea';
 import {
 	toNomalTime
 } from "../../utils/transformTime";
@@ -34,21 +35,19 @@ class Robot extends Component {
                 this.refresh();
             }, 200)
         }
-        inputMsgChange = (event) =>{
+        sendMessage = (value) => {
             this.setState({
-                inputMsg:event.target.value
+                inputMsg: value
             })
-        }
-        sendMessage = async () =>{
-			if (this.state.inputMsg.trim() == '') return;
+            if (this.state.inputMsg.trim() == '') return;
             this.props.insertUserMsg(
-                { message: this.state.inputMsg}
+                { message: this.state.inputMsg }
             );//提交自己的内容
             this.props.getRobotMsg(
-                { message: this.state.inputMsg}
-            ); 
-			this.state.inputMsg = '';
-		}
+                { message: this.state.inputMsg }
+            );
+            console.log("value2333", value);
+        }
         render() {
             console.log("this.props.robotMsg", this.props.robotMsg)
             const listItems = this.props.robotMsg.map((msg,index) =>
@@ -62,12 +61,7 @@ class Robot extends Component {
                         <ul>
                             {listItems}
                         </ul>
-                        <div className="input-msg">
-                            <svg className="icon emoji" aria-hidden="true"><use  xlinkHref="#icon-smile"></use></svg>
-                             
-                            <textarea value={this.state.inputMsg} onChange={this.inputMsgChange}></textarea>
-                            <p className="btn" onClick={this.sendMessage}>发送</p>
-                        </div>
+                        <InputArea sendMessage={this.sendMessage}/>
                     </div>
             )
        }

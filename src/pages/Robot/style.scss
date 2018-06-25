@@ -14,44 +14,4 @@
             padding: 0;
         }
     }
-    .input-msg {
-        height: 60px;
-        position: absolute;
-        bottom: 0;
-        display: flex;
-        width: 100%;
-        background-color: $gray-tab;
-        padding: 10px;
-        svg {
-            font-size: 36px;
-        }
-        textarea {
-            width: 85%;
-            // margin: 0 6px;
-            // padding-top: 26px;
-            // padding-left: 4px;
-            border-radius: 2px;
-            outline: none;
-            resize: none;
-            // border: none;
-            border: 1px solid #fff;
-            overflow-y: hidden;
-            font: 14px 'Microsoft Yahei';
-        }
-        p.btn {
-            font-size: 14px;
-            // padding:14px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            // text-align: center;
-            // margin-right: 4px;
-            // height: 100%;
-            width: 14%;
-            background: #ccc;
-            color: white;
-            // border-radius: 2px;
-            // font-family: 'Microsoft Yahei';
-        }
-    }
 }
