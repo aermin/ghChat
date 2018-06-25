@@ -1,34 +1,29 @@
 .home-page-list-wrapper {
-    // height: 100vh;
-    // padding-top: 0.8rem;
-    // background-color: #fff;
-    // z-index: 1;
     ul {
         background-color: #fff;
-        // padding-bottom: 0.5rem;
-        li {
+            li {
             display: -webkit-box;
             display: -ms-flexbox;
             display: flex;
             align-items: center;
             list-style-type: none;
-            border-bottom: rgb(243, 238, 238) 0.01rem solid;
+            border-bottom: rgb(243, 238, 238) 1px solid;
             a {
                 position: relative;
                 .img {
-                    width: 0.8rem;
-                    height: 0.8rem;
-                    margin-right: 0.04rem;
+                    width: 50px;
+                    height: 50px;
+                    margin-left: 4px;
                     border-radius: 50%;
                     display: inline-block;
                 }
                 span {
-                    font-size: 0.2rem;
+                    font-size: 22px;
                     border-radius: 50%;
-                    padding: 0 0.088rem;
+                    padding: 0 9px;
                     position: absolute;
-                    top: 0.2rem;
-                    left: 0.7rem;
+                    top: 22px;
+                    left: 80px;
                     color: #fff;
                     z-index: 2;
                 }
@@ -41,22 +36,19 @@
             }
             .content {
                 display: inline-block;
-                margin-left: 0.2rem;
+                margin-left: 10px;
                 max-width: 80%;
                 .title {
-                    font-size: 0.32rem;
+                    font-size: 20px;
                     span {
-                        font-size: 0.28rem;
+                        font-size: 14px;
                         color: #676767;
-                        // position: absolute;
-                        // right: 0.5rem;
-                        // float: left;
                     }
                 }
                 .message {
                     color: #676767;
-                    font-size: 0.24rem;
-                    max-height: 0.72rem;
+                    font-size: 14px;
+                    max-height: 42px;
                     overflow: hidden;
                     position: relative;
                 }

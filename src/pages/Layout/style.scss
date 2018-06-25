@@ -6,7 +6,7 @@
         width: 30%;
         position: relative;
         .home-page-list-wrapper{
-            margin-top: 1.2rem;
+            margin-top: 70px;
         }
     }
     
@@ -28,7 +28,7 @@
                 width: 100%;
                 position: fixed;
                 bottom: 0;
-                border-top: 0.01rem solid #eee;
+                border-top: 1px solid #eee;
             }
             .home-page-list-wrapper{
                 width: 100%;
@@ -48,11 +48,11 @@
             display: flex;
             flex-wrap: nowrap;
             .tabs-wrapper{
-                padding-top: 2rem;
+                padding-top: 120px;
                 height: 100%;
-                border-right: 0.01rem solid #eee;
+                border-right: 1px solid #eee;
                 .tab{
-                    padding-bottom: 0.5rem;
+                    padding-bottom: 30px;
                 }
             }
             .home-page-list-wrapper{

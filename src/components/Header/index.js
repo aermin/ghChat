@@ -30,6 +30,7 @@ export default class Header extends Component {
                 <div className="header-wrapper">
                     <img src={this.state.userInfo.avator} alt=""/>
                     <SearchBox />
+                    <svg className="icon add" aria-hidden="true"><use  xlinkHref="#icon-add"></use></svg>
                 </div>
             )
        }

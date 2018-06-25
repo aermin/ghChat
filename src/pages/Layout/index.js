@@ -16,8 +16,8 @@ export default class Layout extends Component {
             return (
                 <div className = 'layout-wrapper'>
                        <div className = 'layout-left'>
-                             <Header />
-                             <Tabs />
+                            <Header />
+                            <Tabs />
                             <HomePageList />
                        </div>
                        <div className= 'layout-right'>

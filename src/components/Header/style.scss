@@ -3,25 +3,25 @@
     z-index: 9;
     width: 100%;
     background-color: #46a5f3de;
-
+    display: flex;
+    padding: 8px;
     img{
-        width: 0.8rem;
-        height: 0.8rem;
+        width: 50px;
+        height: 50px;
         border-radius: 50%;
     }
-
     .search-box {
         display: flex;
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        left: 1rem;
+        left: 70px;
+        border-radius: 4px;
+        // width: 80px;
         background-color: #fff;
-        height: 0.6rem;
         .icon {
-            width: 0.5rem;
-            height: 0.5rem;
-            margin: 0 0 0 0.4rem;
+            width: 24px;
+            height: 24px;
         }
         /*在IE10+浏览器中, 使用css即可隐藏input文本输入框右侧的叉号*/
         ::-ms-reveal,input[type=text]::-ms-clear {
@@ -32,15 +32,24 @@
         }
         input {
             /*去除点击出现轮廓颜色*/
+            border-radius: 4px;
             outline: none;
-            border: 0.01rem solid #fff;
-            padding-left: 0.05rem;
+            border: 1px solid #fff;
+            padding-left: 3px;
             -webkit-appearance: none;
             /*去除系统默认的样式，苹果手机上的阴影*/
             -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
             /*点击高亮的颜色*/
             /*padding已在重置样式中去除，如果没有去除，记得有padding哦*/
         }
+    }
+
+    .add {
+        font-size: 26px;
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
     }
 
 }
