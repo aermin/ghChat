@@ -25,7 +25,6 @@ export default class Header extends Component {
             }) 
         }
         render() {
-            console.log("userInfo", this.state.userInfo);
             return (
                 <div className="header-wrapper">
                     <img src={this.state.userInfo.avator} alt=""/>

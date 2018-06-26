@@ -35,22 +35,25 @@ class Robot extends Component {
                 this.refresh();
             }, 200)
         }
-        sendMessage = (value) => {
+        sendMessage =  async (value) => {
+    
             this.setState({
                 inputMsg: value
+            },()=>{
+                console.log(' this.state.inputMsg', this.state.inputMsg);
+                this.props.insertUserMsg(
+                    { message: this.state.inputMsg }
+                );
+                this.props.getRobotMsg(
+                    { message: this.state.inputMsg }
+                )
             })
-            if (this.state.inputMsg.trim() == '') return;
-            this.props.insertUserMsg(
-                { message: this.state.inputMsg }
-            );//提交自己的内容
-            this.props.getRobotMsg(
-                { message: this.state.inputMsg }
-            );
-            console.log("value2333", value);
+
         }
+
         render() {
-            console.log("this.props.robotMsg", this.props.robotMsg)
-            const listItems = this.props.robotMsg.map((msg,index) =>
+            console.log("this.props.state.robot", this.props.state.robot)
+            const listItems = this.props.state.robot.map((msg,index) =>
                  <li key={index}>
                  {msg.user && <ChatItem  img="http://ooytyiziz.bkt.clouddn.com/robot.gif" msg={msg.message} name={msg.user} time={this.state.time} />}
                  {!msg.user && <ChatItem me="true" img={this.state.userInfo.avator}  msg={msg.message} name={this.state.userInfo.name} time={this.state.time} />}
@@ -68,7 +71,7 @@ class Robot extends Component {
 }
 
 export default connect(state => ({
-    robotMsg: state.robot.robotMsg
+    state: state
   }), {
     getRobotMsg,
     insertUserMsg

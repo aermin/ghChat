@@ -10,19 +10,14 @@ const initState  = {
     ]
 }
 
-export default function reducer(state = initState, action) {
-    console.log(state ,"====", action)
+export default function reducer(state = initState.robotMsg, action) {
     switch (action.type) {
         case GET_ROBOT_MSG:
-            return {
-                ...state,
-                message:state.robotMsg.push(action.data)
-            };
+            state.push(action.data);
+            return [...state];
         case INSERT_USER_MSG:
-            return {
-                ...state,
-                message:state.robotMsg.push(action.data)            
-            };
+             state.push(action.data);
+             return [...state];
         default:
             return state;
         }

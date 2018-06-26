@@ -11,6 +11,7 @@ export const insertUserMsg = data => {
 
 export const getRobotMsg = data => {
       // 返回函数，异步dispatch
+      console.log('getRobotMsg', data);
     return async dispatch => {
             axios.get("/api/v1/robot", {
                 params: data

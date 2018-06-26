@@ -15,7 +15,6 @@ class Layout extends Component {
         }
 
         render() {
-            console.log("whichShow", this.props.whichShow);
             return (
                 <div className = 'layout-wrapper'>
                        <div className = 'layout-left'>
@@ -30,7 +29,6 @@ class Layout extends Component {
             )
        }
 }
-
 
 export default connect(state => ({
     whichShow: state.whichShow

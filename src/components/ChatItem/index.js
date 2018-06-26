@@ -10,17 +10,17 @@ export default class ChatItem extends Component {
 
         this.state = {}
     }
-    lookInfo(){
-        console.log('href',this.props.href)
-        // this.$router.push(`/user_info/${this.props.href}`)
-        this.props.history.push("/login");
+    // lookInfo(){
+    //     console.log('href',this.props.href)
+    //     // this.$router.push(`/user_info/${this.props.href}`)
+    //     this.props.history.push("/login");
 
-    }
+    // }
     render() {
         return (
                 <div className="chat-item">
                     {!this.props.me && <div className="otherchat">
-                        <img src={this.props.img} alt="" className="img" onClick={this.lookInfo} />
+                        <img src={this.props.img} alt="" className="img" />
                         <div className="nt">
                             {this.props.name && <span>{ this.props.name }</span>}
                             {this.props.time && <span>{ this.props.time }</span>}
