@@ -1,3 +1,5 @@
+@import "../../assets/base.scss";
+
 .chat-item {
     width: 100%;
     margin: 36px 0;
@@ -10,7 +12,7 @@
             border-radius: 50%;
             position: absolute;
             top: 50%;
-            left: 12px;
+            left: 10px;
             transform: translateY(-50%);
             cursor: pointer;
         }
@@ -24,7 +26,7 @@
                 padding-right: 6px;
             }
             span:nth-child(2) {
-                font-size: 12px;
+                font-size: 10px;
             }
         }
         .msg {
@@ -33,47 +35,44 @@
             margin-left: 52px;
             padding: 6px 8px;
             border-radius: 6px;
-            font-size: 18px;
-            line-height: 20px;
-            background-color: #fff;
+            font-size: 16px;
+            background-color: $other-msg-color;
         }
     }
     .mychat {
         width: 100%;
         position: relative;
         .img {
-            width: 32px;
-            height: 32px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             right: 0;
             position: absolute;
             top: 50%;
-            right: 12px;
+            right: 10px;
             transform: translateY(-50%);
         }
         .nt {
-            font-size: 12px;
-            right:52pz;
-            top: -22px;
+            font-size: 18px;
+            right:60px;
+            top: -24px;
             position: absolute;
             color: #686868;
             span {
                 padding-left: 6px;
             }
             span:nth-child(1) {
-                font-size: 6px;
+                font-size: 10px;
             }
         }
         .msg {
             float: right;
             max-width: 60%;
             margin-right: 52px;
-            padding: 8px;
+            padding: 6px 8px;
             border-radius: 6px;
-            font-size: 14px;
-            line-height: 18px;
-            background-color: #4290F7;
-            color: #fff;
+            font-size: 16px;
+            background-color: $my-msg-color;
         }
     }
 }
