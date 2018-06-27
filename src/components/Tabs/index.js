@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {setTabShow} from "../../redux/actions/whichShow";
+import {setTabShow,setRobotShow,setNoChatShow} from "../../redux/actions/whichShow";
 import './style.scss';
 
 class Tabs extends Component {
@@ -11,15 +11,23 @@ class Tabs extends Component {
 
         clickTabOne = () =>{
             this.props.setTabShow(1);
+            this.props.setRobotShow(false);
+            this.props.setNoChatShow(true);
         }
         clickTabTwo = () =>{
             this.props.setTabShow(2);
+            this.props.setNoChatShow(false);
+            this.props.setRobotShow(true);
         }
         clickTabThree = () =>{
             this.props.setTabShow(3);
+            this.props.setRobotShow(false);
+            this.props.setNoChatShow(true);
         }
         clickTabFour = () =>{
             this.props.setTabShow(4);
+            this.props.setRobotShow(false);
+            this.props.setNoChatShow(true);
         }
         
         render() {
@@ -53,5 +61,7 @@ class Tabs extends Component {
 export default connect(state => ({
     tabShow: state.whichShow.tabShow
   }), {
-    setTabShow
+    setTabShow,
+    setRobotShow,
+    setNoChatShow
   })(Tabs);

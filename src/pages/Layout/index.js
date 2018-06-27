@@ -15,6 +15,8 @@ class Layout extends Component {
         }
 
         render() {
+            console.log('this.props.whichShow', this.props.whichShow);
+
             return (
                 <div className = 'layout-wrapper'>
                        <div className = 'layout-left'>
@@ -23,7 +25,8 @@ class Layout extends Component {
                             <HomePageList />
                        </div>
                        <div className= 'layout-right'>
-                            <Robot />
+                            {this.props.whichShow.robotShow && <Robot />}
+                            {this.props.whichShow.noChatShow && <img src="http://ooytyiziz.bkt.clouddn.com/nothing-bg.jpeg" alt=""/>}
                        </div>
                 </div>
             )
