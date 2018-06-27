@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {getRobotMsg , insertUserMsg} from "../../redux/actions/robot";
 
 import './style.scss';
+import ChatHeader from '../../components/ChatHeader';
 import ChatItem from '../../components/ChatItem';
 import InputArea from '../../components/InputArea';
 import {
@@ -61,6 +62,7 @@ class Robot extends Component {
             );
             return (
                     <div className="robot-wrapper">
+                        <ChatHeader title="机器人聊天"/>
                         <ul>
                             {listItems}
                         </ul>
