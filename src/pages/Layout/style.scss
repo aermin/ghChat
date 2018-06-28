@@ -3,7 +3,7 @@
     display: flex;
     height: 100vh;
     .layout-left{
-        border: 1px solid red;
+        border-right: 1px solid $border;
         width: 30%;
         position: relative;
         .home-page-list-wrapper{
@@ -12,7 +12,6 @@
     }
     
     .layout-right {
-        border: 1px solid green;
         width: 70%;
         display: flex;
         align-items: center;
