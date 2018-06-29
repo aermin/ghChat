@@ -19,12 +19,12 @@ class Layout extends Component {
 
             return (
                 <div className = 'layout-wrapper'>
-                       <div className = 'layout-left'>
+                       <div className = {this.props.whichShow.robotShow ? 'layout-left-mobile' : 'layout-left'}>
                             <Header />
                             <Tabs />
                             <HomePageList />
                        </div>
-                       <div className= 'layout-right'>
+                       <div className= {this.props.whichShow.robotShow ? 'layout-right' : 'layout-right-mobile'}>
                             {this.props.whichShow.robotShow && <Robot />}
                             {this.props.whichShow.noChatShow && <img src="http://ooytyiziz.bkt.clouddn.com/nothing-bg.jpeg" alt=""/>}
                        </div>

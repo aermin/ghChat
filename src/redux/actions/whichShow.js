@@ -1,6 +1,8 @@
 export const SET_TAB_SHOW = "whichShow/SET_TAB_SHOW";
 export const SET_ROBOT_SHOW = "whichShow/SET_ROBOT_SHOW";
 export const SET_NO_CHAT_SHOW = "whichShow/SET_NO_CHAT_SHOW";
+// export const SET_LAYOUT_LEFT_SHOW = "whichShow/SET_LAYOUT_LEFT_SHOW";
+// export const SET_LAYOUT_RIGHT_SHOW = "whichShow/SET_LAYOUT_RIGHT_SHOW";
 
 export const setTabShow = data => {
     return {
@@ -22,3 +24,17 @@ export const setNoChatShow = data => {
     data
   }
 }
+
+// export const setLayoutLeftShow = data => {
+//   return {
+//     type: SET_LAYOUT_LEFT_SHOW,
+//     data
+//   }
+// }
+
+// export const setLayoutRightShow = data => {
+//   return {
+//     type: SET_LAYOUT_RIGHT_SHOW,
+//     data
+//   }
+// }

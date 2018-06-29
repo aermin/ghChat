@@ -2,7 +2,7 @@
 .layout-wrapper{
     display: flex;
     height: 100vh;
-    .layout-left{
+    .layout-left, .layout-left-mobile{
         border-right: 1px solid $border;
         width: 30%;
         position: relative;
@@ -11,7 +11,7 @@
         }
     }
     
-    .layout-right {
+    .layout-right , .layout-right-mobile {
         width: 70%;
         display: flex;
         align-items: center;
@@ -41,8 +41,14 @@
                 width: 100%;
             }
         }
+        .layout-left-mobile{
+            display: none;
+        }
         .layout-right {
-            width: 0;
+            width: 100%;           
+        }
+        .layout-right-mobile {
+            display: none;
         }
     }
 }
@@ -50,7 +56,7 @@
 @media screen and (min-width: 648px) {
     .layout-wrapper{
         min-width: 100%;
-        .layout-left{
+        .layout-left,.layout-left-mobile{
             width: 48%;
             display: flex;
             flex-wrap: nowrap;
@@ -66,7 +72,7 @@
                 width: 100%;
             }
         }
-        .layout-right {
+        .layout-right ,.layout-right-mobile{
             width: 70%;
         }
     }
@@ -75,10 +81,10 @@
 @media screen and (min-width: 1025px) {
     .layout-wrapper{
         min-width: 100%;
-        .layout-left{
+        .layout-left ,.layout-left-mobile{
             width: 30%;
         }
-        .layout-right {
+        .layout-right ,.layout-right-mobile{
             width: 70%;
         }
     }

@@ -16,20 +16,16 @@ class Tabs extends Component {
         }
         clickTabTwo = () =>{
             this.props.setTabShow(2);
-            this.props.setNoChatShow(false);
-            this.props.setRobotShow(true);
+            this.props.setRobotShow(false);
+            this.props.setNoChatShow(true);
         }
         clickTabThree = () =>{
             this.props.setTabShow(3);
-            this.props.setRobotShow(false);
-            this.props.setNoChatShow(true);
-        }
-        clickTabFour = () =>{
-            this.props.setTabShow(4);
-            this.props.setRobotShow(false);
-            this.props.setNoChatShow(true);
+            this.props.setNoChatShow(false);
+            this.props.setRobotShow(true);
         }
         
+
         render() {
             return (
                 <div className="tabs-wrapper">
@@ -40,18 +36,13 @@ class Tabs extends Component {
                     </div>
                     <div className="tab tab-two" onClick = {this.clickTabTwo}>
                         <svg className="icon " aria-hidden="true" >
-                            <use  xlinkHref={this.props.tabShow === 2 ? "#icon-zhinengfenxi1" : "#icon-zhinenghua"}></use>
+                            <use  xlinkHref={this.props.tabShow === 2 ? "#icon-group_fill" : "#icon-group"}></use>
                         </svg> 
                     </div>
                     <div className="tab tab-three" onClick = {this.clickTabThree}>
                         <svg className="icon " aria-hidden="true" >
-                            <use  xlinkHref={this.props.tabShow === 3 ? "#icon-group_fill" : "#icon-group"}></use>
+                            <use  xlinkHref={this.props.tabShow === 3 ? "#icon-zhinengfenxi1" : "#icon-zhinenghua" }></use>
                         </svg>
-                    </div>
-                    <div className="tab tab-four" onClick = {this.clickTabFour}>
-                        <svg className="icon " aria-hidden="true" >
-                            <use  xlinkHref={this.props.tabShow === 4 ? "#icon-myfill" : "#icon-my"}></use>
-                        </svg>  
                     </div>
                 </div>
             )
