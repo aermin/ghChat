@@ -14,7 +14,6 @@ class Robot extends Component {
 	constructor(){
 		super();
          	this.state = {
-                currentTab: 2,
                 time: toNomalTime(Date.parse(new Date()) / 1000),
                 inputMsg: "",
                 userInfo:{},

@@ -11,14 +11,15 @@ class HomePageList extends Component {
         componentDidMount(){
              this.props.getHomePageList();
         }
-         
+        goChat(type){
+            console.log('goChat',type);
+            
+        }
         render() {
             const listItems = this.props.allMsgList.map((data,index) =>
-                <li key={index}>
-                    <a href="">
+                <li key={index} onClick={() => this.goChat(data.type)}>
                     <img src={data.type === 'group' ? data.group_avator : data.avator } alt={data.type === 'group' ? "群头像" : "用户头像"} className="img" />
                     {data.unread &&<span className={data.type === 'group' ? "group-unread" :"private-unread" }>{data.unread}</span>}
-                    </a>
                     <div className="content">
                         <div className="title">{data.type === 'group' ? data.group_name : data.name}<span>{data.time}</span></div>
                         <div className="message">{data.message}</div>
