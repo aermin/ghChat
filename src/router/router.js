@@ -1,13 +1,15 @@
 import React from "react";
 
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, withRouter } from "react-router-dom";
 
 import Bundle from "./Bundle";
-
-import LayoutLeft from "bundle-loader?lazy&name=LayoutLeft!../pages/LayoutLeft";
+import './style.scss';
+import SideBar from "bundle-loader?lazy&name=SideBar!../pages/SideBar";
 import Robot from "bundle-loader?lazy&name=Robot!../pages/Robot";
+import Welcome from "bundle-loader?lazy&name=Welcome!../pages/Welcome";
 import Register from "bundle-loader?lazy&name=Register!../pages/Register";
-import Login from "bundle-loader?lazy&name=Register!../pages/Login";
+import Login from "bundle-loader?lazy&name=Login!../pages/Login";
+import HomePageList from "bundle-loader?lazy&name=HomePageList!../pages/HomePageList";
 import GroupChat from "bundle-loader?lazy&name=GroupChat!../pages/GroupChat";
 
 const Loading = function() {
@@ -23,48 +25,54 @@ const createComponent = component => props => (
 const routes = [
   { path: '/',
     exact: true,
-    layout_left: createComponent(LayoutLeft),
-    layout_right:  createComponent(Robot)
-  }
-  // ,
-  // { path: '/bubblegum',
-  //   sidebar: () => <div>bubblegum!</div>,
-  //   main: () => <h2>Bubblegum</h2>
-  // },
-  // { path: '/shoelaces',
-  //   sidebar: () => <div>shoelaces!</div>,
-  //   main: () => <h2>Shoelaces</h2>
-  // }
+    side_bar:   createComponent(SideBar),
+    content_left:createComponent(HomePageList),
+    content_right:  createComponent(Welcome)
+  },
+  { path: '/robot',
+    exact: true,
+    side_bar:   createComponent(SideBar),
+    content_left:createComponent(HomePageList),
+    content_right:  createComponent(Robot)
+}
 ]
-
+console.log('router-props', window.location.pathname);
 const getRouter = () => (
   <Router>
-      {/* <Switch> */}
-      <div className = 'layout-wrapper'>
-        {routes.map((route, index) => (
-            <Route
-              key={index}
-              path={route.path}
-              exact={route.exact}
-              component={route.layout_left}
-            />
-        ))}
-      <div className= {'layout-right-mobile'}>
-          {routes.map((route, index) => (
-            <Route
-              key={index}
-              path={route.path}
-              exact={route.exact}
-              component={route.layout_right}
-            />
-          ))}
-        </div>
+      <div>
+              <Route  path="/register" exact= {true} component={createComponent(Register)} />
+              <Route  path="/login" exact= {true} component={createComponent(Login)} />
+              <div className = 'layout-wrapper'>
+                    <div className = {window.location.pathname === '/robot' ? 'layout-left-mobile' : 'layout-left'} >
+                        {routes.map((route, index) => (
+                          <Route
+                              key={index}
+                              path={route.path}
+                              exact={route.exact}
+                              component={route.side_bar}
+                            />
+                        ))}
+                        {routes.map((route, index) => (
+                            <Route
+                              key={index}
+                              path={route.path}
+                              exact={route.exact}
+                              component={route.content_left}
+                            />
+                        ))} 
+                    </div>    
+                    <div className= {window.location.pathname === '/robot' ? 'layout-right' : 'layout-right-mobile'}>
+                        {routes.map((route, index) => (
+                          <Route
+                            key={index}
+                            path={route.path}
+                            exact={route.exact}
+                            component={route.content_right}
+                          />
+                        ))}
+                    </div>
+              </div> 
       </div>
-        {/* <Route exact path="/" component={createComponent(LayoutLeft)}/>
-        <Route exact path="/group_chat" component={createComponent(GroupChat)}/>
-        <Route path="/register" component={createComponent(Register)} />
-        <Route path="/login" component={createComponent(Login)} /> */}
-      {/* </Switch> */}
   </Router>
 );
 
