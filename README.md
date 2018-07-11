@@ -7,6 +7,9 @@ a web chat tool with react
 
 ![image](https://user-images.githubusercontent.com/24861316/42560447-414e6676-8529-11e8-99c5-97ecf12b3d77.png)
 
+![image](https://user-images.githubusercontent.com/24861316/42560766-09b51858-852a-11e8-9eb0-0a6d78857a5a.png)
+
+
 目前进度
 
 - [x] 登录
