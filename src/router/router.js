@@ -20,15 +20,17 @@ const createComponent = component => props => (
 
 const routes = [
   { path: '/',
-    exact: true,
-    content_left:createComponent(ContentLeft),
-    content_right:  createComponent(ContentRight)
+    exact: true
   },
   { path: '/robot',
-    exact: true,
-    content_left:createComponent(ContentLeft),
-    content_right:  createComponent(ContentRight)
-  }
+    exact: true
+  },
+  { path: '/group_chat/:group_id',
+    exact: true
+  },
+  { path: '/private_chat/:user_id',
+    exact: true
+  },  
 ]
 console.log('router-props', window.location.pathname);
 const getRouter = () => (
@@ -42,7 +44,7 @@ const getRouter = () => (
                               key={index}
                               path={route.path}
                               exact={route.exact}
-                              component={route.content_left}
+                              component={createComponent(ContentLeft)}
                             />
                         ))}
                         {routes.map((route, index) => (
@@ -50,7 +52,7 @@ const getRouter = () => (
                             key={index}
                             path={route.path}
                             exact={route.exact}
-                            component={route.content_right}
+                            component={createComponent(ContentRight)}
                           />
                         ))}
               </div> 

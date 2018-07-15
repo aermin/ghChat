@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import './style.scss';
-import {
-    withRouter
-  } from 'react-router-dom'
 
 export default class ChatItem extends Component {
     constructor() {
