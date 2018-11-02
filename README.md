@@ -16,3 +16,4 @@ a web chat tool with react
 - [x] 注册
 - [x] 弹窗，提示等组件
 - [x] 机器人智能聊天回复
+- [ ] 把后端接口封装成sdk
