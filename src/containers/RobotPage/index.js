@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {getRobotMsg , insertUserMsg} from "../../redux/actions/robot";
+import {getRobotMsgAction , insertUserMsg} from "./action";
 
 import './style.scss';
 import ChatHeader from '../../components/ChatHeader';
@@ -39,12 +39,12 @@ class Robot extends Component {
     
             this.setState({
                 inputMsg: value
-            },()=>{
-                console.log(' this.state.inputMsg', this.state.inputMsg);
+            }, async ()=>{
+                console.log('this.props', this.props);
                 this.props.insertUserMsg(
                     { message: this.state.inputMsg }
                 );
-                this.props.getRobotMsg(
+                await this.props.getRobotMsg(
                     { message: this.state.inputMsg }
                 )
             })
@@ -52,11 +52,11 @@ class Robot extends Component {
         }
 
         render() {
-            console.log("this.props.state.robot", this.props.state.robot)
-            const listItems = this.props.state.robot.map((msg,index) =>
+            console.log("this.props", this.props)
+            const listItems = this.props.robotState.map((msg,index) =>
                  <li key={index}>
-                 {msg.user && <ChatItem  img="http://ooytyiziz.bkt.clouddn.com/robot.gif" msg={msg.message} name={msg.user} time={this.state.time} />}
-                 {!msg.user && <ChatItem me="true" img={this.state.userInfo.avator}  msg={msg.message} name={this.state.userInfo.name} time={this.state.time} />}
+                 {msg.user && <ChatItem  img="https://user-images.githubusercontent.com/24861316/47977782-fc0aac00-e0f4-11e8-9686-821e2f5342ca.jpeg" msg={msg.message} name={msg.user} time={this.state.time} />}
+                 {/* {!msg.user && <ChatItem me="true" img={this.state.userInfo.avator}  msg={msg.message} name={this.state.userInfo.name} time={this.state.time} />} */}
               </li>
             );
             return (
@@ -71,9 +71,22 @@ class Robot extends Component {
        }
 }
 
-export default connect(state => ({
-    state: state
-  }), {
-    getRobotMsg,
-    insertUserMsg
-  })(Robot);
+const mapStateToProps = (state) => {
+    return {
+        robotState: state.robotState
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        insertUserMsg: (data) => {
+            dispatch(insertUserMsg(data))
+        },
+        getRobotMsg: (data) => {
+            dispatch(getRobotMsgAction(data))
+        }
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Robot);

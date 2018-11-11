@@ -3,10 +3,10 @@ import React from "react";
 import { BrowserRouter as Router, Route, withRouter } from "react-router-dom";
 
 import Bundle from "./Bundle";
-import Register from "bundle-loader?lazy&name=Register!../pages/Register";
-import Login from "bundle-loader?lazy&name=Login!../pages/Login";
-import ContentLeft from "bundle-loader?lazy&name=ContentLeft!../pages/ContentLeft";
-import ContentRight from "bundle-loader?lazy&name=ContentRight!../pages/ContentRight";
+import RegisterPage from "bundle-loader?lazy&name=RegisterPage!../containers/RegisterPage";
+import SignInPage from "bundle-loader?lazy&name=SignInPage!../containers/SignInPage";
+import ContentLeft from "bundle-loader?lazy&name=ContentLeft!../containers/ContentLeft";
+import ContentRight from "bundle-loader?lazy&name=ContentRight!../containers/ContentRight";
 
 const Loading = function() {
   return <div>Loading...</div>;
@@ -36,8 +36,8 @@ console.log('router-props', window.location.pathname);
 const getRouter = () => (
   <Router>
       <div>
-              <Route  path="/register" exact= {true} component={createComponent(Register)} />
-              <Route  path="/login" exact= {true} component={createComponent(Login)} />
+              <Route  path="/register" exact= {true} component={createComponent(RegisterPage)} />
+              <Route  path="/login" exact= {true} component={createComponent(SignInPage)} />
               <div className = 'layout-wrapper'>
                         {routes.map((route, index) => (
                           <Route

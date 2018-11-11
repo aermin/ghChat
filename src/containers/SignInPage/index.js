@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
 import "../../assets/loginregister.scss";
-import icon from "../../assets/icon.svg";
 import axios from "axios";
 import Modal from "../../components/Modal";
 import notification from "../../components/Notification";
+import SignInSignUp from "../../components/SignInSignUp"
 
-export default class Login extends Component {
+export default class SignIn extends Component {
   constructor() {
     super();
 
@@ -22,12 +21,13 @@ export default class Login extends Component {
       }
     };
   }
-  login = () => {
+  signIn () {
     if (this.state.name !== "" && this.state.password !== "") {
       axios.post("/api/v1/login", {
           name: this.state.name,
           password: this.state.password
         }).then(res => {
+          console.log('res233', res);
           if (res && res.data.success) {
              //保存soket.io
             socket.emit('login', res.data.userInfo.user_id);
@@ -53,13 +53,24 @@ export default class Login extends Component {
       notification(msg,'warn');
     }
   };
-  nameChange = event => {
-    this.setState({ name: event.target.value });
-  };
 
-  passwordChange = event => {
-    this.setState({ password: event.target.value });
-  };
+  setValue = value => {
+    const {name, password} = value;
+    this.setState({
+      name : name,
+      password: password
+    }, () => {
+      this.signIn();
+    })
+  }
+
+  // nameChange = event => {
+  //   this.setState({ name: event.target.value });
+  // };
+
+  // passwordChange = event => {
+  //   this.setState({ password: event.target.value });
+  // };
 
   confirm = modalEvent => {
     this.setState({
@@ -80,40 +91,7 @@ export default class Login extends Component {
           hasCancel={false}
         />
         {/* <Message isShow = {this.state.message.isShow}  type = {this.state.message.type}  content = {this.state.message.content} /> */}
-        <div className="wrapper fadeInDown">
-          <div id="formContent">
-            <h2 className="active"> 登录 </h2>
-            <Link to="/register">
-                <h2 className="inactive">注册 </h2>
-            </Link>
-            <div className="fadeIn first">
-              <img src={icon} id="icon" alt="Icon" />
-            </div>
-
-            <form>
-              <input
-                type="text"
-                className="fadeIn second"
-                value={this.state.name}
-                onChange={this.nameChange}
-                placeholder="用户名"
-              />
-              <input
-                type="password"
-                className="fadeIn third"
-                value={this.state.password}
-                onChange={this.passwordChange}
-                placeholder="密码"
-              />
-              <input
-                type="button"
-                onClick={this.login}
-                className="fadeIn fourth"
-                value="登录"
-              />
-            </form>
-          </div>
-        </div>
+        <SignInSignUp setValue = {this.setValue} />
       </div>
     );
   }
