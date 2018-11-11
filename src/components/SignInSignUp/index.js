@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import icon from "../../assets/icon.svg";
-import "../../assets/loginregister.scss";
+import "./index.scss";
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 
@@ -23,17 +23,25 @@ export default class SignInSignUp extends Component {
   }
 
   render() {
+      const SwitchBar = () => {
+          if (this.props.isLogin) {
+            return (<div><h2 className="active"> 登录 </h2>
+                  <Link to="/register">
+                      <h2 className="inactive">注册 </h2>
+                  </Link></div>)
+          }
+          return (<div><Link to="/login">
+                  <h2 className="inactive"> 登录 </h2>
+                </Link>
+                <h2 className="active">注册 </h2></div>)    
+      }
       return (
         <div className="wrapper fadeInDown">
           <div id="formContent">
-            <h2 className="active"> 登录 </h2>
-            <Link to="/register">
-                <h2 className="inactive">注册 </h2>
-            </Link>
+            <SwitchBar/>
             <div className="fadeIn first">
               <img src={icon} id="icon" alt="Icon" />
             </div>
-
             <form>
               <input
                 type="text"

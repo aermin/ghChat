@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import "../../assets/loginregister.scss";
 import axios from "axios";
 import Modal from "../../components/Modal";
 import notification from "../../components/Notification";
 import SignInSignUp from "../../components/SignInSignUp"
+import "./index.scss";
 
-export default class SignIn extends Component {
+export default class LogIn extends Component {
   constructor() {
     super();
 
@@ -21,13 +21,12 @@ export default class SignIn extends Component {
       }
     };
   }
-  signIn () {
+  login () {
     if (this.state.name !== "" && this.state.password !== "") {
       axios.post("/api/v1/login", {
           name: this.state.name,
           password: this.state.password
         }).then(res => {
-          console.log('res233', res);
           if (res && res.data.success) {
              //保存soket.io
             socket.emit('login', res.data.userInfo.user_id);
@@ -54,23 +53,15 @@ export default class SignIn extends Component {
     }
   };
 
-  setValue = value => {
+  setValue = (value) => {
     const {name, password} = value;
     this.setState({
       name : name,
       password: password
     }, () => {
-      this.signIn();
+      this.login();
     })
   }
-
-  // nameChange = event => {
-  //   this.setState({ name: event.target.value });
-  // };
-
-  // passwordChange = event => {
-  //   this.setState({ password: event.target.value });
-  // };
 
   confirm = modalEvent => {
     this.setState({
@@ -91,7 +82,7 @@ export default class SignIn extends Component {
           hasCancel={false}
         />
         {/* <Message isShow = {this.state.message.isShow}  type = {this.state.message.type}  content = {this.state.message.content} /> */}
-        <SignInSignUp setValue = {this.setValue} />
+        <SignInSignUp setValue = {this.setValue}  isLogin/>
       </div>
     );
   }

@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, withRouter } from "react-router-dom";
 
 import Bundle from "./Bundle";
 import RegisterPage from "bundle-loader?lazy&name=RegisterPage!../containers/RegisterPage";
-import SignInPage from "bundle-loader?lazy&name=SignInPage!../containers/SignInPage";
+import LogInPage from "bundle-loader?lazy&name=LogInPage!../containers/LogInPage";
 import ContentLeft from "bundle-loader?lazy&name=ContentLeft!../containers/ContentLeft";
 import ContentRight from "bundle-loader?lazy&name=ContentRight!../containers/ContentRight";
 
@@ -37,7 +37,7 @@ const getRouter = () => (
   <Router>
       <div>
               <Route  path="/register" exact= {true} component={createComponent(RegisterPage)} />
-              <Route  path="/login" exact= {true} component={createComponent(SignInPage)} />
+              <Route  path="/login" exact= {true} component={createComponent(LogInPage)} />
               <div className = 'layout-wrapper'>
                         {routes.map((route, index) => (
                           <Route
