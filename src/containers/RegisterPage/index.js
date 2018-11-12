@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
 import "./index.scss";
 import axios from "axios";
 import Modal from "../../components/Modal";
