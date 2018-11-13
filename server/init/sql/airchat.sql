@@ -172,7 +172,7 @@ CREATE TABLE `user_info` (
   `name` varchar(20) NOT NULL DEFAULT 'NOT NULL' COMMENT '用户名',
   `password` varchar(40) NOT NULL DEFAULT 'NOT NULL' COMMENT '密码',
   `sex` varchar(2) NOT NULL DEFAULT '男' COMMENT '性别',
-  `avator` varchar(100) NOT NULL DEFAULT 'http://ooytyiziz.bkt.clouddn.com/people5.jpg' COMMENT '头像',
+  `avator` varchar(100) NOT NULL DEFAULT 'https://user-images.githubusercontent.com/24861316/47977782-fc0aac00-e0f4-11e8-9686-821e2f5342ca.jpeg' COMMENT '头像',
   `place` varchar(50) DEFAULT NULL COMMENT '来自哪里',
   `last_login` int(10) NOT NULL COMMENT '最后登陆时间',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '在线状态,0离线,1在线',
