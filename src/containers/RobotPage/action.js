@@ -2,14 +2,12 @@ export const GET_ROBOT_MSG = "robot/GET_ROBOT_MSG";
 export const INSERT_MSG = "robot/INSERT_MSG";
 import axios from "axios";
 
-export const insertMsg = data => {
-    return {
+export const insertMsg = data => ({
       type: INSERT_MSG,
       data
-    }
-}
+})
 
-export function getRobotMsgAction (data) {
+export const getRobotMsgAction = (data)=> {
         let finalData = {};
         return axios.get("/api/v1/robot", {
             params: data

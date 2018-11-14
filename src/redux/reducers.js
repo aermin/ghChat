@@ -1,14 +1,12 @@
 import {combineReducers} from "redux";
 
-import userInfo from './reducers/userInfo';
 import robotReducer from '../containers/RobotPage/reducer';
-import homePageList from './reducers/homePageList';
+import {getHomePageListReducer} from '../containers/HomePageList/getHomePageListReducer';
 import whichShow from './reducers/whichShow';
 
 
 export default combineReducers({
-    userInfo,
     robotState: robotReducer,
-    homePageList,
+    homePageListState: getHomePageListReducer,
     whichShow
 });
