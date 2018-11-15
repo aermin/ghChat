@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './style.scss';
+
 
 export default class ChatItem extends Component {
     constructor() {
@@ -36,4 +38,13 @@ export default class ChatItem extends Component {
                 </div>
         )
     }
+}
+
+
+ChatItem.propTypes = {
+    me: PropTypes.bool,
+    img: PropTypes.string,
+    name: PropTypes.string,
+    time: PropTypes.string,
+    msg: PropTypes.string,
 }

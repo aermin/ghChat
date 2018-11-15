@@ -1,4 +1,4 @@
-import {GET_ROBOT_MSG , INSERT_MSG }  from './action';
+import {GET_ROBOT_MSG , INSERT_MSG }  from './robotAction';
 
 const initState  = {
     robotMsg: [

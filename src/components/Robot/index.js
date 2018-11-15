@@ -6,6 +6,7 @@ import InputArea from '../InputArea';
 import {
 	toNomalTime
 } from "../../utils/transformTime";
+import PropTypes from 'prop-types';
 
 export default class Robot extends Component {
 	constructor(){
@@ -66,3 +67,9 @@ export default class Robot extends Component {
             )
        }
 }
+
+// Robot.propTypes = {
+//     insertMsg: PropTypes.func,
+//     getRobotMsg: PropTypes.func,
+//     robotState: PropTypes.array,
+// }

@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import './index.scss';
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types';
 
 export default class HomePageList extends Component {
-	constructor(){
-		super();
-         	this.state = {}
-        }
-
         componentDidMount(){
              this.props.getHomePageList();
         }
@@ -30,4 +26,9 @@ export default class HomePageList extends Component {
                     </div>       
             )
        }
+}
+
+HomePageList.propTypes = {
+    getHomePageList: PropTypes.func,
+    homePageList: PropTypes.array
 }

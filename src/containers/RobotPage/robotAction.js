@@ -2,7 +2,7 @@ export const GET_ROBOT_MSG = "robot/GET_ROBOT_MSG";
 export const INSERT_MSG = "robot/INSERT_MSG";
 import axios from "axios";
 
-export const insertMsg = data => ({
+export const insertMsgAction = data => ({
       type: INSERT_MSG,
       data
 })

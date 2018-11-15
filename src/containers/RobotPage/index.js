@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import {getRobotMsgAction , insertMsg} from "./action";
+import {getRobotMsgAction , insertMsgAction} from "./robotAction";
 import Robot from '../../components/Robot'
 
 const mapStateToProps = (state) => ({
@@ -8,7 +8,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
         insertMsg: (data) => {
-            dispatch(insertMsg(data))
+            dispatch(insertMsgAction(data))
         },
         getRobotMsg: async (data) => {
             dispatch(await getRobotMsgAction(data))
