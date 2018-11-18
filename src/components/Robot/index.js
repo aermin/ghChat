@@ -53,7 +53,7 @@ export default class Robot extends Component {
             const listItems = this.props.robotState.map((msg,index) =>
                  <li key={index}>
                  {msg.user && <ChatItem  img="https://user-images.githubusercontent.com/24861316/47977782-fc0aac00-e0f4-11e8-9686-821e2f5342ca.jpeg" msg={msg.message} name={msg.user} time={this.state.time} />}
-                 {!msg.user && <ChatItem me="true" img={this.state.userInfo.avator}  msg={msg.message} name={this.state.userInfo.name} time={this.state.time} />}
+                 {!msg.user && <ChatItem me={true} img={this.state.userInfo.avator}  msg={msg.message} name={this.state.userInfo.name} time={this.state.time} />}
               </li>
             );
             return (

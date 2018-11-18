@@ -5,7 +5,8 @@ import {Provider} from 'react-redux'; //让所有容器组件都可以访问stor
 import store from './redux/store';
 import {BrowserRouter as Router} from 'react-router-dom';
 import App from './App';
-import axios from 'axios'
+// import axios from 'axios'
+import AxiosHandle from './api/axiosHandle'
 
 /*初始化*/
 renderWithHotReload(App);
@@ -18,21 +19,7 @@ if (module.hot) {
     });
 }
 
-
-axios.defaults.baseURL = 'http://localhost:3000'
-axios.interceptors.request.use(
-	config => {
-		const token = localStorage.getItem('userToken');
-		if (token) {
-			// Bearer是JWT的认证头部信息
-			config.headers.common['Authorization'] = 'Bearer ' + token;
-		}
-		return config;
-	},
-	error => {
-		return Promise.reject(error);
-	}
-);
+AxiosHandle.axiosConfigInit();
 
 function renderWithHotReload(RootElement) {
     ReactDom.render(
