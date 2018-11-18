@@ -6,7 +6,7 @@ import store from './redux/store';
 import {BrowserRouter as Router} from 'react-router-dom';
 import App from './App';
 // import axios from 'axios'
-import AxiosHandle from './api/axiosHandle'
+import AxiosHandle from './utils/request'
 
 /*初始化*/
 renderWithHotReload(App);

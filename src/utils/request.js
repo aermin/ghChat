@@ -1,5 +1,5 @@
 import axios from 'axios';
-export default class AxiosHandle {
+export default class Request {
   static axiosConfigInit() {
     axios.defaults.baseURL = 'http://localhost:3000'
     axios.interceptors.request.use(
@@ -16,17 +16,16 @@ export default class AxiosHandle {
       }
     );
   }
-  static async axiosRequest(method = 'get', url, params){
+  static async axios(method = 'get', url, params = {}){
     return new Promise((resolve, reject) => {
-        axios[method](url, { params }).then(res => {
+        axios[method](url, method === 'get' ? { params } : params).then(res => {
           const response =  typeof res.data === 'object' ? res.data : JSON.parse(res.data);
-          console.log('response00', response);
           resolve(response);
         }), error => {
           if(error.response){
-              reject(error.response.data)
+            reject(error.response.data)
           }else{
-              reject(error)
+            reject(error)
           }
         }
     });

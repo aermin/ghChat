@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import axios from "axios";
+import Request from '../../utils/request'
 import Modal from "../../components/Modal";
 import notification from "../../components/Notification";
 import SignInSignUp from "../../components/SignInSignUp"
@@ -21,32 +21,33 @@ export default class LogIn extends Component {
       }
     };
   }
-  login () {
+  async login () {
     if (this.state.name !== "" && this.state.password !== "") {
-      axios.post("/api/v1/login", {
+      let res;
+      try {
+        res = await Request.axios('post', '/api/v1/login', {
           name: this.state.name,
           password: this.state.password
-        }).then(res => {
-          if (res && res.data.success) {
-             //保存soket.io
-            socket.emit('login', res.data.userInfo.user_id);
-            localStorage.setItem("userToken", res.data.token);
-            localStorage.setItem("userInfo", JSON.stringify(res.data.userInfo));
-              //弹窗
-              this.setState({
-                modal: {
-                  visible: true,
-                  message: "您已登录成功", //弹窗内容
-                  modalEvent: "login" // 弹窗事件名称
-                }
-              });
-            } else {
-              notification(res.data.message,'error');
-            }
         })
-        .catch(err => {
-          notification(err,'error');
-        });
+        if (res && res.success) {
+          //保存soket.io
+          socket.emit('login', res.userInfo.user_id);
+          localStorage.setItem("userToken", res.token);
+          localStorage.setItem("userInfo", JSON.stringify(res.userInfo));
+            //弹窗
+            this.setState({
+              modal: {
+                visible: true,
+                message: "您已登录成功", //弹窗内容
+                modalEvent: "login" // 弹窗事件名称
+              }
+            });
+        } else {
+          notification(res.message,'error');
+        }
+      } catch (error) {
+         notification(error,'error');
+      }
     } else {
       const msg = this.state.name === "" ? "请输入用户名" : "请输入密码";
       notification(msg,'warn');
@@ -58,8 +59,8 @@ export default class LogIn extends Component {
     this.setState({
       name : name,
       password: password
-    }, () => {
-      this.login();
+    }, async () => {
+      await this.login();
     })
   }
 

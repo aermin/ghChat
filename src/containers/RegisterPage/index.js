@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./index.scss";
-import axios from "axios";
+import Request from '../../utils/request'
 import Modal from "../../components/Modal";
 import notification from "../../components/Notification";
 import SignInSignUp from "../../components/SignInSignUp"
@@ -21,28 +21,29 @@ export default class Register extends Component {
       }
     };
   }
-  register = () => {
+  register = async () => {
     if (this.state.name !== "" && this.state.password !== "") {
-      axios.post("/api/v1/register", {
+      let res;
+      try {
+        const res = await Request.axios('post', '/api/v1/register', {
           name: this.state.name,
           password: this.state.password
-        }).then(res => {
-          if (res && res.data.success) {
-              //弹窗
-              this.setState({
-                modal: {
-                  visible: true,
-                  message: "您已注册成功", //弹窗内容
-                  modalEvent: "register" // 弹窗事件名称
-                }
-              });
-            } else {
-              notification(res.data.message,'error');
-          }
         })
-        .catch(err => {
-          notification(err,'error');
-        });
+        if (res && res.success) {
+            //弹窗
+            this.setState({
+              modal: {
+                visible: true,
+                message: "您已注册成功", //弹窗内容
+                modalEvent: "register" // 弹窗事件名称
+              }
+            });
+          } else {
+            notification(res.message,'error');
+        }
+      } catch (error) {
+        notification(err,'error');
+      }
     } else {
       const msg = this.state.name === "" ? "请输入用户名" : "请输入密码";
       notification(msg,'warn');
@@ -54,8 +55,8 @@ export default class Register extends Component {
     this.setState({
       name : name,
       password: password
-    }, () => {
-      this.register();
+    }, async() => {
+      await this.register();
     })
   }
 

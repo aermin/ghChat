@@ -1,6 +1,6 @@
 export const GET_ROBOT_MSG = "robot/GET_ROBOT_MSG";
 export const INSERT_MSG = "robot/INSERT_MSG";
-import Request from '../../api/request'
+import Request from '../../utils/request'
 
 export const insertMsgAction = data => ({
       type: INSERT_MSG,
@@ -9,7 +9,12 @@ export const insertMsgAction = data => ({
 
 export const getRobotMsgAction = async (data)=> {
         let finalData = {};
-        const res= await Request.getRobotMsg(data);
+        let res;
+        try {
+            res= await Request.axios('get', '/api/v1/robot', data );
+        } catch (error) {
+            console.error(error);
+        }
         const { text, code, url } = res && res.data;
         if (code === 100000) {
             finalData = {
