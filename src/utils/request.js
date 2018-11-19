@@ -19,6 +19,8 @@ export default class Request {
   static async axios(method = 'get', url, params = {}){
     return new Promise((resolve, reject) => {
         axios[method](url, method === 'get' ? { params } : params).then(res => {
+          // console.log('resinrequest', res.data);
+          // const response = Object.assign({}, res.data);
           const response =  typeof res.data === 'object' ? res.data : JSON.parse(res.data);
           resolve(response);
         }), error => {
