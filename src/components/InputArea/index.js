@@ -9,7 +9,7 @@ export default class InputArea extends Component {
              }
         }
         sendMessage = () =>{
-            // this.props.inputMsgChange(this.state.inputMsg);
+            console.log('this.props233', this.props);
             this.props.sendMessage(this.state.inputMsg);
             this.state.inputMsg = '';
         }

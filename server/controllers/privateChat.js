@@ -42,7 +42,7 @@ let savePrivateMsg = async (ctx, next) => {
 		message = ctx.request.body.message,
 		name = ctx.request.body.name,
 		time = ctx.request.body.time;
-	await privateChatModel.savePrivateMsg(from_user, to_user, message, name, time)
+	await privateChatModel.savePrivateMsg({ from_user, to_user, message, name, time })
 		.then(result => {
 			console.log("privateChatModel11", result);
 			if (result) {

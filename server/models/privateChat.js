@@ -31,8 +31,8 @@ let getPrivateDetail = (from_user,to_user)=>{
  * @return
  */
 
-let savePrivateMsg = function(from_user, to_user, message, name, time) {
-    const data = [from_user, to_user, `${name} : ${message}`, time];
+let savePrivateMsg = function({ from_user, to_user, message, name, time }) {
+    const data = [from_user, to_user, message, time];
     let _sql =
       " INSERT INTO private__msg(from_user,to_user,message ,time)  VALUES(?,?,?,?); ";
     return query(_sql, data);

@@ -5,6 +5,7 @@ const dbConfig = require("./config").db;
 const router = require("./routes/index");
 const { query } = require("./utils/db");
 const socketModel = require("./models/soketHander");
+const { savePrivateMsg } = require("./models/privateChat")
 const app = new Koa();
 
 // const server = require('http').Server(app.callback());
@@ -33,7 +34,12 @@ io.on("connection", socket => {
     await socketModel.saveUserSocketId(userId, socketId);
   });
  //私聊
-  socket.on("sendPrivateMsg", async data => {
+  socket.on("sendPrivateMsg", async data => { 
+    console.log('sendPrivateMsgData', data);
+    // return;
+    //from_user, to_user, message, name, time
+    const res = await savePrivateMsg({...data});
+    console.log('sendPrivateMsgRes', res);
     const arr = await socketModel.getUserSocketId(data.to_user);
     const RowDataPacket = arr[0];
     const socketid = JSON.parse(JSON.stringify(RowDataPacket)).socketid;
