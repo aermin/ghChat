@@ -55,11 +55,15 @@ class PrivateChat extends Component {
         }
     }
 
-    async componentWillMount(){
-        await this.setState({
+    componentWillMount(){
+        setStateAsync.bind(this, {
             fromUserInfo: JSON.parse(localStorage.getItem("userInfo"))
+        })().then(async() =>{
+            await this.getPrivateMsg();
+            await this.getMsgOnSocket();
+        }).catch((error)=>{
+            console.log(error);
         });
-        await this.getPrivateMsg();
     }
     
     sendMessage = (value) => {
@@ -82,6 +86,15 @@ class PrivateChat extends Component {
             privateDetail: [...state.privateDetail, data]
         }));
         // this.$store.commit('updateListMutation', data);
+    }
+
+    // 获取socket消息
+    getMsgOnSocket() {
+        socket.on('getPrivateMsg', (data) => {
+            this.setState((state)=>({
+                privateDetail: [...state.privateDetail, data]
+            }));
+        })
     }
 
     render() {   

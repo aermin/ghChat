@@ -35,15 +35,12 @@ io.on("connection", socket => {
   });
  //私聊
   socket.on("sendPrivateMsg", async data => { 
-    console.log('sendPrivateMsgData', data);
-    // return;
-    //from_user, to_user, message, name, time
-    const res = await savePrivateMsg({...data});
-    console.log('sendPrivateMsgRes', res);
+    await savePrivateMsg({...data});
     const arr = await socketModel.getUserSocketId(data.to_user);
     const RowDataPacket = arr[0];
-    const socketid = JSON.parse(JSON.stringify(RowDataPacket)).socketid;
-    io.to(socketid).emit("getPrivateMsg", data);
+    const socketId = JSON.parse(JSON.stringify(RowDataPacket)).socketid;
+    console.log('socketId2333', socketId);
+    io.to(socketId).emit("getPrivateMsg", data);
   });
  // 群聊
   socket.on("sendGroupMsg", async data => {
@@ -55,9 +52,9 @@ io.on("connection", socket => {
     console.log("sendRequest", data);
     const arr = await socketModel.getUserSocketId(data.to_user);
     const RowDataPacket = arr[0];
-    const socketid = JSON.parse(JSON.stringify(RowDataPacket)).socketid;
-    console.log('给谁的socketid',socketid)
-    io.to(socketid).emit("getresponse", data);
+    const socketId = JSON.parse(JSON.stringify(RowDataPacket)).socketid;
+    console.log('给谁的socketid',socketId)
+    io.to(socketId).emit("getresponse", data);
   });
 
   socket.on("disconnect", data => {
