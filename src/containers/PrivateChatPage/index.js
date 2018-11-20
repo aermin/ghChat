@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import ChatHeader from '../../components/ChatHeader';
-import ChatItem from '../../components/ChatItem';
 import InputArea from '../../components/InputArea';
+import ChatContentList from '../../components/ChatContentList'
 import setStateAsync  from '../../utils/setStateAsync';
 import Request from '../../utils/request';
 import {toNomalTime} from "../../utils/transformTime";
@@ -98,21 +98,12 @@ class PrivateChat extends Component {
     }
 
     render() {   
-        console.log('this.state.privateDetail', this.state.privateDetail);
-        const listItems = this.state.privateDetail.map((item,index) =>
-            <li key={index}>
-                {this.state.fromUserInfo.user_id === item.from_user ? <ChatItem me={true} img={item.avator} msg={item.message} name={item.name} time={item.time} />
-                : <ChatItem img={item.avator}  msg={item.message} name={item.name} time={item.time} />}
-            </li>
-        );
         return (
             <div className="robot-wrapper">
-            <ChatHeader title={this.state.toUserInfo.name}/>
-            <ul>
-                {listItems}
-            </ul>
-            <InputArea sendMessage={this.sendMessage}/>
-        </div>
+                <ChatHeader title={this.state.toUserInfo.name}/>
+                <ChatContentList ChatContent = {this.state.privateDetail} />
+                <InputArea sendMessage={this.sendMessage}/>
+            </div>
         )
     }
 }
