@@ -12,7 +12,7 @@ let getUserInfo = async (ctx, next) => {
 	ctx.body = {
 		success: true,
 		data: {
-			userInfo: userInfo
+			userInfo
 		}
 	};
 };
@@ -29,7 +29,7 @@ let findUIByName = async (ctx, next) => {
 	ctx.body = {
 		success: true,
 		data: {
-			userInfo: userInfo
+			userInfo
 		}
 	};
 };

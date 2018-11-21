@@ -7,9 +7,10 @@ export default class ChatContentList extends Component {
    this.state = {}
   }
   render() {
+      console.log('this.props.chatId', this.props.chatId);
       const listItems = this.props.ChatContent.map((item,index) =>
           <li key={index}>
-              {this.state.fromUserInfo.user_id === item.from_user ? <ChatItem me={true} img={item.avator} msg={item.message} name={item.name} time={item.time} />
+              {parseInt(this.props.chatId) === item.from_user ? <ChatItem me={true} img={item.avator} msg={item.message} name={item.name} time={item.time} />
               : <ChatItem img={item.avator}  msg={item.message} name={item.name} time={item.time} />}
           </li>
       );

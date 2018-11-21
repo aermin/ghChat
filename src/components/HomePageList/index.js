@@ -4,8 +4,13 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
 
 export default class HomePageList extends Component {
-        componentDidMount(){
-             this.props.getHomePageList();
+    	constructor(props){
+		    super(props);
+        };
+        async componentDidMount(){
+             await this.props.getHomePageList();
+             await this.props.getAllChatContent(this.props.homePageList);
+             console.log('this.props.allChatContent', this.props.allChatContent);
         }
         render() {
             const listItems = this.props.homePageList.map((data,index) =>

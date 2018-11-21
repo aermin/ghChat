@@ -11,7 +11,7 @@ export default function ContentLeft(props){
             {props.match.url === '/' && <WelcomePage />}
             {props.match.url === '/robot' && <RobotPage />}
             {props.match.url.split('group_chat').length > 1 && <GroupChatPage />}
-            {props.match.url.split('private_chat').length > 1 && <PrivateChatPage />}
+            {props.match.url.split('private_chat').length > 1 && <PrivateChatPage chatId = {props.match.params.user_id}/>}
         </div>  
     );
 }

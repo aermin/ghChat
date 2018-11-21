@@ -1,5 +1,5 @@
 const privateChatModel = require("../models/privateChat");
-
+const userModel = require("../models/user_info");
 /**
  * 获取私聊相关内容
  * @param  to_user 信息发送者的id
@@ -16,12 +16,15 @@ const privateChatModel = require("../models/privateChat");
 let getprivateDetail = async (ctx, next) => {
 	const to_user = ctx.query.to_user,
 		from_user = ctx.user_id,
-		RowDataPacket = await privateChatModel.getPrivateDetail(from_user, to_user),
-		privateDetail = JSON.parse(JSON.stringify(RowDataPacket));
+		RowDataPacket1 = await privateChatModel.getPrivateDetail(from_user, to_user),
+		RowDataPacket2 = await userModel.getUserInfo(to_user),
+		privateDetail = JSON.parse(JSON.stringify(RowDataPacket1)),
+		userInfo = JSON.parse(JSON.stringify(RowDataPacket2));
 	ctx.body = {
 		success: true,
 		data: {
-			privateDetail: privateDetail
+			privateDetail,
+			userInfo: userInfo[0]
 		}
 	};
 }

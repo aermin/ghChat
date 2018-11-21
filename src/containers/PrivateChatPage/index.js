@@ -25,50 +25,41 @@ class PrivateChat extends Component {
 
     //获取数据库的消息
     async getPrivateMsg() {
-        let res;
-        const { user_id } = this.props.match.params;
-        try {
-            res = await Request.axios('get', '/api/v1/private_detail', {
-                to_user: user_id
-            })
-            if (res.success) {
-                const { privateDetail } = res.data;
-                this.setState({ privateDetail });
-                const { homePageList, match } = this.props;
-                const length = homePageList.length;
-                for(let i = 0; i < length; i++){
-                    if (homePageList[i].id === parseInt(user_id)) {
-                        await setStateAsync.bind(this, {
-                            toUserInfo: {name: homePageList[i].name, to_user: homePageList[i].id}
-                        })();
-                        break;
-                    }
-                }
-            }
-        } catch (error) {
-            console.log('error', error);
-            const errorMsg = err.response.data.error
-            this.$message({
-                message: errorMsg,
-                type: "error"
-            });
-        }
-    }
+        console.log('this.props.allChatContent',this.props.allChatContent );
 
-    componentWillMount(){
-        setStateAsync.bind(this, {
-            fromUserInfo: JSON.parse(localStorage.getItem("userInfo"))
-        })().then(async() =>{
-            await this.getPrivateMsg();
-            await this.getMsgOnSocket();
-        }).catch((error)=>{
-            console.log(error);
-        });
+        let res;
+        const chatId = this.props.chatId;
+        // try {
+        //     res = await Request.axios('get', '/api/v1/private_detail', {
+        //         to_user: chatId
+        //     })
+        //     if (res.success) {
+        //         const { privateDetail } = res.data;
+        //         this.setState({ privateDetail });
+        //         const { homePageList, match } = this.props;
+        //         const length = homePageList.length;
+        //         for(let i = 0; i < length; i++){
+        //             if (homePageList[i].id === parseInt(chatId)) {
+        //                 await setStateAsync.bind(this, {
+        //                     toUserInfo: {name: homePageList[i].name, to_user: homePageList[i].id}
+        //                 })();
+        //                 break;
+        //             }
+        //         }
+        //     }
+        // } catch (error) {
+        //     console.log('error', error);
+        //     const errorMsg = err.response.data.error
+        //     this.$message({
+        //         message: errorMsg,
+        //         type: "error"
+        //     });
+        // }
     }
     
     sendMessage = (value) => {
         if (value.trim() == '') return;
-        const { toUserInfo, fromUserInfo, privateDetail } = this.state;
+        const { toUserInfo, fromUserInfo } = this.state;
         const data = {
             from_user: fromUserInfo.user_id, //自己的id
             to_user: toUserInfo.to_user, //对方id
@@ -97,11 +88,45 @@ class PrivateChat extends Component {
         })
     }
 
-    render() {   
+    getChatContent () {
+        // const {privateChat} = this.props.allChatContent;
+        console.log('privateChat111', this.props);
+        return;
+        const length = privateChat.length;
+        for(let i = 0; i < length; i++) {
+            console.log(privateChat[i].userInfo.user_id, '===', this.props.chatId);
+            if (privateChat[i].userInfo.user_id === this.props.chatId) {
+                this.setState({
+                    toUserInfo: privateChat[i].userInfo,
+                    privateDetail:  privateChat[i].privateDetail
+                })
+            }            
+        }
+    }
+
+    componentDidMount(){
+        setStateAsync.bind(this, {
+            fromUserInfo: JSON.parse(localStorage.getItem("userInfo"))
+        })().then(async() =>{
+            // await this.getPrivateMsg();
+            this.getChatContent();
+            await this.getMsgOnSocket();
+        }).catch((error)=>{
+            console.log(error);
+        });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        console.log('nextProps', nextProps);
+        // this.setState({privateDetail: nextProps.privateDetail});
+    }
+
+    render() {  
+        const { chatId } = this.props; 
         return (
             <div className="robot-wrapper">
                 <ChatHeader title={this.state.toUserInfo.name}/>
-                <ChatContentList ChatContent = {this.state.privateDetail} />
+                <ChatContentList ChatContent = {this.state.privateDetail} chatId = {chatId}/>
                 <InputArea sendMessage={this.sendMessage}/>
             </div>
         )
@@ -109,7 +134,9 @@ class PrivateChat extends Component {
 }
 
 const mapStateToProps = (state) => ({
-     homePageList: state.homePageListState
+    //  homePageList: state.homePageListState
+    // ,
+    allChatContent: state.allChatContentState
 })
 
 export default  withRouter(connect(mapStateToProps)(PrivateChat));

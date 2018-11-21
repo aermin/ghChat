@@ -35,7 +35,7 @@ let findDataByUserid = function(userid) {
 // 通过用户id查找用户信息 user_info 包括用户名，性别，头像，最后登录时间，状态等，不包括密码
 let getUserInfo = (user_id) => {
 	const _sql =
-		'SELECT id AS user_id, name ,sex ,avator,place ,website,github,intro,status,last_login  FROM user_info   WHERE  user_info.id =? '
+		'SELECT id AS user_id, name ,sex ,avator,place ,website,github,intro,status  FROM user_info   WHERE  user_info.id =? '
 	return query(_sql, [user_id]);
 }
 
