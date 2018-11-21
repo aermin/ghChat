@@ -22,40 +22,6 @@ class PrivateChat extends Component {
             btnInfo: "发送"
         }
     }
-
-    //获取数据库的消息
-    async getPrivateMsg() {
-        console.log('this.props.allChatContent',this.props.allChatContent );
-
-        let res;
-        const chatId = this.props.chatId;
-        // try {
-        //     res = await Request.axios('get', '/api/v1/private_detail', {
-        //         to_user: chatId
-        //     })
-        //     if (res.success) {
-        //         const { privateDetail } = res.data;
-        //         this.setState({ privateDetail });
-        //         const { homePageList, match } = this.props;
-        //         const length = homePageList.length;
-        //         for(let i = 0; i < length; i++){
-        //             if (homePageList[i].id === parseInt(chatId)) {
-        //                 await setStateAsync.bind(this, {
-        //                     toUserInfo: {name: homePageList[i].name, to_user: homePageList[i].id}
-        //                 })();
-        //                 break;
-        //             }
-        //         }
-        //     }
-        // } catch (error) {
-        //     console.log('error', error);
-        //     const errorMsg = err.response.data.error
-        //     this.$message({
-        //         message: errorMsg,
-        //         type: "error"
-        //     });
-        // }
-    }
     
     sendMessage = (value) => {
         if (value.trim() == '') return;
@@ -63,7 +29,6 @@ class PrivateChat extends Component {
         const data = {
             from_user: fromUserInfo.user_id, //自己的id
             to_user: toUserInfo.to_user, //对方id
-            // name: fromUserInfo.name, //自己的昵称
             avator: fromUserInfo.avator, //自己的头像
             message: value, //消息内容
             type: 'private',
@@ -88,14 +53,11 @@ class PrivateChat extends Component {
         })
     }
 
-    getChatContent () {
-        // const {privateChat} = this.props.allChatContent;
-        console.log('privateChat111', this.props);
-        return;
+    getChatContent ({allChatContent, chatId}) {
+        const { privateChat } = allChatContent;
         const length = privateChat.length;
         for(let i = 0; i < length; i++) {
-            console.log(privateChat[i].userInfo.user_id, '===', this.props.chatId);
-            if (privateChat[i].userInfo.user_id === this.props.chatId) {
+            if (privateChat[i].userInfo.user_id === parseInt(chatId)) {
                 this.setState({
                     toUserInfo: privateChat[i].userInfo,
                     privateDetail:  privateChat[i].privateDetail
@@ -108,8 +70,8 @@ class PrivateChat extends Component {
         setStateAsync.bind(this, {
             fromUserInfo: JSON.parse(localStorage.getItem("userInfo"))
         })().then(async() =>{
-            // await this.getPrivateMsg();
-            this.getChatContent();
+            const {allChatContent, chatId} = this.props;
+            this.getChatContent({allChatContent, chatId});
             await this.getMsgOnSocket();
         }).catch((error)=>{
             console.log(error);
@@ -118,7 +80,8 @@ class PrivateChat extends Component {
 
     componentWillReceiveProps(nextProps) {
         console.log('nextProps', nextProps);
-        // this.setState({privateDetail: nextProps.privateDetail});
+        const {allChatContent, chatId} = nextProps;
+        this.getChatContent({allChatContent, chatId});
     }
 
     render() {  

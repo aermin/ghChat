@@ -7,7 +7,7 @@ import RegisterPage from "bundle-loader?lazy&name=RegisterPage!../containers/Reg
 import LogInPage from "bundle-loader?lazy&name=LogInPage!../containers/LogInPage";
 import ContentLeft from "bundle-loader?lazy&name=ContentLeft!../containers/ContentLeft";
 import ContentRight from "bundle-loader?lazy&name=ContentRight!../containers/ContentRight";
-
+import Spinner from '../components/spinner';
 const Loading = function() {
   return <div>Loading...</div>;
 };
@@ -39,6 +39,7 @@ const getRouter = () => (
               <Route  path="/register" exact= {true} component={createComponent(RegisterPage)} />
               <Route  path="/login" exact= {true} component={createComponent(LogInPage)} />
               <div className = 'layout-wrapper'>
+                        {/* <Spinner /> */}
                         {routes.map((route, index) => (
                           <Route
                               key={index}

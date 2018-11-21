@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import HomePageList from '../HomePageList';
 import SideBar from '../SideBar';
 
+
 export default function ContentLeft(props){
     console.log('ContentLeftprops', props);
     return (

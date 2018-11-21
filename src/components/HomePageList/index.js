@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
-import './index.scss';
+import './index.scss'; 
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
-
+import Spinner from '../spinner';
 export default class HomePageList extends Component {
     	constructor(props){
 		    super(props);
+            this.state = {
+                showSpinner: true
+            }
         };
         async componentDidMount(){
              await this.props.getHomePageList();
              await this.props.getAllChatContent(this.props.homePageList);
-             console.log('this.props.allChatContent', this.props.allChatContent);
+            console.log('this.props.allChatContent', this.props.allChatContent);
+             this.setState({showSpinner: false});
         }
         render() {
             const listItems = this.props.homePageList.map((data,index) =>
@@ -27,7 +31,8 @@ export default class HomePageList extends Component {
              );
             return (
                     <div className="home-page-list-wrapper">
-                         <ul>{listItems}</ul>
+                        {this.state.showSpinner && <Spinner /> }
+                        <ul>{listItems}</ul>
                     </div>       
             )
        }
