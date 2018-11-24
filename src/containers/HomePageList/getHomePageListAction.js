@@ -1,5 +1,7 @@
-const GET_HOME_PAGE_LIST = "homePageList/GET_HOME_PAGE_LIST";
-const GET_ALL_CHAT_CONTENT = "homePageList/GET_ALL_CHAT_CONTENT";
+const GET_HOME_PAGE_LIST = "GET_HOME_PAGE_LIST";
+const GET_ALL_CHAT_CONTENT = "GET_ALL_CHAT_CONTENT";
+const UPDATE_ALL_CHAT_CONTENT = "UPDATE_ALL_CHAT_CONTENT";
+
 
 import Request from '../../utils/request';
 import {
@@ -39,7 +41,7 @@ const getHomePageListAction = async () => {
 }
 
 const getAllChatContentAction = async (homePageList) => {
-    let allChatContent = { privateChat: [], groupChat: [] };
+    let allChatContent = { privateChat: new Map(), groupChat: new Map() };
     for (const item of homePageList) {
         try {
             let res;
@@ -47,27 +49,47 @@ const getAllChatContentAction = async (homePageList) => {
                 res = await Request.axios('get', '/api/v1/private_chat', {
                     to_user: item.other_user_id
                 });
-                allChatContent.privateChat.push(res.data);
+                allChatContent.privateChat.set(item.other_user_id, res.data);
             } else if (item.group_id) {
                 res = await Request.axios('get', '/api/v1/group_chat', {
                     groupId: item.group_id
                 });
-                allChatContent.groupChat.push(res.data);
+                allChatContent.groupChat.set(item.group_id, res.data);
             }
         } catch (error) {
             console.log(error);
         }
     }
-    console.log('allChatContent222', allChatContent);
     return {
         type: GET_ALL_CHAT_CONTENT,
         data: allChatContent
     };
 }
 
+ const updateAllChatContentByGotAction = async ({allChatContent, newChatContent, chatType}) => {
+    const mapKey = chatType === 'privateChat' ? newChatContent.from_user : newChatContent.groupId;
+    allChatContent[chatType].get(parseInt(mapKey)).privateDetail.push(newChatContent);
+    return {
+        type: UPDATE_ALL_CHAT_CONTENT,
+        data: allChatContent
+    }
+ }
+
+const updateAllChatContentBySentAction = async ({allChatContent, newChatContent, chatType}) => {
+    const mapKey = chatType === 'privateChat' ? newChatContent.to_user : newChatContent.groupId;
+    allChatContent[chatType].get(parseInt(mapKey)).privateDetail.push(newChatContent);
+    return {
+        type: UPDATE_ALL_CHAT_CONTENT,
+        data: allChatContent
+    }
+ }
+
 export {
     GET_HOME_PAGE_LIST,
     GET_ALL_CHAT_CONTENT,
+    UPDATE_ALL_CHAT_CONTENT,
     getHomePageListAction,
-    getAllChatContentAction
+    getAllChatContentAction,
+    updateAllChatContentByGotAction,
+    updateAllChatContentBySentAction
 }

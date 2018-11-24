@@ -29,8 +29,9 @@
   <script src="http://ooytyiziz.bkt.clouddn.com/socket.io.js"></script>
   <script>
     const socket = io('http://localhost:3000');
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"))
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     if (userInfo) {
+      console.log('userInfoindex', userInfo);
       socket.emit('update', userInfo.user_id);
     }
   </script>

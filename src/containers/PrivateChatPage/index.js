@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import { updateAllChatContentByGotAction, updateAllChatContentBySentAction } from '../HomePageList/getHomePageListAction'
 import ChatHeader from '../../components/ChatHeader';
 import InputArea from '../../components/InputArea';
 import ChatContentList from '../../components/ChatContentList'
-import setStateAsync  from '../../utils/setStateAsync';
-import Request from '../../utils/request';
 import {toNomalTime} from "../../utils/transformTime";
 import {
     withRouter,
@@ -28,60 +27,66 @@ class PrivateChat extends Component {
         const { toUserInfo, fromUserInfo } = this.state;
         const data = {
             from_user: fromUserInfo.user_id, //自己的id
-            to_user: toUserInfo.to_user, //对方id
+            to_user: toUserInfo.user_id, //对方id
             avator: fromUserInfo.avator, //自己的头像
             message: value, //消息内容
             type: 'private',
             status: '1', //是否在线 0为不在线 1为在线
             time: Date.parse(new Date()) / 1000 //时间
         };
+        console.log('sendMessage', data);
         socket.emit('sendPrivateMsg', data);
         // 存此条私聊信息到本地
         data.time = toNomalTime(data.time);
+        const {allChatContent} = this.props;
         this.setState((state)=>({
             privateDetail: [...state.privateDetail, data]
-        }));
+        }), ()=>{
+            console.log('push in allChatContent', data);
+            // push in allChatContent
+            this.props.updateAllChatContentBySent({allChatContent, newChatContent: data, chatType:'privateChat'});
+        });
         // this.$store.commit('updateListMutation', data);
     }
 
     // 获取socket消息
     getMsgOnSocket() {
-        socket.on('getPrivateMsg', (data) => {
+        socket.removeAllListeners('getPrivateMsg');
+        socket.on('getPrivateMsg',  (data) => {
+            const {allChatContent} = this.props;
             this.setState((state)=>({
                 privateDetail: [...state.privateDetail, data]
-            }));
+            }), ()=>{
+                // push in allChatContent
+              this.props.updateAllChatContentByGot({allChatContent, newChatContent: data, chatType:'privateChat'});
+            });
+           
         })
     }
 
     getChatContent ({allChatContent, chatId}) {
-        const { privateChat } = allChatContent;
-        const length = privateChat.length;
-        for(let i = 0; i < length; i++) {
-            if (privateChat[i].userInfo.user_id === parseInt(chatId)) {
-                this.setState({
-                    toUserInfo: privateChat[i].userInfo,
-                    privateDetail:  privateChat[i].privateDetail
-                })
-            }            
-        }
+        const { privateChat } = allChatContent; // privateChat is a Map
+        console.log('privateChat22', privateChat);
+        const { privateDetail,  userInfo} =  privateChat.get(parseInt(chatId));
+        this.setState({
+            toUserInfo: userInfo,
+            privateDetail:  privateDetail
+        })
     }
 
-    componentDidMount(){
-        setStateAsync.bind(this, {
-            fromUserInfo: JSON.parse(localStorage.getItem("userInfo"))
-        })().then(async() =>{
-            const {allChatContent, chatId} = this.props;
-            this.getChatContent({allChatContent, chatId});
-            await this.getMsgOnSocket();
-        }).catch((error)=>{
-            console.log(error);
-        });
+    async componentDidMount(){
+        const fromUserInfo =  JSON.parse(localStorage.getItem("userInfo"));
+        await this.setState({fromUserInfo});
+        const {allChatContent, chatId} = this.props;
+        await this.getChatContent({allChatContent, chatId});
+        this.getMsgOnSocket();
     }
 
     componentWillReceiveProps(nextProps) {
         console.log('nextProps', nextProps);
         const {allChatContent, chatId} = nextProps;
         this.getChatContent({allChatContent, chatId});
+        this.getMsgOnSocket();
     }
 
     render() {  
@@ -97,15 +102,16 @@ class PrivateChat extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    //  homePageList: state.homePageListState
-    // ,
     allChatContent: state.allChatContentState
 })
 
-export default  withRouter(connect(mapStateToProps)(PrivateChat));
-// export default connect(state => ({
-//     robotMsg: state.robot.robotMsg
-//   }), {
-//     getRobotMsg,
-//     insertUserMsg
-//   })(GroupChat);
+const mapDispatchToProps = (dispatch)=> ({
+    updateAllChatContentByGot: async ({allChatContent, newChatContent, chatType}) => {
+        dispatch(await updateAllChatContentByGotAction({allChatContent,newChatContent,chatType}))
+    },
+    updateAllChatContentBySent: async ({allChatContent, newChatContent, chatType}) => {
+        dispatch(await updateAllChatContentBySentAction({allChatContent,newChatContent,chatType}))
+    }
+})
+
+export default  withRouter(connect(mapStateToProps, mapDispatchToProps)(PrivateChat));

@@ -30,8 +30,10 @@ io.on("connection", socket => {
     await socketModel.saveUserSocketId(userId, socketId);
   });
   // 更新soketId 
-  socket.on("update", async userId => {
+  socket.on("update", async (userId) => {
+    console.log(userId, '=update=', socketId);
     await socketModel.saveUserSocketId(userId, socketId);
+    const arr = await socketModel.getUserSocketId(data.to_user);
   });
  //私聊
   socket.on("sendPrivateMsg", async data => { 

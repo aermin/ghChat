@@ -1,4 +1,4 @@
-import {GET_HOME_PAGE_LIST, GET_ALL_CHAT_CONTENT}  from './getHomePageListAction';
+import {GET_HOME_PAGE_LIST, GET_ALL_CHAT_CONTENT, UPDATE_ALL_CHAT_CONTENT}  from './getHomePageListAction';
 
 const getHomePageListReducer = (state = [], action) => {
     switch (action.type) {
@@ -13,6 +13,8 @@ const getHomePageListReducer = (state = [], action) => {
 const getAllChatContentReducer = (state = {}, action) => {
     switch (action.type) {
         case GET_ALL_CHAT_CONTENT:
+            return action.data;
+        case UPDATE_ALL_CHAT_CONTENT:
             return action.data;
         default:
             return state;
