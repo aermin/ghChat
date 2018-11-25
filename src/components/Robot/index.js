@@ -3,6 +3,7 @@ import '../../assets/chat.scss'
 import ChatHeader from '../ChatHeader';
 import ChatItem from '../ChatItem';
 import InputArea from '../InputArea';
+
 import {
 	toNomalTime
 } from "../../utils/transformTime";
@@ -18,10 +19,26 @@ export default class Robot extends Component {
             isScrollToBottom: true
         }
     }
-    refresh() {
+    scrollToBottom(time = 0) {
+        const ulDom = document.getElementsByClassName('chat-content-list')[0];
         setTimeout(() => {
-            window.scrollTo(0, document.body.scrollHeight + 10000)
-        }, 0)
+            ulDom.scrollTop = ulDom.scrollHeight + 10000;
+        }, time)
+    }
+    sendMessage = async (value) => {
+        this.setState({
+            inputMsg: value
+        }, async ()=>{
+            this.props.insertMsg(
+                { message: this.state.inputMsg }
+            );
+            this.scrollToBottom();
+            await this.props.getRobotMsg(
+                { message: this.state.inputMsg }
+            );
+            this.scrollToBottom();
+        })
+
     }
     componentWillMount(){
         this.setState({
@@ -29,23 +46,7 @@ export default class Robot extends Component {
         }) 
     }
     componentDidMount(){
-        setTimeout(() => {
-            this.refresh();
-        }, 200)
-    }
-    sendMessage =  async (value) => {
-
-        this.setState({
-            inputMsg: value
-        }, async ()=>{
-            this.props.insertMsg(
-                { message: this.state.inputMsg }
-            );
-            await this.props.getRobotMsg(
-                { message: this.state.inputMsg }
-            )
-        })
-
+       this.scrollToBottom(200);
     }
 
     render() {
@@ -58,7 +59,7 @@ export default class Robot extends Component {
         return (
                 <div className="chat-wrapper">
                     <ChatHeader title="机器人聊天"/>
-                    <ul>
+                    <ul className="chat-content-list">
                         {listItems}
                     </ul>
                     <InputArea sendMessage={this.sendMessage}/>
@@ -67,8 +68,8 @@ export default class Robot extends Component {
     }
 }
 
-// Robot.propTypes = {
-//     insertMsg: PropTypes.func,
-//     getRobotMsg: PropTypes.func,
-//     robotState: PropTypes.array,
-// }
+Robot.propTypes = {
+    insertMsg: PropTypes.func,
+    getRobotMsg: PropTypes.func,
+    robotState: PropTypes.array,
+}
