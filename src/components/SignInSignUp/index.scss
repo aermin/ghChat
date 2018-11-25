@@ -1,11 +1,4 @@
-  .wrapper {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
-    #formContent {
+    .formContent {
       -webkit-border-radius: 12px 12px 12px 12px;
       border-radius: 12px 12px 12px 12px;
       background: #fff;
@@ -113,39 +106,3 @@
         }
       }
     }
-
-    .fadeInDown {
-      -webkit-animation-name: fadeInDown;
-      animation-name: fadeInDown;
-      -webkit-animation-duration: 1s;
-      animation-duration: 1s;
-      -webkit-animation-fill-mode: both;
-      animation-fill-mode: both;
-    }
-    @-webkit-keyframes fadeInDown {
-      0% {
-        opacity: 0;
-        -webkit-transform: translate3d(0, -100%, 0);
-        transform: translate3d(0, -100%, 0);
-      }
-
-      100% {
-        opacity: 1;
-        -webkit-transform: none;
-        transform: none;
-      }
-    }
-    @keyframes fadeInDown {
-      0% {
-        opacity: 0;
-        -webkit-transform: translate3d(0, -100%, 0);
-        transform: translate3d(0, -100%, 0);
-      }
-
-      100% {
-        opacity: 1;
-        -webkit-transform: none;
-        transform: none;
-      }
-    }
-  }

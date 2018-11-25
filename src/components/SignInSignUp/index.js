@@ -23,22 +23,17 @@ export default class SignInSignUp extends Component {
   }
 
   render() {
-      const SwitchBar = () => {
-          if (this.props.isLogin) {
-            return (<div><h2 className="active"> 登录 </h2>
-                  <Link to="/register">
-                      <h2 className="inactive">注册 </h2>
-                  </Link></div>)
-          }
-          return (<div><Link to="/login">
-                  <h2 className="inactive"> 登录 </h2>
-                </Link>
-                <h2 className="active">注册 </h2></div>)    
-      }
+      const loginClass = this.props.isLogin ?  "active" : "inactive" ;
+      const registerClass = this.props.isLogin ?  "inactive" : "active" ;
+      const linkUrl = this.props.isLogin ? "/register" : "/login";
       return (
-        <div className="wrapper fadeInDown">
-          <div id="formContent">
-            <SwitchBar/>
+          <div className="formContent fadeInDown">
+            <Link to={linkUrl}>
+                  <h2 className={loginClass}> 登录 </h2>
+            </Link>
+            <Link to={linkUrl}>
+                <h2 className={registerClass}>注册 </h2>
+            </Link>
             <div className="fadeIn first">
               <img src={icon} id="icon" alt="Icon" />
             </div>
@@ -67,7 +62,6 @@ export default class SignInSignUp extends Component {
               />
             </form>
           </div>
-        </div>
       )
   }
 }

@@ -22,15 +22,6 @@ if (module.hot) {
 
 AxiosHandle.axiosConfigInit();
 
-// async function init() {
-//     store.dispatch(await getHomePageListAction());
-//     store.dispatch(await getAllChatContentAction(store.getState().homePageListState));
-// } 
-// init();
-// console.log('store', store);
-// // 打印初始状态
-// console.log('store.getState', store.getState())
-
 function renderWithHotReload(RootElement) {
     ReactDom.render(
         <AppContainer>

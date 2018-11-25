@@ -35,29 +35,26 @@ const routes = [
 console.log('router-props', window.location.pathname);
 const getRouter = () => (
   <Router>
-      <div>
-              <Route  path="/register" exact= {true} component={createComponent(RegisterPage)} />
-              <Route  path="/login" exact= {true} component={createComponent(LogInPage)} />
-              <div className = 'layout-wrapper'>
-                        {/* <Spinner /> */}
-                        {routes.map((route, index) => (
-                          <Route
-                              key={index}
-                              path={route.path}
-                              exact={route.exact}
-                              component={createComponent(ContentLeft)}
-                            />
-                        ))}
-                        {routes.map((route, index) => (
-                          <Route
-                            key={index}
-                            path={route.path}
-                            exact={route.exact}
-                            component={createComponent(ContentRight)}
-                          />
-                        ))}
-              </div> 
-      </div>
+        <div className = 'layout-wrapper'>
+                  <Route  path="/register" exact= {true} component={createComponent(RegisterPage)} />
+                  <Route  path="/login" exact= {true} component={createComponent(LogInPage)} />
+                  {routes.map((route, index) => (
+                    <Route
+                        key={index}
+                        path={route.path}
+                        exact={route.exact}
+                        component={createComponent(ContentLeft)}
+                      />
+                  ))}
+                  {routes.map((route, index) => (
+                    <Route
+                      key={index}
+                      path={route.path}
+                      exact={route.exact}
+                      component={createComponent(ContentRight)}
+                    />
+                  ))}
+        </div> 
   </Router>
 );
 

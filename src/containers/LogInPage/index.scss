@@ -1,4 +1,10 @@
 .login{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
   *:focus {
     outline: none;
   }
