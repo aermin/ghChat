@@ -22,6 +22,7 @@ if (module.hot) {
 
 AxiosHandle.axiosConfigInit();
 
+// init: fetch HomePageList and AllChatContent;
 getHomePageListAction().then(res =>{
     store.dispatch(res);
     getAllChatContentAction(res.data).then(res => {

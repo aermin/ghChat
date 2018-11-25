@@ -46,7 +46,12 @@ export default class PrivateChat extends Component {
     getMsgOnSocket() {
         socket.removeAllListeners('getPrivateMsg');
         socket.on('getPrivateMsg',  (data) => {
-            const {allChatContent} = this.props;
+            console.log('getMsgOnSocket', data);
+            const {allChatContent, chatId} = this.props;
+            if (data.from_user !== chatId) { // not current user's message
+              this.props.updateAllChatContentByGot({allChatContent, newChatContent: data, chatType:'privateChat'});
+              return;
+            }
             this.setState((state)=>({
                 privateDetail: [...state.privateDetail, data]
             }), ()=>{
@@ -61,7 +66,7 @@ export default class PrivateChat extends Component {
     getChatContent ({allChatContent, chatId}) {
         const { privateChat } = allChatContent; // privateChat is a Map
         if (!privateChat) return; 
-        const { privateDetail,  userInfo} = privateChat.get(parseInt(chatId));
+        const { privateDetail,  userInfo} = privateChat.get(chatId);
         this.setState({
             toUserInfo: userInfo,
             privateDetail:  privateDetail
@@ -76,6 +81,7 @@ export default class PrivateChat extends Component {
     }
 
     async componentDidMount(){
+        console.log('componentDidMount');
         const fromUserInfo =  JSON.parse(localStorage.getItem("userInfo"));
         await this.setState({fromUserInfo});
         const {allChatContent, chatId} = this.props;
@@ -85,11 +91,15 @@ export default class PrivateChat extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('nextProps', nextProps);
+        console.log('componentWillReceiveProps', nextProps);
         const {allChatContent, chatId} = nextProps;
         this.getChatContent({allChatContent, chatId});
-        this.scrollToBottom();
         this.getMsgOnSocket();
+    }
+
+    componentDidUpdate() {
+        console.log('componentDidUpdate');
+        this.scrollToBottom();
     }
 
     render() {  
