@@ -5,6 +5,7 @@
     .layout-left, .layout-left-mobile{
         border-right: 1px solid $border;
         width: 30%;
+        height: 100%;
         position: relative;
         .home-page-list-wrapper{
             margin-top: 70px;
@@ -13,6 +14,7 @@
     
     .layout-right , .layout-right-mobile {
         width: 70%;
+        height: 100%;
         display: flex;
         align-items: center;
         justify-content: center;

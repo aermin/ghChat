@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import RobotPage from '../RobotPage';
 import WelcomePage from '../WelcomePage';
 import GroupChatPage from '../GroupChatPage';

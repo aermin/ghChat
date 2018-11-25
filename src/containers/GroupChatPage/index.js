@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import './style.scss';
+import '../../assets/chat.scss'
 import ChatHeader from '../../components/ChatHeader';
 import ChatItem from '../../components/ChatItem';
 import InputArea from '../../components/InputArea';
@@ -39,7 +39,7 @@ export default class GroupChat extends Component {
             //     </li>
             // );
             return (
-                <div className="robot-wrapper">
+                <div className="chat-wrapper">
                 <ChatHeader title="群聊天"/>
                 <ul>
                     {/* {listItems} */}

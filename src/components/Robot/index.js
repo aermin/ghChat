@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import './index.scss';
+import '../../assets/chat.scss'
 import ChatHeader from '../ChatHeader';
 import ChatItem from '../ChatItem';
 import InputArea from '../InputArea';
@@ -56,7 +56,7 @@ export default class Robot extends Component {
             </li>
         );
         return (
-                <div className="robot-wrapper">
+                <div className="chat-wrapper">
                     <ChatHeader title="机器人聊天"/>
                     <ul>
                         {listItems}

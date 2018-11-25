@@ -5,6 +5,7 @@ import {
   } from 'react-router-dom'
 
 import PrivateChat from '../../components/PrivateChat'
+import '../../assets/chat.scss'
 
 const mapStateToProps = (state) => ({
     allChatContent: state.allChatContentState

@@ -94,7 +94,7 @@ export default class PrivateChat extends Component {
     render() {  
         const { chatId } = this.props; 
         return (
-            <div className="robot-wrapper">
+            <div className="chat-wrapper">
                 <ChatHeader title={this.state.toUserInfo.name}/>
                 <ChatContentList ChatContent = {this.state.privateDetail} chatId = {chatId}/>
                 <InputArea sendMessage={this.sendMessage}/>
