@@ -1,15 +1,14 @@
 @import "../../assets//base.scss";
 .robot-wrapper {
-    padding-top: 5.8rem;
     height: 100%;
     width: 100%;
     position: relative;
     ul {
+        height: calc(100% - 110px);
         display: flex;
         flex-direction: column;
         list-style: none;
-        width: 100%;
-        padding-bottom:60px;
+        overflow-y: auto;
         li {
             padding: 0;
         }

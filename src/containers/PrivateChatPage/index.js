@@ -34,7 +34,6 @@ class PrivateChat extends Component {
             status: '1', //是否在线 0为不在线 1为在线
             time: Date.parse(new Date()) / 1000 //时间
         };
-        console.log('sendMessage', data);
         socket.emit('sendPrivateMsg', data);
         // 存此条私聊信息到本地
         data.time = toNomalTime(data.time);
@@ -42,11 +41,9 @@ class PrivateChat extends Component {
         this.setState((state)=>({
             privateDetail: [...state.privateDetail, data]
         }), ()=>{
-            console.log('push in allChatContent', data);
             // push in allChatContent
             this.props.updateAllChatContentBySent({allChatContent, newChatContent: data, chatType:'privateChat'});
         });
-        // this.$store.commit('updateListMutation', data);
     }
 
     // 获取socket消息

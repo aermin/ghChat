@@ -1,12 +1,11 @@
 @import "../../assets/base.scss";
 .chat-header-wrapper{
     border-bottom: 1px solid $border;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 66px;
-    display: flex;
-    align-items: center;
+    height: 60px;
+    z-index: 99;
+    background-color: #fff;
+    line-height: 60px;
+    overflow: hidden;
     .chat-title{
         padding-left: 10px;
         font-size: 18px;

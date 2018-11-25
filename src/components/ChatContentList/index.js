@@ -15,11 +15,9 @@ export default class ChatContentList extends Component {
           </li>
       );
       return (
-        <div>
           <ul>
               {listItems}
           </ul>
-        </div>
       )
   }
 }

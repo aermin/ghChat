@@ -4,8 +4,10 @@
     width: 100%;
     background-color: #62B2F2;
     display: flex;
-    padding: 8px;
+    height: 60px;
+    align-items: center;
     img{
+        margin-left: 10px;
         width: 50px;
         height: 50px;
         border-radius: 50%;
@@ -17,7 +19,6 @@
         transform: translateY(-50%);
         left: 76px;
         border-radius: 4px;
-        // width: 80px;
         background-color: #fff;
         .icon {
             width: 24px;

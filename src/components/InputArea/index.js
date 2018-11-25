@@ -21,10 +21,12 @@ export default class InputArea extends Component {
         render() {
             return (
                 <div className="input-msg">
-                    <svg className="icon emoji" aria-hidden="true"><use  xlinkHref="#icon-smile"></use></svg>
-                    <svg className="icon more" aria-hidden="true"><use  xlinkHref="#icon-more"></use></svg>
-                    <textarea value={this.state.inputMsg} onChange={this.inputMsgChange}></textarea>
-                    <p className="btn" onClick={this.sendMessage}>发送</p>
+                        <div className="left">
+                                <svg className="icon emoji" aria-hidden="true"><use  xlinkHref="#icon-smile"></use></svg>
+                                <svg className="icon more" aria-hidden="true"><use  xlinkHref="#icon-more"></use></svg>
+                        </div>
+                        <textarea value={this.state.inputMsg} onChange={this.inputMsgChange}></textarea>
+                        <p className="btn" onClick={this.sendMessage}>发送</p>
                 </div>
             )
        }
