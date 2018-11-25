@@ -1,6 +1,5 @@
 const GET_HOME_PAGE_LIST = "GET_HOME_PAGE_LIST";
 const GET_ALL_CHAT_CONTENT = "GET_ALL_CHAT_CONTENT";
-const UPDATE_ALL_CHAT_CONTENT = "UPDATE_ALL_CHAT_CONTENT";
 
 
 import Request from '../../utils/request';
@@ -66,30 +65,9 @@ const getAllChatContentAction = async (homePageList) => {
     };
 }
 
- const updateAllChatContentByGotAction = async ({allChatContent, newChatContent, chatType}) => {
-    const mapKey = chatType === 'privateChat' ? newChatContent.from_user : newChatContent.groupId;
-    allChatContent[chatType].get(parseInt(mapKey)).privateDetail.push(newChatContent);
-    return {
-        type: UPDATE_ALL_CHAT_CONTENT,
-        data: allChatContent
-    }
- }
-
-const updateAllChatContentBySentAction = async ({allChatContent, newChatContent, chatType}) => {
-    const mapKey = chatType === 'privateChat' ? newChatContent.to_user : newChatContent.groupId;
-    allChatContent[chatType].get(parseInt(mapKey)).privateDetail.push(newChatContent);
-    return {
-        type: UPDATE_ALL_CHAT_CONTENT,
-        data: allChatContent
-    }
- }
-
 export {
     GET_HOME_PAGE_LIST,
     GET_ALL_CHAT_CONTENT,
-    UPDATE_ALL_CHAT_CONTENT,
     getHomePageListAction,
     getAllChatContentAction,
-    updateAllChatContentByGotAction,
-    updateAllChatContentBySentAction
 }

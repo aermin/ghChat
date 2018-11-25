@@ -1,32 +1,25 @@
 
 import React, { Component } from "react";
 import ChatItem from '../ChatItem';
+import {toNomalTime} from "../../utils/transformTime";
 export default class ChatContentList extends Component {
-	constructor(){
-   super();
-   this.state = {}
-  }
-  render() {
-      console.log('this.props.chatId', this.props.chatId);
-      const listItems = this.props.ChatContent.map((item,index) =>
-          <li key={index}>
-              {parseInt(this.props.chatId) === item.from_user ? <ChatItem me={true} img={item.avator} msg={item.message} name={item.name} time={item.time} />
-              : <ChatItem img={item.avator}  msg={item.message} name={item.name} time={item.time} />}
-          </li>
-      );
-      return (
-          <ul>
-              {listItems}
-          </ul>
-      )
-  }
+    constructor(){
+        super();
+        this.ulDom = React.createRef();
+    }
+    render() {
+        const listItems = this.props.ChatContent.map((item,index) => {
+            const isMe = parseInt(this.props.chatId) === item.from_user ? false : true; 
+            const time = toNomalTime(item.time);
+            return (<li key={index}>
+                        <ChatItem me={isMe} img={item.avator} msg={item.message} name={item.name} time={time} />
+                    </li>)
+            }
+        );
+        return (
+            <ul className="chat-content-list">
+                {listItems}
+            </ul>
+        )
+    }
 }
-
-// const mapStateToProps = (state) => {
-
-// }
-
-// const mapDispatchToProps = (dispatch) => {
-// }
-
-// export default connect(mapStateToProps, mapDispatchToProps)(ChatContentList);

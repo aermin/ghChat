@@ -1,4 +1,5 @@
-import {GET_HOME_PAGE_LIST, GET_ALL_CHAT_CONTENT, UPDATE_ALL_CHAT_CONTENT}  from './getHomePageListAction';
+import {GET_HOME_PAGE_LIST, GET_ALL_CHAT_CONTENT}  from './getHomePageListAction';
+import {UPDATE_ALL_CHAT_CONTENT} from '../PrivateChatPage/privateChatAction'
 
 const getHomePageListReducer = (state = [], action) => {
     switch (action.type) {
