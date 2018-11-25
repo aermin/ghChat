@@ -6,16 +6,10 @@ import Spinner from '../spinner';
 export default class HomePageList extends Component {
     	constructor(props){
 		    super(props);
-            this.state = {
-                showSpinner: true
-            }
+            // this.state = {
+            //     showSpinner: false
+            // }
         };
-        async componentDidMount(){
-             await this.props.getHomePageList();
-             await this.props.getAllChatContent(this.props.homePageList);
-            console.log('this.props.allChatContent', this.props.allChatContent);
-             this.setState({showSpinner: false});
-        }
         render() {
             const listItems = this.props.homePageList.map((data,index) =>
                 <li key={index}>
@@ -31,7 +25,8 @@ export default class HomePageList extends Component {
              );
             return (
                     <div className="home-page-list-wrapper">
-                        {this.state.showSpinner && <Spinner /> }
+                        {/*TODO*/}
+                        {/* {this.state.showSpinner && <Spinner /> } */}
                         <ul>{listItems}</ul>
                     </div>       
             )
@@ -39,6 +34,5 @@ export default class HomePageList extends Component {
 }
 
 HomePageList.propTypes = {
-    getHomePageList: PropTypes.func,
     homePageList: PropTypes.array
 }

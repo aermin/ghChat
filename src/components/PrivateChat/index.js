@@ -67,12 +67,12 @@ export default class PrivateChat extends Component {
             privateDetail:  privateDetail
         })
     }
-
-    scrollToBottom() {
+    
+    scrollToBottom(time = 0) {
         const ulDom = document.getElementsByClassName('chat-content-list')[0];
         setTimeout(() => {
             ulDom.scrollTop = ulDom.scrollHeight + 10000;
-        }, 0)
+        }, time)
     }
 
     async componentDidMount(){
@@ -80,6 +80,7 @@ export default class PrivateChat extends Component {
         await this.setState({fromUserInfo});
         const {allChatContent, chatId} = this.props;
         await this.getChatContent({allChatContent, chatId});
+        this.scrollToBottom(200);
         this.getMsgOnSocket();
     }
 

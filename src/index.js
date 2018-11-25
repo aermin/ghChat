@@ -3,7 +3,7 @@ import ReactDom from 'react-dom';
 import {AppContainer} from 'react-hot-loader';
 import {Provider} from 'react-redux'; //让所有容器组件都可以访问store，而不必显示地传递它。只需要在渲染根组件时使用即可。
 import store from './redux/store';
-import { getHomePageListAction,  getAllChatContentAction} from "./containers/HomePageList/getHomePageListAction";
+import { getHomePageListAction,  getAllChatContentAction} from "./redux/actions/initAction";
 import {BrowserRouter as Router} from 'react-router-dom';
 import App from './App';
 // import axios from 'axios'
@@ -21,6 +21,13 @@ if (module.hot) {
 }
 
 AxiosHandle.axiosConfigInit();
+
+getHomePageListAction().then(res =>{
+    store.dispatch(res);
+    getAllChatContentAction(res.data).then(res => {
+        store.dispatch(res);
+    });
+})
 
 function renderWithHotReload(RootElement) {
     ReactDom.render(

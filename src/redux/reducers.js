@@ -1,7 +1,7 @@
 import {combineReducers} from "redux";
 
 import robotReducer from '../containers/RobotPage/robotRducer';
-import {getHomePageListReducer, getAllChatContentReducer} from '../containers/HomePageList/getHomePageListReducer';
+import {getHomePageListReducer, getAllChatContentReducer} from './reducers/initReducer';
 import whichShow from './reducers/whichShow';
 
 

@@ -15,8 +15,7 @@ export default class Robot extends Component {
         this.state = {
             time: toNomalTime(Date.parse(new Date()) / 1000),
             inputMsg: "",
-            userInfo:{},
-            isScrollToBottom: true
+            userInfo:{}
         }
     }
     scrollToBottom(time = 0) {
@@ -41,12 +40,21 @@ export default class Robot extends Component {
 
     }
     componentWillMount(){
+        console.log('componentWillMount');
         this.setState({
             userInfo:JSON.parse(localStorage.getItem("userInfo"))
         }) 
     }
+
     componentDidMount(){
        this.scrollToBottom(200);
+    }
+
+    shouldComponentUpdate(nextProps) {
+        if (nextProps.robotState === this.props.robotState) {
+            return false;
+        }
+        return true;
     }
 
     render() {
