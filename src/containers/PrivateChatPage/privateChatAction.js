@@ -1,7 +1,7 @@
 const UPDATE_ALL_CHAT_CONTENT = "UPDATE_ALL_CHAT_CONTENT";
 
 
- const updateAllChatContentByGotAction = async ({allChatContent, newChatContent, chatType}) => {
+ const updateAllChatContentByGotAction = ({allChatContent, newChatContent, chatType}) => {
     const mapKey = chatType === 'privateChat' ? newChatContent.from_user : newChatContent.groupId;
     allChatContent[chatType].get(mapKey).privateDetail.push(newChatContent);
     return {
@@ -10,7 +10,7 @@ const UPDATE_ALL_CHAT_CONTENT = "UPDATE_ALL_CHAT_CONTENT";
     }
  }
 
-const updateAllChatContentBySentAction = async ({allChatContent, newChatContent, chatType}) => {
+const updateAllChatContentBySentAction = ({allChatContent, newChatContent, chatType}) => {
     const mapKey = chatType === 'privateChat' ? newChatContent.to_user : newChatContent.groupId;
     allChatContent[chatType].get(mapKey).privateDetail.push(newChatContent);
     return {

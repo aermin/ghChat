@@ -40,45 +40,45 @@ let getUserInfo = (user_id) => {
 }
 
 // 通过要查看的用户id 查询是否是本机用户的好友  如果是 返回user_id 和 remark 备注
-let isFriend = (user_id, other_user_id) => {
+let isFriend = (user_id, from_user) => {
 	const _sql =
-		'SELECT  * FROM user_user_relation  AS u WHERE  u.user_id = ? AND u.other_user_id = ? '
-	return query(_sql, [user_id, other_user_id]);
+		'SELECT  * FROM user_user_relation  AS u WHERE  u.user_id = ? AND u.from_user = ? '
+	return query(_sql, [user_id, from_user]);
 }
 
 // 加为好友 单方面
-let addAsFriend = (user_id, other_user_id, time) => {
+let addAsFriend = (user_id, from_user, time) => {
 	const _sql =
-		'INSERT INTO user_user_relation(user_id,other_user_id,time) VALUES (?,?,?)'
-	return query(_sql, [user_id, other_user_id, time]);
+		'INSERT INTO user_user_relation(user_id,from_user,time) VALUES (?,?,?)'
+	return query(_sql, [user_id, from_user, time]);
 }
 
 //两边都互加为好友
-// let addFriendEachOther = (user_id,other_user_id)=>{
+// let addFriendEachOther = (user_id,from_user)=>{
 //     const _sql =
-//   'INSERT INTO user_user_relation(user_id,other_user_id) VALUES (?,?)'
-//     return query(_sql, [user_id,other_user_id]);
+//   'INSERT INTO user_user_relation(user_id,from_user) VALUES (?,?)'
+//     return query(_sql, [user_id,from_user]);
 // }
 
 // 删除好友
-let delFriend = (user_id, other_user_id) => {
+let delFriend = (user_id, from_user) => {
 	const _sql =
-		'DELETE FROM  user_user_relation WHERE user_id = ? AND other_user_id = ?'
-	return query(_sql, [user_id, other_user_id]);
+		'DELETE FROM  user_user_relation WHERE user_id = ? AND from_user = ?'
+	return query(_sql, [user_id, from_user]);
 }
 
 //屏蔽好友
-let shieldFriend = (status, user_id, other_user_id) => {
+let shieldFriend = (status, user_id, from_user) => {
 	const _sql =
-		'UPDATE  user_user_relation  SET shield = ?  WHERE  user_id = ? AND other_user_id = ? '
-	return query(_sql, [status, user_id, other_user_id]);
+		'UPDATE  user_user_relation  SET shield = ?  WHERE  user_id = ? AND from_user = ? '
+	return query(_sql, [status, user_id, from_user]);
 }
 
 //修改备注
-let editorRemark = (remark, user_id, other_user_id) => {
+let editorRemark = (remark, user_id, from_user) => {
 	const _sql =
-		'UPDATE  user_user_relation  SET remark = ?  WHERE  user_id = ? AND other_user_id = ? '
-	return query(_sql, [remark, user_id, other_user_id]);
+		'UPDATE  user_user_relation  SET remark = ?  WHERE  user_id = ? AND from_user = ? '
+	return query(_sql, [remark, user_id, from_user]);
 }
 
 

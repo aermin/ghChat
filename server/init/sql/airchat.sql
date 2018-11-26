@@ -206,7 +206,7 @@ DROP TABLE IF EXISTS `user_user_relation`;
 CREATE TABLE `user_user_relation` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL COMMENT '用户',
-  `other_user_id` int(11) NOT NULL COMMENT '用户的朋友',
+  `from_user` int(11) NOT NULL COMMENT '用户的朋友',
   `remark` varchar(10) DEFAULT '' COMMENT '备注',
   `shield` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0不屏蔽 1屏蔽',
   `time` int(11) NOT NULL,
@@ -216,7 +216,7 @@ CREATE TABLE `user_user_relation` (
 LOCK TABLES `user_user_relation` WRITE;
 /*!40000 ALTER TABLE `user_user_relation` DISABLE KEYS */;
 
-INSERT INTO `user_user_relation` (`id`, `user_id`, `other_user_id`, `remark`, `shield`, `time`)
+INSERT INTO `user_user_relation` (`id`, `user_id`, `from_user`, `remark`, `shield`, `time`)
 VALUES
 	(1,1,14,'网友',0,1518348308),
 	(2,14,1,'23333',0,1518745801);

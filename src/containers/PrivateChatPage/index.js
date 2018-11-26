@@ -1,5 +1,6 @@
 import {connect} from 'react-redux';
 import { updateAllChatContentByGotAction, updateAllChatContentBySentAction } from './privateChatAction';
+import {updateHomePageListAction} from '../HomePageList/homePapeListAction';
 import {
     withRouter,
   } from 'react-router-dom'
@@ -8,15 +9,19 @@ import PrivateChat from '../../components/PrivateChat'
 import '../../assets/chat.scss'
 
 const mapStateToProps = (state) => ({
-    allChatContent: state.allChatContentState
+    allChatContent: state.allChatContentState,
+    homePageList: state.homePageListState
 })
 
 const mapDispatchToProps = (dispatch)=> ({
-    updateAllChatContentByGot: async ({allChatContent, newChatContent, chatType}) => {
-        dispatch(await updateAllChatContentByGotAction({allChatContent,newChatContent,chatType}))
+    updateAllChatContentByGot: (arg = {}) => {
+        dispatch(updateAllChatContentByGotAction({...arg}))
     },
-    updateAllChatContentBySent: async ({allChatContent, newChatContent, chatType}) => {
-        dispatch(await updateAllChatContentBySentAction({allChatContent,newChatContent,chatType}))
+    updateAllChatContentBySent: (arg = {}) => {
+        dispatch(updateAllChatContentBySentAction({...arg}))
+    },
+    updateHomePageList: (arg = {}) => {
+        dispatch(updateHomePageListAction({...arg}));
     }
 })
 

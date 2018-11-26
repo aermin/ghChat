@@ -18,13 +18,13 @@ const getHomePageListAction = async () => {
         const { groupList, privateList } = res.data;
         groupList.forEach(element => {
             element.type = "group";
-            element.time = element.time ? toNomalTime(element.time) : toNomalTime(element.creater_time);
+            element.time = element.time ? element.time : element.creater_time;
             element.id = element.group_id;
         });
         privateList.forEach(element => {
             element.type = "private";
-            element.time = element.time ? toNomalTime(element.time) : toNomalTime(element.be_friend_time);
-            element.id = element.other_user_id;
+            element.time = element.time ? element.time : element.be_friend_time;
+            element.id = element.from_user;
             // element.unread = 0;
         });
         const allMsgList = groupList.concat(privateList);
@@ -44,11 +44,11 @@ const getAllChatContentAction = async (homePageList) => {
     for (const item of homePageList) {
         try {
             let res;
-            if (item.other_user_id) {
+            if (item.from_user) {
                 res = await Request.axios('get', '/api/v1/private_chat', {
-                    to_user: item.other_user_id
+                    to_user: item.from_user
                 });
-                allChatContent.privateChat.set(item.other_user_id, res.data);
+                allChatContent.privateChat.set(item.from_user, res.data);
             } else if (item.group_id) {
                 res = await Request.axios('get', '/api/v1/group_chat', {
                     groupId: item.group_id

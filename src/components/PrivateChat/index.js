@@ -33,9 +33,11 @@ export default class PrivateChat extends Component {
         socket.emit('sendPrivateMsg', data);
         // 存此条私聊信息到本地
         const {allChatContent} = this.props;
-        this.setState((state)=>({
+        this.setState((state) => {
+          console.log('我在sendMessage setState了');
+          return ({
             privateDetail: [...state.privateDetail, data]
-        }), ()=>{
+        })}, ()=>{
             this.scrollToBottom();
             // push in allChatContent
             this.props.updateAllChatContentBySent({allChatContent, newChatContent: data, chatType:'privateChat'});
@@ -44,33 +46,41 @@ export default class PrivateChat extends Component {
 
     // 获取socket消息
     getMsgOnSocket() {
-        socket.removeAllListeners('getPrivateMsg');
+        socket.removeAllListeners('getPrivateMsg'); // make sure there is just one listener of getPrivateMsg
         socket.on('getPrivateMsg',  (data) => {
             console.log('getMsgOnSocket', data);
-            const {allChatContent, chatId} = this.props;
+            console.log('this.props', this.props);
+            const {allChatContent, chatId, homePageList} = this.props;
+            this.props.updateHomePageList({data, homePageList});
+            // TODO: judge chatType from group and private
+            // push in allChatContent
+            this.props.updateAllChatContentByGot({allChatContent, newChatContent: data, chatType:'privateChat'});
+            console.log(data.from_user, 'data.from_user === chatId', chatId);
             if (data.from_user !== chatId) { // not current user's message
-              this.props.updateAllChatContentByGot({allChatContent, newChatContent: data, chatType:'privateChat'});
+              console.log('not current user message');
               return;
             }
-            this.setState((state)=>({
-                privateDetail: [...state.privateDetail, data]
-            }), ()=>{
+            this.scrollToBottom();
+            this.setState((state)=>{
+                console.log('我在getMsgOnSocket setState了', state.privateDetail);
+                return ({
+                privateDetail: state.privateDetail
+            })}, ()=>{
                 this.scrollToBottom();
-                // push in allChatContent
-                this.props.updateAllChatContentByGot({allChatContent, newChatContent: data, chatType:'privateChat'});
-            });
-           
+            });  
         })
     }
 
-    getChatContent ({allChatContent, chatId}) {
+    async setChatContent ({allChatContent, chatId}) {
         const { privateChat } = allChatContent; // privateChat is a Map
         if (!privateChat) return; 
         const { privateDetail,  userInfo} = privateChat.get(chatId);
-        this.setState({
+        console.log('setChatContent in privateChat', privateDetail);
+        await this.setState({
             toUserInfo: userInfo,
             privateDetail:  privateDetail
         })
+        console.log('我在setChatContent setState了');
     }
     
     scrollToBottom(time = 0) {
@@ -81,25 +91,29 @@ export default class PrivateChat extends Component {
     }
 
     async componentDidMount(){
-        console.log('componentDidMount');
+        console.log('componentDidMount in privateChat');
         const fromUserInfo =  JSON.parse(localStorage.getItem("userInfo"));
         await this.setState({fromUserInfo});
-        const {allChatContent, chatId} = this.props;
-        await this.getChatContent({allChatContent, chatId});
-        this.scrollToBottom(200);
+        const {allChatContent, chatId} = this.props; 
+        await this.setChatContent({allChatContent, chatId});
         this.getMsgOnSocket();
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('componentWillReceiveProps', nextProps);
+        console.log('componentWillReceiveProps in privateChat', nextProps);
         const {allChatContent, chatId} = nextProps;
-        this.getChatContent({allChatContent, chatId});
-        this.getMsgOnSocket();
+        this.setChatContent({allChatContent, chatId});
+        this.scrollToBottom(200);
+        // this.getMsgOnSocket();
     }
 
     componentDidUpdate() {
-        console.log('componentDidUpdate');
+        console.log('componentDidUpdate in privateChat');
         this.scrollToBottom();
+    }
+
+    componentWillUnmount() {
+      console.log('componentWillUnmount in privateChat', );
     }
 
     render() {  
