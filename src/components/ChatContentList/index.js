@@ -9,10 +9,11 @@ export default class ChatContentList extends Component {
     }
     render() {
         const listItems = this.props.ChatContent.map((item,index) => {
-            const isMe = this.props.chatId === item.from_user ? false : true; 
+            const isMe = this.props.chatId === item.from_user ? false : true;
+            const message = item.message.split(': ')[1];
             const time = toNomalTime(item.time);
             return (<li key={index}>
-                        <ChatItem me={isMe} img={item.avator} msg={item.message} name={item.name} time={time} />
+                        <ChatItem me={isMe} img={item.avator} msg={message} name={item.name} time={time} />
                     </li>)
             }
         );

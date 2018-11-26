@@ -2,18 +2,14 @@ import React, { Component } from 'react';
 import './index.scss'; 
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
+import {toNomalTime} from "../../utils/transformTime";
 import Spinner from '../spinner';
 export default class HomePageList extends Component {
     	constructor(props){
 		    super(props);
-            this.state = {
-                homePageList: [],
+            // this.state = {
                 // showSpinner: false
-            }
-        }
-
-        componentDidMount() {
-            this.setState({ homePageList: this.props.homePageList });
+            // }
         }
 
         render() {
@@ -23,8 +19,8 @@ export default class HomePageList extends Component {
                         <img src={data.type === 'group' ? data.group_avator : data.avator } alt={data.type === 'group' ? "群头像" : "用户头像"} className="img" />
                         {/* {data.unread &&<span className={data.type === 'group' ? "group-unread" :"private-unread" }>{data.unread}</span>} */}
                         <div className="content">
-                            <div className="title">{data.type === 'group' ? data.group_name : data.name}<span>{data.time}</span></div>
-                            <div className="message">{data.name ? `${data.name}: ${data.message}` : data.message}</div>
+                            <div className="title">{data.type === 'group' ? data.group_name : data.name}<span>{toNomalTime(data.time)}</span></div>
+                            <div className="message">{data.message}</div>
                         </div>
                     </Link>
                 </li>

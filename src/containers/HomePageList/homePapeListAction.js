@@ -1,9 +1,10 @@
 import { List } from 'immutable';
 const UPDATE_HOME_PAGE_LIST = "UPDATE_HOME_PAGE_LIST";
 
-const updateHomePageListAction = ({homePageList, data}) => {
+const updateHomePageListAction = ({homePageList, data, myUserId}) => {
   const homePageListCopy = [...List(homePageList)];
-  const chatFromId = data.type === 'private' ? data.from_user : data.to_group;
+  const userId = data.from_user === myUserId ? data.to_user : data.from_user;
+  const chatFromId = data.type === 'private' ? userId : data.to_group;
   const chatExist = homePageListCopy.find((e) => e.id === chatFromId);
   if (chatExist) {
     const length = homePageListCopy.length;

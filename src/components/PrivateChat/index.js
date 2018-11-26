@@ -25,14 +25,14 @@ export default class PrivateChat extends Component {
             to_user: toUserInfo.user_id, //对方id
             avator: fromUserInfo.avator, //自己的头像
             name: fromUserInfo.name,
-            message: value, //消息内容
+            message: `${fromUserInfo.name}: ${value}`, //消息内容
             type: 'private',
             status: '1', //是否在线 0为不在线 1为在线
             time: Date.parse(new Date()) / 1000 //时间
         };
         socket.emit('sendPrivateMsg', data);
         // 存此条私聊信息到本地
-        const {allChatContent} = this.props;
+        const { allChatContent, homePageList } = this.props;
         this.setState((state) => {
           console.log('我在sendMessage setState了');
           return ({
@@ -40,6 +40,7 @@ export default class PrivateChat extends Component {
         })}, ()=>{
             this.scrollToBottom();
             // push in allChatContent
+            this.props.updateHomePageList({data, homePageList, myUserId: fromUserInfo.user_id});
             this.props.updateAllChatContentBySent({allChatContent, newChatContent: data, chatType:'privateChat'});
         });
     }
@@ -49,9 +50,9 @@ export default class PrivateChat extends Component {
         socket.removeAllListeners('getPrivateMsg'); // make sure there is just one listener of getPrivateMsg
         socket.on('getPrivateMsg',  (data) => {
             console.log('getMsgOnSocket', data);
-            console.log('this.props', this.props);
+            const { user_id } = this.state.fromUserInfo;
             const {allChatContent, chatId, homePageList} = this.props;
-            this.props.updateHomePageList({data, homePageList});
+            this.props.updateHomePageList({data, homePageList, myUserId : user_id});
             // TODO: judge chatType from group and private
             // push in allChatContent
             this.props.updateAllChatContentByGot({allChatContent, newChatContent: data, chatType:'privateChat'});
