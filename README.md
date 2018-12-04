@@ -1,7 +1,4 @@
 # react-chat
-a web chat tool with react 
-
-这次为了更完美，不断推翻之前的写法(vue-chat的代码用react实现一遍还是挺快)，几个地方暂时没想到更优的实现方式(特别是聊天模块的前后端部分有没有性能更佳的实现方式)，感觉写了也是不满意，先停更一段时间，好好沉淀一番&&研究公司的东西去。
 
 ![image](https://user-images.githubusercontent.com/24861316/42560354-0d569eb0-8529-11e8-924f-948bdc786426.png)
 
