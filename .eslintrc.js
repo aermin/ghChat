@@ -81,22 +81,5 @@ module.exports = {
     "react/require-default-props": 1,
     "no-mixed-operators": 0,
     "react/no-did-mount-set-state": 0, // dom size detection after mount may require setState in didMount
-  },
-  overrides: [
-    {
-      files: ['*.test.js'],
-      env: {
-        jest: true
-      },
-      rules: {
-        "no-eval": 0,
-      }
-    },
-    {
-      files: ['**/i18n/*.js'],
-      rules: {
-        "quotes": 0,
-      }
-    }
-  ]
+  }
 };

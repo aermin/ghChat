@@ -1,13 +1,14 @@
-import React from "react";
+import React from 'react';
 
-import { BrowserRouter as Router, Route, withRouter } from "react-router-dom";
+import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom';
 
-import Bundle from "./Bundle";
-import RegisterPage from "bundle-loader?lazy&name=RegisterPage!../containers/RegisterPage";
-import LogInPage from "bundle-loader?lazy&name=LogInPage!../containers/LogInPage";
-import ContentLeft from "bundle-loader?lazy&name=ContentLeft!../containers/ContentLeft";
-import ContentRight from "bundle-loader?lazy&name=ContentRight!../containers/ContentRight";
-const Loading = function() {
+import RegisterPage from 'bundle-loader?lazy&name=RegisterPage!../containers/RegisterPage';
+import LogInPage from 'bundle-loader?lazy&name=LogInPage!../containers/LogInPage';
+import ContentLeft from 'bundle-loader?lazy&name=ContentLeft!../containers/ContentLeft';
+import ContentRight from 'bundle-loader?lazy&name=ContentRight!../containers/ContentRight';
+import Bundle from './Bundle';
+
+const Loading = function () {
   return <div>Loading...</div>;
 };
 
@@ -18,42 +19,44 @@ const createComponent = component => props => (
 );
 
 const routes = [
-  { path: '/',
+  {
+    path: '/',
     exact: true
   },
-  { path: '/robot',
+  {
+    path: '/robot',
     exact: true
   },
-  { path: '/group_chat/:group_id',
+  {
+    path: '/group_chat/:group_id',
     exact: true
   },
-  { path: '/private_chat/:user_id',
+  {
+    path: '/private_chat/:user_id',
     exact: true
-  },  
-]
+  },
+];
 console.log('router-props', window.location.pathname);
 const getRouter = () => (
   <Router>
-        <div className = 'layout-wrapper'>
-                  <Route  path="/register" exact= {true} component={createComponent(RegisterPage)} />
-                  <Route  path="/login" exact= {true} component={createComponent(LogInPage)} />
-                  {routes.map((route, index) => (
-                    <Route
-                        key={index}
-                        path={route.path}
-                        exact={route.exact}
-                        component={createComponent(ContentLeft)}
-                      />
-                  ))}
-                  {routes.map((route, index) => (
-                    <Route
-                      key={index}
-                      path={route.path}
-                      exact={route.exact}
-                      component={createComponent(ContentRight)}
-                    />
-                  ))}
-        </div> 
+    <div className="layout-wrapper">
+      <Route path="/register" exact component={createComponent(RegisterPage)} />
+      <Route path="/login" exact component={createComponent(LogInPage)} />
+      {routes.map((route, index) => (
+        <Route
+          key={index}
+          path={route.path}
+          exact={route.exact}
+          component={createComponent(ContentLeft)} />
+      ))}
+      {routes.map((route, index) => (
+        <Route
+          key={index}
+          path={route.path}
+          exact={route.exact}
+          component={createComponent(ContentRight)} />
+      ))}
+    </div>
   </Router>
 );
 
