@@ -12,6 +12,8 @@ export default class HomePageList extends Component {
             // }
         }
 
+        //TODO: getMsgOnSocket
+
         render() {
             const listItems = this.props.homePageList.map((data,index) =>
                 <li key={index}>
