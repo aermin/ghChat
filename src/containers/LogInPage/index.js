@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import Request from '../../utils/request';
 import Modal from '../../components/Modal';
@@ -23,15 +24,13 @@ export default class LogIn extends Component {
   }
 
   async login() {
-    if (this.state.name !== '' && this.state.password !== '') {
-      let res;
+    const { name, password } = this.state;
+    if (name !== '' && password !== '') {
       try {
-        res = await Request.axios('post', '/api/v1/login', {
-          name: this.state.name,
-          password: this.state.password
-        });
+        const res = await Request.axios('post', '/api/v1/login', { name, password });
         if (res && res.success) {
           // 保存soket.io
+          // eslint-disable-next-line no-undef
           socket.emit('login', res.userInfo.user_id);
           localStorage.setItem('userToken', res.token);
           localStorage.setItem('userInfo', JSON.stringify(res.userInfo));
@@ -50,7 +49,7 @@ export default class LogIn extends Component {
         notification(error, 'error');
       }
     } else {
-      const msg = this.state.name === '' ? '请输入用户名' : '请输入密码';
+      const msg = name === '' ? '请输入用户名' : '请输入密码';
       notification(msg, 'warn');
     }
   }
@@ -67,19 +66,24 @@ export default class LogIn extends Component {
 
   confirm = (modalEvent) => {
     this.setState({
+      // eslint-disable-next-line react/no-unused-state
       visible: false
     });
+    // eslint-disable-next-line react/prop-types
     this.props.history.push('/');
   };
 
   render() {
+    const {
+      title, message, visible, modalEvent
+    } = this.state.modal;
     return (
       <div className="login">
         <Modal
-          title={this.state.modal.title}
-          content={this.state.modal.message}
-          visible={this.state.modal.visible}
-          modalEvent={this.state.modal.modalEvent}
+          title={title}
+          content={message}
+          visible={visible}
+          modalEvent={modalEvent}
           confirm={this.confirm}
           hasCancel={false}
         />

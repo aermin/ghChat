@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './style.scss';
 
 export default class InputArea extends Component {
@@ -10,7 +11,9 @@ export default class InputArea extends Component {
   }
 
   sendMessage = () => {
-    this.props.sendMessage(this.state.inputMsg);
+    const { sendMessage } = this.props;
+    const { inputMsg } = this.state;
+    sendMessage(inputMsg);
     this.state.inputMsg = '';
   }
 
@@ -21,15 +24,26 @@ export default class InputArea extends Component {
   }
 
   render() {
+    const { inputMsg } = this.state;
     return (
       <div className="input-msg">
         <div className="left">
           <svg className="icon emoji" aria-hidden="true"><use xlinkHref="#icon-smile" /></svg>
           <svg className="icon more" aria-hidden="true"><use xlinkHref="#icon-more" /></svg>
         </div>
-        <textarea value={this.state.inputMsg} onChange={this.inputMsgChange} />
+        <textarea value={inputMsg} onChange={this.inputMsgChange} />
         <p className="btn" onClick={this.sendMessage}>发送</p>
       </div>
     );
   }
 }
+
+
+InputArea.propTypes = {
+  sendMessage: PropTypes.func,
+};
+
+
+InputArea.defaultProps = {
+  sendMessage: undefined
+};

@@ -29,6 +29,7 @@ renderWithHotReload(App);
 /* 热更新 */
 if (module.hot) {
   module.hot.accept('./App', () => {
+    // eslint-disable-next-line global-require
     const NextApp = require('./App').default;
     renderWithHotReload(NextApp);
   });

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ChatHeader from '../ChatHeader';
 import InputArea from '../InputArea';
 import ChatContentList from '../ChatContentList';
@@ -18,7 +19,7 @@ export default class PrivateChat extends Component {
   }
 
     sendMessage = (value) => {
-      if (value.trim() == '') return;
+      if (value.trim() === '') return;
       const { toUserInfo, fromUserInfo } = this.state;
       const data = {
         from_user: fromUserInfo.user_id, // 自己的id
@@ -32,7 +33,9 @@ export default class PrivateChat extends Component {
       };
       socket.emit('sendPrivateMsg', data);
       // 存此条私聊信息到本地
-      const { allChatContent, homePageList } = this.props;
+      const {
+        allChatContent, homePageList, updateHomePageList, updateAllChatContentBySent
+      } = this.props;
       this.setState((state) => {
         console.log('我在sendMessage setState了');
         return ({
@@ -41,8 +44,8 @@ export default class PrivateChat extends Component {
       }, () => {
         this.scrollToBottom();
         // push in allChatContent
-        this.props.updateHomePageList({ data, homePageList, myUserId: fromUserInfo.user_id });
-        this.props.updateAllChatContentBySent({ allChatContent, newChatContent: data, chatType: 'privateChat' });
+        updateHomePageList({ data, homePageList, myUserId: fromUserInfo.user_id });
+        updateAllChatContentBySent({ allChatContent, newChatContent: data, chatType: 'privateChat' });
       });
     }
 
@@ -51,12 +54,14 @@ export default class PrivateChat extends Component {
       socket.removeAllListeners('getPrivateMsg'); // make sure there is just one listener of getPrivateMsg
       socket.on('getPrivateMsg', (data) => {
         console.log('getMsgOnSocket', data);
-        const { user_id } = this.state.fromUserInfo;
-        const { allChatContent, chatId, homePageList } = this.props;
-        this.props.updateHomePageList({ data, homePageList, myUserId: user_id });
+        const { fromUserInfo } = this.state;
+        const {
+          allChatContent, chatId, homePageList, updateHomePageList, updateAllChatContentByGot
+        } = this.props;
+        updateHomePageList({ data, homePageList, myUserId: fromUserInfo.user_id });
         // TODO: judge chatType from group and private
         // push in allChatContent
-        this.props.updateAllChatContentByGot({ allChatContent, newChatContent: data, chatType: 'privateChat' });
+        updateAllChatContentByGot({ allChatContent, newChatContent: data, chatType: 'privateChat' });
         console.log(data.from_user, 'data.from_user === chatId', chatId);
         if (data.from_user !== chatId) { // not current user's message
           console.log('not current user message');
@@ -121,12 +126,32 @@ export default class PrivateChat extends Component {
 
     render() {
       const { chatId } = this.props;
+      const { toUserInfo, privateDetail } = this.state;
       return (
         <div className="chat-wrapper">
-          <ChatHeader title={this.state.toUserInfo.name} />
-          <ChatContentList ChatContent={this.state.privateDetail} chatId={chatId} />
+          <ChatHeader title={toUserInfo.name} />
+          <ChatContentList ChatContent={privateDetail} chatId={chatId} />
           <InputArea sendMessage={this.sendMessage} />
         </div>
       );
     }
 }
+
+PrivateChat.propTypes = {
+  allChatContent: PropTypes.object,
+  homePageList: PropTypes.array,
+  updateHomePageList: PropTypes.func,
+  updateAllChatContentBySent: PropTypes.func,
+  updateAllChatContentByGot: PropTypes.func,
+  chatId: PropTypes.number
+};
+
+
+PrivateChat.defaultProps = {
+  allChatContent: {},
+  homePageList: [],
+  updateHomePageList: undefined,
+  updateAllChatContentBySent: undefined,
+  updateAllChatContentByGot: undefined,
+  chatId: undefined,
+};

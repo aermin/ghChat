@@ -14,18 +14,21 @@ export default class SignInSignUp extends Component {
   }
 
   handleChange = (event) => {
-    const target = event.target;
+    const { target } = event;
     this.setState({ [target.name]: target.value });
   }
 
   handleClick = () => {
-    this.props.setValue(this.state);
+    const { setValue } = this.props;
+    setValue(this.state);
   }
 
   render() {
-    const loginClass = this.props.isLogin ? 'active' : 'inactive';
-    const registerClass = this.props.isLogin ? 'inactive' : 'active';
-    const linkUrl = this.props.isLogin ? '/register' : '/login';
+    const { isLogin } = this.props;
+    const { name, password } = this.state;
+    const loginClass = isLogin ? 'active' : 'inactive';
+    const registerClass = isLogin ? 'inactive' : 'active';
+    const linkUrl = isLogin ? '/register' : '/login';
     return (
       <div className="formContent fadeInDown">
         <Link to={linkUrl}>
@@ -42,7 +45,7 @@ export default class SignInSignUp extends Component {
             type="text"
             className="fadeIn second"
             name="name"
-            value={this.state.name}
+            value={name}
             onChange={this.handleChange}
             placeholder="用户名"
               />
@@ -50,7 +53,7 @@ export default class SignInSignUp extends Component {
             type="password"
             className="fadeIn third"
             name="password"
-            value={this.state.password}
+            value={password}
             onChange={this.handleChange}
             placeholder="密码"
               />
@@ -69,4 +72,11 @@ export default class SignInSignUp extends Component {
 
 SignInSignUp.propTypes = {
   setValue: PropTypes.func,
+  isLogin: PropTypes.bool
+};
+
+
+SignInSignUp.defaultProps = {
+  setValue() {},
+  isLogin: false,
 };

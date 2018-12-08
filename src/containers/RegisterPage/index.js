@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import './index.scss';
 import Request from '../../utils/request';
@@ -23,13 +24,10 @@ export default class Register extends Component {
   }
 
   register = async () => {
-    if (this.state.name !== '' && this.state.password !== '') {
-      let res;
+    const { name, password } = this.state;
+    if (name !== '' && password !== '') {
       try {
-        const res = await Request.axios('post', '/api/v1/register', {
-          name: this.state.name,
-          password: this.state.password
-        });
+        const res = await Request.axios('post', '/api/v1/register', { name, password });
         if (res && res.success) {
           // 弹窗
           this.setState({
@@ -43,10 +41,10 @@ export default class Register extends Component {
           notification(res.message, 'error');
         }
       } catch (error) {
-        notification(err, 'error');
+        notification(error, 'error');
       }
     } else {
-      const msg = this.state.name === '' ? '请输入用户名' : '请输入密码';
+      const msg = name === '' ? '请输入用户名' : '请输入密码';
       notification(msg, 'warn');
     }
   };
@@ -63,19 +61,25 @@ export default class Register extends Component {
 
   confirm = (modalEvent) => {
     this.setState({
+      // eslint-disable-next-line react/no-unused-state
       visible: false
     });
+
+    // eslint-disable-next-line react/prop-types
     this.props.history.push('/login');
   };
 
   render() {
+    const {
+      title, message, visible, modalEvent
+    } = this.state.modal;
     return (
       <div className="register">
         <Modal
-          title={this.state.modal.title}
-          content={this.state.modal.message}
-          visible={this.state.modal.visible}
-          modalEvent={this.state.modal.modalEvent}
+          title={title}
+          content={message}
+          visible={visible}
+          modalEvent={modalEvent}
           confirm={this.confirm}
           hasCancel={false}
         />

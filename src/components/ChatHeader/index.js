@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './style.scss';
 
 export default class ChatHeader extends Component {
@@ -8,10 +9,20 @@ export default class ChatHeader extends Component {
   }
 
   render() {
+    const { title } = this.props;
     return (
       <div className="chat-header-wrapper">
-        <div className="chat-title">{this.props.title}</div>
+        <div className="chat-title">{title}</div>
       </div>
     );
   }
 }
+
+ChatHeader.propTypes = {
+  title: PropTypes.string,
+};
+
+
+ChatHeader.defaultProps = {
+  title: ''
+};

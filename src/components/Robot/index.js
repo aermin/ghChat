@@ -15,7 +15,7 @@ export default class Robot extends Component {
     this.state = {
       time: toNomalTime(Date.parse(new Date()) / 1000),
       inputMsg: '',
-      userInfo: {}
+      userInfo: {},
     };
   }
 
@@ -30,12 +30,14 @@ export default class Robot extends Component {
       this.setState({
         inputMsg: value
       }, async () => {
-        this.props.insertMsg(
-          { message: this.state.inputMsg }
+        const { insertMsg, getRobotMsg } = this.props;
+        const { inputMsg } = this.state;
+        insertMsg(
+          { message: inputMsg }
         );
         this.scrollToBottom();
-        await this.props.getRobotMsg(
-          { message: this.state.inputMsg }
+        await getRobotMsg(
+          { message: inputMsg }
         );
         this.scrollToBottom();
       });
@@ -53,17 +55,21 @@ export default class Robot extends Component {
     }
 
     shouldComponentUpdate(nextProps) {
-      if (nextProps.robotState === this.props.robotState) {
+      const { robotState } = this.props;
+      if (nextProps.robotState === robotState) {
         return false;
       }
       return true;
     }
 
     render() {
-      const listItems = this.props.robotState.map((msg, index) => (
+      const { robotState } = this.props;
+      const { time, userInfo } = this.state;
+      const robotImg = 'https://user-images.githubusercontent.com/24861316/47977782-fc0aac00-e0f4-11e8-9686-821e2f5342ca.jpeg';
+      const listItems = robotState.map((msg, index) => (
         <li key={index}>
-          {msg.user && <ChatItem img="https://user-images.githubusercontent.com/24861316/47977782-fc0aac00-e0f4-11e8-9686-821e2f5342ca.jpeg" msg={msg.message} name={msg.user} time={this.state.time} />}
-          {!msg.user && <ChatItem me img={this.state.userInfo.avator} msg={msg.message} name={this.state.userInfo.name} time={this.state.time} />}
+          {msg.user && <ChatItem img={robotImg} msg={msg.message} name={msg.user} time={time} />}
+          {!msg.user && <ChatItem me img={userInfo.avator} msg={msg.message} name={userInfo.name} time={time} />}
         </li>
       ));
       return (
@@ -82,4 +88,10 @@ Robot.propTypes = {
   insertMsg: PropTypes.func,
   getRobotMsg: PropTypes.func,
   robotState: PropTypes.array,
+};
+
+Robot.defaultProps = {
+  insertMsg: undefined,
+  getRobotMsg: undefined,
+  robotState: [],
 };

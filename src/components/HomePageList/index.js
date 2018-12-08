@@ -1,21 +1,16 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import './index.scss';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { toNomalTime } from '../../utils/transformTime';
 import Spinner from '../spinner';
 
-export default class HomePageList extends Component {
-  constructor(props) {
-    super(props);
-    // this.state = {
-    // showSpinner: false
-    // }
-  }
+export default class HomePageList extends PureComponent {
   // TODO: getMsgOnSocket
 
   render() {
-    const listItems = this.props.homePageList.map((data, index) => (
+    const { homePageList } = this.props;
+    const listItems = homePageList.map((data, index) => (
       <li key={index}>
         <Link to={data.type === 'group' ? `/group_chat/${data.group_id}` : `/private_chat/${data.from_user}`}>
           <img src={data.type === 'group' ? data.group_avator : data.avator} alt={data.type === 'group' ? '群头像' : '用户头像'} className="img" />
@@ -42,4 +37,8 @@ export default class HomePageList extends Component {
 
 HomePageList.propTypes = {
   homePageList: PropTypes.array
+};
+
+HomePageList.defaultProps = {
+  homePageList: []
 };
