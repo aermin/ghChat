@@ -1,4 +1,4 @@
-const { query } = require("../utils/db");
+const { query } = require('../utils/db');
 
 
 /**
@@ -10,16 +10,15 @@ const { query } = require("../utils/db");
  *          message 私聊信息
  *          time 时间
  *          avator 发送者的头像
-//  *          sex 发送者的性别 
+//  *          sex 发送者的性别
 //  *          place 发送者居住地
- *         status 发送者的是否在线 
+ *         status 发送者的是否在线
  */
-let getPrivateDetail = (from_user,to_user)=>{
-    const data = [from_user,to_user,to_user,from_user]
-    const _sql =  
-    'select p.from_user,p.to_user, p.message ,p.time ,i.avator , i.name ,i.status  from private__msg as p  inner join user_info as i  on p.from_user = i.id  where  (p.from_user = ? AND p.to_user   = ? )  or (p.from_user = ? AND p.to_user   = ? )  order by time '
-    return query(_sql, data);
-}
+const getPrivateDetail = (from_user, to_user) => {
+  const data = [from_user, to_user, to_user, from_user];
+  const _sql = 'select p.from_user,p.to_user, p.message ,p.time ,i.avator , i.name ,i.status  from private__msg as p  inner join user_info as i  on p.from_user = i.id  where  (p.from_user = ? AND p.to_user   = ? )  or (p.from_user = ? AND p.to_user   = ? )  order by time ';
+  return query(_sql, data);
+};
 
 /**
  * 存聊天记录
@@ -31,14 +30,15 @@ let getPrivateDetail = (from_user,to_user)=>{
  * @return
  */
 
-let savePrivateMsg = function({ from_user, to_user, message, name, time }) {
-    const data = [from_user, to_user, message, time];
-    let _sql =
-      " INSERT INTO private__msg(from_user,to_user,message ,time)  VALUES(?,?,?,?); ";
-    return query(_sql, data);
-  };
+const savePrivateMsg = function ({
+  from_user, to_user, message, name, time
+}) {
+  const data = [from_user, to_user, message, time];
+  const _sql = ' INSERT INTO private__msg(from_user,to_user,message ,time)  VALUES(?,?,?,?); ';
+  return query(_sql, data);
+};
 
-  module.exports = {
-    getPrivateDetail,
-    savePrivateMsg
-  };
+module.exports = {
+  getPrivateDetail,
+  savePrivateMsg
+};

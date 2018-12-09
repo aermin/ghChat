@@ -1,4 +1,4 @@
-const userModel = require("../models/user_info");
+const userModel = require('../models/user_info');
 
 /**
  *  通过user_id获取用户信息 （不包括密码）
@@ -6,15 +6,15 @@ const userModel = require("../models/user_info");
  * @return 用户名，性别，头像，最后登录时间，状态等
  */
 
-let getUserInfo = async (ctx, next) => {
-	const RowDataPacket = await userModel.getUserInfo(ctx.query.user_id),
-		userInfo = JSON.parse(JSON.stringify(RowDataPacket));
-	ctx.body = {
-		success: true,
-		data: {
-			userInfo
-		}
-	};
+const getUserInfo = async (ctx, next) => {
+  const RowDataPacket = await userModel.getUserInfo(ctx.query.user_id);
+  const userInfo = JSON.parse(JSON.stringify(RowDataPacket));
+  ctx.body = {
+    success: true,
+    data: {
+      userInfo
+    }
+  };
 };
 
 /**
@@ -23,15 +23,15 @@ let getUserInfo = async (ctx, next) => {
  * @return id，用户名，性别，头像，地方，github
  */
 
-let findUIByName = async (ctx, next) => {
-	const RowDataPacket = await userModel.findUIByName(ctx.query.name),
-		userInfo = JSON.parse(JSON.stringify(RowDataPacket));
-	ctx.body = {
-		success: true,
-		data: {
-			userInfo
-		}
-	};
+const findUIByName = async (ctx, next) => {
+  const RowDataPacket = await userModel.findUIByName(ctx.query.name);
+  const userInfo = JSON.parse(JSON.stringify(RowDataPacket));
+  ctx.body = {
+    success: true,
+    data: {
+      userInfo
+    }
+  };
 };
 
 /**
@@ -41,24 +41,28 @@ let findUIByName = async (ctx, next) => {
  *         否则返回空
  */
 
-let isFriend = async (ctx, next) => {
-	const RowDataPacket1 = await userModel.isFriend(
-			ctx.user_id,
-			ctx.query.from_user
-		),
-		RowDataPacket2 = await userModel.isFriend(
-			ctx.query.from_user,
-			ctx.user_id
-		),
-		isMyFriend = JSON.parse(JSON.stringify(RowDataPacket1)),
-		isHisFriend = JSON.parse(JSON.stringify(RowDataPacket2));
-	ctx.body = {
-		success: true,
-		data: {
-			isMyFriend: isMyFriend,
-			isHisFriend: isHisFriend
-		}
-	};
+const isFriend = async (ctx, next) => {
+  const RowDataPacket1 = await userModel.isFriend(
+    ctx.user_id,
+    ctx.query.from_user
+  );
+
+
+  const RowDataPacket2 = await userModel.isFriend(
+    ctx.query.from_user,
+    ctx.user_id
+  );
+
+
+  const isMyFriend = JSON.parse(JSON.stringify(RowDataPacket1));
+  const isHisFriend = JSON.parse(JSON.stringify(RowDataPacket2));
+  ctx.body = {
+    success: true,
+    data: {
+      isMyFriend,
+      isHisFriend
+    }
+  };
 };
 
 /**
@@ -68,39 +72,43 @@ let isFriend = async (ctx, next) => {
  * @return
  *
  */
-let agreeBeFriend = async (ctx, next) => {
-	const RowDataPacket1 = await userModel.isFriend(
-			ctx.user_id,
-			ctx.request.body.from_user
-		),
-		RowDataPacket2 = await userModel.isFriend(
-			ctx.request.body.from_user,
-			ctx.user_id
-		),
-		isMyFriend = JSON.parse(JSON.stringify(RowDataPacket1)),
-		isHisFriend = JSON.parse(JSON.stringify(RowDataPacket2));
-	console.log("isMyFriend", isMyFriend);
-	console.log("isHisFriend", isHisFriend);
-	//变成本机用户的朋友
-	if (isMyFriend.length === 0) {
-		await userModel.addAsFriend(
-			ctx.user_id,
-			ctx.request.body.from_user,
-			ctx.request.body.time
-		);
-	}
-	//本机用户变成ta的朋友
-	if (isHisFriend.length === 0) {
-		await userModel.addAsFriend(
-			ctx.request.body.from_user,
-			ctx.user_id,
-			ctx.request.body.time
-		);
-	}
-	ctx.body = {
-		success: true
-	};
-	console.log("添加好友成功");
+const agreeBeFriend = async (ctx, next) => {
+  const RowDataPacket1 = await userModel.isFriend(
+    ctx.user_id,
+    ctx.request.body.from_user
+  );
+
+
+  const RowDataPacket2 = await userModel.isFriend(
+    ctx.request.body.from_user,
+    ctx.user_id
+  );
+
+
+  const isMyFriend = JSON.parse(JSON.stringify(RowDataPacket1));
+  const isHisFriend = JSON.parse(JSON.stringify(RowDataPacket2));
+  console.log('isMyFriend', isMyFriend);
+  console.log('isHisFriend', isHisFriend);
+  // 变成本机用户的朋友
+  if (isMyFriend.length === 0) {
+    await userModel.addAsFriend(
+      ctx.user_id,
+      ctx.request.body.from_user,
+      ctx.request.body.time
+    );
+  }
+  // 本机用户变成ta的朋友
+  if (isHisFriend.length === 0) {
+    await userModel.addAsFriend(
+      ctx.request.body.from_user,
+      ctx.user_id,
+      ctx.request.body.time
+    );
+  }
+  ctx.body = {
+    success: true
+  };
+  console.log('添加好友成功');
 };
 
 /**
@@ -109,19 +117,19 @@ let agreeBeFriend = async (ctx, next) => {
  *         from_user  对方id
  * @return
  */
-let delFriend = async (ctx, next) => {
-	await userModel.delFriend(ctx.user_id, ctx.query.from_user)
-		.then(result => {
-			if (result) {
-				ctx.body = {
-					success: true
-				};
-				console.log("删除好友成功");
-			}
-		})
-		.catch(err => {
-			console.log(err);
-		});
+const delFriend = async (ctx, next) => {
+  await userModel.delFriend(ctx.user_id, ctx.query.from_user)
+    .then((result) => {
+      if (result) {
+        ctx.body = {
+          success: true
+        };
+        console.log('删除好友成功');
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 /**
@@ -131,23 +139,23 @@ let delFriend = async (ctx, next) => {
  *         from_user  对方id
  * @return
  */
-let shieldFriend = async (ctx, next) => {
-	await userModel.delFriend(
-			ctx.request.body.status,
-			ctx.request.body.user_id,
-			ctx.request.body.from_user
-		).then(result => {
-			console.log("shieldFriend", result);
-			if (result) {
-				ctx.body = {
-					success: true
-				};
-				console.log("(取消)屏蔽好友成功");
-			}
-		})
-		.catch(err => {
-			console.log(err);
-		});
+const shieldFriend = async (ctx, next) => {
+  await userModel.delFriend(
+    ctx.request.body.status,
+    ctx.request.body.user_id,
+    ctx.request.body.from_user
+  ).then((result) => {
+    console.log('shieldFriend', result);
+    if (result) {
+      ctx.body = {
+        success: true
+      };
+      console.log('(取消)屏蔽好友成功');
+    }
+  })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 /**
@@ -157,23 +165,23 @@ let shieldFriend = async (ctx, next) => {
  *         from_user  对方id
  * @return
  */
-let editorRemark = async (ctx, next) => {
-	await userModel.editorRemark(
-			ctx.request.body.remark,
-			ctx.user_id,
-			ctx.request.body.from_user
-		).then(result => {
-			console.log("editorRemark", result);
-			if (result) {
-				ctx.body = {
-					success: true
-				};
-				console.log("修改备注成功");
-			}
-		})
-		.catch(err => {
-			console.log(err);
-		});
+const editorRemark = async (ctx, next) => {
+  await userModel.editorRemark(
+    ctx.request.body.remark,
+    ctx.user_id,
+    ctx.request.body.from_user
+  ).then((result) => {
+    console.log('editorRemark', result);
+    if (result) {
+      ctx.body = {
+        success: true
+      };
+      console.log('修改备注成功');
+    }
+  })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 /**
@@ -185,30 +193,30 @@ let editorRemark = async (ctx, next) => {
  * 			user_id  本机用户id
  * @return
  */
-let editorInfo = async (ctx, next) => {
-	const data = [ctx.request.body.github, ctx.request.body.website, ctx.request.body.sex, ctx.request.body.place, ctx.user_id]
-	console.log('editorInfo', data)
-	await userModel.editorInfo(data).then(result => {
-			console.log("editorInfo", result);
-			if (result) {
-				ctx.body = {
-					success: true
-				};
-				console.log("修改个人信息成功");
-			}
-		})
-		.catch(err => {
-			console.log(err);
-		});
+const editorInfo = async (ctx, next) => {
+  const data = [ctx.request.body.github, ctx.request.body.website, ctx.request.body.sex, ctx.request.body.place, ctx.user_id];
+  console.log('editorInfo', data);
+  await userModel.editorInfo(data).then((result) => {
+    console.log('editorInfo', result);
+    if (result) {
+      ctx.body = {
+        success: true
+      };
+      console.log('修改个人信息成功');
+    }
+  })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 module.exports = {
-	getUserInfo,
-	findUIByName,
-	isFriend,
-	agreeBeFriend,
-	delFriend,
-	shieldFriend,
-	editorRemark,
-	editorInfo
+  getUserInfo,
+  findUIByName,
+  isFriend,
+  agreeBeFriend,
+  delFriend,
+  shieldFriend,
+  editorRemark,
+  editorInfo
 };

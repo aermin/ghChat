@@ -1,17 +1,18 @@
-const Koa = require("koa");
-const bodyParser = require("koa-bodyparser");
-const cors = require("koa2-cors");
-const dbConfig = require("./config").db;
-const router = require("./routes/index");
-const { query } = require("./utils/db");
-const socketModel = require("./models/soketHander");
-const { savePrivateMsg } = require("./models/privateChat")
+const Koa = require('koa');
+const bodyParser = require('koa-bodyparser');
+const cors = require('koa2-cors');
+const dbConfig = require('./config').db;
+const router = require('./routes/index');
+const { query } = require('./utils/db');
+const socketModel = require('./models/soketHander');
+const { savePrivateMsg } = require('./models/privateChat');
+
 const app = new Koa();
 
 // const server = require('http').Server(app.callback());
 // const io = require('socket.io')(server);
-const server = require("http").createServer(app.callback());
-const io = require("socket.io")(server);
+const server = require('http').createServer(app.callback());
+const io = require('socket.io')(server);
 // io.on('connection', function(){ /* … */ });
 server.listen(3000);
 
@@ -23,46 +24,46 @@ app.use(router.routes()).use(router.allowedMethods());
 
 global.query = query;
 
-io.on("connection", socket => {
+io.on('connection', (socket) => {
   const socketId = socket.id;
-  //登录
-  socket.on("login", async userId => {
+  // 登录
+  socket.on('login', async (userId) => {
     await socketModel.saveUserSocketId(userId, socketId);
   });
-  // 更新soketId 
-  socket.on("update", async (userId) => {
+  // 更新soketId
+  socket.on('update', async (userId) => {
     console.log(userId, '=update=', socketId);
     await socketModel.saveUserSocketId(userId, socketId);
     const arr = await socketModel.getUserSocketId(data.to_user);
   });
- //私聊
-  socket.on("sendPrivateMsg", async data => { 
-    await savePrivateMsg({...data});
+  // 私聊
+  socket.on('sendPrivateMsg', async (data) => {
+    await savePrivateMsg({ ...data });
     const arr = await socketModel.getUserSocketId(data.to_user);
     const RowDataPacket = arr[0];
     const socketId = JSON.parse(JSON.stringify(RowDataPacket)).socketid;
     console.log('socketId2333', socketId);
-    io.to(socketId).emit("getPrivateMsg", data);
+    io.to(socketId).emit('getPrivateMsg', data);
   });
- // 群聊
-  socket.on("sendGroupMsg", async data => {
-    io.sockets.emit("getGroupMsg", data);
+  // 群聊
+  socket.on('sendGroupMsg', async (data) => {
+    io.sockets.emit('getGroupMsg', data);
   });
 
- //加好友请求
-  socket.on("sendRequest", async data => {
-    console.log("sendRequest", data);
+  // 加好友请求
+  socket.on('sendRequest', async (data) => {
+    console.log('sendRequest', data);
     const arr = await socketModel.getUserSocketId(data.to_user);
     const RowDataPacket = arr[0];
     const socketId = JSON.parse(JSON.stringify(RowDataPacket)).socketid;
-    console.log('给谁的socketid',socketId)
-    io.to(socketId).emit("getresponse", data);
+    console.log('给谁的socketid', socketId);
+    io.to(socketId).emit('getresponse', data);
   });
 
-  socket.on("disconnect", data => {
-    console.log("disconnect", data);
+  socket.on('disconnect', (data) => {
+    console.log('disconnect', data);
   });
 });
 
 // app.listen(3000);
-console.log("服务器已启动,端口3000");
+console.log('服务器已启动,端口3000');
