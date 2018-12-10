@@ -10,7 +10,7 @@ const {
  *  @return  avator  发送人头像
  */
 const getGroupMsg = function (groupId) {
-  const _sql = 'SELECT g.message , g.time , g.from_user ,i.avator ,i.name FROM group_msg  As g inner join user_info AS i ON g.from_user = i.id  WHERE to_group = ? order by time ';
+  const _sql = 'SELECT g.message , g.time , g.from_user, g.to_group, i.avator ,i.name FROM group_msg  As g inner join user_info AS i ON g.from_user = i.id  WHERE to_group = ? order by time ';
   return query(_sql, groupId);
 };
 /**

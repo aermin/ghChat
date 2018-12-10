@@ -8,6 +8,31 @@ import Spinner from '../spinner';
 export default class HomePageList extends PureComponent {
   // TODO: getMsgOnSocket
 
+  subscribeSocket() {
+    socket.removeAllListeners('getPrivateMsg');
+    socket.on('getPrivateMsg', (data) => {
+      console.log('subscribeSocket for private chat', data);
+      const fromUserInfo = JSON.parse(localStorage.getItem('userInfo'));
+      const {
+        allChatContent, chatId, homePageList, updateHomePageList, updateAllChatContentByGot
+      } = this.props;
+      updateAllChatContentByGot({ allChatContent, newChatContent: data, chatType: 'privateChat' });
+      updateHomePageList({ data, homePageList, myUserId: fromUserInfo.user_id });
+    });
+    socket.on('getGroupMsg', () => {
+      console.log('subscribeSocket for group chat');
+    });
+  }
+
+  componentWillMount() {
+    console.log('home page list props', this.props);
+    this.subscribeSocket();
+  }
+
+  componentWillUnmount() {
+    console.log('componentWillUnmount in homePageList');
+  }
+
   render() {
     const { homePageList } = this.props;
     const listItems = homePageList.map((data, index) => (
@@ -36,9 +61,18 @@ export default class HomePageList extends PureComponent {
 }
 
 HomePageList.propTypes = {
-  homePageList: PropTypes.array
+  allChatContent: PropTypes.object,
+  homePageList: PropTypes.array,
+  updateHomePageList: PropTypes.func,
+  updateAllChatContentByGot: PropTypes.func,
+  chatId: PropTypes.number
 };
 
+
 HomePageList.defaultProps = {
-  homePageList: []
+  allChatContent: {},
+  homePageList: [],
+  updateHomePageList: undefined,
+  updateAllChatContentByGot: undefined,
+  chatId: undefined,
 };

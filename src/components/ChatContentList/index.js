@@ -13,7 +13,12 @@ export default class ChatContentList extends Component {
   render() {
     const { ChatContent, chatId } = this.props;
     const listItems = ChatContent.map((item, index) => {
-      const isMe = chatId && (chatId !== item.from_user);
+      let isMe;
+      if (item.to_user) { // is private chat
+        isMe = chatId && (chatId !== item.from_user);
+      } else if (item.to_group) { // is group chat
+        isMe = chatId && (chatId === item.from_user);
+      }
       const message = item.message.split(': ')[1];
       const time = toNomalTime(item.time);
       return (

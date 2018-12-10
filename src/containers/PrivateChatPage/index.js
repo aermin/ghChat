@@ -2,8 +2,7 @@ import { connect } from 'react-redux';
 import {
   withRouter,
 } from 'react-router-dom';
-import { updateAllChatContentByGotAction, updateAllChatContentBySentAction } from './privateChatAction';
-import { updateHomePageListAction } from '../HomePageList/homePapeListAction';
+import { updateHomePageListAction, updateAllChatContentBySentAction } from '../HomePageList/homePapeListAction';
 
 import PrivateChat from '../../components/PrivateChat';
 import '../../assets/chat.scss';
@@ -14,9 +13,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateAllChatContentByGot(arg = {}) {
-    dispatch(updateAllChatContentByGotAction({ ...arg }));
-  },
+  // updateAllChatContentByGot(arg = {}) {
+  //   dispatch(updateAllChatContentByGotAction({ ...arg }));
+  // },
   updateAllChatContentBySent(arg = {}) {
     dispatch(updateAllChatContentBySentAction({ ...arg }));
   },

@@ -1,6 +1,7 @@
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 
 const UPDATE_HOME_PAGE_LIST = 'UPDATE_HOME_PAGE_LIST';
+const UPDATE_ALL_CHAT_CONTENT = 'UPDATE_ALL_CHAT_CONTENT';
 
 const updateHomePageListAction = ({ homePageList, data, myUserId }) => {
   const homePageListCopy = [...List(homePageList)];
@@ -24,7 +25,32 @@ const updateHomePageListAction = ({ homePageList, data, myUserId }) => {
   };
 };
 
+const updateAllChatContentByGotAction = ({ allChatContent, newChatContent, chatType }) => {
+  const allChatContentCopy = Map(allChatContent).toObject();
+  const mapKey = chatType === 'privateChat' ? newChatContent.from_user : newChatContent.groupId;
+  console.log('allChatContentCopy by got', allChatContentCopy, chatType, newChatContent);
+  allChatContentCopy[chatType].get(mapKey).privateDetail.push(newChatContent);
+  return {
+    type: UPDATE_ALL_CHAT_CONTENT,
+    data: allChatContentCopy
+  };
+};
+
+const updateAllChatContentBySentAction = ({ allChatContent, newChatContent, chatType }) => {
+  const allChatContentCopy = Map(allChatContent).toObject();
+  const mapKey = chatType === 'privateChat' ? newChatContent.to_user : newChatContent.groupId;
+  console.log('allChatContentCopy by sent', allChatContentCopy, chatType, newChatContent);
+  allChatContentCopy[chatType].get(mapKey).privateDetail.push(newChatContent);
+  return {
+    type: UPDATE_ALL_CHAT_CONTENT,
+    data: allChatContentCopy
+  };
+};
+
 export {
   UPDATE_HOME_PAGE_LIST,
+  UPDATE_ALL_CHAT_CONTENT,
   updateHomePageListAction,
+  updateAllChatContentByGotAction,
+  updateAllChatContentBySentAction
 };

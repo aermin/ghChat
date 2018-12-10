@@ -1,6 +1,9 @@
 import { connect } from 'react-redux';
 import HomePageList from '../../components/HomePageList';
-import { updateHomePageListAction } from './homePapeListAction';
+import {
+  updateHomePageListAction, updateAllChatContentByGotAction,
+  updateAllChatContentBySentAction
+} from './homePapeListAction';
 
 const mapStateToProps = state => ({
   homePageList: state.homePageListState,
@@ -8,6 +11,12 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  updateAllChatContentByGot(arg = {}) {
+    dispatch(updateAllChatContentByGotAction({ ...arg }));
+  },
+  updateAllChatContentBySent(arg = {}) {
+    dispatch(updateAllChatContentBySentAction({ ...arg }));
+  },
   updateHomePageList(arg = {}) {
     dispatch(updateHomePageListAction({ ...arg }));
   }

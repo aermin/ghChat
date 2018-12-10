@@ -44,18 +44,19 @@ const getGroupDetail = async (ctx, next) => {
     const RowDataPacket3 = await groupChatModel.getGroupMember(groupId);
     const groupMsg = JSON.parse(JSON.stringify(RowDataPacket1));
     const groupInfo = JSON.parse(JSON.stringify(RowDataPacket2));
-    const groupMember = JSON.parse(JSON.stringify(RowDataPacket3));
-    const newGroupMember = [];
-    groupMember.forEach((element) => {
-      newGroupMember.push(element.group_member_id);
-    });
+    // const groupMember = JSON.parse(JSON.stringify(RowDataPacket3));
+    // const newGroupMember = [];
+    // groupMember.forEach((element) => {
+    //   newGroupMember.push(element.group_member_id);
+    // });
+    // groupInfo.groupMember = groupMember;
+    // console.log('groupInfo~', groupInfo);
     // console.log('newGroupMember',newGroupMember)
     ctx.body = {
       success: true,
       data: {
         groupMsg,
-        groupInfo,
-        groupMember: newGroupMember
+        groupInfo
       }
     };
   } catch (error) {

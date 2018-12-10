@@ -34,10 +34,10 @@ io.on('connection', (socket) => {
   socket.on('update', async (userId) => {
     console.log(userId, '=update=', socketId);
     await socketModel.saveUserSocketId(userId, socketId);
-    const arr = await socketModel.getUserSocketId(data.to_user);
   });
   // 私聊
   socket.on('sendPrivateMsg', async (data) => {
+    if (!data) return;
     await savePrivateMsg({ ...data });
     const arr = await socketModel.getUserSocketId(data.to_user);
     const RowDataPacket = arr[0];
@@ -47,8 +47,14 @@ io.on('connection', (socket) => {
   });
   // 群聊
   socket.on('sendGroupMsg', async (data) => {
+    if (!data) return;
     io.sockets.emit('getGroupMsg', data);
   });
+  // socket.on('sendGroupMsg', async (data) => {
+  //   socket.join(data.to_group);
+  //   console.log('sendGroupMsg~', data);
+  //   socket.to(data.to_group).broadcast.emit('getGroupMsg', data);
+  // });
 
   // 加好友请求
   socket.on('sendRequest', async (data) => {

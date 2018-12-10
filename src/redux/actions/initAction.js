@@ -51,6 +51,7 @@ const getAllChatContentAction = async (homePageList) => {
         res = await Request.axios('get', '/api/v1/group_chat', {
           groupId: item.group_id
         });
+        console.log('group_chat', res);
         allChatContent.groupChat.set(item.group_id, res.data);
       }
     } catch (error) {

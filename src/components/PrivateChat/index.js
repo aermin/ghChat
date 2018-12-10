@@ -5,25 +5,16 @@ import InputArea from '../InputArea';
 import ChatContentList from '../ChatContentList';
 
 export default class PrivateChat extends Component {
-  constructor() {
-    super();
-    this.state = {
-      inputMsg: '',
-      privateDetail: [], // 私聊相关
-      toUserInfo: {},
-      isMyFriend: false, // 他是否是我的好友
-      isHisFriend: false, // 我是否是他的好友
-      fromUserInfo: {}, // 用户自己
-      btnInfo: '发送'
-    };
-  }
-
     sendMessage = (value) => {
       if (value.trim() === '') return;
-      const { toUserInfo, fromUserInfo } = this.state;
+      const fromUserInfo = JSON.parse(localStorage.getItem('userInfo'));
+      const {
+        allChatContent, chatId, homePageList, updateHomePageList, updateAllChatContentBySent
+      } = this.props;
+      const { userInfo } = allChatContent.privateChat.get(chatId);
       const data = {
         from_user: fromUserInfo.user_id, // 自己的id
-        to_user: toUserInfo.user_id, // 对方id
+        to_user: userInfo.user_id, // 对方id
         avator: fromUserInfo.avator, // 自己的头像
         name: fromUserInfo.name,
         message: `${fromUserInfo.name}: ${value}`, // 消息内容
@@ -32,63 +23,9 @@ export default class PrivateChat extends Component {
         time: Date.parse(new Date()) / 1000 // 时间
       };
       socket.emit('sendPrivateMsg', data);
-      // 存此条私聊信息到本地
-      const {
-        allChatContent, homePageList, updateHomePageList, updateAllChatContentBySent
-      } = this.props;
-      this.setState((state) => {
-        console.log('我在sendMessage setState了');
-        return ({
-          privateDetail: [...state.privateDetail, data]
-        });
-      }, () => {
-        this.scrollToBottom();
-        // push in allChatContent
-        updateHomePageList({ data, homePageList, myUserId: fromUserInfo.user_id });
-        updateAllChatContentBySent({ allChatContent, newChatContent: data, chatType: 'privateChat' });
-      });
-    }
-
-    // 获取socket消息
-    getMsgOnSocket() {
-      socket.removeAllListeners('getPrivateMsg'); // make sure there is just one listener of getPrivateMsg
-      socket.on('getPrivateMsg', (data) => {
-        console.log('getMsgOnSocket', data);
-        const { fromUserInfo } = this.state;
-        const {
-          allChatContent, chatId, homePageList, updateHomePageList, updateAllChatContentByGot
-        } = this.props;
-        updateHomePageList({ data, homePageList, myUserId: fromUserInfo.user_id });
-        // TODO: judge chatType from group and private
-        // push in allChatContent
-        updateAllChatContentByGot({ allChatContent, newChatContent: data, chatType: 'privateChat' });
-        console.log(data.from_user, 'data.from_user === chatId', chatId);
-        if (data.from_user !== chatId) { // not current user's message
-          console.log('not current user message');
-          return;
-        }
-        this.scrollToBottom();
-        this.setState((state) => {
-          console.log('我在getMsgOnSocket setState了', state.privateDetail);
-          return ({
-            privateDetail: state.privateDetail
-          });
-        }, () => {
-          this.scrollToBottom();
-        });
-      });
-    }
-
-    async setChatContent({ allChatContent, chatId }) {
-      const { privateChat } = allChatContent; // privateChat is a Map
-      if (!privateChat) return;
-      const { privateDetail, userInfo } = privateChat.get(chatId);
-      console.log('setChatContent in privateChat', privateDetail);
-      await this.setState({
-        toUserInfo: userInfo,
-        privateDetail
-      });
-      console.log('我在setChatContent setState了');
+      updateAllChatContentBySent({ allChatContent, newChatContent: data, chatType: 'privateChat' });
+      updateHomePageList({ data, homePageList, myUserId: fromUserInfo.user_id });
+      console.log('sent message', data);
     }
 
     scrollToBottom(time = 0) {
@@ -100,19 +37,24 @@ export default class PrivateChat extends Component {
 
     async componentDidMount() {
       console.log('componentDidMount in privateChat');
-      const fromUserInfo = JSON.parse(localStorage.getItem('userInfo'));
-      await this.setState({ fromUserInfo });
-      const { allChatContent, chatId } = this.props;
-      await this.setChatContent({ allChatContent, chatId });
-      this.getMsgOnSocket();
+      this.scrollToBottom();
     }
 
     componentWillReceiveProps(nextProps) {
       console.log('componentWillReceiveProps in privateChat', nextProps);
-      const { allChatContent, chatId } = nextProps;
-      this.setChatContent({ allChatContent, chatId });
-      this.scrollToBottom(200);
-      // this.getMsgOnSocket();
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+      console.log(nextProps, 'nextProps & this.props', this.props);
+      return true;
+      const { allChatContent: nextAllChatContent, chatId: nextChatId } = nextProps;
+      const { allChatContent: currentAllChatContent, chatId: currentChatId } = this.props;
+      if (!nextAllChatContent.privateChat) return false;
+      const { privateDetail: nextPrivateDetail } = nextAllChatContent.privateChat.get(nextChatId);
+      const { privateDetail: currentPrivateDetail } = currentAllChatContent.privateChat.get(currentChatId);
+      console.log('nextLength !== currentLength', nextPrivateDetail.length, currentPrivateDetail.length);
+      if (nextPrivateDetail.length !== currentPrivateDetail.length) return true;
+      return false;
     }
 
     componentDidUpdate() {
@@ -125,11 +67,13 @@ export default class PrivateChat extends Component {
     }
 
     render() {
-      const { chatId } = this.props;
-      const { toUserInfo, privateDetail } = this.state;
+      const { chatId, allChatContent } = this.props;
+      console.log('allChatContent.privateChat', allChatContent.privateChat, chatId);
+      if (!allChatContent.privateChat) return null;
+      const { privateDetail, userInfo } = allChatContent.privateChat.get(chatId);
       return (
         <div className="chat-wrapper">
-          <ChatHeader title={toUserInfo.name} />
+          <ChatHeader title={userInfo.name} />
           <ChatContentList ChatContent={privateDetail} chatId={chatId} />
           <InputArea sendMessage={this.sendMessage} />
         </div>
@@ -142,7 +86,6 @@ PrivateChat.propTypes = {
   homePageList: PropTypes.array,
   updateHomePageList: PropTypes.func,
   updateAllChatContentBySent: PropTypes.func,
-  updateAllChatContentByGot: PropTypes.func,
   chatId: PropTypes.number
 };
 
@@ -152,6 +95,5 @@ PrivateChat.defaultProps = {
   homePageList: [],
   updateHomePageList: undefined,
   updateAllChatContentBySent: undefined,
-  updateAllChatContentByGot: undefined,
   chatId: undefined,
 };
