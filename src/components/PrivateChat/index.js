@@ -5,13 +5,6 @@ import InputArea from '../InputArea';
 import ChatContentList from '../ChatContentList';
 
 export default class PrivateChat extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      chatLength: 0
-    };
-  }
-
     sendMessage = (value) => {
       if (value.trim() === '') return;
       const fromUserInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -43,12 +36,6 @@ export default class PrivateChat extends Component {
     }
 
     componentDidMount() {
-      // const { chatId, allChatContent } = this.props;
-      // console.log('componentDidUpdate in privateChat', allChatContent.privateChat, chatId);
-      // const { privateDetail, userInfo } = allChatContent && allChatContent.privateChat && allChatContent.privateChat.get(chatId);
-      // console.log('before state length', this.state.chatLength);
-      // this.setState({ chatLength: privateDetail.length });
-      // console.log('after state length', this.state.chatLength);
       this.scrollToBottom();
     }
 
