@@ -36,7 +36,6 @@ const routes = [
     exact: true
   },
 ];
-console.log('router-props', window.location.pathname);
 const getRouter = () => (
   <Router>
     <div className="layout-wrapper">

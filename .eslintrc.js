@@ -77,7 +77,7 @@ module.exports = {
         ]
       }
     ],
-    "react/destructuring-assignment": [],
+    "react/destructuring-assignment": ['always'],
     "react/no-array-index-key": 0,
     "react/require-default-props": 1,
     "no-mixed-operators": 0,

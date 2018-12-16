@@ -9,7 +9,8 @@ import '../../assets/chat.scss';
 
 const mapStateToProps = state => ({
   allChatContent: state.allChatContentState,
-  homePageList: state.homePageListState
+  homePageList: state.homePageListState,
+  relatedCurrentChat: state.relatedCurrentChat
 });
 
 const mapDispatchToProps = dispatch => ({

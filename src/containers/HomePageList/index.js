@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import HomePageList from '../../components/HomePageList';
 import {
   updateHomePageListAction, updateAllChatContentByGotAction,
-  updateAllChatContentBySentAction
+  updateAllChatContentBySentAction, relatedCurrentChatAction
 } from './homePapeListAction';
 
 const mapStateToProps = state => ({
@@ -19,6 +19,9 @@ const mapDispatchToProps = dispatch => ({
   },
   updateHomePageList(arg = {}) {
     dispatch(updateHomePageListAction({ ...arg }));
+  },
+  relatedCurrentChat(arg) {
+    dispatch(relatedCurrentChatAction(arg));
   }
 });
 

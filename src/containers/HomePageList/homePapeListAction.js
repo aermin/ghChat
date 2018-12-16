@@ -2,6 +2,7 @@ import { List, Map } from 'immutable';
 
 const UPDATE_HOME_PAGE_LIST = 'UPDATE_HOME_PAGE_LIST';
 const UPDATE_ALL_CHAT_CONTENT = 'UPDATE_ALL_CHAT_CONTENT';
+const RELATED_CURRENT_CHAT = 'RELATED_CURRENT_CHAT';
 
 const updateHomePageListAction = ({ homePageList, data, myUserId }) => {
   const homePageListCopy = [...List(homePageList)];
@@ -47,10 +48,17 @@ const updateAllChatContentBySentAction = ({ allChatContent, newChatContent, chat
   };
 };
 
+const relatedCurrentChatAction = isRelatedCurrentChat => ({
+  type: RELATED_CURRENT_CHAT,
+  data: isRelatedCurrentChat
+});
+
 export {
   UPDATE_HOME_PAGE_LIST,
   UPDATE_ALL_CHAT_CONTENT,
+  RELATED_CURRENT_CHAT,
   updateHomePageListAction,
   updateAllChatContentByGotAction,
-  updateAllChatContentBySentAction
+  updateAllChatContentBySentAction,
+  relatedCurrentChatAction,
 };

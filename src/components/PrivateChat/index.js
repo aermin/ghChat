@@ -5,6 +5,13 @@ import InputArea from '../InputArea';
 import ChatContentList from '../ChatContentList';
 
 export default class PrivateChat extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      chatLength: 0
+    };
+  }
+
     sendMessage = (value) => {
       if (value.trim() === '') return;
       const fromUserInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -35,25 +42,23 @@ export default class PrivateChat extends Component {
       }, time);
     }
 
-    async componentDidMount() {
-      console.log('componentDidMount in privateChat');
+    componentDidMount() {
+      // const { chatId, allChatContent } = this.props;
+      // console.log('componentDidUpdate in privateChat', allChatContent.privateChat, chatId);
+      // const { privateDetail, userInfo } = allChatContent && allChatContent.privateChat && allChatContent.privateChat.get(chatId);
+      // console.log('before state length', this.state.chatLength);
+      // this.setState({ chatLength: privateDetail.length });
+      // console.log('after state length', this.state.chatLength);
       this.scrollToBottom();
     }
 
     componentWillReceiveProps(nextProps) {
-      console.log('componentWillReceiveProps in privateChat', nextProps);
+      console.log('componentWillReceiveProps in privateChat', nextProps, this.props);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-      console.log(nextProps, 'nextProps & this.props', this.props);
-      return true;
-      const { allChatContent: nextAllChatContent, chatId: nextChatId } = nextProps;
-      const { allChatContent: currentAllChatContent, chatId: currentChatId } = this.props;
-      if (!nextAllChatContent.privateChat) return false;
-      const { privateDetail: nextPrivateDetail } = nextAllChatContent.privateChat.get(nextChatId);
-      const { privateDetail: currentPrivateDetail } = currentAllChatContent.privateChat.get(currentChatId);
-      console.log('nextLength !== currentLength', nextPrivateDetail.length, currentPrivateDetail.length);
-      if (nextPrivateDetail.length !== currentPrivateDetail.length) return true;
+      const { relatedCurrentChat, chatId } = nextProps;
+      if (relatedCurrentChat || chatId !== this.props.chatId) return true;
       return false;
     }
 

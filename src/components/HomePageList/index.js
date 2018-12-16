@@ -14,8 +14,13 @@ export default class HomePageList extends PureComponent {
       console.log('subscribeSocket for private chat', data);
       const fromUserInfo = JSON.parse(localStorage.getItem('userInfo'));
       const {
-        allChatContent, chatId, homePageList, updateHomePageList, updateAllChatContentByGot
+        allChatContent, homePageList, updateHomePageList,
+        updateAllChatContentByGot, relatedCurrentChat
       } = this.props;
+      // eslint-disable-next-line radix
+      const chatId = parseInt(window.location.pathname.split('/').slice(-1)[0]);
+      const isRelatedCurrentChat = (data.from_user === chatId || data.to_user === chatId);
+      relatedCurrentChat(isRelatedCurrentChat);
       updateAllChatContentByGot({ allChatContent, newChatContent: data, chatType: 'privateChat' });
       updateHomePageList({ data, homePageList, myUserId: fromUserInfo.user_id });
     });
@@ -31,6 +36,10 @@ export default class HomePageList extends PureComponent {
 
   componentWillUnmount() {
     console.log('componentWillUnmount in homePageList');
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('componentWillReceiveProps in homePageList', nextProps, this.props);
   }
 
   render() {
@@ -65,7 +74,7 @@ HomePageList.propTypes = {
   homePageList: PropTypes.array,
   updateHomePageList: PropTypes.func,
   updateAllChatContentByGot: PropTypes.func,
-  chatId: PropTypes.number
+  relatedCurrentChat: PropTypes.func,
 };
 
 
@@ -74,5 +83,5 @@ HomePageList.defaultProps = {
   homePageList: [],
   updateHomePageList: undefined,
   updateAllChatContentByGot: undefined,
-  chatId: undefined,
+  relatedCurrentChat: undefined,
 };
