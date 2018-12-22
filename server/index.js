@@ -6,6 +6,7 @@ const router = require('./routes/index');
 const { query } = require('./utils/db');
 const socketModel = require('./models/soketHander');
 const { savePrivateMsg } = require('./models/privateChat');
+const msgModel = require('./models/message');
 
 const app = new Koa();
 
@@ -35,6 +36,16 @@ io.on('connection', (socket) => {
     console.log(userId, '=update=', socketId);
     await socketModel.saveUserSocketId(userId, socketId);
   });
+
+  // 初始化群聊
+  socket.on('initGroupChat', async (data) => {
+    console.log('initGroupChat', data);
+    const result = await msgModel.getGroupList(data.userId);
+    const groupList = JSON.parse(JSON.stringify(result));
+    for (const item of groupList) {
+      socket.join(item.group_id);
+    }
+  });
   // 私聊
   socket.on('sendPrivateMsg', async (data) => {
     if (!data) return;
@@ -48,13 +59,9 @@ io.on('connection', (socket) => {
   // 群聊
   socket.on('sendGroupMsg', async (data) => {
     if (!data) return;
-    io.sockets.emit('getGroupMsg', data);
+    console.log('sendGroupMsg', data);
+    socket.broadcast.to(data.to_group).emit('getGroupMsg', data);
   });
-  // socket.on('sendGroupMsg', async (data) => {
-  //   socket.join(data.to_group);
-  //   console.log('sendGroupMsg~', data);
-  //   socket.to(data.to_group).broadcast.emit('getGroupMsg', data);
-  // });
 
   // 加好友请求
   socket.on('sendRequest', async (data) => {
