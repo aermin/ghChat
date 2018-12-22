@@ -9,7 +9,7 @@ const {
  * @return  from_user  发送人id
  *  @return  avator  发送人头像
  */
-const getGroupMsg = function (groupId) {
+const getGroupMsg = (groupId) => {
   const _sql = 'SELECT g.message , g.time , g.from_user, g.to_group, i.avator ,i.name FROM group_msg  As g inner join user_info AS i ON g.from_user = i.id  WHERE to_group = ? order by time ';
   return query(_sql, groupId);
 };
@@ -18,7 +18,7 @@ const getGroupMsg = function (groupId) {
  * @param   群id
  * @return  group_member_id  群成员id
  */
-const getGroupMember = function (groupId) {
+const getGroupMember = (groupId) => {
   const _sql = ' SELECT user_id AS group_member_id  FROM group_user_relation  WHERE group_id = ? ';
   return query(_sql, groupId);
 };
@@ -27,7 +27,7 @@ const getGroupMember = function (groupId) {
  * @param   arr 包括 groupId  goupName 至少一个
  * @return
  */
-const getGroupInfo = function (arr) {
+const getGroupInfo = (arr) => {
   const _sql = ' SELECT group_id , group_name , group_notice ,group_avator ,group_creater ,creater_time FROM group_info  WHERE group_id = ? OR group_name = ? ;';
   return query(_sql, arr);
 };
@@ -42,8 +42,10 @@ const getGroupInfo = function (arr) {
  * @return
  */
 
-const saveGroupMsg = function (userId, groupId, message, name, time) {
-  const data = [userId, groupId, `${name} : ${message}`, time];
+const saveGroupMsg = ({
+  from_user, to_group, message, name, time
+}) => {
+  const data = [from_user, to_group, message, time];
   const _sql = ' INSERT INTO group_msg(from_user,to_group,message ,time) VALUES(?,?,?,?); ';
   return query(_sql, data);
 };
@@ -53,7 +55,7 @@ const saveGroupMsg = function (userId, groupId, message, name, time) {
  * @param   groupId 群id
  * @return
  */
-const addGroupUserRelation = function (userId, groupId) {
+const addGroupUserRelation = (userId, groupId) => {
   const data = [groupId, userId];
   const _sql = ' INSERT INTO  group_user_relation(group_id,user_id) VALUES(?,?); ';
   return query(_sql, data);

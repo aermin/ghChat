@@ -6,6 +6,7 @@ const router = require('./routes/index');
 const { query } = require('./utils/db');
 const socketModel = require('./models/soketHander');
 const { savePrivateMsg } = require('./models/privateChat');
+const { saveGroupMsg } = require('./models/groupChat');
 const msgModel = require('./models/message');
 
 const app = new Koa();
@@ -33,7 +34,6 @@ io.on('connection', (socket) => {
   });
   // 更新soketId
   socket.on('update', async (userId) => {
-    console.log(userId, '=update=', socketId);
     await socketModel.saveUserSocketId(userId, socketId);
   });
 
@@ -59,6 +59,7 @@ io.on('connection', (socket) => {
   // 群聊
   socket.on('sendGroupMsg', async (data) => {
     if (!data) return;
+    await saveGroupMsg({ ...data });
     console.log('sendGroupMsg', data);
     socket.broadcast.to(data.to_group).emit('getGroupMsg', data);
   });

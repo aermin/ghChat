@@ -14,7 +14,7 @@ export default class GroupChat extends Component {
     } = this.props;
     const data = {
       from_user: fromUserInfo.user_id, // 自己的id
-      avator: fromUserInfo.avator, // 自己的头像
+      // avator: fromUserInfo.avator, // 自己的头像
       name: fromUserInfo.name,
       message: `${fromUserInfo.name}: ${value}`, // 消息内容
       to_group: chatId,
@@ -55,7 +55,7 @@ export default class GroupChat extends Component {
     const fromUserInfo = JSON.parse(localStorage.getItem('userInfo'));
     return (
       <div className="chat-wrapper">
-        <ChatHeader title="群聊天" />
+        <ChatHeader title={groupInfo[0].group_name} />
         <ChatContentList ChatContent={groupMsg} chatId={fromUserInfo.user_id} />
         <InputArea sendMessage={this.sendMessage} />
       </div>
