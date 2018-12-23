@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import '../../assets/chat.scss';
 import ChatHeader from '../ChatHeader';
 import ChatItem from '../ChatItem';
@@ -62,3 +63,21 @@ export default class GroupChat extends Component {
     );
   }
 }
+
+
+GroupChat.propTypes = {
+  allChatContent: PropTypes.object,
+  homePageList: PropTypes.array,
+  updateHomePageList: PropTypes.func,
+  updateAllChatContentBySent: PropTypes.func,
+  chatId: PropTypes.number
+};
+
+
+GroupChat.defaultProps = {
+  allChatContent: {},
+  homePageList: [],
+  updateHomePageList: undefined,
+  updateAllChatContentBySent: undefined,
+  chatId: undefined,
+};

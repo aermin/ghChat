@@ -3,31 +3,31 @@ const {
 } = require('../utils/db');
 
 // 注册用户
-const insertData = function (value) {
+const insertData = (value) => {
   const _sql = 'insert into user_info(name,password) values(?,?);';
   return query(_sql, value);
 };
 
 // 通过用户名查找用户信息 user_info
-const findDataByName = function (name) {
+const findDataByName = (name) => {
   const _sql = 'SELECT * FROM user_info WHERE name= ? ';
   return query(_sql, name);
 };
 
 // 通过用户名查找用户信息 user_info 不包括密码
-const findUIByName = function (name) {
+const findUIByName = (name) => {
   const _sql = 'SELECT id ,name ,sex,avator,place,github FROM user_info WHERE name = ? ';
   return query(_sql, name);
 };
 
 // 修改我的信息
-const editorInfo = function (data) {
+const editorInfo = (data) => {
   const _sql = ' UPDATE  user_info SET github = ?,website = ?,sex = ?,place = ? WHERE id = ? ; ';
   return query(_sql, data);
 };
 
 // 通过用户id查找用户信息 user_info 包括密码
-const findDataByUserid = function (userid) {
+const findDataByUserid = (userid) => {
   const _sql = 'SELECT * FROM user_info WHERE id= ? ';
   return query(_sql, [userid]);
 };
