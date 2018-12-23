@@ -1,5 +1,5 @@
 const md5 = require('md5');
-const userModel = require('../models/user_info');
+const userModel = require('../models/userInfo');
 
 module.exports = async (ctx, next) => {
   console.log('register');

@@ -4,7 +4,7 @@ import { AppContainer } from 'react-hot-loader';
 import { Provider } from 'react-redux'; // 让所有容器组件都可以访问store，而不必显示地传递它。只需要在渲染根组件时使用即可。
 import { BrowserRouter as Router } from 'react-router-dom';
 import store from './redux/store';
-import { getHomePageListAction, getAllChatContentAction } from './redux/actions/initAction';
+import { setHomePageListAction, setAllChatContentAction } from './redux/actions/initAction';
 import App from './App';
 // import axios from 'axios'
 import AxiosHandle from './utils/request';
@@ -38,9 +38,11 @@ if (module.hot) {
 AxiosHandle.axiosConfigInit();
 
 // init: fetch HomePageList and AllChatContent;
-getHomePageListAction().then((res) => {
-  store.dispatch(res);
-  getAllChatContentAction(res.data).then((res) => {
-    store.dispatch(res);
-  });
+socket.on('getAllMessage', (data) => {
+  console.log('getAllMessage', data);
+  const privateChat = new Map(data.privateChat);
+  const groupChat = new Map(data.groupChat);
+  console.log('privateChat, groupChat', privateChat, groupChat);
+  store.dispatch(setHomePageListAction(data.homePageList));
+  store.dispatch(setAllChatContentAction({ privateChat, groupChat }));
 });

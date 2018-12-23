@@ -15,7 +15,7 @@ export default class GroupChat extends Component {
     } = this.props;
     const data = {
       from_user: fromUserInfo.user_id, // 自己的id
-      // avator: fromUserInfo.avator, // 自己的头像
+      avator: fromUserInfo.avator, // 自己的头像
       name: fromUserInfo.name,
       message: `${fromUserInfo.name}: ${value}`, // 消息内容
       to_group: chatId,
@@ -29,9 +29,11 @@ export default class GroupChat extends Component {
 
   scrollToBottom(time = 0) {
     const ulDom = document.getElementsByClassName('chat-content-list')[0];
-    setTimeout(() => {
-      ulDom.scrollTop = ulDom.scrollHeight + 10000;
-    }, time);
+    if (ulDom) {
+      setTimeout(() => {
+        ulDom.scrollTop = ulDom.scrollHeight + 10000;
+      }, time);
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -70,7 +72,7 @@ GroupChat.propTypes = {
   homePageList: PropTypes.array,
   updateHomePageList: PropTypes.func,
   updateAllChatContentBySent: PropTypes.func,
-  chatId: PropTypes.number
+  chatId: PropTypes.string
 };
 
 

@@ -28,7 +28,7 @@ const getGroupMember = (groupId) => {
  * @return
  */
 const getGroupInfo = (arr) => {
-  const _sql = ' SELECT group_id , group_name , group_notice ,group_avator ,group_creater ,creater_time FROM group_info  WHERE group_id = ? OR group_name = ? ;';
+  const _sql = ' SELECT group_id , group_name , group_notice ,group_avator ,group_creater ,create_time FROM group_info  WHERE group_id = ? OR group_name = ? ;';
   return query(_sql, arr);
 };
 

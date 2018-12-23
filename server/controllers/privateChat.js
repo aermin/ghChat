@@ -1,5 +1,5 @@
 const privateChatModel = require('../models/privateChat');
-const userModel = require('../models/user_info');
+const userModel = require('../models/userInfo');
 /**
  * 获取私聊相关内容
  * @param  to_user 信息发送者的id

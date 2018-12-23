@@ -28,9 +28,11 @@ export default class PrivateChat extends Component {
 
     scrollToBottom(time = 0) {
       const ulDom = document.getElementsByClassName('chat-content-list')[0];
-      setTimeout(() => {
-        ulDom.scrollTop = ulDom.scrollHeight + 10000;
-      }, time);
+      if (ulDom) {
+        setTimeout(() => {
+          ulDom.scrollTop = ulDom.scrollHeight + 10000;
+        }, time);
+      }
     }
 
     componentDidMount() {

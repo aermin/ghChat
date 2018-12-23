@@ -32,14 +32,14 @@ CREATE TABLE `group_info` (
   `group_notice` varchar(100) NOT NULL DEFAULT '欢迎大家入群交流~' COMMENT '群公告',
   `group_avator` varchar(50) NOT NULL DEFAULT 'http://ooytyiziz.bkt.clouddn.com/peoples1.jpg' COMMENT '群头像',
   `group_creater` varchar(10) NOT NULL DEFAULT '' COMMENT '群创建人',
-  `creater_time` int(11) NOT NULL COMMENT '群创建时间',
+  `create_time` int(11) NOT NULL COMMENT '群创建时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `group_info` WRITE;
 /*!40000 ALTER TABLE `group_info` DISABLE KEYS */;
 
-INSERT INTO `group_info` (`id`, `group_id`, `group_name`, `group_notice`, `group_avator`, `group_creater`, `creater_time`)
+INSERT INTO `group_info` (`id`, `group_id`, `group_name`, `group_notice`, `group_avator`, `group_creater`, `create_time`)
 VALUES
 	(1,'8eeccfc0-0f1e-11e8-892e-5ba8fc68dc36','交流群','交流群','http://ooytyiziz.bkt.clouddn.com/peoples1.jpg','罗宾',1518348455);
 
