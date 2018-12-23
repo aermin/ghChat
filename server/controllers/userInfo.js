@@ -1,4 +1,4 @@
-const userModel = require('../models/user_info');
+const userModel = require('../models/userInfo');
 
 /**
  *  通过user_id获取用户信息 （不包括密码）

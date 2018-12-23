@@ -41,7 +41,7 @@ const getGroupDetail = async (ctx, next) => {
     const groupId = ctx.query.groupId;
     const RowDataPacket1 = await groupChatModel.getGroupMsg(groupId);
     const RowDataPacket2 = await groupChatModel.getGroupInfo([groupId, null]);
-    const RowDataPacket3 = await groupChatModel.getGroupMember(groupId);
+    // const RowDataPacket3 = await groupChatModel.getGroupMember(groupId);
     const groupMsg = JSON.parse(JSON.stringify(RowDataPacket1));
     const groupInfo = JSON.parse(JSON.stringify(RowDataPacket2));
     // const groupMember = JSON.parse(JSON.stringify(RowDataPacket3));

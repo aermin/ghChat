@@ -6,9 +6,14 @@ const RELATED_CURRENT_CHAT = 'RELATED_CURRENT_CHAT';
 
 const updateHomePageListAction = ({ homePageList, data, myUserId }) => {
   const homePageListCopy = [...List(homePageList)];
-  const userId = data.from_user === myUserId ? data.to_user : data.from_user;
-  const chatFromId = data.type === 'private' ? userId : data.to_group;
-  const chatExist = homePageListCopy.find(e => e.id === chatFromId);
+  let chatFromId;
+  if (data.to_user) {
+    chatFromId = data.from_user === myUserId ? data.to_user : data.from_user;
+  } else if (data.to_group) {
+    chatFromId = data.to_group;
+  }
+  const chatExist = homePageListCopy.find(e => e.id == chatFromId);
+  console.log('chatFromId, chatExist', chatFromId, chatExist);
   if (chatExist) {
     const length = homePageListCopy.length;
     for (let i = 0; i < length; i++) {
@@ -28,9 +33,13 @@ const updateHomePageListAction = ({ homePageList, data, myUserId }) => {
 
 const updateAllChatContentByGotAction = ({ allChatContent, newChatContent, chatType }) => {
   const allChatContentCopy = Map(allChatContent).toObject();
-  const mapKey = chatType === 'privateChat' ? newChatContent.from_user : newChatContent.groupId;
+  const mapKey = chatType === 'privateChat' ? newChatContent.from_user : newChatContent.to_group;
   console.log('allChatContentCopy by got', allChatContentCopy, chatType, newChatContent);
-  allChatContentCopy[chatType].get(mapKey).privateDetail.push(newChatContent);
+  if (newChatContent.to_user) {
+    allChatContentCopy[chatType].get(mapKey).privateDetail.push(newChatContent);
+  } else if (newChatContent.to_group) {
+    allChatContentCopy[chatType].get(newChatContent.to_group).groupMsg.push(newChatContent);
+  }
   return {
     type: UPDATE_ALL_CHAT_CONTENT,
     data: allChatContentCopy
@@ -39,9 +48,13 @@ const updateAllChatContentByGotAction = ({ allChatContent, newChatContent, chatT
 
 const updateAllChatContentBySentAction = ({ allChatContent, newChatContent, chatType }) => {
   const allChatContentCopy = Map(allChatContent).toObject();
-  const mapKey = chatType === 'privateChat' ? newChatContent.to_user : newChatContent.groupId;
-  console.log('allChatContentCopy by sent', allChatContentCopy, chatType, newChatContent);
-  allChatContentCopy[chatType].get(mapKey).privateDetail.push(newChatContent);
+  const mapKey = chatType === 'privateChat' ? newChatContent.to_user : newChatContent.to_group;
+  if (newChatContent.to_user) {
+    allChatContentCopy[chatType].get(mapKey).privateDetail.push(newChatContent);
+  } else if (newChatContent.to_group) {
+    allChatContentCopy[chatType].get(mapKey).groupMsg.push(newChatContent);
+  }
+
   return {
     type: UPDATE_ALL_CHAT_CONTENT,
     data: allChatContentCopy

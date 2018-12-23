@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import '../../assets/chat.scss';
 import ChatHeader from '../ChatHeader';
 import ChatItem from '../ChatItem';
@@ -6,49 +7,9 @@ import InputArea from '../InputArea';
 import ChatContentList from '../ChatContentList';
 
 export default class GroupChat extends Component {
-  constructor() {
-    super();
-    this.state = {
-      inputMsg: '',
-      groupMsg: [],
-      groupInfo: {},
-      fromUserInfo: JSON.parse(localStorage.getItem('userInfo')), // 用户自己
-      btnInfo: '发送'
-    };
-  }
-
-  getMsgOnSocket() {
-    socket.removeAllListeners('getGroupMsg'); // make sure there is just one listener of getGroupMsg
-    socket.on('getGroupMsg', (data) => {
-      console.log('getGroupMsg', data);
-      // const { fromUserInfo } = this.state;
-      // const {
-      //   allChatContent, chatId, homePageList, updateHomePageList, updateAllChatContentByGot
-      // } = this.props;
-      // updateHomePageList({ data, homePageList, myUserId: fromUserInfo.user_id });
-      // // TODO: judge chatType from group and private
-      // // push in allChatContent
-      // updateAllChatContentByGot({ allChatContent, newChatContent: data, chatType: 'privateChat' });
-      // console.log(data.from_user, 'data.from_user === chatId', chatId);
-      // if (data.from_user !== chatId) { // not current user's message
-      //   console.log('not current user\'s message');
-      //   return;
-      // }
-      // this.scrollToBottom();
-      // this.setState((state) => {
-      //   console.log('我在getMsgOnSocket setState了', state.privateDetail);
-      //   return ({
-      //     privateDetail: state.privateDetail
-      //   });
-      // }, () => {
-      //   this.scrollToBottom();
-      // });
-    });
-  }
-
   sendMessage = (value) => {
     if (value.trim() === '') return;
-    const { toUserInfo, fromUserInfo } = this.state;
+    const fromUserInfo = JSON.parse(localStorage.getItem('userInfo'));
     const {
       allChatContent, chatId, homePageList, updateHomePageList, updateAllChatContentBySent
     } = this.props;
@@ -62,42 +23,42 @@ export default class GroupChat extends Component {
     };
     socket.emit('sendGroupMsg', data);
     console.log('sendGroupMsg success', data);
-    // 存此条私聊信息到本地
-    this.setState((state) => {
-      console.log('我在sendMessage setState了');
-      return ({
-        privateDetail: [...state.privateDetail, data]
-      });
-    }, () => {
-      this.scrollToBottom();
-      // push in allChatContent
-      updateHomePageList({ data, homePageList, myUserId: fromUserInfo.user_id });
-      updateAllChatContentBySent({ allChatContent, newChatContent: data, chatType: 'privateChat' });
-    });
+    updateAllChatContentBySent({ allChatContent, newChatContent: data, chatType: 'groupChat' });
+    updateHomePageList({ data, homePageList, myUserId: fromUserInfo.user_id });
   }
 
-  async setChatContent({ allChatContent, chatId }) {
-    const { groupChat } = allChatContent; // privateChat is a Map
-    if (!groupChat) return;
-    const { groupMsg, groupInfo } = groupChat.get(chatId);
-    console.log('setChatContent in privateChat', groupMsg);
-    await this.setState({ groupInfo, groupMsg });
-    console.log('我在setChatContent setState了');
+  scrollToBottom(time = 0) {
+    const ulDom = document.getElementsByClassName('chat-content-list')[0];
+    if (ulDom) {
+      setTimeout(() => {
+        ulDom.scrollTop = ulDom.scrollHeight + 10000;
+      }, time);
+    }
   }
 
-  async componentDidMount() {
-    console.log('componentDidMount in groupChat', this.props);
-    const { allChatContent, chatId } = this.props;
-    await this.setChatContent({ allChatContent, chatId });
-    this.getMsgOnSocket();
+  shouldComponentUpdate(nextProps, nextState) {
+    const { relatedCurrentChat, chatId } = nextProps;
+    if (relatedCurrentChat || chatId !== this.props.chatId) return true;
+    return false;
+  }
+
+  componentDidMount() {
+    this.scrollToBottom();
+  }
+
+  componentDidUpdate() {
+    console.log('componentDidUpdate in group chat');
+    this.scrollToBottom();
   }
 
   render() {
-    const { groupMsg, fromUserInfo } = this.state;
-    console.log(fromUserInfo, 'groupMsg', groupMsg);
+    const { chatId, allChatContent } = this.props;
+    if (!allChatContent.groupChat) return null;
+    const { groupMsg, groupInfo } = allChatContent.groupChat.get(chatId);
+    const fromUserInfo = JSON.parse(localStorage.getItem('userInfo'));
     return (
       <div className="chat-wrapper">
-        <ChatHeader title="群聊天" />
+        <ChatHeader title={groupInfo[0].group_name} />
         <ChatContentList ChatContent={groupMsg} chatId={fromUserInfo.user_id} />
         <InputArea sendMessage={this.sendMessage} />
       </div>
@@ -105,9 +66,20 @@ export default class GroupChat extends Component {
   }
 }
 
-// export default connect(state => ({
-//     robotMsg: state.robot.robotMsg
-//   }), {
-//     getRobotMsg,
-//     insertUserMsg
-//   })(GroupChat);
+
+GroupChat.propTypes = {
+  allChatContent: PropTypes.object,
+  homePageList: PropTypes.array,
+  updateHomePageList: PropTypes.func,
+  updateAllChatContentBySent: PropTypes.func,
+  chatId: PropTypes.string
+};
+
+
+GroupChat.defaultProps = {
+  allChatContent: {},
+  homePageList: [],
+  updateHomePageList: undefined,
+  updateAllChatContentBySent: undefined,
+  chatId: undefined,
+};

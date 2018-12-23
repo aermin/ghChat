@@ -18,8 +18,6 @@ export default class PrivateChat extends Component {
         avator: fromUserInfo.avator, // 自己的头像
         name: fromUserInfo.name,
         message: `${fromUserInfo.name}: ${value}`, // 消息内容
-        type: 'private',
-        status: '1', // 是否在线 0为不在线 1为在线
         time: Date.parse(new Date()) / 1000 // 时间
       };
       socket.emit('sendPrivateMsg', data);
@@ -30,9 +28,11 @@ export default class PrivateChat extends Component {
 
     scrollToBottom(time = 0) {
       const ulDom = document.getElementsByClassName('chat-content-list')[0];
-      setTimeout(() => {
-        ulDom.scrollTop = ulDom.scrollHeight + 10000;
-      }, time);
+      if (ulDom) {
+        setTimeout(() => {
+          ulDom.scrollTop = ulDom.scrollHeight + 10000;
+        }, time);
+      }
     }
 
     componentDidMount() {
