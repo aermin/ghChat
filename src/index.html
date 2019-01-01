@@ -32,7 +32,6 @@
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     if (userInfo) {
       socket.emit('update', userInfo.user_id);
-      socket.emit('initMessage', userInfo.user_id);
     }
   </script>
 </body>

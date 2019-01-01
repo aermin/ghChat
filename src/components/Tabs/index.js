@@ -17,9 +17,9 @@ class Tabs extends Component {
     return (
       <div className="tabs-wrapper">
         <div className="tab tab-one">
-          <Link to="/">
+          <Link to="/index">
             <svg className="icon " aria-hidden="true">
-              <use xlinkHref={match.url === '/' ? '#icon-messagefill' : '#icon-message1'} />
+              <use xlinkHref={match.url === '/index' ? '#icon-messagefill' : '#icon-message1'} />
             </svg>
           </Link>
         </div>

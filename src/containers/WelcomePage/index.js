@@ -8,11 +8,7 @@ export default class welcome extends Component {
 
   render() {
     return (
-      <div>
-        <img src="http://ooytyiziz.bkt.clouddn.com/nothing-bg.jpeg" alt="" />
-        <span>welcome~</span>
-      </div>
-
+      <div>welcome~</div>
     );
   }
 }

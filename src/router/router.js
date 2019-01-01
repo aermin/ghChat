@@ -24,6 +24,10 @@ const routes = [
     exact: true
   },
   {
+    path: '/index',
+    exact: true
+  },
+  {
     path: '/robot',
     exact: true
   },
