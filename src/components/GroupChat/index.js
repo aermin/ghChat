@@ -7,6 +7,11 @@ import InputArea from '../InputArea';
 import ChatContentList from '../ChatContentList';
 
 export default class GroupChat extends Component {
+  constructor() {
+    super();
+    this._sendByMe = false;
+  }
+
   sendMessage = (value) => {
     if (value.trim() === '') return;
     const fromUserInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -21,6 +26,7 @@ export default class GroupChat extends Component {
       to_group: chatId,
       time: Date.parse(new Date()) / 1000 // 时间
     };
+    this._sendByMe = true;
     socket.emit('sendGroupMsg', data);
     console.log('sendGroupMsg success', data);
     updateAllChatContentBySent({ allChatContent, newChatContent: data, chatType: 'groupChat' });
@@ -38,7 +44,11 @@ export default class GroupChat extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     const { relatedCurrentChat, chatId } = nextProps;
-    if (relatedCurrentChat || chatId !== this.props.chatId) return true;
+    console.log('shouldComponentUpdate ', relatedCurrentChat, chatId, this.props.chatId, this._sendByMe);
+    if (relatedCurrentChat || chatId !== this.props.chatId || this._sendByMe) {
+      this._sendByMe = false;
+      return true;
+    }
     return false;
   }
 

@@ -21,6 +21,7 @@ export default class HomePageList extends PureComponent {
       // eslint-disable-next-line radix
       const chatId = parseInt(window.location.pathname.split('/').slice(-1)[0]);
       const isRelatedCurrentChat = (data.from_user === chatId || data.to_user === chatId);
+      console.log('isRelatedCurrentChat, data.from_user, data.to_user, chatId', isRelatedCurrentChat, data.from_user, data.to_user, chatId);
       relatedCurrentChat(isRelatedCurrentChat);
       updateAllChatContentByGot({ allChatContent, newChatContent: data, chatType: 'privateChat' });
       updateHomePageList({ data, homePageList, myUserId: fromUserInfo.user_id });
@@ -34,6 +35,7 @@ export default class HomePageList extends PureComponent {
       // eslint-disable-next-line radix
       const chatId = window.location.pathname.split('/').slice(-1)[0];
       const isRelatedCurrentChat = (data.to_group === chatId);
+      console.log('isRelatedCurrentChat, data.to_group, chatId', isRelatedCurrentChat, data.to_group, chatId);
       relatedCurrentChat(isRelatedCurrentChat);
       updateAllChatContentByGot({ allChatContent, newChatContent: data, chatType: 'groupChat' });
       updateHomePageList({ data, homePageList });
