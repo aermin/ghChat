@@ -40,27 +40,33 @@ const routes = [
     exact: true
   },
 ];
-const getRouter = () => (
-  <Router>
-    <div className="layout-wrapper">
-      <Route path="/register" exact component={createComponent(RegisterPage)} />
-      <Route path="/login" exact component={createComponent(LogInPage)} />
-      {routes.map((route, index) => (
-        <Route
-          key={index}
-          path={route.path}
-          exact={route.exact}
-          component={createComponent(ContentLeft)} />
-      ))}
-      {routes.map((route, index) => (
-        <Route
-          key={index}
-          path={route.path}
-          exact={route.exact}
-          component={createComponent(ContentRight)} />
-      ))}
-    </div>
-  </Router>
-);
 
-export default getRouter;
+export default function getRouter() {
+  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  if (userInfo) {
+    console.log('initMessage~~');
+    socket.emit('initMessage', userInfo.user_id);
+  }
+  return (
+    <Router>
+      <div className="layout-wrapper">
+        <Route path="/register" exact component={createComponent(RegisterPage)} />
+        <Route path="/login" exact component={createComponent(LogInPage)} />
+        {routes.map((route, index) => (
+          <Route
+            key={index}
+            path={route.path}
+            exact={route.exact}
+            component={createComponent(ContentLeft)} />
+        ))}
+        {routes.map((route, index) => (
+          <Route
+            key={index}
+            path={route.path}
+            exact={route.exact}
+            component={createComponent(ContentRight)} />
+        ))}
+      </div>
+    </Router>
+  );
+}
