@@ -38,10 +38,10 @@ const updateAllChatContentAction = ({ allChatContent, newChatContent, action }) 
   const chatType = newChatContent.to_group_id ? 'groupChat' : 'privateChat';
   console.log('allChatContentCopy by got', allChatContentCopy, chatType, newChatContent);
   if (allChatContentCopy[chatType].get(mapKey)) {
-    allChatContentCopy[chatType].get(mapKey).message.push(newChatContent);
+    allChatContentCopy[chatType].get(mapKey).messages.push(newChatContent);
   // There is no this this chat，such as creating new group or before fist private chat
   } else {
-    allChatContentCopy[chatType].set(mapKey, { message: [newChatContent] });
+    allChatContentCopy[chatType].set(mapKey, { messages: [newChatContent] });
   }
 
   return {

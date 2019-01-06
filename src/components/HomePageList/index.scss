@@ -1,7 +1,11 @@
 @import "../../assets/base.scss";
 .home-page-list-wrapper {
+    height: 100%;
     ul {
         background-color: #fff;
+        height: calc(100%);
+        list-style: none;
+        overflow-y: auto;
         li {
             display: -webkit-box;
             display: -ms-flexbox;

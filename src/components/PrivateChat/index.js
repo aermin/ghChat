@@ -72,11 +72,11 @@ export default class PrivateChat extends Component {
     const { chatId, allChatContent } = this.props;
     console.log('allChatContent.privateChat', allChatContent.privateChat, chatId);
     if (!allChatContent.privateChat) return null;
-    const { message, userInfo } = allChatContent.privateChat.get(chatId);
+    const { messages, userInfo } = allChatContent.privateChat.get(chatId);
     return (
       <div className="chat-wrapper">
         <ChatHeader title={userInfo.name} />
-        <ChatContentList ChatContent={message} chatId={chatId} />
+        <ChatContentList ChatContent={messages} chatId={chatId} />
         <InputArea sendMessage={this.sendMessage} />
       </div>
     );

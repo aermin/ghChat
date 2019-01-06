@@ -63,16 +63,15 @@ export default class GroupChat extends Component {
 
   render() {
     const { chatId, allChatContent } = this.props;
-    if (!allChatContent.groupChat || !allChatContent.groupChat.get(chatId)) return null;
-    debugger;
+    if (!allChatContent.groupChat) return null;
     console.log('allChatContent.groupChat~~', allChatContent.groupChat, allChatContent.groupChat.get(chatId));
-    const { message, groupInfo } = allChatContent.groupChat.get(chatId);
-    console.log('message, groupInfo', message, groupInfo);
+    const { messages, groupInfo } = allChatContent.groupChat.get(chatId);
+    console.log('message, groupInfo', messages, groupInfo);
     const fromUserInfo = JSON.parse(localStorage.getItem('userInfo'));
     return (
       <div className="chat-wrapper">
         <ChatHeader title={groupInfo && groupInfo[0].name} />
-        <ChatContentList ChatContent={message} chatId={fromUserInfo.user_id} />
+        <ChatContentList ChatContent={messages} chatId={fromUserInfo.user_id} />
         <InputArea sendMessage={this.sendMessage} />
       </div>
     );
