@@ -7,10 +7,10 @@ const groupChatModel = require('../models/groupChat');
 async function getPrivateMsg({ toUser, userId }) {
   const RowDataPacket1 = await privateChatModel.getPrivateDetail(userId, toUser);
   const RowDataPacket2 = await userModel.getUserInfo(toUser);
-  const privateDetail = JSON.parse(JSON.stringify(RowDataPacket1));
+  const message = JSON.parse(JSON.stringify(RowDataPacket1));
   const userInfo = JSON.parse(JSON.stringify(RowDataPacket2));
   return {
-    privateDetail,
+    message,
     userInfo: userInfo[0]
   };
 }
@@ -18,10 +18,10 @@ async function getPrivateMsg({ toUser, userId }) {
 async function getGroupMsg({ groupId }) {
   const RowDataPacket1 = await groupChatModel.getGroupMsg(groupId);
   const RowDataPacket2 = await groupChatModel.getGroupInfo([groupId, null]);
-  const groupMsg = JSON.parse(JSON.stringify(RowDataPacket1));
+  const message = JSON.parse(JSON.stringify(RowDataPacket1));
   const groupInfo = JSON.parse(JSON.stringify(RowDataPacket2));
   return {
-    groupMsg,
+    message,
     groupInfo
   };
 }
@@ -32,15 +32,12 @@ module.exports = async ({ userId }) => {
     const privateList = JSON.parse(JSON.stringify(res1));
     const res2 = await msgModel.getGroupList(userId);
     const groupList = JSON.parse(JSON.stringify(res2));
+    console.log('groupList111', groupList);
     groupList.forEach((element) => {
-      element.type = 'group';
       element.time = element.time ? element.time : element.create_time;
-      element.id = element.group_id;
     });
     privateList.forEach((element) => {
-      element.type = 'private';
       element.time = element.time ? element.time : element.be_friend_time;
-      element.id = element.from_user;
     });
     const homePageList = groupList.concat(privateList);
     homePageList.sort((a, b) => b.time - a.time);
@@ -50,9 +47,9 @@ module.exports = async ({ userId }) => {
       if (item.from_user) {
         const data = await getPrivateMsg({ toUser: item.from_user, userId });
         privateChat.set(item.from_user, data);
-      } else if (item.group_id) {
-        const data = await getGroupMsg({ groupId: item.group_id });
-        groupChat.set(item.group_id, data);
+      } else if (item.to_group_id) {
+        const data = await getGroupMsg({ groupId: item.to_group_id });
+        groupChat.set(item.to_group_id, data);
       }
     }
     return {

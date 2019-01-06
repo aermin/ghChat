@@ -29,6 +29,7 @@ export default class SignInSignUp extends Component {
     const loginClass = isLogin ? 'active' : 'inactive';
     const registerClass = isLogin ? 'inactive' : 'active';
     const linkUrl = isLogin ? '/register' : '/login';
+    const buttonName = isLogin ? '登录' : '注册';
     return (
       <div className="formContent fadeInDown">
         <Link to={linkUrl}>
@@ -61,7 +62,7 @@ export default class SignInSignUp extends Component {
             type="button"
             onClick={this.handleClick}
             className="fadeIn fourth"
-            value="登录"
+            value={buttonName}
               />
         </form>
       </div>

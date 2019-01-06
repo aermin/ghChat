@@ -1,16 +1,13 @@
 import { connect } from 'react-redux';
 import {
-  withRouter,
+  withRouter
 } from 'react-router-dom';
 import { updateHomePageListAction, updateAllChatContentAction } from '../HomePageList/homePapeListAction';
-
-import GroupChat from '../../components/GroupChat';
-// import '../../assets/chat.scss';
+import Header from '../../components/Header';
 
 const mapStateToProps = state => ({
   allChatContent: state.allChatContentState,
   homePageList: state.homePageListState,
-  relatedCurrentChat: state.relatedCurrentChat
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -22,4 +19,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(GroupChat));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

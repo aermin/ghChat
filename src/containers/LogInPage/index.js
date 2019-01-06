@@ -15,10 +15,6 @@ export default class LogIn extends Component {
       password: '',
       modal: {
         visible: false,
-        title: '提示',
-        message: '', // 弹窗内容
-        hasCancel: true, // 弹窗是否有取消键
-        modalEvent: '' // 弹窗事件名称
       }
     };
   }
@@ -38,8 +34,6 @@ export default class LogIn extends Component {
           this.setState({
             modal: {
               visible: true,
-              message: '您已登录成功', // 弹窗内容
-              modalEvent: 'login' // 弹窗事件名称
             }
           });
         } else {
@@ -64,29 +58,32 @@ export default class LogIn extends Component {
     });
   }
 
-  confirm = (modalEvent) => {
+  confirm = () => {
     this.setState({
       // eslint-disable-next-line react/no-unused-state
       visible: false
     });
-    // eslint-disable-next-line react/prop-types
-    this.props.history.push('/');
+    window.location.pathname = '/';
   };
 
+  componentDidMount() {
+    console.log('login componentDidMount');
+  }
+
   render() {
-    const {
-      title, message, visible, modalEvent
-    } = this.state.modal;
+    const { visible } = this.state.modal;
     return (
       <div className="login">
         <Modal
-          title={title}
-          content={message}
+          title="提示"
           visible={visible}
-          modalEvent={modalEvent}
           confirm={this.confirm}
           hasCancel={false}
-        />
+        >
+          <p className="content">
+            {'您已登录成功'}
+          </p>
+        </Modal>
         {/* <Message isShow = {this.state.message.isShow}  type = {this.state.message.type}  content = {this.state.message.content} /> */}
         <SignInSignUp setValue={this.setValue} isLogin />
       </div>

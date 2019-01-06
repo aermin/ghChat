@@ -24,34 +24,31 @@ const routes = [
     exact: true
   },
   {
-    path: '/index',
-    exact: true
+    path: '/index'
   },
   {
-    path: '/robot',
-    exact: true
+    path: '/robot'
   },
   {
-    path: '/group_chat/:group_id',
-    exact: true
+    path: '/group_chat/:to_group_id',
   },
   {
     path: '/private_chat/:user_id',
-    exact: true
   },
 ];
 
 export default function getRouter() {
   const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-  if (userInfo) {
+  const { pathname } = window.location;
+  if (userInfo && pathname !== '/login' && pathname !== '/register') {
     console.log('initMessage~~');
     socket.emit('initMessage', userInfo.user_id);
   }
   return (
     <Router>
       <div className="layout-wrapper">
-        <Route path="/register" exact component={createComponent(RegisterPage)} />
-        <Route path="/login" exact component={createComponent(LogInPage)} />
+        <Route path="/register" component={createComponent(RegisterPage)} />
+        <Route path="/login" component={createComponent(LogInPage)} />
         {routes.map((route, index) => (
           <Route
             key={index}

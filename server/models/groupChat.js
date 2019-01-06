@@ -7,10 +7,10 @@ const {
  * @return  message 群消息
  * @return  time  时间
  * @return  from_user  发送人id
- *  @return  avator  发送人头像
+ *  @return  avatar  发送人头像
  */
 const getGroupMsg = (groupId) => {
-  const _sql = 'SELECT g.message , g.time , g.from_user, g.to_group, i.avator ,i.name FROM group_msg  As g inner join user_info AS i ON g.from_user = i.id  WHERE to_group = ? order by time ';
+  const _sql = 'SELECT g.message , g.time , g.from_user, g.to_group_id, i.avatar ,i.name FROM group_msg  As g inner join user_info AS i ON g.from_user = i.id  WHERE to_group_id = ? order by time ';
   return query(_sql, groupId);
 };
 /**
@@ -19,7 +19,7 @@ const getGroupMsg = (groupId) => {
  * @return  group_member_id  群成员id
  */
 const getGroupMember = (groupId) => {
-  const _sql = ' SELECT user_id AS group_member_id  FROM group_user_relation  WHERE group_id = ? ';
+  const _sql = ' SELECT user_id AS group_member_id  FROM group_user_relation  WHERE to_group_id = ? ';
   return query(_sql, groupId);
 };
 /**
@@ -28,7 +28,7 @@ const getGroupMember = (groupId) => {
  * @return
  */
 const getGroupInfo = (arr) => {
-  const _sql = ' SELECT group_id , group_name , group_notice ,group_avator ,group_creater ,create_time FROM group_info  WHERE group_id = ? OR group_name = ? ;';
+  const _sql = ' SELECT to_group_id , name , group_notice ,avatar ,creator ,create_time FROM group_info  WHERE to_group_id = ? OR name = ? ;';
   return query(_sql, arr);
 };
 
@@ -43,10 +43,10 @@ const getGroupInfo = (arr) => {
  */
 
 const saveGroupMsg = ({
-  from_user, to_group, message, name, time
+  from_user, to_group_id, message, name, time
 }) => {
-  const data = [from_user, to_group, message, time];
-  const _sql = ' INSERT INTO group_msg(from_user,to_group,message ,time) VALUES(?,?,?,?); ';
+  const data = [from_user, to_group_id, message, time];
+  const _sql = ' INSERT INTO group_msg(from_user,to_group_id,message ,time) VALUES(?,?,?,?); ';
   return query(_sql, data);
 };
 /**
@@ -57,7 +57,7 @@ const saveGroupMsg = ({
  */
 const addGroupUserRelation = (userId, groupId) => {
   const data = [groupId, userId];
-  const _sql = ' INSERT INTO  group_user_relation(group_id,user_id) VALUES(?,?); ';
+  const _sql = ' INSERT INTO  group_user_relation(to_group_id,user_id) VALUES(?,?); ';
   return query(_sql, data);
 };
 module.exports = {

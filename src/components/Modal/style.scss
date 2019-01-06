@@ -42,7 +42,8 @@
     h1 {
         text-align: center;
         font-size: 16px;
-        margin: 16px 1px 20px;
+        padding: 10px 0;
+        border-bottom: 1px solid rgb(235, 232, 232);
     }
     p {
         font-size: 16px;
@@ -85,13 +86,13 @@
             position: absolute;
         }
         p:nth-of-type(1) {
-            border-top: 1px solid #B4B4B4;
-            border-right: 1px solid #B4B4B4;
+            border-top: 1px solid rgb(235, 232, 232);;
+            border-right: 1px solid rgb(235, 232, 232);
             left: 0;
             border-radius: 0 0 0 8px;
         }
         p:nth-of-type(2) {
-            border-top: 1px solid #B4B4B4;
+            border-top: 1px solid rgb(235, 232, 232);
             right: 0;
             border-radius: 0 0 8px 0;
         }
@@ -115,7 +116,7 @@
             width: 100%;
             position: absolute;
             text-decoration: none;
-            border-top: 1px solid #B4B4B4;
+            border-top: 1px solid rgb(235, 232, 232);
             left: 0;
             right: 0;
             border-radius: 0 0 0 8px;

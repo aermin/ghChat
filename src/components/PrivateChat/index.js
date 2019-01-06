@@ -14,20 +14,20 @@ export default class PrivateChat extends Component {
     if (value.trim() === '') return;
     const fromUserInfo = JSON.parse(localStorage.getItem('userInfo'));
     const {
-      allChatContent, chatId, homePageList, updateHomePageList, updateAllChatContentBySent
+      allChatContent, chatId, homePageList, updateHomePageList, updateAllChatContent
     } = this.props;
     const { userInfo } = allChatContent.privateChat.get(chatId);
     const data = {
       from_user: fromUserInfo.user_id, // 自己的id
       to_user: userInfo.user_id, // 对方id
-      avator: fromUserInfo.avator, // 自己的头像
+      avatar: fromUserInfo.avatar, // 自己的头像
       name: fromUserInfo.name,
       message: `${fromUserInfo.name}: ${value}`, // 消息内容
       time: Date.parse(new Date()) / 1000 // 时间
     };
     this._sendByMe = true;
     socket.emit('sendPrivateMsg', data);
-    updateAllChatContentBySent({ allChatContent, newChatContent: data, chatType: 'privateChat' });
+    updateAllChatContent({ allChatContent, newChatContent: data, action: 'send' });
     updateHomePageList({ data, homePageList, myUserId: fromUserInfo.user_id });
     console.log('sent message', data);
   }
@@ -72,11 +72,11 @@ export default class PrivateChat extends Component {
     const { chatId, allChatContent } = this.props;
     console.log('allChatContent.privateChat', allChatContent.privateChat, chatId);
     if (!allChatContent.privateChat) return null;
-    const { privateDetail, userInfo } = allChatContent.privateChat.get(chatId);
+    const { message, userInfo } = allChatContent.privateChat.get(chatId);
     return (
       <div className="chat-wrapper">
         <ChatHeader title={userInfo.name} />
-        <ChatContentList ChatContent={privateDetail} chatId={chatId} />
+        <ChatContentList ChatContent={message} chatId={chatId} />
         <InputArea sendMessage={this.sendMessage} />
       </div>
     );
@@ -87,7 +87,7 @@ PrivateChat.propTypes = {
   allChatContent: PropTypes.object,
   homePageList: PropTypes.array,
   updateHomePageList: PropTypes.func,
-  updateAllChatContentBySent: PropTypes.func,
+  updateAllChatContent: PropTypes.func,
   chatId: PropTypes.number
 };
 
@@ -96,6 +96,6 @@ PrivateChat.defaultProps = {
   allChatContent: {},
   homePageList: [],
   updateHomePageList: undefined,
-  updateAllChatContentBySent: undefined,
+  updateAllChatContent: undefined,
   chatId: undefined,
 };

@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ChatItem from '../ChatItem';
-import { toNomalTime } from '../../utils/transformTime';
+import { toNormalTime } from '../../utils/transformTime';
 
 export default class ChatContentList extends Component {
   constructor() {
@@ -12,18 +12,19 @@ export default class ChatContentList extends Component {
 
   render() {
     const { ChatContent, chatId } = this.props;
+    debugger;
     const listItems = ChatContent.map((item, index) => {
       let isMe;
       if (item.to_user) { // is private chat
         isMe = chatId && (chatId !== item.from_user);
-      } else if (item.to_group) { // is group chat
+      } else if (item.to_group_id) { // is group chat
         isMe = chatId && (chatId === item.from_user);
       }
-      const message = item.message.split(': ')[1];
-      const time = toNomalTime(item.time);
+      const message = item.message.split(': ') && item.message.split(': ')[1];
+      const time = toNormalTime(item.time);
       return (
         <li key={index}>
-          <ChatItem me={isMe} img={item.avator} msg={message} name={item.name} time={time} />
+          <ChatItem me={isMe} img={item.avatar} msg={message} name={item.name} time={time} />
         </li>
       );
     }

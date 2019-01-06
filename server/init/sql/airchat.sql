@@ -27,11 +27,11 @@ DROP TABLE IF EXISTS `group_info`;
 
 CREATE TABLE `group_info` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '群id',
-  `group_id` char(100) NOT NULL,
-  `group_name` varchar(20) NOT NULL DEFAULT '交流群' COMMENT '群名称',
+  `to_group_id` char(100) NOT NULL,
+  `name` varchar(20) NOT NULL DEFAULT '交流群' COMMENT '群名称',
   `group_notice` varchar(100) NOT NULL DEFAULT '欢迎大家入群交流~' COMMENT '群公告',
-  `group_avator` varchar(50) NOT NULL DEFAULT 'http://ooytyiziz.bkt.clouddn.com/peoples1.jpg' COMMENT '群头像',
-  `group_creater` varchar(10) NOT NULL DEFAULT '' COMMENT '群创建人',
+  `avatar` varchar(50) NOT NULL DEFAULT 'http://ooytyiziz.bkt.clouddn.com/peoples1.jpg' COMMENT '群头像',
+  `creator` varchar(10) NOT NULL DEFAULT '' COMMENT '群创建人',
   `create_time` int(11) NOT NULL COMMENT '群创建时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -39,7 +39,7 @@ CREATE TABLE `group_info` (
 LOCK TABLES `group_info` WRITE;
 /*!40000 ALTER TABLE `group_info` DISABLE KEYS */;
 
-INSERT INTO `group_info` (`id`, `group_id`, `group_name`, `group_notice`, `group_avator`, `group_creater`, `create_time`)
+INSERT INTO `group_info` (`id`, `to_group_id`, `name`, `group_notice`, `avatar`, `creator`, `create_time`)
 VALUES
 	(1,'8eeccfc0-0f1e-11e8-892e-5ba8fc68dc36','交流群','交流群','http://ooytyiziz.bkt.clouddn.com/peoples1.jpg','罗宾',1518348455);
 
@@ -55,17 +55,17 @@ DROP TABLE IF EXISTS `group_msg`;
 CREATE TABLE `group_msg` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `from_user` int(11) NOT NULL COMMENT '谁发的',
-  `to_group` char(100) NOT NULL DEFAULT '' COMMENT '群id',
+  `to_group_id` char(100) NOT NULL DEFAULT '' COMMENT '群id',
   `message` text NOT NULL COMMENT '聊天信息',
   `time` int(11) NOT NULL COMMENT '发送时间',
   PRIMARY KEY (`id`),
-  KEY `to_group` (`to_group`)
+  KEY `to_group_id` (`to_group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `group_msg` WRITE;
 /*!40000 ALTER TABLE `group_msg` DISABLE KEYS */;
 
-INSERT INTO `group_msg` (`id`, `from_user`, `to_group`, `message`, `time`)
+INSERT INTO `group_msg` (`id`, `from_user`, `to_group_id`, `message`, `time`)
 VALUES
 	(1,1,'8eeccfc0-0f1e-11e8-892e-5ba8fc68dc36','路飞 : 有人不？',1518348482),
 	(2,14,'8eeccfc0-0f1e-11e8-892e-5ba8fc68dc36','罗宾 : 有呀  我呀',1518348493);
@@ -81,7 +81,7 @@ DROP TABLE IF EXISTS `group_user_relation`;
 
 CREATE TABLE `group_user_relation` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `group_id` char(100) NOT NULL DEFAULT '',
+  `to_group_id` char(100) NOT NULL DEFAULT '',
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -89,7 +89,7 @@ CREATE TABLE `group_user_relation` (
 LOCK TABLES `group_user_relation` WRITE;
 /*!40000 ALTER TABLE `group_user_relation` DISABLE KEYS */;
 
-INSERT INTO `group_user_relation` (`id`, `group_id`, `user_id`)
+INSERT INTO `group_user_relation` (`id`, `to_group_id`, `user_id`)
 VALUES
 	(2,'8eeccfc0-0f1e-11e8-892e-5ba8fc68dc36',1),
 	(3,'8eeccfc0-0f1e-11e8-892e-5ba8fc68dc36',14);
@@ -172,7 +172,7 @@ CREATE TABLE `user_info` (
   `name` varchar(20) NOT NULL DEFAULT 'NOT NULL' COMMENT '用户名',
   `password` varchar(40) NOT NULL DEFAULT 'NOT NULL' COMMENT '密码',
   `sex` varchar(2) NOT NULL DEFAULT '男' COMMENT '性别',
-  `avator` varchar(100) NOT NULL DEFAULT 'https://user-images.githubusercontent.com/24861316/47977782-fc0aac00-e0f4-11e8-9686-821e2f5342ca.jpeg' COMMENT '头像',
+  `avatar` varchar(100) NOT NULL DEFAULT 'https://user-images.githubusercontent.com/24861316/47977782-fc0aac00-e0f4-11e8-9686-821e2f5342ca.jpeg' COMMENT '头像',
   `place` varchar(50) DEFAULT NULL COMMENT '来自哪里',
   `last_login` int(10) NOT NULL COMMENT '最后登陆时间',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '在线状态,0离线,1在线',
@@ -186,7 +186,7 @@ CREATE TABLE `user_info` (
 LOCK TABLES `user_info` WRITE;
 /*!40000 ALTER TABLE `user_info` DISABLE KEYS */;
 
-INSERT INTO `user_info` (`id`, `name`, `password`, `sex`, `avator`, `place`, `last_login`, `status`, `socketid`, `website`, `github`, `intro`)
+INSERT INTO `user_info` (`id`, `name`, `password`, `sex`, `avatar`, `place`, `last_login`, `status`, `socketid`, `website`, `github`, `intro`)
 VALUES
 	(1,'路飞','6512bd43d9caa6e02c990b0a82652dca','男','http://ooytyiziz.bkt.clouddn.com/people1.jpg','厦门',0,0,'tIckUQsrpFm_Wki0AAAF','','https://github.com/Hxvin',NULL),
 	(2,'索隆','b6d767d2f8ed5d21a44b0e5886680cb9','男','http://ooytyiziz.bkt.clouddn.com/people2.jpg','深圳',0,0,'l12EoQ8PbnmvupNQAAAP',NULL,'',NULL),

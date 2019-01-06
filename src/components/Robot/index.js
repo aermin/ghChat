@@ -6,14 +6,14 @@ import ChatItem from '../ChatItem';
 import InputArea from '../InputArea';
 
 import {
-  toNomalTime
+  toNormalTime
 } from '../../utils/transformTime';
 
 export default class Robot extends Component {
   constructor() {
     super();
     this.state = {
-      time: toNomalTime(Date.parse(new Date()) / 1000),
+      time: toNormalTime(Date.parse(new Date()) / 1000),
       inputMsg: '',
       userInfo: {},
     };
@@ -69,7 +69,7 @@ export default class Robot extends Component {
       const listItems = robotState.map((msg, index) => (
         <li key={index}>
           {msg.user && <ChatItem img={robotImg} msg={msg.message} name={msg.user} time={time} />}
-          {!msg.user && <ChatItem me img={userInfo.avator} msg={msg.message} name={userInfo.name} time={time} />}
+          {!msg.user && <ChatItem me img={userInfo.avatar} msg={msg.message} name={userInfo.name} time={time} />}
         </li>
       ));
       return (

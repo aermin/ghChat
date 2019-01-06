@@ -2,7 +2,6 @@ const groupChatModel = require('../models/groupChat');
 
 /**
  * 获取群资料
- * @param   groupMsg  群聊信息
  * @param   groupInfo  群资料
  * @param   message  消息
  * @param   name 用户名
@@ -28,7 +27,6 @@ const getGroupInfo = async (ctx, next) => {
 
 /**
  * 获取群聊相关内容
- * @param   groupMsg  群聊信息
  * @param   groupInfo  群资料
  * @param   message  消息
  * @param   name 用户名
@@ -42,7 +40,7 @@ const getGroupDetail = async (ctx, next) => {
     const RowDataPacket1 = await groupChatModel.getGroupMsg(groupId);
     const RowDataPacket2 = await groupChatModel.getGroupInfo([groupId, null]);
     // const RowDataPacket3 = await groupChatModel.getGroupMember(groupId);
-    const groupMsg = JSON.parse(JSON.stringify(RowDataPacket1));
+    const message = JSON.parse(JSON.stringify(RowDataPacket1));
     const groupInfo = JSON.parse(JSON.stringify(RowDataPacket2));
     // const groupMember = JSON.parse(JSON.stringify(RowDataPacket3));
     // const newGroupMember = [];
@@ -55,7 +53,7 @@ const getGroupDetail = async (ctx, next) => {
     ctx.body = {
       success: true,
       data: {
-        groupMsg,
+        message,
         groupInfo
       }
     };

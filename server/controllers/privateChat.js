@@ -7,7 +7,7 @@ const userModel = require('../models/userInfo');
  * @return  from_user  此条信息的发送者
  *          message 私聊信息
  *          time 时间
- *          avator 发送者的头像
+ *          avatar 发送者的头像
  *          sex 发送者的性别
  *          place 发送者居住地
  *         status 发送者的是否在线
@@ -18,12 +18,12 @@ const getprivateDetail = async (ctx, next) => {
   const from_user = ctx.user_id;
   const RowDataPacket1 = await privateChatModel.getPrivateDetail(from_user, to_user);
   const RowDataPacket2 = await userModel.getUserInfo(to_user);
-  const privateDetail = JSON.parse(JSON.stringify(RowDataPacket1));
+  const message = JSON.parse(JSON.stringify(RowDataPacket1));
   const userInfo = JSON.parse(JSON.stringify(RowDataPacket2));
   ctx.body = {
     success: true,
     data: {
-      privateDetail,
+      message,
       userInfo: userInfo[0]
     }
   };

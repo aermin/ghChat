@@ -16,20 +16,20 @@ export default class GroupChat extends Component {
     if (value.trim() === '') return;
     const fromUserInfo = JSON.parse(localStorage.getItem('userInfo'));
     const {
-      allChatContent, chatId, homePageList, updateHomePageList, updateAllChatContentBySent
+      allChatContent, chatId, homePageList, updateHomePageList, updateAllChatContent
     } = this.props;
     const data = {
       from_user: fromUserInfo.user_id, // 自己的id
-      avator: fromUserInfo.avator, // 自己的头像
+      avatar: fromUserInfo.avatar, // 自己的头像
       name: fromUserInfo.name,
       message: `${fromUserInfo.name}: ${value}`, // 消息内容
-      to_group: chatId,
+      to_group_id: chatId,
       time: Date.parse(new Date()) / 1000 // 时间
     };
     this._sendByMe = true;
     socket.emit('sendGroupMsg', data);
     console.log('sendGroupMsg success', data);
-    updateAllChatContentBySent({ allChatContent, newChatContent: data, chatType: 'groupChat' });
+    updateAllChatContent({ allChatContent, newChatContent: data, action: 'send' });
     updateHomePageList({ data, homePageList, myUserId: fromUserInfo.user_id });
   }
 
@@ -63,13 +63,16 @@ export default class GroupChat extends Component {
 
   render() {
     const { chatId, allChatContent } = this.props;
-    if (!allChatContent.groupChat) return null;
-    const { groupMsg, groupInfo } = allChatContent.groupChat.get(chatId);
+    if (!allChatContent.groupChat || !allChatContent.groupChat.get(chatId)) return null;
+    debugger;
+    console.log('allChatContent.groupChat~~', allChatContent.groupChat, allChatContent.groupChat.get(chatId));
+    const { message, groupInfo } = allChatContent.groupChat.get(chatId);
+    console.log('message, groupInfo', message, groupInfo);
     const fromUserInfo = JSON.parse(localStorage.getItem('userInfo'));
     return (
       <div className="chat-wrapper">
-        <ChatHeader title={groupInfo[0].group_name} />
-        <ChatContentList ChatContent={groupMsg} chatId={fromUserInfo.user_id} />
+        <ChatHeader title={groupInfo && groupInfo[0].name} />
+        <ChatContentList ChatContent={message} chatId={fromUserInfo.user_id} />
         <InputArea sendMessage={this.sendMessage} />
       </div>
     );
@@ -81,7 +84,7 @@ GroupChat.propTypes = {
   allChatContent: PropTypes.object,
   homePageList: PropTypes.array,
   updateHomePageList: PropTypes.func,
-  updateAllChatContentBySent: PropTypes.func,
+  updateAllChatContent: PropTypes.func,
   chatId: PropTypes.string
 };
 
@@ -90,6 +93,6 @@ GroupChat.defaultProps = {
   allChatContent: {},
   homePageList: [],
   updateHomePageList: undefined,
-  updateAllChatContentBySent: undefined,
+  updateAllChatContent: undefined,
   chatId: undefined,
 };

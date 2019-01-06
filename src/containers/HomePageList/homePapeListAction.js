@@ -9,15 +9,15 @@ const updateHomePageListAction = ({ homePageList, data, myUserId }) => {
   let chatFromId;
   if (data.to_user) {
     chatFromId = data.from_user === myUserId ? data.to_user : data.from_user;
-  } else if (data.to_group) {
-    chatFromId = data.to_group;
+  } else if (data.to_group_id) {
+    chatFromId = data.to_group_id;
   }
-  const chatExist = homePageListCopy.find(e => e.id == chatFromId);
+  const chatExist = homePageListCopy.find(e => e.to_user == chatFromId || e.to_group_id == chatFromId);
   console.log('chatFromId, chatExist', chatFromId, chatExist);
   if (chatExist) {
     const length = homePageListCopy.length;
     for (let i = 0; i < length; i++) {
-      if (homePageListCopy[i].id === chatFromId) {
+      if (homePageListCopy[i].to_user === chatFromId || homePageListCopy[i].to_group_id === chatFromId) {
         homePageListCopy[i] = { ...homePageListCopy[i], message: data.message, time: data.time };
         break;
       }
@@ -31,28 +31,17 @@ const updateHomePageListAction = ({ homePageList, data, myUserId }) => {
   };
 };
 
-const updateAllChatContentByGotAction = ({ allChatContent, newChatContent, chatType }) => {
+const updateAllChatContentAction = ({ allChatContent, newChatContent, action }) => {
   const allChatContentCopy = Map(allChatContent).toObject();
-  const mapKey = chatType === 'privateChat' ? newChatContent.from_user : newChatContent.to_group;
+  const toPeople = action === 'send' ? newChatContent.to_user : newChatContent.from_user;
+  const mapKey = newChatContent.to_group_id ? newChatContent.to_group_id : toPeople;
+  const chatType = newChatContent.to_group_id ? 'groupChat' : 'privateChat';
   console.log('allChatContentCopy by got', allChatContentCopy, chatType, newChatContent);
-  if (newChatContent.to_user) {
-    allChatContentCopy[chatType].get(mapKey).privateDetail.push(newChatContent);
-  } else if (newChatContent.to_group) {
-    allChatContentCopy[chatType].get(newChatContent.to_group).groupMsg.push(newChatContent);
-  }
-  return {
-    type: UPDATE_ALL_CHAT_CONTENT,
-    data: allChatContentCopy
-  };
-};
-
-const updateAllChatContentBySentAction = ({ allChatContent, newChatContent, chatType }) => {
-  const allChatContentCopy = Map(allChatContent).toObject();
-  const mapKey = chatType === 'privateChat' ? newChatContent.to_user : newChatContent.to_group;
-  if (newChatContent.to_user) {
-    allChatContentCopy[chatType].get(mapKey).privateDetail.push(newChatContent);
-  } else if (newChatContent.to_group) {
-    allChatContentCopy[chatType].get(mapKey).groupMsg.push(newChatContent);
+  if (allChatContentCopy[chatType].get(mapKey)) {
+    allChatContentCopy[chatType].get(mapKey).message.push(newChatContent);
+  // There is no this this chat，such as creating new group or before fist private chat
+  } else {
+    allChatContentCopy[chatType].set(mapKey, { message: [newChatContent] });
   }
 
   return {
@@ -71,7 +60,6 @@ export {
   UPDATE_ALL_CHAT_CONTENT,
   RELATED_CURRENT_CHAT,
   updateHomePageListAction,
-  updateAllChatContentByGotAction,
-  updateAllChatContentBySentAction,
+  updateAllChatContentAction,
   relatedCurrentChatAction,
 };

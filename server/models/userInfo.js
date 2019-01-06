@@ -16,7 +16,7 @@ const findDataByName = (name) => {
 
 // 通过用户名查找用户信息 user_info 不包括密码
 const findUIByName = (name) => {
-  const _sql = 'SELECT id ,name ,sex,avator,place,github FROM user_info WHERE name = ? ';
+  const _sql = 'SELECT id ,name ,sex,avatar,place,github FROM user_info WHERE name = ? ';
   return query(_sql, name);
 };
 
@@ -34,7 +34,7 @@ const findDataByUserid = (userid) => {
 
 // 通过用户id查找用户信息 user_info 包括用户名，性别，头像，最后登录时间，状态等，不包括密码
 const getUserInfo = (user_id) => {
-  const _sql = 'SELECT id AS user_id, name ,sex ,avator,place ,website,github,intro,status  FROM user_info   WHERE  user_info.id =? ';
+  const _sql = 'SELECT id AS user_id, name ,sex ,avatar,place ,website,github,intro,status  FROM user_info   WHERE  user_info.id =? ';
   return query(_sql, [user_id]);
 };
 

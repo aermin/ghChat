@@ -2,12 +2,10 @@ import React, { PureComponent } from 'react';
 import './index.scss';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { toNomalTime } from '../../utils/transformTime';
-import Spinner from '../spinner';
+import { toNormalTime } from '../../utils/transformTime';
+// import Spinner from '../spinner';
 
 export default class HomePageList extends PureComponent {
-  // TODO: getMsgOnSocket
-
   subscribeSocket() {
     socket.removeAllListeners('getPrivateMsg');
     socket.removeAllListeners('getGroupMsg');
@@ -16,28 +14,28 @@ export default class HomePageList extends PureComponent {
       const fromUserInfo = JSON.parse(localStorage.getItem('userInfo'));
       const {
         allChatContent, homePageList, updateHomePageList,
-        updateAllChatContentByGot, relatedCurrentChat
+        updateAllChatContent, relatedCurrentChat
       } = this.props;
       // eslint-disable-next-line radix
       const chatId = parseInt(window.location.pathname.split('/').slice(-1)[0]);
       const isRelatedCurrentChat = (data.from_user === chatId || data.to_user === chatId);
       console.log('isRelatedCurrentChat, data.from_user, data.to_user, chatId', isRelatedCurrentChat, data.from_user, data.to_user, chatId);
       relatedCurrentChat(isRelatedCurrentChat);
-      updateAllChatContentByGot({ allChatContent, newChatContent: data, chatType: 'privateChat' });
+      updateAllChatContent({ allChatContent, newChatContent: data, action: 'get' });
       updateHomePageList({ data, homePageList, myUserId: fromUserInfo.user_id });
     });
     socket.on('getGroupMsg', (data) => {
       console.log('subscribeSocket for group chat', data);
       const {
         allChatContent, homePageList, updateHomePageList,
-        updateAllChatContentByGot, relatedCurrentChat
+        updateAllChatContent, relatedCurrentChat
       } = this.props;
       // eslint-disable-next-line radix
       const chatId = window.location.pathname.split('/').slice(-1)[0];
-      const isRelatedCurrentChat = (data.to_group === chatId);
-      console.log('isRelatedCurrentChat, data.to_group, chatId', isRelatedCurrentChat, data.to_group, chatId);
+      const isRelatedCurrentChat = (data.to_group_id === chatId);
+      console.log('isRelatedCurrentChat, data.to_group_id, chatId', isRelatedCurrentChat, data.to_group_id, chatId);
       relatedCurrentChat(isRelatedCurrentChat);
-      updateAllChatContentByGot({ allChatContent, newChatContent: data, chatType: 'groupChat' });
+      updateAllChatContent({ allChatContent, newChatContent: data });
       updateHomePageList({ data, homePageList });
     });
   }
@@ -61,15 +59,15 @@ export default class HomePageList extends PureComponent {
     const { homePageList } = this.props;
     const listItems = homePageList.map((data, index) => (
       <li key={index}>
-        <Link to={data.type === 'group' ? `/group_chat/${data.group_id}` : `/private_chat/${data.from_user}`}>
-          <img src={data.type === 'group' ? data.group_avator : data.avator} alt={data.type === 'group' ? '群头像' : '用户头像'} className="img" />
+        <Link to={data.to_group_id ? `/group_chat/${data.to_group_id}` : `/private_chat/${data.from_user}`}>
+          <img src={data.avatar} alt={data.to_group_id ? '群头像' : '用户头像'} className="img" />
           {/* {data.unread &&<span className={data.type === 'group' ? "group-unread" :"private-unread" }>{data.unread}</span>} */}
           <div className="content">
             <div className="title">
-              {data.type === 'group' ? data.group_name : data.name}
-              <span>{toNomalTime(data.time)}</span>
+              {data.name}
+              <span>{toNormalTime(data.time)}</span>
             </div>
-            <div className="message">{data.message}</div>
+            <div className="message">{data.message || '暂无消息'}</div>
           </div>
         </Link>
       </li>
@@ -88,7 +86,7 @@ HomePageList.propTypes = {
   allChatContent: PropTypes.object,
   homePageList: PropTypes.array,
   updateHomePageList: PropTypes.func,
-  updateAllChatContentByGot: PropTypes.func,
+  updateAllChatContent: PropTypes.func,
   relatedCurrentChat: PropTypes.func,
 };
 
@@ -97,6 +95,6 @@ HomePageList.defaultProps = {
   allChatContent: {},
   homePageList: [],
   updateHomePageList: undefined,
-  updateAllChatContentByGot: undefined,
+  updateAllChatContent: undefined,
   relatedCurrentChat: undefined,
 };

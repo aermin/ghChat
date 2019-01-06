@@ -4,24 +4,19 @@ import './style.scss';
 
 
 export default class Modal extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-    cancel = () => {
-      const { modalEvent, cancel } = this.props;
-      cancel(modalEvent);
+    clickCancel = () => {
+      const { cancel } = this.props;
+      cancel();
     }
 
-    confirm = () => {
-      const { modalEvent, confirm } = this.props;
-      confirm(modalEvent);
+    clickConfirm = () => {
+      const { confirm } = this.props;
+      confirm();
     }
 
     render() {
       const {
-        visible, title, content, hasCancel
+        visible, title, hasCancel, children
       } = this.props;
       return (
         <div>
@@ -30,20 +25,19 @@ export default class Modal extends Component {
               <div className="bg" />
               <div className="modal-wrapper">
                 <h1>
-                  {' '}
                   {title}
-                  {' '}
                 </h1>
-                <p className="content">
+                {/* <p className="content">
                   {content}
-                </p>
+                </p> */}
+                {children}
                 {hasCancel ? (
                   <div className="hasCancel">
-                    <p onClick={this.cancel}>取消</p>
-                    <p onClick={this.confirm}>确定</p>
+                    <p onClick={this.clickCancel}>取消</p>
+                    <p onClick={this.clickConfirm}>确定</p>
                   </div>) : (
                     <div className="noCancel">
-                      <p onClick={this.confirm}>确定</p>
+                      <p onClick={this.clickConfirm}>确定</p>
                     </div>)
                 }
               </div>
@@ -55,22 +49,20 @@ export default class Modal extends Component {
 }
 
 Modal.propTypes = {
-  modalEvent: PropTypes.string,
   cancel: PropTypes.func,
   confirm: PropTypes.func,
   visible: PropTypes.bool,
   title: PropTypes.string,
-  content: PropTypes.string,
-  hasCancel: PropTypes.bool
+  hasCancel: PropTypes.bool,
+  children: PropTypes.node,
 };
 
 
 Modal.defaultProps = {
-  modalEvent: undefined,
   cancel: undefined,
   confirm: undefined,
   visible: false,
   title: '',
-  content: '',
   hasCancel: false,
+  children: undefined,
 };
