@@ -42,7 +42,7 @@ export default class GroupChat extends Component {
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     const { relatedCurrentChat, chatId } = nextProps;
     console.log('shouldComponentUpdate ', relatedCurrentChat, chatId, this.props.chatId, this._sendByMe);
     if (relatedCurrentChat || chatId !== this.props.chatId || this._sendByMe) {
@@ -70,7 +70,7 @@ export default class GroupChat extends Component {
     const fromUserInfo = JSON.parse(localStorage.getItem('userInfo'));
     return (
       <div className="chat-wrapper">
-        <ChatHeader title={groupInfo && groupInfo[0].name} />
+        <ChatHeader title={groupInfo && groupInfo.name} />
         <ChatContentList ChatContent={messages} chatId={fromUserInfo.user_id} />
         <InputArea sendMessage={this.sendMessage} />
       </div>

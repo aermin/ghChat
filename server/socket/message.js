@@ -19,7 +19,7 @@ async function getGroupMsg({ groupId }) {
   const RowDataPacket1 = await groupChatModel.getGroupMsg(groupId);
   const RowDataPacket2 = await groupChatModel.getGroupInfo([groupId, null]);
   const messages = JSON.parse(JSON.stringify(RowDataPacket1));
-  const groupInfo = JSON.parse(JSON.stringify(RowDataPacket2));
+  const groupInfo = JSON.parse(JSON.stringify(RowDataPacket2))[0];
   return {
     messages,
     groupInfo

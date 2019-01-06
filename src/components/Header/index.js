@@ -79,6 +79,12 @@ export default class Header extends Component {
     });
   }
 
+  cancel = () => {
+    this.setState({
+      visible: false
+    });
+  }
+
   render() {
     const {
       userInfo, groupName, groupNotice
@@ -95,6 +101,7 @@ export default class Header extends Component {
           visible={this.state.visible}
           confirm={this.confirm}
           hasCancel
+          cancel={this.cancel}
         >
           <div className="content">
             <p>
