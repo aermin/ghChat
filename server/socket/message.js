@@ -7,10 +7,10 @@ const groupChatModel = require('../models/groupChat');
 async function getPrivateMsg({ toUser, userId }) {
   const RowDataPacket1 = await privateChatModel.getPrivateDetail(userId, toUser);
   const RowDataPacket2 = await userModel.getUserInfo(toUser);
-  const message = JSON.parse(JSON.stringify(RowDataPacket1));
+  const messages = JSON.parse(JSON.stringify(RowDataPacket1));
   const userInfo = JSON.parse(JSON.stringify(RowDataPacket2));
   return {
-    message,
+    messages,
     userInfo: userInfo[0]
   };
 }
@@ -18,10 +18,10 @@ async function getPrivateMsg({ toUser, userId }) {
 async function getGroupMsg({ groupId }) {
   const RowDataPacket1 = await groupChatModel.getGroupMsg(groupId);
   const RowDataPacket2 = await groupChatModel.getGroupInfo([groupId, null]);
-  const message = JSON.parse(JSON.stringify(RowDataPacket1));
-  const groupInfo = JSON.parse(JSON.stringify(RowDataPacket2));
+  const messages = JSON.parse(JSON.stringify(RowDataPacket1));
+  const groupInfo = JSON.parse(JSON.stringify(RowDataPacket2))[0];
   return {
-    message,
+    messages,
     groupInfo
   };
 }

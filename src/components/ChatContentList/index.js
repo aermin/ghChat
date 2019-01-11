@@ -12,7 +12,6 @@ export default class ChatContentList extends Component {
 
   render() {
     const { ChatContent, chatId } = this.props;
-    debugger;
     const listItems = ChatContent.map((item, index) => {
       let isMe;
       if (item.to_user) { // is private chat
