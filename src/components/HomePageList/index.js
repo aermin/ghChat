@@ -7,9 +7,9 @@ import { toNormalTime } from '../../utils/transformTime';
 
 export default class HomePageList extends PureComponent {
   subscribeSocket() {
-    socket.removeAllListeners('getPrivateMsg');
-    socket.removeAllListeners('getGroupMsg');
-    socket.on('getPrivateMsg', (data) => {
+    window.socket.removeAllListeners('getPrivateMsg');
+    window.socket.removeAllListeners('getGroupMsg');
+    window.socket.on('getPrivateMsg', (data) => {
       console.log('subscribeSocket for private chat', data);
       const fromUserInfo = JSON.parse(localStorage.getItem('userInfo'));
       const {
@@ -24,7 +24,7 @@ export default class HomePageList extends PureComponent {
       updateAllChatContent({ allChatContent, newChatContent: data, action: 'get' });
       updateHomePageList({ data, homePageList, myUserId: fromUserInfo.userId });
     });
-    socket.on('getGroupMsg', (data) => {
+    window.socket.on('getGroupMsg', (data) => {
       console.log('subscribeSocket for group chat', data);
       const {
         allChatContent, homePageList, updateHomePageList,
@@ -43,7 +43,7 @@ export default class HomePageList extends PureComponent {
   componentWillMount() {
     console.log('home page list props', this.props);
     const fromUserInfo = JSON.parse(localStorage.getItem('userInfo'));
-    socket.emit('initGroupChat', { userId: fromUserInfo.userId });
+    window.socket.emit('initGroupChat', { userId: fromUserInfo.userId });
     this.subscribeSocket();
   }
 

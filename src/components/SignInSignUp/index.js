@@ -22,7 +22,7 @@ export default class SignInSignUp extends Component {
     const href = window.location.href;
     if (/\?code/.test(href)) {
       const code = href.split('?code=')[1];
-      socket.emit('githubSignIn', {
+      window.socket.emit('githubSignIn', {
         code,
         clientId: this.clientId
       });

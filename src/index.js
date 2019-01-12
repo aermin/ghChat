@@ -38,7 +38,7 @@ if (module.hot) {
 AxiosHandle.axiosConfigInit();
 
 // init: fetch HomePageList and AllChatContent;
-socket.on('getAllMessage', (data) => {
+window.socket.on('getAllMessage', (data) => {
   console.log('getAllMessage', data);
   const privateChat = new Map(data.privateChat);
   const groupChat = new Map(data.groupChat);

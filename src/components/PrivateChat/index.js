@@ -26,7 +26,7 @@ export default class PrivateChat extends Component {
       time: Date.parse(new Date()) / 1000 // 时间
     };
     this._sendByMe = true;
-    socket.emit('sendPrivateMsg', data);
+    window.socket.emit('sendPrivateMsg', data);
     updateAllChatContent({ allChatContent, newChatContent: data, action: 'send' });
     updateHomePageList({ data, homePageList, myUserId: fromUserInfo.userId });
     console.log('sent message', data);

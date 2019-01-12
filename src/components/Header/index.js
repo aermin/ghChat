@@ -50,7 +50,7 @@ export default class Header extends Component {
       create_time: Date.parse(new Date()) / 1000
     };
     // this.props.history.push('/login');
-    socket.on('createGroupRes', (data) => {
+    window.socket.on('createGroupRes', (data) => {
       console.log('createGroupRes', data);
       const {
         updateAllChatContent, updateHomePageList, homePageList, allChatContent,
@@ -63,7 +63,7 @@ export default class Header extends Component {
       // eslint-disable-next-line react/prop-types
       this.props.history.push(`/group_chat/${data.to_group_id}`);
     });
-    socket.emit('createGroup', data);
+    window.socket.emit('createGroup', data);
   }
 
   handleChange = (event) => {

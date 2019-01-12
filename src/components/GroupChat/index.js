@@ -27,7 +27,7 @@ export default class GroupChat extends Component {
       time: Date.parse(new Date()) / 1000 // 时间
     };
     this._sendByMe = true;
-    socket.emit('sendGroupMsg', data);
+    window.socket.emit('sendGroupMsg', data);
     console.log('sendGroupMsg success', data);
     updateAllChatContent({ allChatContent, newChatContent: data, action: 'send' });
     updateHomePageList({ data, homePageList, myUserId: fromUserInfo.userId });
