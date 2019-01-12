@@ -7,13 +7,22 @@ const { saveGroupMsg } = require('../models/groupChat');
 const msgModel = require('../models/message');
 const groupInfo = require('../models/groupInfo');
 const initMessage = require('./message');
+const verify = require('../middlewares/verify');
 // const login = require('./login');
 
 // module.exports = server => (ctx) => {
 module.exports = (server) => {
   // console.log('ctx233', ctx);
   const io = socketIo(server);
+  io.use((socket, next) => {
+    const token = socket.handshake.query.token;
+    if (verify(token)) {
+      return next();
+    }
+    return next(new Error('Authentication error'));
+  });
   io.on('connection', (socket) => {
+    // console.log('socket2333', socket);
     const socketId = socket.id;
     socket.on('saveSocketIdByUserId', async (userId) => {
       // const { name, password, userId } = data;

@@ -5,17 +5,14 @@
 const jwt = require('jsonwebtoken');
 const secret = require('../config').secret;
 
-module.exports = async (ctx, next) => {
-  // 同步验证
-  const auth = ctx.get('Authorization');
-  const token = auth.split(' ')[1];
+module.exports = (token) => {
   try {
-    // 解码取出之前存在payload的user_id 和 name
+    // 解码取出之前存在payload的user_id
     const payload = jwt.verify(token, secret);
-    ctx.user_id = payload.id;
-    ctx.name = payload.name;
-    await next();
+    return payload;
   } catch (err) {
-    ctx.throw(401, err);
+    // ctx.throw(401, err);
+    console.error(err);
+    return false;
   }
 };

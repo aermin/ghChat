@@ -1,5 +1,4 @@
 import React from 'react';
-import io from 'socket.io-client';
 import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom';
 import RegisterPage from 'bundle-loader?lazy&name=RegisterPage!../containers/RegisterPage';
 import LogInPage from 'bundle-loader?lazy&name=LogInPage!../containers/LogInPage';
@@ -37,16 +36,6 @@ const routes = [
 ];
 
 export default function getRouter() {
-  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-  console.log('getRouter~~');
-  const { pathname } = window.location;
-  if (userInfo && pathname !== '/login' && pathname !== '/register') {
-    window.socket = io('http://localhost:3000');
-    console.log('initMessage && saveSocketIdByUserId');
-    window.socket.emit('saveSocketIdByUserId', userInfo.userId);
-    window.socket.emit('initMessage', userInfo.userId);
-  }
-
   return (
     <Router>
       <div className="layout-wrapper">

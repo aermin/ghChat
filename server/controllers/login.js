@@ -21,10 +21,7 @@ module.exports = async (ctx, next) => {
       const {
         id, name, sex, website, github, intro, avatar, place, socketId
       } = res[0];
-      const payload = { // payload
-        name,
-        id
-      };
+      const payload = { id };
       const token = jwt.sign(payload, secret, {
         expiresIn: Math.floor(Date.now() / 1000) + 24 * 60 * 60 // 一天
       });
