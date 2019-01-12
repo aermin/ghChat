@@ -1,25 +1,31 @@
 
 const socketIo = require('socket.io');
-const uuidv1 = require('uuid/v1');
+const uuid = require('uuid/v1');
 const socketModel = require('../models/socket');
 const { savePrivateMsg } = require('../models/privateChat');
 const { saveGroupMsg } = require('../models/groupChat');
 const msgModel = require('../models/message');
 const groupInfo = require('../models/groupInfo');
 const initMessage = require('./message');
+// const login = require('./login');
 
+// module.exports = server => (ctx) => {
 module.exports = (server) => {
+  // console.log('ctx233', ctx);
   const io = socketIo(server);
   io.on('connection', (socket) => {
     const socketId = socket.id;
-    // 登录
-    socket.on('login', async (userId) => {
+    socket.on('saveSocketIdByUserId', async (userId) => {
+      // const { name, password, userId } = data;
+      // await login({
+      //   io, name, password, socketId
+      // });
       await socketModel.saveUserSocketId(userId, socketId);
     });
-    // 更新soketId
-    socket.on('update', async (userId) => {
-      await socketModel.saveUserSocketId(userId, socketId);
-    });
+    // // 更新soketId
+    // socket.on('update', async (userId) => {
+    //   await socketModel.saveUserSocketId(userId, socketId);
+    // });
 
     // 初始化群聊
     socket.on('initGroupChat', async (data) => {
@@ -57,7 +63,7 @@ module.exports = (server) => {
 
     // 建群
     socket.on('createGroup', async (data) => {
-      const to_group_id = uuidv1();
+      const to_group_id = uuid();
       const {
         name, group_notice, creator, create_time
       } = data;

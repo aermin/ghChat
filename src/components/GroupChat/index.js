@@ -19,7 +19,7 @@ export default class GroupChat extends Component {
       allChatContent, chatId, homePageList, updateHomePageList, updateAllChatContent
     } = this.props;
     const data = {
-      from_user: fromUserInfo.user_id, // 自己的id
+      from_user: fromUserInfo.userId, // 自己的id
       avatar: fromUserInfo.avatar, // 自己的头像
       name: fromUserInfo.name,
       message: `${fromUserInfo.name}: ${value}`, // 消息内容
@@ -30,7 +30,7 @@ export default class GroupChat extends Component {
     socket.emit('sendGroupMsg', data);
     console.log('sendGroupMsg success', data);
     updateAllChatContent({ allChatContent, newChatContent: data, action: 'send' });
-    updateHomePageList({ data, homePageList, myUserId: fromUserInfo.user_id });
+    updateHomePageList({ data, homePageList, myUserId: fromUserInfo.userId });
   }
 
   scrollToBottom(time = 0) {
@@ -71,7 +71,7 @@ export default class GroupChat extends Component {
     return (
       <div className="chat-wrapper">
         <ChatHeader title={groupInfo && groupInfo.name} />
-        <ChatContentList ChatContent={messages} chatId={fromUserInfo.user_id} />
+        <ChatContentList ChatContent={messages} chatId={fromUserInfo.userId} />
         <InputArea sendMessage={this.sendMessage} />
       </div>
     );

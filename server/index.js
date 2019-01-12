@@ -10,7 +10,8 @@ const { query } = require('./utils/db');
 const app = new Koa();
 
 const server = http.createServer(app.callback());
-socketHandle(server);
+socketHandle(server)
+// app.use(socketHandle(server));
 server.listen(3000);
 
 app.use(cors());

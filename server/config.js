@@ -7,7 +7,7 @@ const db = {
 };
 const baseApi = 'api/v1';
 
-const secret = 'airchat-sec';
+const secret = 'chat-sec';
 
 module.exports = {
   db,

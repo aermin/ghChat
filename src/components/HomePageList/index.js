@@ -22,7 +22,7 @@ export default class HomePageList extends PureComponent {
       console.log('isRelatedCurrentChat, data.from_user, data.to_user, chatId', isRelatedCurrentChat, data.from_user, data.to_user, chatId);
       relatedCurrentChat(isRelatedCurrentChat);
       updateAllChatContent({ allChatContent, newChatContent: data, action: 'get' });
-      updateHomePageList({ data, homePageList, myUserId: fromUserInfo.user_id });
+      updateHomePageList({ data, homePageList, myUserId: fromUserInfo.userId });
     });
     socket.on('getGroupMsg', (data) => {
       console.log('subscribeSocket for group chat', data);
@@ -43,7 +43,7 @@ export default class HomePageList extends PureComponent {
   componentWillMount() {
     console.log('home page list props', this.props);
     const fromUserInfo = JSON.parse(localStorage.getItem('userInfo'));
-    socket.emit('initGroupChat', { userId: fromUserInfo.user_id });
+    socket.emit('initGroupChat', { userId: fromUserInfo.userId });
     this.subscribeSocket();
   }
 

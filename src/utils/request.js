@@ -3,17 +3,17 @@ import axios from 'axios';
 export default class Request {
   static axiosConfigInit() {
     axios.defaults.baseURL = 'http://localhost:3000';
-    axios.interceptors.request.use(
-      (config) => {
-        const token = localStorage.getItem('userToken');
-        if (token) {
-          // Bearer是JWT的认证头部信息
-          config.headers.common.Authorization = `Bearer ${token}`;
-        }
-        return config;
-      },
-      error => Promise.reject(error)
-    );
+    // axios.interceptors.request.use(
+    //   (config) => {
+    //     const token = localStorage.getItem('userToken');
+    //     if (token) {
+    //       // Bearer是JWT的认证头部信息
+    //       config.headers.common.Authorization = `Bearer ${token}`;
+    //     }
+    //     return config;
+    //   },
+    //   error => Promise.reject(error)
+    // );
   }
 
   static async axios(method = 'get', url, params) {

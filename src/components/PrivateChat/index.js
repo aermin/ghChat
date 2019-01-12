@@ -18,7 +18,7 @@ export default class PrivateChat extends Component {
     } = this.props;
     const { userInfo } = allChatContent.privateChat.get(chatId);
     const data = {
-      from_user: fromUserInfo.user_id, // 自己的id
+      from_user: fromUserInfo.userId, // 自己的id
       to_user: userInfo.user_id, // 对方id
       avatar: fromUserInfo.avatar, // 自己的头像
       name: fromUserInfo.name,
@@ -28,7 +28,7 @@ export default class PrivateChat extends Component {
     this._sendByMe = true;
     socket.emit('sendPrivateMsg', data);
     updateAllChatContent({ allChatContent, newChatContent: data, action: 'send' });
-    updateHomePageList({ data, homePageList, myUserId: fromUserInfo.user_id });
+    updateHomePageList({ data, homePageList, myUserId: fromUserInfo.userId });
     console.log('sent message', data);
   }
 

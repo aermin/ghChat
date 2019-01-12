@@ -25,10 +25,6 @@ export default class LogIn extends Component {
       try {
         const res = await Request.axios('post', '/api/v1/login', { name, password });
         if (res && res.success) {
-          // 保存soket.io
-          // eslint-disable-next-line no-undef
-          socket.emit('login', res.userInfo.user_id);
-          localStorage.setItem('userToken', res.token);
           localStorage.setItem('userInfo', JSON.stringify(res.userInfo));
           // 弹窗
           this.setState({

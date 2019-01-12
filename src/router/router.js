@@ -1,7 +1,7 @@
 import React from 'react';
-
+import io from 'socket.io-client';
 import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom';
-
+// import io from 'socket.io-client';
 import RegisterPage from 'bundle-loader?lazy&name=RegisterPage!../containers/RegisterPage';
 import LogInPage from 'bundle-loader?lazy&name=LogInPage!../containers/LogInPage';
 import ContentLeft from 'bundle-loader?lazy&name=ContentLeft!../containers/ContentLeft';
@@ -33,17 +33,20 @@ const routes = [
     path: '/group_chat/:to_group_id',
   },
   {
-    path: '/private_chat/:user_id',
+    path: '/private_chat/:userId',
   },
 ];
 
 export default function getRouter() {
   const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  console.log('getRouter~~');
   const { pathname } = window.location;
   if (userInfo && pathname !== '/login' && pathname !== '/register') {
-    console.log('initMessage~~');
-    socket.emit('initMessage', userInfo.user_id);
+    console.log('initMessage && saveSocketIdByUserId');
+    socket.emit('saveSocketIdByUserId', userInfo.userId);
+    socket.emit('initMessage', userInfo.userId);
   }
+
   return (
     <Router>
       <div className="layout-wrapper">

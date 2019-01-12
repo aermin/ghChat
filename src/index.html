@@ -14,9 +14,6 @@
   padding: 0;
   box-sizing:border-box;
   } 
-  /* html,body,.app{
-    height: 100%;
-  } */
   .icon {
      width: 1em; height: 1em;
      vertical-align: -0.15em;
@@ -29,10 +26,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
   <script>
     const socket = io('http://localhost:3000');
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    if (userInfo) {
-      socket.emit('update', userInfo.user_id);
-    }
   </script>
 </body>
 

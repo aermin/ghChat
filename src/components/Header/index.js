@@ -41,12 +41,12 @@ export default class Header extends Component {
   createGroup = () => {
     console.log('createGroup');
     const { groupName, groupNotice } = this.state;
-    const { name, user_id } = JSON.parse(localStorage.getItem('userInfo'));
+    const { name, userId } = JSON.parse(localStorage.getItem('userInfo'));
     const data = {
       name: groupName,
       group_notice: groupNotice,
       creator: name,
-      creator_id: user_id,
+      creator_id: userId,
       create_time: Date.parse(new Date()) / 1000
     };
     // this.props.history.push('/login');
