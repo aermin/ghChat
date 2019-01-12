@@ -18,9 +18,24 @@ export default class SignInSignUp extends Component {
     this.setState({ [target.name]: target.value });
   }
 
+  componentDidMount() {
+    const href = window.location.href;
+    if (/\?code/.test(href)) {
+      const code = href.split('?code=')[1];
+      socket.emit('githubSignIn', {
+        code,
+        clientId: this.clientId
+      });
+    }
+  }
+
   handleClick = () => {
     const { setValue } = this.props;
     setValue(this.state);
+  }
+
+  get clientId() {
+    return '8c694af835d62f8fd490';
   }
 
   render() {
@@ -30,6 +45,7 @@ export default class SignInSignUp extends Component {
     const registerClass = isLogin ? 'inactive' : 'active';
     const linkUrl = isLogin ? '/register' : '/login';
     const buttonName = isLogin ? '登录' : '注册';
+    const OAuthHref = `https://github.com/login/oauth/authorize?client_id=${this.clientId}`;
     return (
       <div className="formContent fadeInDown">
         <Link to={linkUrl}>
@@ -64,6 +80,9 @@ export default class SignInSignUp extends Component {
             className="fadeIn fourth"
             value={buttonName}
               />
+          <a href={OAuthHref}>
+            Github登录
+          </a>
         </form>
       </div>
     );
