@@ -32,6 +32,7 @@ module.exports = async ({ userId }) => {
     const privateList = JSON.parse(JSON.stringify(res1));
     const res2 = await msgModel.getGroupList(userId);
     const groupList = JSON.parse(JSON.stringify(res2));
+    console.log('privateList111', privateList);
     console.log('groupList111', groupList);
     groupList.forEach((element) => {
       element.time = element.time ? element.time : element.create_time;
@@ -44,9 +45,9 @@ module.exports = async ({ userId }) => {
     const privateChat = new Map();
     const groupChat = new Map();
     for (const item of homePageList) {
-      if (item.from_user) {
-        const data = await getPrivateMsg({ toUser: item.from_user, userId });
-        privateChat.set(item.from_user, data);
+      if (item.user_id) {
+        const data = await getPrivateMsg({ toUser: item.user_id, userId });
+        privateChat.set(item.user_id, data);
       } else if (item.to_group_id) {
         const data = await getGroupMsg({ groupId: item.to_group_id });
         groupChat.set(item.to_group_id, data);

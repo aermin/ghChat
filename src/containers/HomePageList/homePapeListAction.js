@@ -9,16 +9,17 @@ const updateHomePageListAction = ({ homePageList, data, myUserId }) => {
   let chatFromId;
   if (data.to_user) {
     chatFromId = data.from_user === myUserId ? data.to_user : data.from_user;
+    data.user_id = chatFromId;
   } else if (data.to_group_id) {
     chatFromId = data.to_group_id;
   }
-  const chatExist = homePageListCopy.find(e => e.to_user == chatFromId || e.to_group_id == chatFromId);
+  const chatExist = homePageListCopy.find(e => e.user_id === chatFromId || e.to_group_id === chatFromId);
   console.log('chatFromId, chatExist', chatFromId, chatExist);
   if (chatExist) {
     const length = homePageListCopy.length;
     for (let i = 0; i < length; i++) {
-      if (homePageListCopy[i].to_user === chatFromId || homePageListCopy[i].to_group_id === chatFromId) {
-        homePageListCopy[i] = { ...homePageListCopy[i], message: data.message, time: data.time };
+      if (homePageListCopy[i].user_id === chatFromId || homePageListCopy[i].to_group_id === chatFromId) {
+        homePageListCopy[i] = Object.assign(homePageListCopy[i], { message: data.message, time: data.time });
         break;
       }
     }

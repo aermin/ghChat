@@ -59,7 +59,7 @@ export default class HomePageList extends PureComponent {
     const { homePageList } = this.props;
     const listItems = homePageList.map((data, index) => (
       <li key={index}>
-        <Link to={data.to_group_id ? `/group_chat/${data.to_group_id}` : `/private_chat/${data.from_user}`}>
+        <Link to={data.to_group_id ? `/group_chat/${data.to_group_id}` : `/private_chat/${data.user_id}`}>
           <img src={data.avatar} alt={data.to_group_id ? '群头像' : '用户头像'} className="img" />
           {/* {data.unread &&<span className={data.type === 'group' ? "group-unread" :"private-unread" }>{data.unread}</span>} */}
           <div className="content">
