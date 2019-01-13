@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-const secret = require('../config').secret;
 const request = require('request-promise');
+const secret = require('../config').secret;
 
 module.exports = async (ctx, next) => {
   const auth = ctx.get('Authorization');

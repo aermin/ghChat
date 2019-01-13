@@ -30,9 +30,9 @@ module.exports = async ({ userId }) => {
   try {
     const res1 = await msgModel.getPrivateList(userId);
     const privateList = JSON.parse(JSON.stringify(res1));
+    console.log('privateList111', privateList);
     const res2 = await msgModel.getGroupList(userId);
     const groupList = JSON.parse(JSON.stringify(res2));
-    console.log('privateList111', privateList);
     console.log('groupList111', groupList);
     groupList.forEach((element) => {
       element.time = element.time ? element.time : element.create_time;

@@ -8,21 +8,43 @@ const insertData = (value) => {
   return query(_sql, value);
 };
 
+// 添加github用户
+const insertGithubData = ({
+  name, github_id, avatar, location, website, github, intro
+}) => {
+  const _sql = 'insert into user_info(name, github_id, avatar, location, website, github, intro) values(?,?,?,?,?,?,?);';
+  return query(_sql, [name, github_id, avatar, location, website, github, intro]);
+};
+
+// 通过github_id查找 github用户信息
+const findGithubUser = (githubId) => {
+  const _sql = 'SELECT * FROM user_info WHERE github_id = ? ;';
+  return query(_sql, githubId);
+};
+
+// 更新 github 用户信息
+const updateGithubUser = ({
+  name, avatar, location, website, github, intro, github_id
+}) => {
+  const _sql = ' UPDATE  user_info SET name = ?,avatar = ?,location = ?,website = ?,github = ?,intro= ? WHERE github_id = ? ; ';
+  return query(_sql, [name, avatar, location, website, github, intro, github_id]);
+};
+
 // 通过用户名查找用户信息 user_info
 const findDataByName = (name) => {
-  const _sql = 'SELECT * FROM user_info WHERE name= ? ';
+  const _sql = 'SELECT * FROM user_info WHERE name = ? ;';
   return query(_sql, name);
 };
 
 // 通过用户名查找用户信息 user_info 不包括密码
 const findUIByName = (name) => {
-  const _sql = 'SELECT id ,name ,sex,avatar,place,github FROM user_info WHERE name = ? ';
+  const _sql = 'SELECT id ,name ,sex,avatar,location,github FROM user_info WHERE name = ? ';
   return query(_sql, name);
 };
 
 // 修改我的信息
 const editorInfo = (data) => {
-  const _sql = ' UPDATE  user_info SET github = ?,website = ?,sex = ?,place = ? WHERE id = ? ; ';
+  const _sql = ' UPDATE  user_info SET github = ?,website = ?,sex = ?,location = ? WHERE id = ? ; ';
   return query(_sql, data);
 };
 
@@ -34,7 +56,7 @@ const findDataByUserid = (userid) => {
 
 // 通过用户id查找用户信息 user_info 包括用户名，性别，头像，最后登录时间，状态等，不包括密码
 const getUserInfo = (user_id) => {
-  const _sql = 'SELECT id AS user_id, name ,sex ,avatar,place ,website,github,intro,status  FROM user_info   WHERE  user_info.id =? ';
+  const _sql = 'SELECT id AS user_id, name ,sex ,avatar,location ,website,github,intro,status  FROM user_info   WHERE  user_info.id =? ';
   return query(_sql, [user_id]);
 };
 
@@ -86,5 +108,8 @@ module.exports = {
   delFriend,
   shieldFriend,
   editorRemark,
-  editorInfo
+  editorInfo,
+  updateGithubUser,
+  findGithubUser,
+  insertGithubData
 };

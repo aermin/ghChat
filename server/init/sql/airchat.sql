@@ -173,7 +173,7 @@ CREATE TABLE `user_info` (
   `password` varchar(40) NOT NULL DEFAULT 'NOT NULL' COMMENT '密码',
   `sex` varchar(2) NOT NULL DEFAULT '男' COMMENT '性别',
   `avatar` varchar(100) NOT NULL DEFAULT 'https://user-images.githubusercontent.com/24861316/47977782-fc0aac00-e0f4-11e8-9686-821e2f5342ca.jpeg' COMMENT '头像',
-  `place` varchar(50) DEFAULT NULL COMMENT '来自哪里',
+  `location` varchar(50) DEFAULT NULL COMMENT '来自哪里',
   `last_login` int(10) NOT NULL COMMENT '最后登陆时间',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '在线状态,0离线,1在线',
   `socketid` varchar(20) NOT NULL DEFAULT '' COMMENT '登陆时的socketid',
@@ -186,7 +186,7 @@ CREATE TABLE `user_info` (
 LOCK TABLES `user_info` WRITE;
 /*!40000 ALTER TABLE `user_info` DISABLE KEYS */;
 
-INSERT INTO `user_info` (`id`, `name`, `password`, `sex`, `avatar`, `place`, `last_login`, `status`, `socketid`, `website`, `github`, `intro`)
+INSERT INTO `user_info` (`id`, `name`, `password`, `sex`, `avatar`, `location`, `last_login`, `status`, `socketid`, `website`, `github`, `intro`)
 VALUES
 	(1,'路飞','6512bd43d9caa6e02c990b0a82652dca','男','http://ooytyiziz.bkt.clouddn.com/people1.jpg','厦门',0,0,'tIckUQsrpFm_Wki0AAAF','','https://github.com/Hxvin',NULL),
 	(2,'索隆','b6d767d2f8ed5d21a44b0e5886680cb9','男','http://ooytyiziz.bkt.clouddn.com/people2.jpg','深圳',0,0,'l12EoQ8PbnmvupNQAAAP',NULL,'',NULL),

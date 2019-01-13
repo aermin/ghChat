@@ -9,7 +9,7 @@ const userModel = require('../models/userInfo');
  *          time 时间
  *          avatar 发送者的头像
  *          sex 发送者的性别
- *          place 发送者居住地
+ *          location 发送者居住地
  *         status 发送者的是否在线
  */
 

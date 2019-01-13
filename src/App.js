@@ -25,8 +25,9 @@ function fetchHomePageListAllChatContent() {
 function initApp() {
   const userInfo = JSON.parse(localStorage.getItem('userInfo'));
   console.log('APP.js~~');
-  const { pathname } = window.location;
-  if (userInfo && pathname !== '/login' && pathname !== '/register') {
+  const isLoginUrl = /\/login/.test(window.location.href);
+  const isRegisterUrl = /\/register/.test(window.location.href);
+  if (userInfo && !isLoginUrl && !isRegisterUrl) {
     window.socket = io(`${WEBSITE_ADDRESS}?token=${userInfo.token}`);
     window.socket.on('error', (errorMessage) => {
       notification(errorMessage, 'error');

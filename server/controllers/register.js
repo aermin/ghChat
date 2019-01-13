@@ -3,12 +3,9 @@ const userModel = require('../models/userInfo');
 
 module.exports = async (ctx, next) => {
   console.log('register');
-  const user = {
-    name: ctx.request.body.name,
-    password: ctx.request.body.password
-  };
+  const { name, password } = ctx.request.body;
 
-  await userModel.findDataByName(user.name).then((result) => {
+  await userModel.findDataByName(name).then((result) => {
     console.log(result);
     if (result.length) {
       ctx.body = {
@@ -21,10 +18,7 @@ module.exports = async (ctx, next) => {
         message: '注册成功！'
       };
       console.log('注册成功');
-      userModel.insertData([
-        ctx.request.body.name,
-        md5(ctx.request.body.password)
-      ]);
+      userModel.insertData([name, md5(password)]);
     }
   });
 };

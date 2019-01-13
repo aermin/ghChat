@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './index.scss';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import Request from '../../utils/request';
+import notification from '../Notification';
 import icon from '../../assets/icon.svg';
 
 export default class SignInSignUp extends Component {
@@ -18,15 +20,19 @@ export default class SignInSignUp extends Component {
     this.setState({ [target.name]: target.value });
   }
 
-  componentDidMount() {
+  async loginGithub() {
     const href = window.location.href;
     if (/\?code/.test(href)) {
       const code = href.split('?code=')[1];
-      window.socket.emit('githubSignIn', {
-        code,
-        clientId: this.clientId
-      });
+      const response = await Request.axios('post', '/api/v1/github_oauth', { code, clientId: this.clientId });
+      localStorage.setItem('userInfo', JSON.stringify(response));
+      window.location.pathname = '/';
+      console.log('response11', response);
     }
+  }
+
+  componentDidMount() {
+    this.loginGithub();
   }
 
   handleClick = () => {

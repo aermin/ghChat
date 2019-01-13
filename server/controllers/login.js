@@ -1,11 +1,10 @@
 const jwt = require('jsonwebtoken');
+const md5 = require('md5');
 const secret = require('../config').secret;
 const userModel = require('../models/userInfo');
-const md5 = require('md5');
 
 module.exports = async (ctx, next) => {
-  const name = ctx.request.body.name || '';
-  const password = ctx.request.body.password || '';
+  const { name = '', password = '' } = ctx.request.body;
   if (name === '' || password === '') {
     ctx.body = {
       success: false,
@@ -19,7 +18,7 @@ module.exports = async (ctx, next) => {
     //   验证成功后，服务端会签发一个 Token，再把这个 Token 发送给客户端
     if (md5(password) === res[0].password) {
       const {
-        id, name, sex, website, github, intro, avatar, place, socketId
+        id, name, sex, website, github, intro, avatar, location, socketId
       } = res[0];
       const payload = { id };
       const token = jwt.sign(payload, secret, {
@@ -36,7 +35,7 @@ module.exports = async (ctx, next) => {
           github,
           intro,
           avatar,
-          place,
+          location,
           socketId,
           token
         }

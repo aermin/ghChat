@@ -25,16 +25,8 @@ module.exports = (server) => {
     // console.log('socket2333', socket);
     const socketId = socket.id;
     socket.on('saveSocketIdByUserId', async (userId) => {
-      // const { name, password, userId } = data;
-      // await login({
-      //   io, name, password, socketId
-      // });
       await socketModel.saveUserSocketId(userId, socketId);
     });
-    // // 更新soketId
-    // socket.on('update', async (userId) => {
-    //   await socketModel.saveUserSocketId(userId, socketId);
-    // });
 
     // 初始化群聊
     socket.on('initGroupChat', async (data) => {
@@ -47,6 +39,7 @@ module.exports = (server) => {
     });
 
     socket.on('initMessage', async (userId) => {
+      console.log('userId233', userId);
       const data = await initMessage({ userId });
       console.log('initMessage', data);
       io.to(socketId).emit('getAllMessage', data);

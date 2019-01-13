@@ -189,12 +189,12 @@ const editorRemark = async (ctx, next) => {
  * @param  github   github
  * 			website website
  * 			sex 性别
- * 			place 来自哪里
+ * 			location 来自哪里
  * 			user_id  本机用户id
  * @return
  */
 const editorInfo = async (ctx, next) => {
-  const data = [ctx.request.body.github, ctx.request.body.website, ctx.request.body.sex, ctx.request.body.place, ctx.user_id];
+  const data = [ctx.request.body.github, ctx.request.body.website, ctx.request.body.sex, ctx.request.body.location, ctx.user_id];
   console.log('editorInfo', data);
   await userModel.editorInfo(data).then((result) => {
     console.log('editorInfo', result);
