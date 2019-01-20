@@ -1,28 +1,32 @@
+@import "../../assets/base.scss";
 .header-wrapper {
-    position: absolute;
     z-index: 9;
     width: 100%;
-    background-color: #62B2F2;
+    background-color: #fff;
+    border-bottom: 1px solid $border;
     display: flex;
     height: 60px;
     align-items: center;
     img{
-        margin-left: 10px;
-        width: 50px;
-        height: 50px;
+        margin:0 10px;
+        width: 36px;
+        height: 36px;
         border-radius: 50%;
     }
-    .search-box {
-        display: flex;
+    .add {
+        font-size: 26px;
         position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        left: 76px;
+        right: 10px;
+    }
+
+    .search-box {
         border-radius: 4px;
         background-color: #fff;
+        display: flex;
+        justify-items: center;
         .icon {
-            width: 24px;
-            height: 24px;
+            font-size: 26px;
+            position: absolute;
         }
         /*在IE10+浏览器中, 使用css即可隐藏input文本输入框右侧的叉号*/
         ::-ms-reveal,input[type=text]::-ms-clear {
@@ -36,21 +40,15 @@
             border-radius: 4px;
             outline: none;
             border: 1px solid #fff;
-            padding-left: 3px;
+            background-color: #f3eeee;
+            padding-left: 35px;
+            height: 26px;
             -webkit-appearance: none;
             /*去除系统默认的样式，苹果手机上的阴影*/
             -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
             /*点击高亮的颜色*/
             /*padding已在重置样式中去除，如果没有去除，记得有padding哦*/
         }
-    }
-
-    .add {
-        font-size: 26px;
-        position: absolute;
-        right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
     }
 
     .content {

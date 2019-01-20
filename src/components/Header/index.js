@@ -3,15 +3,6 @@ import PropTypes from 'prop-types';
 import Modal from '../Modal';
 import './style.scss';
 
-const SearchBox = () => (
-  <div className="search-box">
-    <svg className="icon" aria-hidden="true">
-      <use xlinkHref="#icon-search1" />
-    </svg>
-    <input type="text" placeholder="搜索用户/群" />
-  </div>
-);
-
 export default class Header extends Component {
   constructor() {
     super();
@@ -19,9 +10,8 @@ export default class Header extends Component {
       userInfo: {},
       groupName: '',
       groupNotice: '',
-      modal: {
-        visible: false,
-      }
+      modalVisible: false,
+      searchField: ''
     };
   }
 
@@ -33,7 +23,7 @@ export default class Header extends Component {
 
   confirm = () => {
     this.setState({
-      visible: false
+      modalVisible: false
     });
     this.createGroup();
   };
@@ -69,36 +59,44 @@ export default class Header extends Component {
   handleChange = (event) => {
     const { name, value } = event.target;
     this.setState({ [name]: value });
-    console.log('this.state', this.state);
+    if (name === 'searchField') {
+      const { searchFieldChange } = this.props;
+      searchFieldChange(value);
+    }
   }
 
   openModal = () => {
     console.log('openModal');
     this.setState({
-      visible: true
+      modalVisible: true
     });
   }
 
   cancel = () => {
     this.setState({
-      visible: false
+      modalVisible: false
     });
   }
 
   render() {
     const {
-      userInfo, groupName, groupNotice
+      userInfo, groupName, groupNotice, searchField, modalVisible
     } = this.state;
     return (
       <div className="header-wrapper">
         <img src={userInfo.avatar} alt="" />
-        <SearchBox />
+        <div className="search-box">
+          <svg className="icon" aria-hidden="true">
+            <use xlinkHref="#icon-search1" />
+          </svg>
+          <input type="text" name="searchField" value={searchField} placeholder="搜索用户/群" onChange={this.handleChange} />
+        </div>
         <span className="add" onClick={this.openModal}>
           <svg className="icon" aria-hidden="true"><use xlinkHref="#icon-add" /></svg>
         </span>
         <Modal
           title="创建群组"
-          visible={this.state.visible}
+          visible={modalVisible}
           confirm={this.confirm}
           hasCancel
           cancel={this.cancel}
@@ -124,6 +122,7 @@ Header.propTypes = {
   updateAllChatContent: PropTypes.func,
   homePageList: PropTypes.array,
   allChatContent: PropTypes.object,
+  searchFieldChange: PropTypes.func,
 };
 
 
@@ -132,4 +131,5 @@ Header.defaultProps = {
   updateAllChatContent: undefined,
   homePageList: [],
   allChatContent: {},
+  searchFieldChange: undefined
 };

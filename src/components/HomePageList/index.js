@@ -1,11 +1,21 @@
 import React, { PureComponent } from 'react';
-import './index.scss';
-import { Link } from 'react-router-dom';
+import Fuse from 'fuse.js';
 import PropTypes from 'prop-types';
-import { toNormalTime } from '../../utils/transformTime';
+import { List, Map } from 'immutable';
+import Header from '../Header';
+import './index.scss';
+import ListItems from '../ListItems';
 // import Spinner from '../spinner';
 
 export default class HomePageList extends PureComponent {
+  constructor() {
+    super();
+    this.state = {
+      isSearching: false,
+      contactedItems: [],
+    };
+  }
+
   subscribeSocket() {
     window.socket.removeAllListeners('getPrivateMsg');
     window.socket.removeAllListeners('getGroupMsg');
@@ -40,6 +50,35 @@ export default class HomePageList extends PureComponent {
     });
   }
 
+  searchFieldChange(field) {
+    const filedStr = field.toString();
+    if (filedStr.length > 0) {
+      const { homePageList } = this.props;
+      const homePageListCopy = [...List(homePageList)];
+      const fuse = new Fuse(homePageListCopy, this.filterOptions);
+      const contactedItems = fuse.search(filedStr);
+      console.log('contactedItems', contactedItems);
+      this.setState({ isSearching: true, contactedItems });
+    } else {
+      this.setState({ isSearching: false });
+    }
+  }
+
+  get filterOptions() {
+    const options = {
+      shouldSort: true,
+      threshold: 0.3,
+      location: 0,
+      distance: 100,
+      maxPatternLength: 32,
+      minMatchCharLength: 1,
+      keys: [
+        'name',
+      ]
+    };
+    return options;
+  }
+
   componentWillMount() {
     console.log('home page list props', this.props);
     const fromUserInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -57,26 +96,14 @@ export default class HomePageList extends PureComponent {
 
   render() {
     const { homePageList } = this.props;
-    const listItems = homePageList.map((data, index) => (
-      <li key={index}>
-        <Link to={data.to_group_id ? `/group_chat/${data.to_group_id}` : `/private_chat/${data.user_id}`}>
-          <img src={data.avatar} alt={data.to_group_id ? '群头像' : '用户头像'} className="img" />
-          {/* {data.unread &&<span className={data.type === 'group' ? "group-unread" :"private-unread" }>{data.unread}</span>} */}
-          <div className="content">
-            <div className="title">
-              {data.name}
-              <span>{toNormalTime(data.time)}</span>
-            </div>
-            <div className="message">{data.message || '暂无消息'}</div>
-          </div>
-        </Link>
-      </li>
-    ));
+    const { isSearching, contactedItems } = this.state;
     return (
       <div className="home-page-list-wrapper">
+        <Header searchFieldChange={field => this.searchFieldChange(field)} />
         {/* TODO */}
         {/* {this.state.showSpinner && <Spinner /> } */}
-        <ul>{listItems}</ul>
+        {isSearching ? <ListItems dataList={contactedItems} />
+          : <ListItems dataList={homePageList} />}
       </div>
     );
   }
