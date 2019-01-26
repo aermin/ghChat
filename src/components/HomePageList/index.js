@@ -101,6 +101,10 @@ export default class HomePageList extends PureComponent {
     });
   }
 
+  clickItem() {
+    this.setState({ isSearching: false });
+  }
+
   componentWillMount() {
     console.log('home page list props', this.props);
     const fromUserInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -118,6 +122,7 @@ export default class HomePageList extends PureComponent {
 
   render() {
     const { homePageList } = this.props;
+    homePageList.sort((a, b) => b.time - a.time);
     const {
       isSearching, contactedItems, showSearchUser, showSearchGroup
     } = this.state;
@@ -126,17 +131,17 @@ export default class HomePageList extends PureComponent {
     const contactedGroups = contactedItems.filter(e => e.to_group_id);
     return (
       <div className="home-page-list-wrapper">
-        <Header searchFieldChange={field => this.searchFieldChange(field)} />
+        <Header searchFieldChange={field => this.searchFieldChange(field)} isSearching={isSearching} />
         <div className="home-page-list-content">
           {/* TODO */}
           {/* {this.state.showSpinner && <Spinner /> } */}
           {isSearching ? (
             <div className="search-result">
               <p>您联系过的用户</p>
-              { contactedUsers.length ? <ListItems dataList={contactedUsers} /> : <p className="search-none">暂无</p>}
+              { contactedUsers.length ? <ListItems dataList={contactedUsers} clickItem={() => this.clickItem()} /> : <p className="search-none">暂无</p>}
               { showSearchUser && <p className="click-to-search" onClick={() => this.searchInDB({ searchUser: true })}>网络查找相关的用户</p>}
               <p>您联系过的群组</p>
-              { contactedGroups.length ? <ListItems dataList={contactedGroups} /> : <p className="search-none">暂无</p>}
+              { contactedGroups.length ? <ListItems dataList={contactedGroups} clickItem={() => this.clickItem()} /> : <p className="search-none">暂无</p>}
               { showSearchGroup && <p className="click-to-search" onClick={() => this.searchInDB({ searchUser: false })}>网络查找相关的群组</p>}
             </div>
           )

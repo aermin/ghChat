@@ -89,14 +89,15 @@ module.exports = (server) => {
       io.to(socketId).emit('fuzzyMatchRes', { fuzzyMatchResult, searchUser: data.searchUser });
     });
 
-    // 加好友请求
-    socket.on('sendRequest', async (data) => {
-      console.log('sendRequest', data);
-      const arr = await socketModel.getUserSocketId(data.to_user);
-      const RowDataPacket = arr[0];
-      const socketId = JSON.parse(JSON.stringify(RowDataPacket)).socketid;
-      console.log('给谁的socketid', socketId);
-      io.to(socketId).emit('getresponse', data);
+    /**
+     * 加为好友
+     * @param  user_id  本机用户
+     *         from_user  本机用户的朋友（对方）
+     */
+    socket.on('beFriend', async (data) => {
+      const { user_id, from_user } = data;
+      const time = Date.parse(new Date()) / 1000;
+      await userInfoModel.addFriendEachOther(user_id, from_user, time);
     });
 
     socket.on('disconnect', (data) => {

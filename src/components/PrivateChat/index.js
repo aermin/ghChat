@@ -12,23 +12,31 @@ export default class PrivateChat extends Component {
 
   sendMessage = (value) => {
     if (value.trim() === '') return;
-    const fromUserInfo = JSON.parse(localStorage.getItem('userInfo'));
+    const { userId, avatar, name } = JSON.parse(localStorage.getItem('userInfo'));
     const {
-      allChatContent, chatId, homePageList, updateHomePageList, updateAllChatContent
+      allChatContent, chatId, homePageList,
+      updateHomePageList, updateAllChatContent, location
     } = this.props;
-    const { userInfo } = allChatContent.privateChat.get(chatId);
+    const chatItem = allChatContent.privateChat.get(chatId);
+    const hasBeFriend = !!chatItem;
+    const friendId = parseInt(location.pathname.split('private_chat/')[1]);
+    if (!hasBeFriend) {
+      window.socket.emit('beFriend', { user_id: userId, from_user: friendId });
+    }
+
     const data = {
-      from_user: fromUserInfo.userId, // 自己的id
-      to_user: userInfo.user_id, // 对方id
-      avatar: fromUserInfo.avatar, // 自己的头像
-      name: fromUserInfo.name,
-      message: `${fromUserInfo.name}: ${value}`, // 消息内容
+      from_user: userId, // 自己的id
+      to_user: friendId, // 对方id
+      avatar, // 自己的头像
+      name,
+      message: `${name}: ${value}`, // 消息内容
       time: Date.parse(new Date()) / 1000 // 时间
     };
     this._sendByMe = true;
     window.socket.emit('sendPrivateMsg', data);
     updateAllChatContent({ allChatContent, newChatContent: data, action: 'send' });
-    updateHomePageList({ data, homePageList, myUserId: fromUserInfo.userId });
+    const dataForHomePage = { ...data, name: location.search.split('=')[1] };
+    updateHomePageList({ data: dataForHomePage, homePageList, myUserId: userId });
     console.log('sent message', data);
   }
 
@@ -69,13 +77,14 @@ export default class PrivateChat extends Component {
   }
 
   render() {
-    const { chatId, allChatContent } = this.props;
+    const { chatId, allChatContent, location } = this.props;
     console.log('allChatContent.privateChat', allChatContent.privateChat, chatId);
     if (!allChatContent.privateChat) return null;
-    const { messages, userInfo } = allChatContent.privateChat.get(chatId);
+    const chatItem = allChatContent.privateChat.get(chatId);
+    const messages = chatItem ? chatItem.messages : [];
     return (
       <div className="chat-wrapper">
-        <ChatHeader title={userInfo.name} />
+        <ChatHeader title={location.search.split('=')[1]} />
         <ChatContentList ChatContent={messages} chatId={chatId} />
         <InputArea sendMessage={this.sendMessage} />
       </div>

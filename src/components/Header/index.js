@@ -82,6 +82,7 @@ export default class Header extends Component {
     const {
       userInfo, groupName, groupNotice, searchField, modalVisible
     } = this.state;
+    const { isSearching } = this.props;
     return (
       <div className="header-wrapper">
         <img src={userInfo.avatar} alt="" />
@@ -89,7 +90,7 @@ export default class Header extends Component {
           <svg className="icon" aria-hidden="true">
             <use xlinkHref="#icon-search1" />
           </svg>
-          <input type="text" name="searchField" value={searchField} placeholder="搜索用户/群" onChange={this.handleChange} />
+          <input type="text" name="searchField" value={isSearching ? searchField : ''} placeholder="搜索用户/群" onChange={this.handleChange} />
         </div>
         <span className="add" onClick={this.openModal}>
           <svg className="icon" aria-hidden="true"><use xlinkHref="#icon-add" /></svg>

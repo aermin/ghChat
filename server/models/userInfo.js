@@ -74,18 +74,17 @@ const isFriend = (user_id, from_user) => {
   return query(_sql, [user_id, from_user]);
 };
 
-// 加为好友 单方面
-const addAsFriend = (user_id, from_user, time) => {
-  const _sql = 'INSERT INTO user_user_relation(user_id,from_user,time) VALUES (?,?,?)';
-  return query(_sql, [user_id, from_user, time]);
-};
+// 加为好友 单方面 (之后可能会加上开启好友验证的功能)
+// const addAsFriend = (user_id, from_user, time) => {
+//   const _sql = 'INSERT INTO user_user_relation(user_id,from_user,time) VALUES (?,?,?)';
+//   return query(_sql, [user_id, from_user, time]);
+// };
 
 // 两边都互加为好友
-// let addFriendEachOther = (user_id,from_user)=>{
-//     const _sql =
-//   'INSERT INTO user_user_relation(user_id,from_user) VALUES (?,?)'
-//     return query(_sql, [user_id,from_user]);
-// }
+const addFriendEachOther = (user_id, from_user, time) => {
+  const _sql = 'INSERT INTO user_user_relation(user_id,from_user,time) VALUES (?,?,?), (?,?,?)';
+  return query(_sql, [user_id, from_user, time, from_user, user_id, time]);
+};
 
 // 删除好友
 const delFriend = (user_id, from_user) => {
@@ -113,7 +112,7 @@ module.exports = {
   findUIByName,
   getUserInfo,
   isFriend,
-  addAsFriend,
+  addFriendEachOther,
   delFriend,
   shieldFriend,
   editorRemark,
