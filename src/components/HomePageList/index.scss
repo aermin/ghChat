@@ -1,71 +1,89 @@
 @import "../../assets/base.scss";
 .home-page-list-wrapper {
     height: 100%;
-    ul {
-        background-color: #fff;
+    .home-page-list-content {
         height: calc(100% - 60px);
-        list-style: none;
         overflow-y: auto;
-        li {
-            display: -webkit-box;
-            display: -ms-flexbox;
-            display: flex;
-            align-items: center;
-            list-style-type: none;
-            border-bottom: $border 1px solid;
-            padding: 10px 0;
-            position: relative;
-            .title{
-                color: #000;
+        .search-result {
+            p {
+                color: $m-title;        
+                font-size: 14px;
+                padding: 10px 0;
             }
-            .img {
-                width: 50px;
-                height: 50px;
-                margin-left: 8px;
-                border-radius: 50%;
-                display: inline-block;
+            .click-to-search {
+                text-align: right;
+                padding-right: 10px;
+                margin-bottom: 10px;
+                color: $bule;
+                cursor:pointer;
             }
-            span:nth-child(1) {
-                font-size: 22px;
-                border-radius: 50%;
-                padding: 0 9px;
-                position: absolute;
-                top: 14px;
-                right: 8px;
-                color: #fff;
-                z-index: 2;
-            }
-            .private-unread {
-                background-color: red;
-            }
-            .group-unread {
-                background-color: #98d1f2;
-            }
-            .content {
-                display: inline-block;
-                margin-left: 10px;
-                max-width: 80%;
-                .title {
-                    font-size: 20px;
-                    span {
-                        font-size: 14px;
-                        color: $m-title;
-                    }
-                }
-                .message {
-                    color: $m-title;
-                    font-size: 14px;
-                    max-height: 42px;
-                    overflow: hidden;
-                    position: relative;
-                }
-                .message :after {
-                    content: "...";
-                    position: absolute;
-                    bottom: 0;
-                    right: 0;
-                }
+            .search-none {
+                text-align: center;
             }
         }
+        ul {
+            background-color: #fff;
+            list-style: none;
+            li {
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                align-items: center;
+                list-style-type: none;
+                padding: 10px 0;
+                position: relative;
+                .title{
+                    color: #000;
+                }
+                .img {
+                    width: 50px;
+                    height: 50px;
+                    margin-left: 8px;
+                    border-radius: 50%;
+                    display: inline-block;
+                }
+                span:nth-child(1) {
+                    font-size: 22px;
+                    border-radius: 50%;
+                    padding: 0 9px;
+                    position: absolute;
+                    top: 14px;
+                    right: 8px;
+                    color: #fff;
+                    z-index: 2;
+                }
+                .private-unread {
+                    background-color: red;
+                }
+                .group-unread {
+                    background-color: #98d1f2;
+                }
+                .content {
+                    display: inline-block;
+                    margin-left: 10px;
+                    max-width: 80%;
+                    .title {
+                        font-size: 20px;
+                        span {
+                            font-size: 14px;
+                            color: $m-title;
+                        }
+                    }
+                    .message {
+                        color: $m-title;
+                        font-size: 14px;
+                        max-height: 42px;
+                        overflow: hidden;
+                        position: relative;
+                    }
+                    .message :after {
+                        content: "...";
+                        position: absolute;
+                        bottom: 0;
+                        right: 0;
+                    }
+                }
+            }
+        }   
     }
 }

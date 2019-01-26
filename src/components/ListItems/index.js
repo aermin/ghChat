@@ -11,7 +11,7 @@ export default function listItems(props) {
         <div className="content">
           <div className="title">
             {data.name}
-            <span>{toNormalTime(data.time)}</span>
+            <span>{!!data.time && toNormalTime(data.time)}</span>
           </div>
           <div className="message">{data.message || '暂无消息'}</div>
         </div>

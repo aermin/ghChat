@@ -2,6 +2,13 @@ const {
   query
 } = require('../utils/db');
 
+// 模糊匹配用户
+const fuzzyMatchGroups = (link) => {
+  const _sql = `
+    SELECT * FROM group_info WHERE name LIKE ?;
+  `;
+  return query(_sql, link);
+};
 
 // 加入群
 const joinGroup = (user_id, to_group_id) => {
@@ -29,6 +36,7 @@ const exitGroup = (user_id, to_group_id) => {
 
 
 module.exports = {
+  fuzzyMatchGroups,
   joinGroup,
   isInGroup,
   createGroup,

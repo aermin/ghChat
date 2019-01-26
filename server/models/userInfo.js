@@ -2,6 +2,14 @@ const {
   query
 } = require('../utils/db');
 
+// 模糊匹配用户
+const fuzzyMatchUsers = (link) => {
+  const _sql = `
+    SELECT * FROM user_info WHERE name LIKE ?;
+  `;
+  return query(_sql, link);
+};
+
 // 注册用户
 const insertData = (value) => {
   const _sql = 'insert into user_info(name,password) values(?,?);';
@@ -99,6 +107,7 @@ const editorRemark = (remark, user_id, from_user) => {
 
 
 module.exports = {
+  fuzzyMatchUsers,
   insertData,
   findDataByName,
   findUIByName,

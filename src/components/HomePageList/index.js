@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import Fuse from 'fuse.js';
 import PropTypes from 'prop-types';
-import { List, Map } from 'immutable';
+import { List } from 'immutable';
 import Header from '../Header';
 import './index.scss';
 import ListItems from '../ListItems';
@@ -13,7 +13,10 @@ export default class HomePageList extends PureComponent {
     this.state = {
       isSearching: false,
       contactedItems: [],
+      showSearchUser: true,
+      showSearchGroup: true,
     };
+    this._filedStr = null;
   }
 
   subscribeSocket() {
@@ -51,13 +54,13 @@ export default class HomePageList extends PureComponent {
   }
 
   searchFieldChange(field) {
-    const filedStr = field.toString();
-    if (filedStr.length > 0) {
+    this._filedStr = field.toString();
+    this.setState({ showSearchUser: true, showSearchGroup: true });
+    if (this._filedStr.length > 0) {
       const { homePageList } = this.props;
       const homePageListCopy = [...List(homePageList)];
       const fuse = new Fuse(homePageListCopy, this.filterOptions);
-      const contactedItems = fuse.search(filedStr);
-      console.log('contactedItems', contactedItems);
+      const contactedItems = fuse.search(this._filedStr);
       this.setState({ isSearching: true, contactedItems });
     } else {
       this.setState({ isSearching: false });
@@ -79,6 +82,25 @@ export default class HomePageList extends PureComponent {
     return options;
   }
 
+  searchInDB({ searchUser }) {
+    console.log('this._filedStr', this._filedStr);
+    window.socket.emit('fuzzyMatch', { field: this._filedStr, searchUser });
+    window.socket.on('fuzzyMatchRes', (data) => {
+      console.log(data);
+      const { contactedItems } = this.state;
+      if (data.searchUser) {
+        this.setState({ showSearchUser: false });
+        data.fuzzyMatchResult.forEach((element) => {
+          element.user_id = element.id;
+        });
+      } else {
+        this.setState({ showSearchGroup: false });
+      }
+      this.setState({ contactedItems: data.fuzzyMatchResult });
+      console.log('contactedItems', contactedItems);
+    });
+  }
+
   componentWillMount() {
     console.log('home page list props', this.props);
     const fromUserInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -96,14 +118,30 @@ export default class HomePageList extends PureComponent {
 
   render() {
     const { homePageList } = this.props;
-    const { isSearching, contactedItems } = this.state;
+    const {
+      isSearching, contactedItems, showSearchUser, showSearchGroup
+    } = this.state;
+    console.log('contactedItems, showSearchUser, showSearchGroup', contactedItems, showSearchUser, showSearchGroup);
+    const contactedUsers = contactedItems.filter(e => e.user_id);
+    const contactedGroups = contactedItems.filter(e => e.to_group_id);
     return (
       <div className="home-page-list-wrapper">
         <Header searchFieldChange={field => this.searchFieldChange(field)} />
-        {/* TODO */}
-        {/* {this.state.showSpinner && <Spinner /> } */}
-        {isSearching ? <ListItems dataList={contactedItems} />
-          : <ListItems dataList={homePageList} />}
+        <div className="home-page-list-content">
+          {/* TODO */}
+          {/* {this.state.showSpinner && <Spinner /> } */}
+          {isSearching ? (
+            <div className="search-result">
+              <p>您联系过的用户</p>
+              { contactedUsers.length ? <ListItems dataList={contactedUsers} /> : <p className="search-none">暂无</p>}
+              { showSearchUser && <p className="click-to-search" onClick={() => this.searchInDB({ searchUser: true })}>网络查找相关的用户</p>}
+              <p>您联系过的群组</p>
+              { contactedGroups.length ? <ListItems dataList={contactedGroups} /> : <p className="search-none">暂无</p>}
+              { showSearchGroup && <p className="click-to-search" onClick={() => this.searchInDB({ searchUser: false })}>网络查找相关的群组</p>}
+            </div>
+          )
+            : <ListItems dataList={homePageList} />}
+        </div>
       </div>
     );
   }

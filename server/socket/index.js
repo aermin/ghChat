@@ -5,7 +5,8 @@ const socketModel = require('../models/socket');
 const { savePrivateMsg } = require('../models/privateChat');
 const { saveGroupMsg } = require('../models/groupChat');
 const msgModel = require('../models/message');
-const groupInfo = require('../models/groupInfo');
+const userInfoModel = require('../models/userInfo');
+const groupInfoModel = require('../models/groupInfo');
 const initMessage = require('./message');
 const verify = require('../middlewares/verify');
 // const login = require('./login');
@@ -71,9 +72,21 @@ module.exports = (server) => {
       } = data;
       const avatar = 'https://user-images.githubusercontent.com/24861316/47977783-fdd46f80-e0f4-11e8-93ec-8b0a1268c1e3.jpeg';
       const arr = [to_group_id, name, group_notice, avatar, creator, create_time];
-      await groupInfo.createGroup(arr);
-      await groupInfo.joinGroup(data.creator_id, to_group_id);
+      await groupInfoModel.createGroup(arr);
+      await groupInfoModel.joinGroup(data.creator_id, to_group_id);
       io.to(socketId).emit('createGroupRes', { to_group_id, avatar, ...data });
+    });
+
+    //  模糊匹配用户或者群组
+    socket.on('fuzzyMatch', async (data) => {
+      let fuzzyMatchResult;
+      const field = `%${data.field}%`;
+      if (data.searchUser) {
+        fuzzyMatchResult = await userInfoModel.fuzzyMatchUsers(field);
+      } else {
+        fuzzyMatchResult = await groupInfoModel.fuzzyMatchGroups(field);
+      }
+      io.to(socketId).emit('fuzzyMatchRes', { fuzzyMatchResult, searchUser: data.searchUser });
     });
 
     // 加好友请求
