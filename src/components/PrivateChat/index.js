@@ -8,20 +8,24 @@ export default class PrivateChat extends Component {
   constructor() {
     super();
     this._sendByMe = false;
+    this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    this._hasBeenFriend = false;
   }
 
   sendMessage = (value) => {
     if (value.trim() === '') return;
-    const { userId, avatar, name } = JSON.parse(localStorage.getItem('userInfo'));
+    const { userId, avatar, name } = this._userInfo;
     const {
       allChatContent, chatId, homePageList,
       updateHomePageList, updateAllChatContent, location
     } = this.props;
-    const chatItem = allChatContent.privateChat.get(chatId);
-    const hasBeFriend = !!chatItem;
     const friendId = parseInt(location.pathname.split('private_chat/')[1]);
-    if (!hasBeFriend) {
-      window.socket.emit('beFriend', { user_id: userId, from_user: friendId });
+    if (!this._hasBeenFriend) {
+      const chatItem = allChatContent.privateChat.get(chatId);
+      this._hasBeenFriend = !!chatItem;
+      if (!this._hasBeenFriend) {
+        window.socket.emit('beFriend', { user_id: userId, from_user: friendId });
+      }
     }
 
     const data = {

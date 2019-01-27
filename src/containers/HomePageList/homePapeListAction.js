@@ -32,24 +32,31 @@ const updateHomePageListAction = ({ homePageList, data, myUserId }) => {
   };
 };
 
-const updateAllChatContentAction = ({ allChatContent, newChatContent, action }) => {
+const updateAllChatContentAction = ({
+  allChatContent, newChatContent, newChatContents, action
+}) => {
   const allChatContentCopy = Map(allChatContent).toObject();
-  const toPeople = action === 'send' ? newChatContent.to_user : newChatContent.from_user;
-  const mapKey = newChatContent.to_group_id ? newChatContent.to_group_id : toPeople;
-  const chatType = newChatContent.to_group_id ? 'groupChat' : 'privateChat';
-  console.log('allChatContentCopy by got', allChatContentCopy, chatType, newChatContent);
-  // debugger;
-  if (allChatContentCopy[chatType].get(mapKey)) {
-    allChatContentCopy[chatType].get(mapKey).messages.push(newChatContent);
-  // There is no this this chat，such as creating new group or before fist private chat
-  } else {
-    const data = {
-      messages: [newChatContent],
-      // [newChatContent.to_group_id ? 'groupInfo' : 'userInfo']: newChatContent
-    };
-    allChatContentCopy[chatType].set(mapKey, data);
+  let toPeople;
+  let mapKey;
+  let chatType;
+  if (newChatContent) {
+    const toGroupId = newChatContent.to_group_id;
+    toPeople = action === 'send' ? newChatContent.to_user : newChatContent.from_user;
+    mapKey = toGroupId || toPeople;
+    chatType = toGroupId ? 'groupChat' : 'privateChat';
+    if (allChatContentCopy[chatType].get(mapKey)) {
+      allChatContentCopy[chatType].get(mapKey).messages.push(newChatContent);
+    } else {
+      allChatContentCopy[chatType].set(mapKey, { messages: [newChatContent] });
+    }
+  } else if (newChatContents) {
+    const toGroupId = newChatContents.groupInfo && newChatContents.groupInfo.to_group_id;
+    const { messages } = newChatContents;
+    toPeople = action === 'send' ? messages[messages.length - 1].to_user : messages[messages.length - 1].from_user;
+    mapKey = toGroupId || toPeople;
+    chatType = toGroupId ? 'groupChat' : 'privateChat';
+    allChatContentCopy[chatType].set(mapKey, newChatContents);
   }
-
   return {
     type: UPDATE_ALL_CHAT_CONTENT,
     data: allChatContentCopy

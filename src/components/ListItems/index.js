@@ -4,7 +4,7 @@ import { toNormalTime } from '../../utils/transformTime';
 
 export default function listItems(props) {
   const clickHandle = () => {
-    props.clickItem();
+    props.clickItem && props.clickItem();
   };
 
   const listItems = props.dataList.map((data, index) => (

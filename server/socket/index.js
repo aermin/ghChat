@@ -7,7 +7,7 @@ const { saveGroupMsg } = require('../models/groupChat');
 const msgModel = require('../models/message');
 const userInfoModel = require('../models/userInfo');
 const groupInfoModel = require('../models/groupInfo');
-const initMessage = require('./message');
+const { getAllMessage, getGroupMsg } = require('./message');
 const verify = require('../middlewares/verify');
 // const login = require('./login');
 
@@ -39,14 +39,15 @@ module.exports = (server) => {
       }
     });
 
+    // 初始化， 获取群聊和私聊的数据
     socket.on('initMessage', async (userId) => {
       console.log('userId233', userId);
-      const data = await initMessage({ userId });
-      console.log('initMessage', data);
+      const data = await getAllMessage({ userId });
+      console.log('getAllMessage', data);
       io.to(socketId).emit('getAllMessage', data);
     });
 
-    // 私聊
+    // 私聊发信息
     socket.on('sendPrivateMsg', async (data) => {
       if (!data) return;
       await savePrivateMsg({ ...data });
@@ -56,12 +57,19 @@ module.exports = (server) => {
       console.log('socketId2333', socketId);
       io.to(socketId).emit('getPrivateMsg', data);
     });
-    // 群聊
+
+    // 群聊发信息
     socket.on('sendGroupMsg', async (data) => {
       if (!data) return;
       await saveGroupMsg({ ...data });
       console.log('sendGroupMsg', data);
       socket.broadcast.to(data.to_group_id).emit('getGroupMsg', data);
+    });
+
+    // 获取群聊信息
+    socket.on('getGroupMsg', async (data) => {
+      const groupMsgAndInfo = await getGroupMsg({ groupId: data.groupId });
+      io.to(socketId).emit('getGroupMsgRes', groupMsgAndInfo);
     });
 
     // 建群
@@ -75,6 +83,16 @@ module.exports = (server) => {
       await groupInfoModel.createGroup(arr);
       await groupInfoModel.joinGroup(data.creator_id, to_group_id);
       io.to(socketId).emit('createGroupRes', { to_group_id, avatar, ...data });
+    });
+
+    // 加群
+    socket.on('joinGroup', async (data) => {
+      const { userId, toGroupId } = data;
+      await groupInfoModel.joinGroup(userId, toGroupId);
+      socket.join(toGroupId);
+      const groupMessages = await getGroupMsg({ groupId: toGroupId });
+      console.log('groupMessages2333', groupMessages);
+      io.to(socketId).emit('joinGroupRes', groupMessages);
     });
 
     //  模糊匹配用户或者群组

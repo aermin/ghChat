@@ -2,27 +2,31 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import '../../assets/chat.scss';
 import ChatHeader from '../ChatHeader';
-import ChatItem from '../ChatItem';
 import InputArea from '../InputArea';
 import ChatContentList from '../ChatContentList';
+import './style.scss';
 
 export default class GroupChat extends Component {
   constructor() {
     super();
     this._sendByMe = false;
+    this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    this.state = {
+      groupMsgAndInfo: {}
+    };
   }
 
   sendMessage = (value) => {
     if (value.trim() === '') return;
-    const fromUserInfo = JSON.parse(localStorage.getItem('userInfo'));
+    const { userId, avatar, name } = this._userInfo;
     const {
       allChatContent, chatId, homePageList, updateHomePageList, updateAllChatContent
     } = this.props;
     const data = {
-      from_user: fromUserInfo.userId, // 自己的id
-      avatar: fromUserInfo.avatar, // 自己的头像
-      name: fromUserInfo.name,
-      message: `${fromUserInfo.name}: ${value}`, // 消息内容
+      from_user: userId, // 自己的id
+      avatar, // 自己的头像
+      name,
+      message: `${name}: ${value}`, // 消息内容
       to_group_id: chatId,
       time: Date.parse(new Date()) / 1000 // 时间
     };
@@ -30,7 +34,7 @@ export default class GroupChat extends Component {
     window.socket.emit('sendGroupMsg', data);
     console.log('sendGroupMsg success', data);
     updateAllChatContent({ allChatContent, newChatContent: data, action: 'send' });
-    updateHomePageList({ data, homePageList, myUserId: fromUserInfo.userId });
+    updateHomePageList({ data, homePageList, myUserId: userId });
   }
 
   scrollToBottom(time = 0) {
@@ -40,6 +44,21 @@ export default class GroupChat extends Component {
         ulDom.scrollTop = ulDom.scrollHeight + 10000;
       }, time);
     }
+  }
+
+  joinGroup = () => {
+    const { userId } = this._userInfo;
+    const {
+      allChatContent, chatId, homePageList, updateHomePageList, updateAllChatContent
+    } = this.props;
+    window.socket.emit('joinGroup', { userId, toGroupId: chatId });
+    window.socket.on('joinGroupRes', (data) => {
+      const { messages, groupInfo } = data;
+      const name = groupInfo && groupInfo.name;
+      const lastContent = { ...messages[messages.length - 1], name };
+      updateAllChatContent({ allChatContent, newChatContents: data });
+      updateHomePageList({ data: lastContent, homePageList, myUserId: userId });
+    });
   }
 
   shouldComponentUpdate(nextProps) {
@@ -53,6 +72,14 @@ export default class GroupChat extends Component {
   }
 
   componentDidMount() {
+    const { allChatContent, chatId } = this.props;
+    const chatItem = allChatContent.groupChat.get(chatId);
+    if (!chatItem) {
+      window.socket.emit('getGroupMsg', { groupId: chatId });
+      window.socket.on('getGroupMsgRes', (groupMsgAndInfo) => {
+        this.setState({ groupMsgAndInfo });
+      });
+    }
     this.scrollToBottom();
   }
 
@@ -63,15 +90,24 @@ export default class GroupChat extends Component {
 
   render() {
     const { chatId, allChatContent, location } = this.props;
+    const { groupMsgAndInfo } = this.state;
     if (!allChatContent.groupChat) return null;
     const chatItem = allChatContent.groupChat.get(chatId);
-    const messages = chatItem ? chatItem.messages : [];
-    const fromUserInfo = JSON.parse(localStorage.getItem('userInfo'));
+    const messages = chatItem ? chatItem.messages : groupMsgAndInfo.messages;
+    const { userId } = this._userInfo;
     return (
       <div className="chat-wrapper">
         <ChatHeader title={location.search.split('=')[1]} />
-        <ChatContentList ChatContent={messages} chatId={fromUserInfo.userId} />
-        <InputArea sendMessage={this.sendMessage} />
+        <ChatContentList ChatContent={messages} chatId={userId} />
+        { chatItem ? <InputArea sendMessage={this.sendMessage} />
+          : (
+            <input
+              type="button"
+              onClick={this.joinGroup}
+              className="button"
+              value="加入群聊"
+              />
+          )}
       </div>
     );
   }

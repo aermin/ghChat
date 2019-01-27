@@ -4,7 +4,7 @@ const userModel = require('../models/userInfo');
 const groupChatModel = require('../models/groupChat');
 
 
-async function getPrivateMsg({ toUser, userId }) {
+const getPrivateMsg = async ({ toUser, userId }) => {
   const RowDataPacket1 = await privateChatModel.getPrivateDetail(userId, toUser);
   const RowDataPacket2 = await userModel.getUserInfo(toUser);
   const messages = JSON.parse(JSON.stringify(RowDataPacket1));
@@ -13,9 +13,9 @@ async function getPrivateMsg({ toUser, userId }) {
     messages,
     userInfo: userInfo[0]
   };
-}
+};
 
-async function getGroupMsg({ groupId }) {
+const getGroupMsg = async ({ groupId }) => {
   const RowDataPacket1 = await groupChatModel.getGroupMsg(groupId);
   const RowDataPacket2 = await groupChatModel.getGroupInfo([groupId, null]);
   const messages = JSON.parse(JSON.stringify(RowDataPacket1));
@@ -24,9 +24,9 @@ async function getGroupMsg({ groupId }) {
     messages,
     groupInfo
   };
-}
+};
 
-module.exports = async ({ userId }) => {
+const getAllMessage = async ({ userId }) => {
   try {
     const res1 = await msgModel.getPrivateList(userId);
     const privateList = JSON.parse(JSON.stringify(res1));
@@ -62,4 +62,11 @@ module.exports = async ({ userId }) => {
     console.log(error);
     return null;
   }
+};
+
+
+module.exports = {
+  getAllMessage,
+  getPrivateMsg,
+  getGroupMsg,
 };

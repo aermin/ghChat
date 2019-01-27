@@ -101,8 +101,10 @@ export default class HomePageList extends PureComponent {
     });
   }
 
-  clickItem() {
-    this.setState({ isSearching: false });
+  clickItemHandle() {
+    if (this.state.isSearching) {
+      this.setState({ isSearching: false });
+    }
   }
 
   componentWillMount() {
@@ -138,10 +140,10 @@ export default class HomePageList extends PureComponent {
           {isSearching ? (
             <div className="search-result">
               <p>您联系过的用户</p>
-              { contactedUsers.length ? <ListItems dataList={contactedUsers} clickItem={() => this.clickItem()} /> : <p className="search-none">暂无</p>}
+              { contactedUsers.length ? <ListItems dataList={contactedUsers} clickItem={() => this.clickItemHandle()} /> : <p className="search-none">暂无</p>}
               { showSearchUser && <p className="click-to-search" onClick={() => this.searchInDB({ searchUser: true })}>网络查找相关的用户</p>}
               <p>您联系过的群组</p>
-              { contactedGroups.length ? <ListItems dataList={contactedGroups} clickItem={() => this.clickItem()} /> : <p className="search-none">暂无</p>}
+              { contactedGroups.length ? <ListItems dataList={contactedGroups} clickItem={() => this.clickItemHandle()} /> : <p className="search-none">暂无</p>}
               { showSearchGroup && <p className="click-to-search" onClick={() => this.searchInDB({ searchUser: false })}>网络查找相关的群组</p>}
             </div>
           )
