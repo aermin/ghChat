@@ -1,10 +1,10 @@
 # react-chat
 
-![image](https://user-images.githubusercontent.com/24861316/42560354-0d569eb0-8529-11e8-924f-948bdc786426.png)
+![image](https://user-images.githubusercontent.com/24861316/51810041-5bd1b700-22e0-11e9-9456-aae8548ca492.png)
+![image](https://user-images.githubusercontent.com/24861316/51809966-cf26f900-22df-11e9-8fb5-645480338ba0.png)
+![image](https://user-images.githubusercontent.com/24861316/51809979-ebc33100-22df-11e9-94be-c7554004cdfe.png)
+![image](https://user-images.githubusercontent.com/24861316/51809992-fd0c3d80-22df-11e9-89f1-ac9c7133d735.png)
 
-![image](https://user-images.githubusercontent.com/24861316/42560447-414e6676-8529-11e8-99c5-97ecf12b3d77.png)
-
-![image](https://user-images.githubusercontent.com/24861316/42560766-09b51858-852a-11e8-9eb0-0a6d78857a5a.png)
 
 
 目前进度
