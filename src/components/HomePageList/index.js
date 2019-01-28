@@ -16,6 +16,7 @@ export default class HomePageList extends PureComponent {
       showSearchUser: true,
       showSearchGroup: true,
     };
+    this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this._filedStr = null;
   }
 
@@ -24,7 +25,7 @@ export default class HomePageList extends PureComponent {
     window.socket.removeAllListeners('getGroupMsg');
     window.socket.on('getPrivateMsg', (data) => {
       console.log('subscribeSocket for private chat', data);
-      const fromUserInfo = JSON.parse(localStorage.getItem('userInfo'));
+      const { userId } = this._userInfo;
       const {
         allChatContent, homePageList, updateHomePageList,
         updateAllChatContent, relatedCurrentChat
@@ -35,7 +36,7 @@ export default class HomePageList extends PureComponent {
       console.log('isRelatedCurrentChat, data.from_user, data.to_user, chatId', isRelatedCurrentChat, data.from_user, data.to_user, chatId);
       relatedCurrentChat(isRelatedCurrentChat);
       updateAllChatContent({ allChatContent, newChatContent: data, action: 'get' });
-      updateHomePageList({ data, homePageList, myUserId: fromUserInfo.userId });
+      updateHomePageList({ data, homePageList, myUserId: userId });
     });
     window.socket.on('getGroupMsg', (data) => {
       console.log('subscribeSocket for group chat', data);
@@ -109,8 +110,8 @@ export default class HomePageList extends PureComponent {
 
   componentWillMount() {
     console.log('home page list props', this.props);
-    const fromUserInfo = JSON.parse(localStorage.getItem('userInfo'));
-    window.socket.emit('initGroupChat', { userId: fromUserInfo.userId });
+    const { userId } = this._userInfo;
+    window.socket.emit('initGroupChat', { userId });
     this.subscribeSocket();
   }
 

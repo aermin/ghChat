@@ -45,7 +45,10 @@
             display: none;
         }
         .layout-right {
-            width: 100%;           
+            width: 100%;
+            .back-icon {
+                display: inline-block !important;
+            }        
         }
         .layout-right-mobile {
             display: none;

@@ -55,10 +55,10 @@ export default class SignInSignUp extends Component {
     return (
       <div className="formContent fadeInDown">
         <Link to={linkUrl}>
-          <h2 className={loginClass}> 登录 </h2>
+          <h2 className={loginClass}>登录</h2>
         </Link>
         <Link to={linkUrl}>
-          <h2 className={registerClass}>注册 </h2>
+          <h2 className={registerClass}>注册</h2>
         </Link>
         <div className="fadeIn first">
           <img src={icon} id="icon" alt="Icon" />
