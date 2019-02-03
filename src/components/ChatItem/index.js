@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Emoji } from 'emoji-mart';
+import emojiPng from '../../assets/emojione.png';
 import './style.scss';
 
 
@@ -27,7 +29,15 @@ export default class ChatItem extends Component {
             {name && <span>{ name }</span>}
             {time && <span>{ time }</span>}
           </div>
-          <div className="msg">{msg}</div>
+          <div className="msg">
+            <Emoji
+              className="msg"
+              emoji={msg}
+              backgroundImageFn={() => emojiPng}
+              size={26}
+              fallback={(emoji, props) => (emoji ? `:${emoji.short_names[0]}:` : props.emoji)} />
+          </div>
+
         </div>
         )}
         {me && (
@@ -37,7 +47,9 @@ export default class ChatItem extends Component {
             {time && <span>{time}</span>}
             {name && <span>{name}</span>}
           </div>
-          <div className="msg">{msg}</div>
+          <div className="msg">
+            <Emoji className="msg" emoji={msg} backgroundImageFn={() => emojiPng} size={26} fallback={(emoji, props) => (emoji ? `:${emoji.short_names[0]}:` : props.emoji)} />
+          </div>
         </div>
         )}
       </div>

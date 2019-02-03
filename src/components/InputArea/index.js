@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Picker } from 'emoji-mart';
+import emojiPng from '../../assets/emojione.png';
 import './style.scss';
 
 export default class InputArea extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputMsg: ''
+      inputMsg: '',
+      showEmojiPicker: false
     };
   }
 
@@ -23,12 +26,24 @@ export default class InputArea extends Component {
     });
   }
 
+  clickShowEmojiPicker = () => {
+    const { showEmojiPicker } = this.state;
+    this.setState({ showEmojiPicker: !showEmojiPicker });
+  }
+
+  selectEmoji = (emoji) => {
+    console.log('emoji233', emoji);
+    this.setState({ inputMsg: emoji.colons });
+  }
+
   render() {
-    const { inputMsg } = this.state;
+    const { inputMsg, showEmojiPicker } = this.state;
     return (
       <div className="input-msg">
+        { showEmojiPicker && <div onClick={this.clickShowEmojiPicker} className="mask" />}
+        { showEmojiPicker && <Picker onSelect={this.selectEmoji} backgroundImageFn={(() => emojiPng)} showPreview={false} />}
         <div className="left">
-          <svg className="icon emoji" aria-hidden="true"><use xlinkHref="#icon-smile" /></svg>
+          <svg onClick={this.clickShowEmojiPicker} className="icon emoji" aria-hidden="true"><use xlinkHref="#icon-smile" /></svg>
           <svg className="icon more" aria-hidden="true"><use xlinkHref="#icon-more" /></svg>
         </div>
         <textarea value={inputMsg} onChange={this.inputMsgChange} />
