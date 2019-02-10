@@ -13,10 +13,10 @@ const WEBSITE_ADDRESS = 'http://localhost:3000';
 function fetchHomePageListAllChatContent() {
   // init: fetch HomePageList and AllChatContent;
   window.socket.on('getAllMessage', (data) => {
-    console.log('getAllMessage', data);
+    // console.log('getAllMessage', data);
     const privateChat = new Map(data.privateChat);
     const groupChat = new Map(data.groupChat);
-    console.log('privateChat, groupChat', privateChat, groupChat);
+    // console.log('privateChat, groupChat', privateChat, groupChat);
     store.dispatch(setHomePageListAction(data.homePageList));
     store.dispatch(setAllChatContentAction({ privateChat, groupChat }));
   });
@@ -24,7 +24,7 @@ function fetchHomePageListAllChatContent() {
 
 function initApp() {
   const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-  console.log('APP.js~~');
+  // console.log('APP.js~~');
   const isLoginUrl = /\/login/.test(window.location.href);
   const isRegisterUrl = /\/register/.test(window.location.href);
   if (userInfo && !isLoginUrl && !isRegisterUrl) {

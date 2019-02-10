@@ -30,18 +30,18 @@ const getAllMessage = async ({ userId }) => {
   try {
     const res1 = await msgModel.getPrivateList(userId);
     const privateList = JSON.parse(JSON.stringify(res1));
-    console.log('privateList111', privateList);
+    // console.log('privateList111', privateList);
     const res2 = await msgModel.getGroupList(userId);
     const groupList = JSON.parse(JSON.stringify(res2));
-    console.log('groupList111', groupList);
-    groupList.forEach((element) => {
-      element.time = element.time ? element.time : element.create_time;
-    });
-    privateList.forEach((element) => {
-      element.time = element.time ? element.time : element.be_friend_time;
-    });
+    // console.log('groupList111', groupList);
+    // groupList.forEach((element) => {
+    //   element.time = element.time ? element.time : element.create_time;
+    // });
+    // privateList.forEach((element) => {
+    //   element.time = element.time ? element.time : element.be_friend_time;
+    // });
     const homePageList = groupList.concat(privateList);
-    homePageList.sort((a, b) => b.time - a.time);
+    // homePageList.sort((a, b) => b.time - a.time);
     const privateChat = new Map();
     const groupChat = new Map();
     for (const item of homePageList) {

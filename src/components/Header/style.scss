@@ -5,7 +5,7 @@
     background-color: #fff;
     border-bottom: 1px solid $border;
     display: flex;
-    height: 60px;
+    height: 50px;
     align-items: center;
     img{
         margin:0 10px;
@@ -17,6 +17,8 @@
         font-size: 26px;
         position: absolute;
         right: 10px;
+        height: 50px;
+        line-height: 50px;
     }
 
     .search-box {

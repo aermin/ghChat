@@ -16,10 +16,31 @@ export default class ChatItem extends Component {
   //     this.props.history.push("/login");
 
   // }
+  textRender = msg => (
+    <div className="msg">
+      <Emoji className="msg" emoji={msg} backgroundImageFn={() => emojiPng} size={26} fallback={(emoji, props) => (emoji ? `:${emoji.short_names[0]}:` : props.emoji)} />
+    </div>
+  );
+
+  filesRender = attachments => attachments.map((attachment) => {
+    if (attachment.type === 'image') {
+      return (
+        <div className="image" key={attachment.fileUrl}>
+          <img src={attachment.fileUrl} />
+        </div>
+      );
+    }
+  })
+
   render() {
     const {
       me, img, time, name, msg
     } = this.props;
+    let attachments = this.props.attachments;
+    if (typeof attachments === 'string') {
+      attachments = JSON.parse(attachments);
+    }
+    console.log('attachments in chatItem', attachments);
     return (
       <div className="chat-item">
         {!me && (
@@ -29,15 +50,8 @@ export default class ChatItem extends Component {
             {name && <span>{ name }</span>}
             {time && <span>{ time }</span>}
           </div>
-          <div className="msg">
-            <Emoji
-              className="msg"
-              emoji={msg}
-              backgroundImageFn={() => emojiPng}
-              size={26}
-              fallback={(emoji, props) => (emoji ? `:${emoji.short_names[0]}:` : props.emoji)} />
-          </div>
-
+          {msg && this.textRender(msg)}
+          {attachments.length > 0 && this.filesRender(attachments)}
         </div>
         )}
         {me && (
@@ -47,9 +61,8 @@ export default class ChatItem extends Component {
             {time && <span>{time}</span>}
             {name && <span>{name}</span>}
           </div>
-          <div className="msg">
-            <Emoji className="msg" emoji={msg} backgroundImageFn={() => emojiPng} size={26} fallback={(emoji, props) => (emoji ? `:${emoji.short_names[0]}:` : props.emoji)} />
-          </div>
+          {msg && this.textRender(msg)}
+          {attachments.length > 0 && this.filesRender(attachments)}
         </div>
         )}
       </div>
@@ -64,6 +77,7 @@ ChatItem.propTypes = {
   name: PropTypes.string,
   time: PropTypes.string,
   msg: PropTypes.string,
+  attachments: PropTypes.string,
 };
 
 ChatItem.defaultProps = {
@@ -72,4 +86,5 @@ ChatItem.defaultProps = {
   name: '',
   time: undefined,
   msg: '',
+  attachments: '[]'
 };

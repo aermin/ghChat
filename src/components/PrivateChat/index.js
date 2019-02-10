@@ -12,8 +12,8 @@ export default class PrivateChat extends Component {
     this._hasBeenFriend = false;
   }
 
-  sendMessage = (value) => {
-    if (value.trim() === '') return;
+  sendMessage = (inputMsg = '', attachments = []) => {
+    if (inputMsg.trim() === '' && attachments.length === 0) return;
     const { userId, avatar, name } = this._userInfo;
     const {
       allChatContent, chatId, homePageList,
@@ -33,7 +33,8 @@ export default class PrivateChat extends Component {
       to_user: friendId, // 对方id
       avatar, // 自己的头像
       name,
-      message: `${name}: ${value}`, // 消息内容
+      message: inputMsg === '' ? attachments.type : `${name}: ${inputMsg}`, // 消息内容
+      attachments, // 附件
       time: Date.parse(new Date()) / 1000 // 时间
     };
     this._sendByMe = true;

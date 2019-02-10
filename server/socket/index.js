@@ -9,6 +9,7 @@ const userInfoModel = require('../models/userInfo');
 const groupInfoModel = require('../models/groupInfo');
 const { getAllMessage, getGroupMsg } = require('./message');
 const verify = require('../middlewares/verify');
+const uploadToken = require('../utils/qiniu');
 // const login = require('./login');
 
 // module.exports = server => (ctx) => {
@@ -43,13 +44,14 @@ module.exports = (server) => {
     socket.on('initMessage', async (userId) => {
       console.log('userId233', userId);
       const data = await getAllMessage({ userId });
-      console.log('getAllMessage', data);
+      // console.log('getAllMessage', data);
       io.to(socketId).emit('getAllMessage', data);
     });
 
     // 私聊发信息
     socket.on('sendPrivateMsg', async (data) => {
       if (!data) return;
+      data.attachments = JSON.stringify(data.attachments);
       await savePrivateMsg({ ...data });
       const arr = await socketModel.getUserSocketId(data.to_user);
       const RowDataPacket = arr[0];
@@ -61,6 +63,7 @@ module.exports = (server) => {
     // 群聊发信息
     socket.on('sendGroupMsg', async (data) => {
       if (!data) return;
+      data.attachments = JSON.stringify(data.attachments);
       await saveGroupMsg({ ...data });
       console.log('sendGroupMsg', data);
       socket.broadcast.to(data.to_group_id).emit('getGroupMsg', data);
@@ -105,6 +108,11 @@ module.exports = (server) => {
         fuzzyMatchResult = await groupInfoModel.fuzzyMatchGroups(field);
       }
       io.to(socketId).emit('fuzzyMatchRes', { fuzzyMatchResult, searchUser: data.searchUser });
+    });
+
+    // qiniu token
+    socket.on('getQiniuToken', (fn) => {
+      fn(uploadToken);
     });
 
     /**

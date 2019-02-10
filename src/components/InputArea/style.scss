@@ -47,6 +47,12 @@
             font-size: 30px;
             margin: 0 4px;
         }
+        .emoji, .file {
+            cursor: pointer;
+        }
+        .file-input {
+            display: none;
+        }
     }
     textarea {
         width: calc(100% - 148px);

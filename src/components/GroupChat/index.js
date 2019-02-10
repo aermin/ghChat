@@ -16,8 +16,8 @@ export default class GroupChat extends Component {
     };
   }
 
-  sendMessage = (value) => {
-    if (value.trim() === '') return;
+  sendMessage = (inputMsg = '', attachments = []) => {
+    if (inputMsg.trim() === '' && attachments.length === 0) return;
     const { userId, avatar, name } = this._userInfo;
     const {
       allChatContent, chatId, homePageList, updateHomePageList, updateAllChatContent
@@ -26,7 +26,8 @@ export default class GroupChat extends Component {
       from_user: userId, // 自己的id
       avatar, // 自己的头像
       name,
-      message: `${name}: ${value}`, // 消息内容
+      message: inputMsg === '' ? attachments[0].type : `${name}: ${inputMsg}`, // 消息内容
+      attachments, // 附件
       to_group_id: chatId,
       time: Date.parse(new Date()) / 1000 // 时间
     };
