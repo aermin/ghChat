@@ -24,7 +24,7 @@ export default async function upload(file, completeEvent) {
     };
 
     const config = { useCdnDomain: true };
-    const putExtra = { mimeType: ['image/png', 'image/jpeg', 'image/gif'] };
+    const putExtra = {};
     const { userId } = JSON.parse(localStorage.getItem('userInfo'));
     const key = `${userId}_${new Date().getTime()}_${file.name}`;
     console.log('file, key, uploadToken, putExtra, config', file, key, uploadToken, putExtra, config);

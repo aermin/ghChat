@@ -42,16 +42,16 @@ export default class InputArea extends Component {
     if (!file) {
       return;
     }
-    console.log('file', file);
-    upload(file, (fileUrl) => {
-      const type = file.type.split('/')[0];
-      const attachments = [{ fileUrl, type }];
-      this._sendMessage({ attachments });
-    });
     const reader = new FileReader();
-    reader.onload = (event) => {
-      console.log(event.target.result);
-      // this.displayContents(contents);
+    reader.onloadend = (event) => {
+      console.log('file', file);
+      if (event.target.readyState === FileReader.DONE) {
+        upload(file, (fileUrl) => {
+          const type = file.type.split('/')[0];
+          const attachments = [{ fileUrl, type, name: file.name }];
+          this._sendMessage({ attachments });
+        });
+      }
     };
     reader.readAsArrayBuffer(file);
   }

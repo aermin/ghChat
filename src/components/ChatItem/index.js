@@ -30,6 +30,17 @@ export default class ChatItem extends Component {
         </div>
       );
     }
+    return (
+      <a
+        key={attachment.fileUrl}
+        download
+        href={`${attachment.fileUrl}?attname=${attachment.name}`}
+        className="other-file-render"
+      >
+        {attachment.name || 'unknown file'}
+        <svg className="icon" aria-hidden="true"><use xlinkHref="#icon-download" /></svg>
+      </a>
+    );
   })
 
   render() {
@@ -40,6 +51,7 @@ export default class ChatItem extends Component {
     if (typeof attachments === 'string') {
       attachments = JSON.parse(attachments);
     }
+    // TODO: reduce needless render
     console.log('attachments in chatItem', attachments);
     return (
       <div className="chat-item">
