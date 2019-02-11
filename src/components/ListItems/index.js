@@ -10,10 +10,10 @@ export default function listItems(props) {
   const listItems = props.dataList.map((data, index) => {
     let message;
     const attachments = (typeof data.attachments === 'string') && JSON.parse(data.attachments);
-    if (!message && attachments.length > 0) {
+    if (!data.message && attachments.length > 0) {
       message = `[${attachments[0].type}]`;
     } else {
-      message = message || '暂无消息';
+      message = data.message || '暂无消息';
     }
     return (
       <li key={index} onClick={clickHandle} value={data.to_group_id || data.user_id}>

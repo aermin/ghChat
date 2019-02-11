@@ -17,15 +17,15 @@ export default class ChatItem extends Component {
 
   // }
   textRender = msg => (
-    <div className="msg">
-      <Emoji className="msg" emoji={msg} backgroundImageFn={() => emojiPng} size={26} fallback={(emoji, props) => (emoji ? `:${emoji.short_names[0]}:` : props.emoji)} />
+    <div className="msg-render">
+      <Emoji className="msg-render" emoji={msg} backgroundImageFn={() => emojiPng} size={26} fallback={(emoji, props) => (emoji ? `:${emoji.short_names[0]}:` : props.emoji)} />
     </div>
   );
 
   filesRender = attachments => attachments.map((attachment) => {
     if (attachment.type === 'image') {
       return (
-        <div className="image" key={attachment.fileUrl}>
+        <div className="image-render" key={attachment.fileUrl}>
           <img src={attachment.fileUrl} />
         </div>
       );
@@ -77,7 +77,10 @@ ChatItem.propTypes = {
   name: PropTypes.string,
   time: PropTypes.string,
   msg: PropTypes.string,
-  attachments: PropTypes.string,
+  attachments: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.array
+  ])
 };
 
 ChatItem.defaultProps = {

@@ -9,7 +9,7 @@ const userInfoModel = require('../models/userInfo');
 const groupInfoModel = require('../models/groupInfo');
 const { getAllMessage, getGroupMsg } = require('./message');
 const verify = require('../middlewares/verify');
-const uploadToken = require('../utils/qiniu');
+const getUploadToken = require('../utils/qiniu');
 // const login = require('./login');
 
 // module.exports = server => (ctx) => {
@@ -111,8 +111,10 @@ module.exports = (server) => {
     });
 
     // qiniu token
-    socket.on('getQiniuToken', (fn) => {
-      fn(uploadToken);
+    socket.on('getQiniuToken', async (fn) => {
+      const uploadToken = await getUploadToken();
+      console.log('uploadToken233', uploadToken);
+      return fn(uploadToken);
     });
 
     /**
