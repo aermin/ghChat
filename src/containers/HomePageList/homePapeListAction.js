@@ -3,8 +3,11 @@ import { List, Map } from 'immutable';
 const UPDATE_HOME_PAGE_LIST = 'UPDATE_HOME_PAGE_LIST';
 const UPDATE_ALL_CHAT_CONTENT = 'UPDATE_ALL_CHAT_CONTENT';
 const RELATED_CURRENT_CHAT = 'RELATED_CURRENT_CHAT';
+const CLEAR_UNREAD = 'CLEAR_UNREAD';
 
-const updateHomePageListAction = ({ homePageList, data, myUserId }) => {
+const updateHomePageListAction = ({
+  homePageList, data, myUserId, increaseUnread = false
+}) => {
   const homePageListCopy = [...List(homePageList)];
   let chatFromId;
   if (data.to_user) {
@@ -18,12 +21,15 @@ const updateHomePageListAction = ({ homePageList, data, myUserId }) => {
   if (chatExist) {
     const length = homePageListCopy.length;
     for (let i = 0; i < length; i++) {
-      if (homePageListCopy[i].user_id === chatFromId || homePageListCopy[i].to_group_id === chatFromId) {
-        homePageListCopy[i] = Object.assign(homePageListCopy[i], { message: data.message, time: data.time });
+      const { user_id, to_group_id, unread = 0 } = homePageListCopy[i];
+      if (user_id === chatFromId || to_group_id === chatFromId) {
+        const updatedUnread = increaseUnread ? unread + 1 : unread;
+        homePageListCopy[i] = Object.assign(homePageListCopy[i], { message: data.message, time: data.time, unread: updatedUnread });
         break;
       }
     }
   } else {
+    data.unread = increaseUnread ? 1 : 0;
     homePageListCopy.push(data);
   }
   return {
@@ -33,7 +39,7 @@ const updateHomePageListAction = ({ homePageList, data, myUserId }) => {
 };
 
 const updateAllChatContentAction = ({
-  allChatContent, newChatContent, newChatContents, action
+  allChatContent, newChatContent, newChatContents, action, increaseUnread = false
 }) => {
   const allChatContentCopy = Map(allChatContent).toObject();
   let toPeople;
@@ -68,11 +74,29 @@ const relatedCurrentChatAction = isRelatedCurrentChat => ({
   data: isRelatedCurrentChat
 });
 
+const clearUnreadAction = ({ chatFromId, homePageList }) => {
+  const homePageListCopy = [...List(homePageList)];
+  const length = homePageListCopy.length;
+  for (let i = 0; i < length; i++) {
+    const { user_id, to_group_id } = homePageListCopy[i];
+    if (user_id === chatFromId || to_group_id === chatFromId) {
+      homePageListCopy[i].unread = 0;
+      break;
+    }
+  }
+  return {
+    type: CLEAR_UNREAD,
+    data: homePageListCopy
+  };
+};
+
 export {
   UPDATE_HOME_PAGE_LIST,
   UPDATE_ALL_CHAT_CONTENT,
   RELATED_CURRENT_CHAT,
+  CLEAR_UNREAD,
   updateHomePageListAction,
   updateAllChatContentAction,
   relatedCurrentChatAction,
+  clearUnreadAction,
 };

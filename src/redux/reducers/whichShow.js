@@ -26,16 +26,6 @@ export default function reducer(state = initState, action) {
         ...state,
         noChatShow: action.data
       };
-      // case SET_LAYOUT_LEFT_SHOW:
-      //     return {
-      //         ...state,
-      //         layoutLeftShow: action.data
-      //     }
-      // case SET_LAYOUT_RIGHT_SHOW:
-      //     return {
-      //         ...state,
-      //         layoutRightShow: action.data
-      //     }
     default:
       return state;
   }

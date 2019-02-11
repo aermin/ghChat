@@ -36,7 +36,9 @@ export default class HomePageList extends PureComponent {
       console.log('isRelatedCurrentChat, data.from_user, data.to_user, chatId', isRelatedCurrentChat, data.from_user, data.to_user, chatId);
       relatedCurrentChat(isRelatedCurrentChat);
       updateAllChatContent({ allChatContent, newChatContent: data, action: 'get' });
-      updateHomePageList({ data, homePageList, myUserId: userId });
+      updateHomePageList({
+        data, homePageList, myUserId: userId, increaseUnread: !isRelatedCurrentChat
+      });
     });
     window.socket.on('getGroupMsg', (data) => {
       console.log('subscribeSocket for group chat', data);
@@ -50,7 +52,7 @@ export default class HomePageList extends PureComponent {
       console.log('isRelatedCurrentChat, data.to_group_id, chatId', isRelatedCurrentChat, data.to_group_id, chatId);
       relatedCurrentChat(isRelatedCurrentChat);
       updateAllChatContent({ allChatContent, newChatContent: data });
-      updateHomePageList({ data, homePageList });
+      updateHomePageList({ data, homePageList, increaseUnread: !isRelatedCurrentChat });
     });
   }
 
@@ -108,6 +110,11 @@ export default class HomePageList extends PureComponent {
     }
   }
 
+  clearUnreadHandle(chatFromId) {
+    const { homePageList, clearUnread } = this.props;
+    clearUnread({ homePageList, chatFromId });
+  }
+
   componentWillMount() {
     console.log('home page list props', this.props);
     const { userId } = this._userInfo;
@@ -141,14 +148,18 @@ export default class HomePageList extends PureComponent {
           {isSearching ? (
             <div className="search-result">
               <p>您联系过的用户</p>
-              { contactedUsers.length ? <ListItems dataList={contactedUsers} clickItem={() => this.clickItemHandle()} /> : <p className="search-none">暂无</p>}
+              { contactedUsers.length
+                ? <ListItems dataList={contactedUsers} clearUnread={chatFromId => this.clearUnreadHandle(chatFromId)} clickItem={() => this.clickItemHandle()} />
+                : <p className="search-none">暂无</p>}
               { showSearchUser && <p className="click-to-search" onClick={() => this.searchInDB({ searchUser: true })}>网络查找相关的用户</p>}
               <p>您联系过的群组</p>
-              { contactedGroups.length ? <ListItems dataList={contactedGroups} clickItem={() => this.clickItemHandle()} /> : <p className="search-none">暂无</p>}
+              { contactedGroups.length
+                ? <ListItems dataList={contactedGroups} clearUnread={chatFromId => this.clearUnreadHandle(chatFromId)} clickItem={() => this.clickItemHandle()} />
+                : <p className="search-none">暂无</p>}
               { showSearchGroup && <p className="click-to-search" onClick={() => this.searchInDB({ searchUser: false })}>网络查找相关的群组</p>}
             </div>
           )
-            : <ListItems dataList={homePageList} />}
+            : <ListItems dataList={homePageList} clearUnread={chatFromId => this.clearUnreadHandle(chatFromId)} />}
         </div>
       </div>
     );
@@ -158,16 +169,14 @@ export default class HomePageList extends PureComponent {
 HomePageList.propTypes = {
   allChatContent: PropTypes.object,
   homePageList: PropTypes.array,
-  updateHomePageList: PropTypes.func,
-  updateAllChatContent: PropTypes.func,
-  relatedCurrentChat: PropTypes.func,
+  updateHomePageList: PropTypes.func.isRequired,
+  updateAllChatContent: PropTypes.func.isRequired,
+  relatedCurrentChat: PropTypes.func.isRequired,
+  clearUnread: PropTypes.func.isRequired,
 };
 
 
 HomePageList.defaultProps = {
   allChatContent: {},
   homePageList: [],
-  updateHomePageList: undefined,
-  updateAllChatContent: undefined,
-  relatedCurrentChat: undefined,
 };

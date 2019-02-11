@@ -1,0 +1,16 @@
+.private-unread, .group-unread {
+    font-size: 12px;
+    border-radius: 50%;
+    padding: 0 4px;
+    position: absolute;
+    top: 10px;
+    left: 50px;
+    color: #fff;
+    z-index: 2;
+}
+.private-unread {
+    background-color: red;
+}
+.group-unread {
+    background-color: #98d1f2;
+}
