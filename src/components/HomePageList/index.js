@@ -1,13 +1,17 @@
 import React, { PureComponent } from 'react';
+import {
+  withRouter,
+} from 'react-router-dom';
 import Fuse from 'fuse.js';
 import PropTypes from 'prop-types';
 import { List } from 'immutable';
 import Header from '../Header';
 import './index.scss';
 import ListItems from '../ListItems';
+import Notification from '../../utils/notification';
 // import Spinner from '../spinner';
 
-export default class HomePageList extends PureComponent {
+class HomePageList extends PureComponent {
   constructor() {
     super();
     this.state = {
@@ -18,6 +22,24 @@ export default class HomePageList extends PureComponent {
     };
     this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this._filedStr = null;
+    this._notification = new Notification();
+  }
+
+  _notificationHandle(data) {
+    const { name, message, avatar } = data;
+    const chatType = data.to_group_id ? 'group_chat' : 'private_chat';
+    const chatFromId = data.to_group_id ? data.to_group_id : data.user_id;
+    const title = data.to_group_id && data.groupName ? data.groupName : name;
+    const { history } = this.props;
+    this._notification.notify({
+      title,
+      text: message,
+      icon: avatar,
+      onClick() {
+        history.push(`/${chatType}/${chatFromId}?name=${title}`);
+        window.focus();
+      }
+    });
   }
 
   subscribeSocket() {
@@ -39,6 +61,8 @@ export default class HomePageList extends PureComponent {
       updateHomePageList({
         data, homePageList, myUserId: userId, increaseUnread: !isRelatedCurrentChat
       });
+      this._notificationHandle(data);
+      // TODO: mute notifications switch
     });
     window.socket.on('getGroupMsg', (data) => {
       console.log('subscribeSocket for group chat', data);
@@ -53,6 +77,8 @@ export default class HomePageList extends PureComponent {
       relatedCurrentChat(isRelatedCurrentChat);
       updateAllChatContent({ allChatContent, newChatContent: data });
       updateHomePageList({ data, homePageList, increaseUnread: !isRelatedCurrentChat });
+      this._notificationHandle(data);
+      // TODO: mute notifications switch
     });
   }
 
@@ -165,6 +191,8 @@ export default class HomePageList extends PureComponent {
     );
   }
 }
+
+export default withRouter(HomePageList);
 
 HomePageList.propTypes = {
   allChatContent: PropTypes.object,

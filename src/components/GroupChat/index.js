@@ -20,12 +20,15 @@ export default class GroupChat extends Component {
     if (inputMsg.trim() === '' && attachments.length === 0) return;
     const { userId, avatar, name } = this._userInfo;
     const {
-      allChatContent, chatId, homePageList, updateHomePageList, updateAllChatContent
+      allChatContent, chatId, homePageList,
+      updateHomePageList, updateAllChatContent,
+      location,
     } = this.props;
     const data = {
       from_user: userId, // 自己的id
       avatar, // 自己的头像
       name,
+      groupName: this.groupName,
       message: inputMsg === '' ? attachments[0].type : `${name}: ${inputMsg}`, // 消息内容
       attachments, // 附件
       to_group_id: chatId,
@@ -90,7 +93,7 @@ export default class GroupChat extends Component {
   }
 
   render() {
-    const { chatId, allChatContent, location } = this.props;
+    const { chatId, allChatContent } = this.props;
     const { groupMsgAndInfo } = this.state;
     if (!allChatContent.groupChat) return null;
     const chatItem = allChatContent.groupChat.get(chatId);
@@ -98,7 +101,7 @@ export default class GroupChat extends Component {
     const { userId } = this._userInfo;
     return (
       <div className="chat-wrapper">
-        <ChatHeader title={location.search.split('=')[1]} />
+        <ChatHeader title={this.groupName} />
         <ChatContentList ChatContent={messages} chatId={userId} />
         { chatItem ? <InputArea sendMessage={this.sendMessage} />
           : (
@@ -111,6 +114,11 @@ export default class GroupChat extends Component {
           )}
       </div>
     );
+  }
+
+  get groupName() {
+    const { location } = this.props;
+    return location.search.split('name=')[1];
   }
 }
 
