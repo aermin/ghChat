@@ -16,24 +16,25 @@ class Tabs extends Component {
     const { match } = this.props;
     return (
       <div className="tabs-wrapper">
-        <div className="tab tab-one">
+        <div className="tab">
           <Link to="/index">
             <svg className="icon " aria-hidden="true">
-              <use xlinkHref={match.url === '/index' ? '#icon-messagefill' : '#icon-message1'} />
+              <use xlinkHref={match.url === '/index' ? '#icon-message-copy' : '#icon-message'} />
             </svg>
           </Link>
         </div>
-        <div className="tab tab-two">
-          <Link to="/contact">
-            <svg className="icon " aria-hidden="true">
-              <use xlinkHref={match.url === '/contact' ? '#icon-group_fill' : '#icon-group'} />
-            </svg>
-          </Link>
-        </div>
-        <div className="tab tab-three">
+        <div className="tab">
           <Link to="/robot">
             <svg className="icon " aria-hidden="true">
-              <use xlinkHref={match.url === '/robot' ? '#icon-zhinengfenxi1' : '#icon-zhinenghua'} />
+              <use xlinkHref={match.url === '/robot' ? '#icon-robot_light-copy' : '#icon-robot_light'} />
+            </svg>
+          </Link>
+        </div>
+
+        <div className="tab">
+          <Link to="/robot">
+            <svg className="icon " aria-hidden="true">
+              <use xlinkHref={match.url === '/robot' ? '#icon-setting-copy' : '#icon-setting'} />
             </svg>
           </Link>
         </div>

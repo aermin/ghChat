@@ -37,6 +37,7 @@ export default class InputArea extends Component {
     this.setState({ inputMsg: emoji.colons });
   }
 
+  // TODO: limit file size
   _onSelectFile = (e) => {
     const file = e.target.files[0];
     if (!file) {
