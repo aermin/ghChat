@@ -20,6 +20,7 @@ export default function listItems(props) {
     }
     const chatFromId = data.to_group_id || data.user_id;
     return (
+      // TODO: use group chat avatar which bases on some member avatar
       <li key={index} onClick={() => clickHandle(chatFromId)} value={chatFromId}>
         <Link to={data.to_group_id ? `/group_chat/${data.to_group_id}?name=${data.name}` : `/private_chat/${data.user_id}?name=${data.name}`}>
           <img src={data.avatar} alt={data.to_group_id ? '群头像' : '用户头像'} className="img" />

@@ -29,8 +29,8 @@ const createGroup = (arr) => {
 };
 
 // 删除群
-const exitGroup = (user_id, to_group_id) => {
-  const _sql = 'DELETE FROM  group_user_relation WHERE user_id = ? AND to_group_id = ? ;';
+const leaveGroup = (user_id, to_group_id) => {
+  const _sql = 'DELETE FROM group_user_relation WHERE user_id = ? AND to_group_id = ? ;';
   return query(_sql, [user_id, to_group_id]);
 };
 
@@ -40,5 +40,5 @@ module.exports = {
   joinGroup,
   isInGroup,
   createGroup,
-  exitGroup
+  leaveGroup
 };

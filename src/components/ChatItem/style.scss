@@ -49,7 +49,7 @@
         }
         .msg-render, .image-render, .other-file-render {
             float: left;
-            margin-left: 52px;
+            margin-left: 60px;
             padding: 6px 8px;
             background-color: $other-msg-color;
             border-radius: 6px;
@@ -83,7 +83,7 @@
         }
         .msg-render, .image-render, .other-file-render {
             float: right;
-            margin-right: 52px;
+            margin-right: 60px;
             padding: 6px 8px;
             background-color: $my-msg-color;
             border-radius: 6px;

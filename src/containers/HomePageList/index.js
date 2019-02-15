@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import HomePageList from '../../components/HomePageList';
 import {
-  updateHomePageListAction, updateAllChatContentAction,
-  relatedCurrentChatAction, clearUnreadAction
-} from './homePapeListAction';
+  updateHomePageListAction, clearUnreadAction
+} from './homePageListAction';
+import { updateAllChatContentAction, relatedCurrentChatAction } from '../../redux/actions/chatContentAction';
 
 const mapStateToProps = state => ({
   homePageList: state.homePageListState,

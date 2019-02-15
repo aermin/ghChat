@@ -89,7 +89,7 @@ export default class PrivateChat extends Component {
     const messages = chatItem ? chatItem.messages : [];
     return (
       <div className="chat-wrapper">
-        <ChatHeader title={location.search.split('=')[1]} />
+        <ChatHeader title={location.search.split('=')[1]} chatType="private" />
         <ChatContentList ChatContent={messages} chatId={chatId} />
         <InputArea sendMessage={this.sendMessage} />
       </div>

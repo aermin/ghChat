@@ -2,10 +2,10 @@ import { connect } from 'react-redux';
 import {
   withRouter,
 } from 'react-router-dom';
-import { updateHomePageListAction, updateAllChatContentAction } from '../HomePageList/homePapeListAction';
+import { updateHomePageListAction, deleteHomePageListAction } from '../HomePageList/homePageListAction';
+import { updateAllChatContentAction, deleteChatContentAction } from '../../redux/actions/chatContentAction';
 
 import GroupChat from '../../components/GroupChat';
-// import '../../assets/chat.scss';
 
 const mapStateToProps = state => ({
   allChatContent: state.allChatContentState,
@@ -19,6 +19,12 @@ const mapDispatchToProps = dispatch => ({
   },
   updateHomePageList(arg = {}) {
     dispatch(updateHomePageListAction({ ...arg }));
+  },
+  deleteHomePageList(arg = {}) {
+    dispatch(deleteHomePageListAction({ ...arg }));
+  },
+  deleteChatContent(arg = {}) {
+    dispatch(deleteChatContentAction({ ...arg }));
   }
 });
 

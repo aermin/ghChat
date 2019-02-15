@@ -10,12 +10,17 @@
     align-items: center;
     font-size: 26px;
     .chat-title{
-        padding-left: 10px;
+        padding-left: 20px;
         font-size: 20px;
     }
-    .icon {
+    .back-icon {
         color: $blue;
         margin-left: 10px;
         display: none;
+    }
+    .information-icon {
+        position: absolute;
+        right: 20px;
+        font-size: 24px;
     }
 }

@@ -5,7 +5,8 @@ import './app.scss';
 
 
 import store from './redux/store';
-import { setHomePageListAction, setAllChatContentAction } from './redux/actions/initAction';
+import { setAllChatContentAction } from './redux/actions/chatContentAction';
+import { setHomePageListAction } from './containers/HomePageList/homePageListAction';
 import notification from './components/Notification';
 
 const WEBSITE_ADDRESS = 'http://localhost:3000';

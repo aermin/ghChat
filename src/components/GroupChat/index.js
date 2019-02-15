@@ -1,18 +1,23 @@
 import React, { Component } from 'react';
+import {
+  withRouter,
+} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import '../../assets/chat.scss';
 import ChatHeader from '../ChatHeader';
 import InputArea from '../InputArea';
 import ChatContentList from '../ChatContentList';
+import ChatInformation from '../ChatInformation';
 import './style.scss';
 
-export default class GroupChat extends Component {
+class GroupChat extends Component {
   constructor() {
     super();
     this._sendByMe = false;
     this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this.state = {
-      groupMsgAndInfo: {}
+      groupMsgAndInfo: {},
+      showChatInformation: false
     };
   }
 
@@ -65,6 +70,21 @@ export default class GroupChat extends Component {
     });
   }
 
+  leaveGroup = () => {
+    const { userId } = this._userInfo;
+    const {
+      chatId, homePageList, deleteHomePageList, allChatContent, deleteChatContent
+    } = this.props;
+    window.socket.emit('leaveGroup', { userId, toGroupId: chatId });
+    deleteHomePageList({ homePageList, chatId });
+    deleteChatContent({ allChatContent, chatId, chatType: 'groupChat' });
+    this.props.history.push('/index');
+  }
+
+  _showChatInformation(value) {
+    this.setState({ showChatInformation: value });
+  }
+
   shouldComponentUpdate(nextProps) {
     const { relatedCurrentChat, chatId } = nextProps;
     console.log('shouldComponentUpdate ', relatedCurrentChat, chatId, this.props.chatId, this._sendByMe);
@@ -77,7 +97,7 @@ export default class GroupChat extends Component {
 
   componentDidMount() {
     const { allChatContent, chatId } = this.props;
-    const chatItem = allChatContent.groupChat.get(chatId);
+    const chatItem = allChatContent.groupChat && allChatContent.groupChat.get(chatId);
     if (!chatItem) {
       window.socket.emit('getGroupMsg', { groupId: chatId });
       window.socket.on('getGroupMsgRes', (groupMsgAndInfo) => {
@@ -94,15 +114,23 @@ export default class GroupChat extends Component {
 
   render() {
     const { chatId, allChatContent } = this.props;
-    const { groupMsgAndInfo } = this.state;
+    const { groupMsgAndInfo, showChatInformation } = this.state;
     if (!allChatContent.groupChat) return null;
     const chatItem = allChatContent.groupChat.get(chatId);
     const messages = chatItem ? chatItem.messages : groupMsgAndInfo.messages;
     const { userId } = this._userInfo;
     return (
       <div className="chat-wrapper">
-        <ChatHeader title={this.groupName} />
-        <ChatContentList ChatContent={messages} chatId={userId} />
+        <ChatHeader
+          title={this.groupName}
+          chatType="group"
+          showChatInformation={value => this._showChatInformation(value)}
+        />
+        <ChatContentList
+          ChatContent={messages}
+          chatId={userId}
+        />
+        { showChatInformation && (<ChatInformation leaveGroup={this.leaveGroup} />)}
         { chatItem ? <InputArea sendMessage={this.sendMessage} />
           : (
             <input
@@ -122,12 +150,16 @@ export default class GroupChat extends Component {
   }
 }
 
+export default withRouter(GroupChat);
+
 
 GroupChat.propTypes = {
   allChatContent: PropTypes.object,
   homePageList: PropTypes.array,
-  updateHomePageList: PropTypes.func,
-  updateAllChatContent: PropTypes.func,
+  updateHomePageList: PropTypes.func.isRequired,
+  updateAllChatContent: PropTypes.func.isRequired,
+  deleteHomePageList: PropTypes.func.isRequired,
+  deleteChatContent: PropTypes.func.isRequired,
   chatId: PropTypes.string
 };
 
@@ -135,7 +167,5 @@ GroupChat.propTypes = {
 GroupChat.defaultProps = {
   allChatContent: {},
   homePageList: [],
-  updateHomePageList: undefined,
-  updateAllChatContent: undefined,
   chatId: undefined,
 };

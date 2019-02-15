@@ -98,6 +98,14 @@ module.exports = (server) => {
       io.to(socketId).emit('joinGroupRes', groupMessages);
     });
 
+    // 退群
+    socket.on('leaveGroup', async (data) => {
+      const { userId, toGroupId } = data;
+      socket.leave(toGroupId);
+      console.log('userId, toGroupId', userId, toGroupId);
+      await groupInfoModel.leaveGroup(userId, toGroupId);
+    });
+
     //  模糊匹配用户或者群组
     socket.on('fuzzyMatch', async (data) => {
       let fuzzyMatchResult;

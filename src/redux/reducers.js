@@ -1,14 +1,12 @@
 import { combineReducers } from 'redux';
 
 import robotReducer from '../containers/RobotPage/robotRducer';
-import { getHomePageListReducer, getAllChatContentReducer, relatedCurrentChatReducer } from './reducers/initReducer';
-import whichShow from './reducers/whichShow';
-
+import { getAllChatContentReducer, relatedCurrentChatReducer } from './reducers/chatContentReducer';
+import { getHomePageListReducer } from '../containers/HomePageList/homePageListReducer';
 
 export default combineReducers({
   robotState: robotReducer,
   homePageListState: getHomePageListReducer,
   allChatContentState: getAllChatContentReducer,
   relatedCurrentChat: relatedCurrentChatReducer,
-  whichShow
 });

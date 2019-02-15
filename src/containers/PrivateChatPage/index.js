@@ -2,8 +2,8 @@ import { connect } from 'react-redux';
 import {
   withRouter,
 } from 'react-router-dom';
-import { updateHomePageListAction, updateAllChatContentAction } from '../HomePageList/homePapeListAction';
-
+import { updateHomePageListAction } from '../HomePageList/homePageListAction';
+import { updateAllChatContentAction } from '../../redux/actions/chatContentAction';
 import PrivateChat from '../../components/PrivateChat';
 import '../../assets/chat.scss';
 

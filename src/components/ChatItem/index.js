@@ -6,10 +6,6 @@ import './style.scss';
 
 
 export default class ChatItem extends Component {
-  constructor() {
-    super();
-    this.state = {};
-  }
   // lookInfo(){
   //     console.log('href',this.props.href)
   //     // this.$router.push(`/user_info/${this.props.href}`)
