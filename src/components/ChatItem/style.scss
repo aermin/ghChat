@@ -21,17 +21,16 @@
         max-width: 60%;
         font-size: 14px;
     }
+    .UserAvatar {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+    }
     .otherchat {
         width: 100%;
         position: relative;
-        .img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            position: absolute;
-            top: 50%;
+        .UserAvatar {
             left: 10px;
-            transform: translateY(-50%);
             cursor: pointer;
         }
         .nt {
@@ -58,15 +57,8 @@
     .mychat {
         width: 100%;
         position: relative;
-        .img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            right: 0;
-            position: absolute;
-            top: 50%;
+        .UserAvatar {
             right: 10px;
-            transform: translateY(-50%);
         }
         .nt {
             font-size: 18px;

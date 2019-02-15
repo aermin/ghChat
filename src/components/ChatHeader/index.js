@@ -40,11 +40,12 @@ ChatHeader.propTypes = {
   title: PropTypes.string,
   history: PropTypes.object,
   chatType: PropTypes.string.isRequired,
-  showChatInformation: PropTypes.func.isRequired,
+  showChatInformation: PropTypes.func,
 };
 
 
 ChatHeader.defaultProps = {
   title: '',
   history: undefined,
+  showChatInformation: undefined,
 };

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Emoji } from 'emoji-mart';
+import UserAvatar from '../UserAvatar';
 import emojiPng from '../../assets/emojione.png';
 import './style.scss';
 
@@ -53,7 +54,7 @@ export default class ChatItem extends Component {
       <div className="chat-item">
         {!me && (
         <div className="otherchat">
-          <img src={img} alt="" className="img" />
+          <UserAvatar name={name} src={img} size="40" />
           <div className="nt">
             {name && <span>{ name }</span>}
             {time && <span>{ time }</span>}
@@ -64,7 +65,7 @@ export default class ChatItem extends Component {
         )}
         {me && (
         <div className="mychat">
-          <img src={img} alt="" className="img" onClick={this.lookInfo} />
+          <UserAvatar name={name} src={img} size="40" />
           <div className="nt">
             {time && <span>{time}</span>}
             {name && <span>{name}</span>}
