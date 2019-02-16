@@ -130,11 +130,11 @@ module.exports = (server) => {
      * @param  user_id  本机用户
      *         from_user  本机用户的朋友（对方）
      */
-    socket.on('beFriend', async (data) => {
-      const { user_id, from_user } = data;
-      const time = Date.parse(new Date()) / 1000;
-      await userInfoModel.addFriendEachOther(user_id, from_user, time);
-    });
+    // socket.on('beFriend', async (data) => {
+    //   const { user_id, from_user } = data;
+    //   const time = Date.parse(new Date()) / 1000;
+    //   await userInfoModel.addFriendEachOther(user_id, from_user, time);
+    // });
 
     socket.on('disconnect', (data) => {
       console.log('disconnect', data);

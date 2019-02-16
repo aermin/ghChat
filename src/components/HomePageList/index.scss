@@ -25,33 +25,24 @@
             background-color: #fff;
             list-style: none;
             li {
-                display: -webkit-box;
-                display: -ms-flexbox;
-                display: flex;
-                align-items: center;
                 list-style-type: none;
                 padding: 10px 0;
                 position: relative;
                 .title{
                     color: #000;
                 }
-                .img {
-                    width: 46px;
-                    height: 46px;
-                    margin-left: 10px;
-                    border-radius: 50%;
-                    display: inline-block;
+                a {
+                    display: -webkit-box;
+                    display: -ms-flexbox;
+                    display: flex;
+                    align-items: center;
+                    text-decoration : none;
+                    .UserAvatar {
+                        margin-left: 10px;
+                        position: relative;
+                    }
                 }
-                span:nth-child(1) {
-                    font-size: 22px;
-                    border-radius: 50%;
-                    padding: 0 9px;
-                    position: absolute;
-                    top: 14px;
-                    right: 8px;
-                    color: #fff;
-                    z-index: 2;
-                }
+
                 .private-unread {
                     background-color: red;
                 }
@@ -67,6 +58,10 @@
                         span {
                             font-size: 14px;
                             color: $m-title;
+                            padding: 0 9px;
+                            position: absolute;
+                            top: 14px;
+                            right: 8px;
                         }
                     }
                     .message {

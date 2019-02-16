@@ -41,7 +41,8 @@ export default class UserAvatar extends Component {
       height: `${size}px`,
       borderRadius,
       lineHeight: `${size}px`,
-      color: 'white'
+      color: 'white',
+      display: 'inline-block',
     };
 
     const imgStyle = {
@@ -65,7 +66,7 @@ export default class UserAvatar extends Component {
 
       innerStyle.backgroundColor = background;
 
-      inner = name.charAt(0);
+      inner = <span>{name.charAt(0)}</span>;
     }
 
     return (

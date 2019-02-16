@@ -57,10 +57,10 @@ const editorInfo = (data) => {
 };
 
 // 通过用户id查找用户信息 user_info 包括密码
-const findDataByUserid = (userid) => {
-  const _sql = 'SELECT * FROM user_info WHERE id= ? ';
-  return query(_sql, [userid]);
-};
+// const findDataByUserid = (userid) => {
+//   const _sql = 'SELECT * FROM user_info WHERE id= ? ';
+//   return query(_sql, [userid]);
+// };
 
 // 通过用户id查找用户信息 user_info 包括用户名，性别，头像，最后登录时间，状态等，不包括密码
 const getUserInfo = (user_id) => {
