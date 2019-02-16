@@ -9,8 +9,15 @@
     opacity: 0.97;
     z-index: 99;
     .info {
-      padding-left: 16px;
-      padding-top: 20px;
+      padding: 20px 16px 0;
+      .noticeTitle {
+        color: $m-title;
+        padding-bottom: 10px;
+        font-size: 14px;
+      }
+      .noticeContent {
+          word-wrap: break-word;
+      }
     }
     .members{
       padding: 20px 0;

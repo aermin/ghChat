@@ -17,7 +17,6 @@ const updateHomePageListAction = ({
     chatFromId = data.to_group_id;
   }
   const chatExist = homePageListCopy.find(e => e.user_id === chatFromId || e.to_group_id === chatFromId);
-  console.log('chatFromId, chatExist', chatFromId, chatExist);
   if (chatExist) {
     const length = homePageListCopy.length;
     for (let i = 0; i < length; i++) {

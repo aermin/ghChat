@@ -31,19 +31,19 @@ export default class GroupChatInfo extends Component {
   );
 
   render() {
-    const groupNotice = 'test';
     const { groupMember } = this.state;
+    const { groupInfo, leaveGroup } = this.props;
     groupMember.sort((a, b) => b.status - a.status);
-    console.log('groupMember', groupMember);
+    console.log('groupMember， groupInfo', groupMember, groupInfo);
     // const onlineNumber = groupMember.filter((e)=> e.status);
     return (
       <div className="chat-information">
         <div className="info">
-          <p>群公告</p>
-          <p>{groupNotice}</p>
+          <p className="noticeTitle">群公告</p>
+          <p className="noticeContent">{groupInfo.group_notice}</p>
         </div>
         {this.GroupMemberRender(groupMember)}
-        <p className="leave" onClick={this.props.leaveGroup}>退出群聊</p>
+        <p className="leave" onClick={leaveGroup}>退出群聊</p>
       </div>
     );
   }
@@ -56,9 +56,11 @@ export default class GroupChatInfo extends Component {
 
 GroupChatInfo.propTypes = {
   leaveGroup: PropTypes.func.isRequired,
-  chatId: PropTypes.string.isRequired
+  chatId: PropTypes.string.isRequired,
+  groupInfo: PropTypes.object,
 };
 
 
 GroupChatInfo.defaultProps = {
+  groupInfo: {}
 };

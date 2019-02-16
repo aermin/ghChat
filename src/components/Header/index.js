@@ -45,12 +45,15 @@ export default class Header extends Component {
       const {
         updateAllChatContent, updateHomePageList, homePageList, allChatContent,
       } = this.props;
+      const groupInfo = Object.assign({}, data);
       data.message = `${data.creator}: 创建群成功！`;
       data.time = Date.parse(new Date()) / 1000;
-      console.log('updateHomePageList~~', this.props);
       updateHomePageList({ data, homePageList });
-      updateAllChatContent({ allChatContent, newChatContent: data });
-      // eslint-disable-next-line react/prop-types
+      const newChatContents = {
+        messages: [{ ...data, name }],
+        groupInfo
+      };
+      updateAllChatContent({ allChatContent, newChatContents });
       this.props.history.push(`/group_chat/${data.to_group_id}`);
     });
     window.socket.emit('createGroup', data);

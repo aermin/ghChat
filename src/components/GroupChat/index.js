@@ -102,10 +102,12 @@ class GroupChat extends Component {
   componentDidMount() {
     const { allChatContent, chatId } = this.props;
     const chatItem = allChatContent.groupChat && allChatContent.groupChat.get(chatId);
+    // (产品设计) 当查找没加过的群，点击去没群内容，请求出群内容，避免不了解而加错群
     if (!chatItem) {
       window.socket.emit('getGroupMsg', { groupId: chatId });
       window.socket.on('getGroupMsgRes', (groupMsgAndInfo) => {
         this.setState({ groupMsgAndInfo });
+        console.log('this.state.groupMsgAndInfo', this.state.groupMsgAndInfo);
       });
     }
     this.scrollToBottom();
@@ -121,7 +123,10 @@ class GroupChat extends Component {
     const { groupMsgAndInfo, showGroupChatInfo, visible } = this.state;
     if (!allChatContent.groupChat) return null;
     const chatItem = allChatContent.groupChat.get(chatId);
+    console.log('chatItem, groupMsgAndInfo2222', chatItem, groupMsgAndInfo);
     const messages = chatItem ? chatItem.messages : groupMsgAndInfo.messages;
+    const groupInfo = chatItem ? chatItem.groupInfo : groupMsgAndInfo.groupInfo;
+    console.log('groupInfo2222', groupInfo);
     const { userId } = this._userInfo;
     return (
       <div className="chat-wrapper">
@@ -143,7 +148,7 @@ class GroupChat extends Component {
           chatId={userId}
         />
         { showGroupChatInfo && <div onClick={() => this._showGroupChatInfo(false)} className="mask" />}
-        { showGroupChatInfo && (<GroupChatInfo leaveGroup={this._showLeaveModal} chatId={chatId} />)}
+        { showGroupChatInfo && (<GroupChatInfo groupInfo={groupInfo} leaveGroup={this._showLeaveModal} chatId={chatId} />)}
         { chatItem ? <InputArea sendMessage={this.sendMessage} />
           : (
             <input

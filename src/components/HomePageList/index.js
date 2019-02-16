@@ -5,7 +5,7 @@ import {
 import Fuse from 'fuse.js';
 import PropTypes from 'prop-types';
 import { List } from 'immutable';
-import Header from '../Header';
+import Header from '../../containers/Header';
 import './index.scss';
 import ListItems from '../ListItems';
 import Notification from '../../utils/notification';
