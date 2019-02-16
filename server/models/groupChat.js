@@ -19,7 +19,7 @@ const getGroupMsg = (groupId) => {
  * @return  group_member_id  群成员id
  */
 const getGroupMember = (groupId) => {
-  const _sql = ' SELECT user_id AS group_member_id  FROM group_user_relation  WHERE to_group_id = ? ';
+  const _sql = 'SELECT g.user_id, u.name, u.status, u.avatar FROM group_user_relation AS g inner join user_info AS u ON g.user_id = u.id WHERE to_group_id = ?';
   return query(_sql, groupId);
 };
 /**
@@ -28,7 +28,7 @@ const getGroupMember = (groupId) => {
  * @return
  */
 const getGroupInfo = (arr) => {
-  const _sql = ' SELECT to_group_id , name , group_notice ,avatar ,creator ,create_time FROM group_info  WHERE to_group_id = ? OR name = ? ;';
+  const _sql = 'SELECT to_group_id, name, group_notice, avatar, creator, create_time FROM group_info  WHERE to_group_id = ? OR name = ? ;';
   return query(_sql, arr);
 };
 

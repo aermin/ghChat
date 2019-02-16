@@ -1,5 +1,6 @@
 // 感谢 https://www.npmjs.com/package/react-user-avatar
 import React, { Component } from 'react';
+import './style.scss';
 
 const defaultColors = [
   '#2ecc71', // emerald
@@ -26,6 +27,7 @@ export default class UserAvatar extends Component {
     const {
       src,
       name,
+      isGray,
       color,
       colors = defaultColors,
       onClick,
@@ -69,8 +71,10 @@ export default class UserAvatar extends Component {
       inner = <span>{name.charAt(0)}</span>;
     }
 
+    const avatarClassName = isGray ? 'UserAvatar gray' : 'UserAvatar';
+
     return (
-      <div className="UserAvatar" style={innerStyle}>
+      <div className={avatarClassName} style={innerStyle}>
         {inner}
       </div>
     );

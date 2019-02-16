@@ -50,11 +50,17 @@ const findUIByName = (name) => {
   return query(_sql, name);
 };
 
-// 修改我的信息
-const editorInfo = (data) => {
-  const _sql = ' UPDATE  user_info SET github = ?,website = ?,sex = ?,location = ? WHERE id = ? ; ';
-  return query(_sql, data);
+// 更新登录状态
+const updateUserStatus = (userId, status) => {
+  const _sql = 'UPDATE user_info SET status = ? WHERE id= ? limit 1;';
+  return query(_sql, [status, userId]);
 };
+
+// 修改我的信息
+// const editorInfo = (data) => {
+//   const _sql = ' UPDATE  user_info SET github = ?,website = ?,sex = ?,location = ? WHERE id = ? ; ';
+//   return query(_sql, data);
+// };
 
 // 通过用户id查找用户信息 user_info 包括密码
 // const findDataByUserid = (userid) => {
@@ -93,16 +99,16 @@ const delFriend = (user_id, from_user) => {
 };
 
 // 屏蔽好友
-const shieldFriend = (status, user_id, from_user) => {
-  const _sql = 'UPDATE  user_user_relation  SET shield = ?  WHERE  user_id = ? AND from_user = ? ';
-  return query(_sql, [status, user_id, from_user]);
-};
+// const shieldFriend = (status, user_id, from_user) => {
+//   const _sql = 'UPDATE  user_user_relation  SET shield = ?  WHERE  user_id = ? AND from_user = ? ';
+//   return query(_sql, [status, user_id, from_user]);
+// };
 
-// 修改备注
-const editorRemark = (remark, user_id, from_user) => {
-  const _sql = 'UPDATE  user_user_relation  SET remark = ?  WHERE  user_id = ? AND from_user = ? ';
-  return query(_sql, [remark, user_id, from_user]);
-};
+// // 修改备注
+// const editorRemark = (remark, user_id, from_user) => {
+//   const _sql = 'UPDATE  user_user_relation  SET remark = ?  WHERE  user_id = ? AND from_user = ? ';
+//   return query(_sql, [remark, user_id, from_user]);
+// };
 
 
 module.exports = {
@@ -114,10 +120,8 @@ module.exports = {
   isFriend,
   addFriendEachOther,
   delFriend,
-  shieldFriend,
-  editorRemark,
-  editorInfo,
   updateGithubUser,
   findGithubUser,
-  insertGithubData
+  insertGithubData,
+  updateUserStatus,
 };

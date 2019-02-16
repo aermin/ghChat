@@ -7,7 +7,8 @@ import '../../assets/chat.scss';
 import ChatHeader from '../ChatHeader';
 import InputArea from '../InputArea';
 import ChatContentList from '../ChatContentList';
-import ChatInformation from '../ChatInformation';
+import GroupChatInfo from '../GroupChatInfo';
+import Modal from '../Modal';
 import './style.scss';
 
 class GroupChat extends Component {
@@ -17,7 +18,8 @@ class GroupChat extends Component {
     this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this.state = {
       groupMsgAndInfo: {},
-      showChatInformation: false
+      showGroupChatInfo: false,
+      visible: false,
     };
   }
 
@@ -27,7 +29,6 @@ class GroupChat extends Component {
     const {
       allChatContent, chatId, homePageList,
       updateHomePageList, updateAllChatContent,
-      location,
     } = this.props;
     const data = {
       from_user: userId, // 自己的id
@@ -41,7 +42,6 @@ class GroupChat extends Component {
     };
     this._sendByMe = true;
     window.socket.emit('sendGroupMsg', data);
-    console.log('sendGroupMsg success', data);
     updateAllChatContent({ allChatContent, newChatContent: data, action: 'send' });
     updateHomePageList({ data, homePageList, myUserId: userId });
   }
@@ -70,6 +70,10 @@ class GroupChat extends Component {
     });
   }
 
+  _showLeaveModal = () => {
+    this.setState(state => ({ visible: !state.visible }));
+  }
+
   leaveGroup = () => {
     const { userId } = this._userInfo;
     const {
@@ -81,8 +85,8 @@ class GroupChat extends Component {
     this.props.history.push('/index');
   }
 
-  _showChatInformation(value) {
-    this.setState({ showChatInformation: value });
+  _showGroupChatInfo(value) {
+    this.setState({ showGroupChatInfo: value });
   }
 
   shouldComponentUpdate(nextProps) {
@@ -114,7 +118,7 @@ class GroupChat extends Component {
 
   render() {
     const { chatId, allChatContent } = this.props;
-    const { groupMsgAndInfo, showChatInformation } = this.state;
+    const { groupMsgAndInfo, showGroupChatInfo, visible } = this.state;
     if (!allChatContent.groupChat) return null;
     const chatItem = allChatContent.groupChat.get(chatId);
     const messages = chatItem ? chatItem.messages : groupMsgAndInfo.messages;
@@ -124,13 +128,22 @@ class GroupChat extends Component {
         <ChatHeader
           title={this.groupName}
           chatType="group"
-          showChatInformation={value => this._showChatInformation(value)}
+          hasShowed={showGroupChatInfo}
+          showGroupChatInfo={value => this._showGroupChatInfo(value)}
         />
+        <Modal
+          title="确定退出此群？"
+          visible={visible}
+          confirm={this.leaveGroup}
+          hasCancel
+          cancel={this._showLeaveModal}
+         />
         <ChatContentList
           ChatContent={messages}
           chatId={userId}
         />
-        { showChatInformation && (<ChatInformation leaveGroup={this.leaveGroup} />)}
+        { showGroupChatInfo && <div onClick={() => this._showGroupChatInfo(false)} className="mask" />}
+        { showGroupChatInfo && (<GroupChatInfo leaveGroup={this._showLeaveModal} chatId={chatId} />)}
         { chatItem ? <InputArea sendMessage={this.sendMessage} />
           : (
             <input

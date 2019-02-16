@@ -6,19 +6,14 @@ import PropTypes from 'prop-types';
 import './style.scss';
 
 class ChatHeader extends Component {
-  constructor(props) {
-    super(props);
-    this._showChatInformation = false;
-  }
-
   clickToBack = () => {
     const { history } = this.props;
     history.push('/index');
   }
 
-  clickChatInformation = () => {
-    this._showChatInformation = !this._showChatInformation;
-    this.props.showChatInformation(this._showChatInformation);
+  clickGroupChatInfo = () => {
+    console.log('this.props.hasShowed', this.props.hasShowed);
+    this.props.showGroupChatInfo(!this.props.hasShowed);
   }
 
   render() {
@@ -28,7 +23,7 @@ class ChatHeader extends Component {
       <div className="chat-header-wrapper">
         <svg onClick={this.clickToBack} className="icon back-icon" aria-hidden="true"><use xlinkHref="#icon-back1" /></svg>
         <div className="chat-title">{title}</div>
-        <svg onClick={this.clickChatInformation} className="icon information-icon" aria-hidden="true"><use xlinkHref={icon} /></svg>
+        <svg onClick={this.clickGroupChatInfo} className="icon information-icon" aria-hidden="true"><use xlinkHref={icon} /></svg>
       </div>
     );
   }
@@ -40,12 +35,14 @@ ChatHeader.propTypes = {
   title: PropTypes.string,
   history: PropTypes.object,
   chatType: PropTypes.string.isRequired,
-  showChatInformation: PropTypes.func,
+  showGroupChatInfo: PropTypes.func,
+  hasShowed: PropTypes.bool,
 };
 
 
 ChatHeader.defaultProps = {
   title: '',
   history: undefined,
-  showChatInformation: undefined,
+  showGroupChatInfo: undefined,
+  hasShowed: false
 };

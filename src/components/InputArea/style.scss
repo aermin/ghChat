@@ -16,7 +16,7 @@
         left: 0;
         background-color: #fff;
         opacity: 0;
-        z-index: 100;
+        z-index: 9;
     }
     .emoji-mart {
         width: 300px;
@@ -57,8 +57,6 @@
     textarea {
         width: calc(100% - 148px);
         margin: 0 10px 0 2px;
-        // padding-top: 26px;
-        // padding-left: 4px;
         border-radius: 2px;
         outline: none;
         resize: none;

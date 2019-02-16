@@ -35,7 +35,7 @@ function initApp() {
     });
     fetchHomePageListAllChatContent();
     console.log('initMessage && saveSocketIdByUserId');
-    window.socket.emit('saveSocketIdByUserId', userInfo.userId);
+    window.socket.emit('login', userInfo.userId);
     window.socket.emit('initMessage', userInfo.userId);
   }
 }

@@ -1,0 +1,39 @@
+@import "../../assets/base.scss";
+.chat-information {
+    height: calc(100% - 50px);
+    width: 200px;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: $background-color;
+    opacity: 0.97;
+    z-index: 99;
+    .info {
+      padding-left: 16px;
+      padding-top: 20px;
+    }
+    .members{
+      padding: 20px 0;
+      list-style: none;
+      overflow-y: auto;
+      font-size: 18px;
+      .member {
+        padding: 10px 10px 0;
+        display: flex;
+        align-items: center;
+        .memberName {
+          padding-left: 10px;
+        }
+      }
+    }
+    .leave {
+      position: absolute;
+      bottom: 0;
+      border-top: 1px solid $border;
+      width: 100%;
+      text-align: center;
+      padding: 10px 0;
+      font-size: 14px;
+      color: $warn-red;
+    }
+}

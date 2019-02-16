@@ -3,7 +3,7 @@ const socketIo = require('socket.io');
 const uuid = require('uuid/v1');
 const socketModel = require('../models/socket');
 const { savePrivateMsg } = require('../models/privateChat');
-const { saveGroupMsg } = require('../models/groupChat');
+const groupChatModel = require('../models/groupChat');
 const msgModel = require('../models/message');
 const userInfoModel = require('../models/userInfo');
 const groupInfoModel = require('../models/groupInfo');
@@ -26,8 +26,11 @@ module.exports = (server) => {
   io.on('connection', (socket) => {
     // console.log('socket2333', socket);
     const socketId = socket.id;
-    socket.on('saveSocketIdByUserId', async (userId) => {
+    let _userId;
+    socket.on('login', async (userId) => {
+      _userId = userId;
       await socketModel.saveUserSocketId(userId, socketId);
+      await userInfoModel.updateUserStatus(userId, 1);
     });
 
     // 初始化群聊
@@ -64,7 +67,7 @@ module.exports = (server) => {
     socket.on('sendGroupMsg', async (data) => {
       if (!data) return;
       data.attachments = JSON.stringify(data.attachments);
-      await saveGroupMsg({ ...data });
+      await groupChatModel.saveGroupMsg({ ...data });
       console.log('sendGroupMsg', data);
       socket.broadcast.to(data.to_group_id).emit('getGroupMsg', data);
     });
@@ -106,6 +109,13 @@ module.exports = (server) => {
       await groupInfoModel.leaveGroup(userId, toGroupId);
     });
 
+    // 获取群成员信息
+    socket.on('getGroupMember', async (groupId, fn) => {
+      const RowDataPacket = await groupChatModel.getGroupMember(groupId);
+      const getGroupMember = JSON.parse(JSON.stringify(RowDataPacket));
+      fn(getGroupMember);
+    });
+
     //  模糊匹配用户或者群组
     socket.on('fuzzyMatch', async (data) => {
       let fuzzyMatchResult;
@@ -136,8 +146,9 @@ module.exports = (server) => {
     //   await userInfoModel.addFriendEachOther(user_id, from_user, time);
     // });
 
-    socket.on('disconnect', (data) => {
-      console.log('disconnect', data);
+    socket.on('disconnect', async () => {
+      await userInfoModel.updateUserStatus(_userId, 0);
+      console.log('disconnect', _userId);
     });
   });
 };
