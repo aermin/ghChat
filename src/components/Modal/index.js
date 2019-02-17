@@ -1,68 +1,70 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './style.scss';
+import ModalBase from '../ModalBase';
 
 
-export default class Modal extends Component {
-    clickCancel = () => {
-      const { cancel } = this.props;
-      cancel();
-    }
-
-    clickConfirm = () => {
-      const { confirm } = this.props;
-      confirm();
-    }
-
-    render() {
-      const {
-        visible, title, hasCancel, children
-      } = this.props;
-      return (
-        <div>
-          {visible && (
-            <div className="modal">
-              <div className="bg" />
-              <div className="modal-wrapper">
-                <h1>
-                  {title}
-                </h1>
-                {/* <p className="content">
-                  {content}
-                </p> */}
-                {children}
-                {hasCancel ? (
-                  <div className="hasCancel">
-                    <p onClick={this.clickCancel}>取消</p>
-                    <p onClick={this.clickConfirm}>确定</p>
-                  </div>) : (
-                    <div className="noCancel">
-                      <p onClick={this.clickConfirm}>确定</p>
-                    </div>)
-                }
-              </div>
-            </div>
-          )}
-        </div>
-      );
-    }
+function confirmCancelRender(props) {
+  const {
+    hasCancel, hasConfirm, confirm, cancel
+  } = props;
+  if (hasCancel && hasConfirm) {
+    return (
+      <div className="twoButton">
+        <p onClick={cancel}>取消</p>
+        <p onClick={confirm}>确定</p>
+      </div>);
+  } if (hasConfirm || hasCancel) {
+    return (
+      <div className="oneButton">
+        {hasCancel && <p onClick={cancel}>取消</p>}
+        {hasConfirm && <p onClick={confirm}>确定</p>}
+      </div>);
+  }
+  return null;
 }
 
-Modal.propTypes = {
-  cancel: PropTypes.func,
-  confirm: PropTypes.func,
-  visible: PropTypes.bool,
-  title: PropTypes.string,
+confirmCancelRender.propTypes = {
   hasCancel: PropTypes.bool,
+  hasConfirm: PropTypes.bool,
+  cancel: PropTypes.func, // 点击遮罩取消Modal的前提是有传cancel方法
+  confirm: PropTypes.func,
+};
+
+confirmCancelRender.defaultProps = {
+  hasCancel: false,
+  hasConfirm: false,
+  cancel: undefined,
+  confirm: undefined,
+};
+
+function dialogRender(props) {
+  const { title, children } = props;
+  return (
+    <div className="dialogRender">
+      <h1>
+        {title}
+      </h1>
+      {children}
+      {confirmCancelRender({ ...props })}
+    </div>
+  );
+}
+
+dialogRender.propTypes = {
+  title: PropTypes.string,
   children: PropTypes.node,
 };
 
-
-Modal.defaultProps = {
-  cancel: undefined,
-  confirm: undefined,
-  visible: false,
+dialogRender.defaultProps = {
   title: '',
-  hasCancel: false,
   children: undefined,
 };
+
+const ModalDialogRender = ModalBase(dialogRender);
+// TODO: （refactor）take thinner component
+export default function Modal(props) {
+  return (
+    <ModalDialogRender {...props} />
+  );
+}

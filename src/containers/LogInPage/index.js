@@ -56,8 +56,9 @@ export default class LogIn extends Component {
 
   confirm = () => {
     this.setState({
-      // eslint-disable-next-line react/no-unused-state
-      visible: false
+      modal: {
+        visible: true,
+      }
     });
     window.location.pathname = '/';
   };
@@ -74,6 +75,7 @@ export default class LogIn extends Component {
           title="提示"
           visible={visible}
           confirm={this.confirm}
+          hasConfirm
           hasCancel={false}
         >
           <p className="content">

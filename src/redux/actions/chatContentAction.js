@@ -4,6 +4,7 @@ const SET_ALL_CHAT_CONTENT = 'SET_ALL_CHAT_CONTENT';
 const RELATED_CURRENT_CHAT = 'RELATED_CURRENT_CHAT';
 const UPDATE_ALL_CHAT_CONTENT = 'UPDATE_ALL_CHAT_CONTENT';
 const DELETE_CHAT_CONTENT = 'DELETE_CHAT_CONTENT';
+const UPDATE_USER_INFO = 'UPDATE_USER_INFO';
 
 const setAllChatContentAction = (allChatContent = {}) => ({
   type: SET_ALL_CHAT_CONTENT,
@@ -15,6 +16,8 @@ const relatedCurrentChatAction = isRelatedCurrentChat => ({
   data: isRelatedCurrentChat
 });
 
+// TODO: 改下变量名newChatContent => messages; newChatContents => chatItem
+// TODO: 重构解耦
 const updateAllChatContentAction = ({
   allChatContent, newChatContent, newChatContents, action
 }) => {
@@ -35,13 +38,27 @@ const updateAllChatContentAction = ({
   } else if (newChatContents) {
     const toGroupId = newChatContents.groupInfo && newChatContents.groupInfo.to_group_id;
     const { messages } = newChatContents;
-    toPeople = action === 'send' ? messages[messages.length - 1].to_user : messages[messages.length - 1].from_user;
+    if (messages.length > 0) {
+      toPeople = action === 'send' ? messages[messages.length - 1].to_user : messages[messages.length - 1].from_user;
+    }
     mapKey = toGroupId || toPeople;
     chatType = toGroupId ? 'groupChat' : 'privateChat';
     allChatContentCopy[chatType].set(mapKey, newChatContents);
   }
   return {
     type: UPDATE_ALL_CHAT_CONTENT,
+    data: allChatContentCopy
+  };
+};
+
+const updateUserInfoAction = ({
+  allChatContent, userInfo
+}) => {
+  const allChatContentCopy = Map(allChatContent).toObject();
+  if (!userInfo.user_id) throw new Error('not exist userInfo.user_id!');
+  allChatContentCopy.privateChat.set(userInfo.user_id, { userInfo });
+  return {
+    type: UPDATE_USER_INFO,
     data: allChatContentCopy
   };
 };
@@ -60,8 +77,10 @@ export {
   RELATED_CURRENT_CHAT,
   UPDATE_ALL_CHAT_CONTENT,
   DELETE_CHAT_CONTENT,
+  UPDATE_USER_INFO,
   setAllChatContentAction,
   relatedCurrentChatAction,
   updateAllChatContentAction,
-  deleteChatContentAction
+  deleteChatContentAction,
+  updateUserInfoAction
 };

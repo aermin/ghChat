@@ -3,7 +3,10 @@ import {
   withRouter,
 } from 'react-router-dom';
 import { updateHomePageListAction } from '../HomePageList/homePageListAction';
-import { updateAllChatContentAction } from '../../redux/actions/chatContentAction';
+import {
+  updateAllChatContentAction,
+  updateUserInfoAction
+} from '../../redux/actions/chatContentAction';
 import PrivateChat from '../../components/PrivateChat';
 import '../../assets/chat.scss';
 
@@ -19,6 +22,9 @@ const mapDispatchToProps = dispatch => ({
   },
   updateHomePageList(arg = {}) {
     dispatch(updateHomePageListAction({ ...arg }));
+  },
+  updateUserInfo(arg = {}) {
+    dispatch(updateUserInfoAction({ ...arg }));
   }
 });
 

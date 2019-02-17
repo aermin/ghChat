@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ChatHeader from '../ChatHeader';
 import InputArea from '../InputArea';
 import ChatContentList from '../ChatContentList';
+import PrivateChatInfo from '../PrivateChatInfo';
 
 export default class PrivateChat extends Component {
   constructor() {
@@ -10,27 +11,21 @@ export default class PrivateChat extends Component {
     this._sendByMe = false;
     this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this._hasBeenFriend = false;
+    this.state = {
+      showPrivateChatInfo: false
+    };
   }
 
   sendMessage = (inputMsg = '', attachments = []) => {
     if (inputMsg.trim() === '' && attachments.length === 0) return;
     const { userId, avatar, name } = this._userInfo;
     const {
-      allChatContent, chatId, homePageList,
-      updateHomePageList, updateAllChatContent, location
+      allChatContent, homePageList,
+      updateHomePageList, updateAllChatContent,
     } = this.props;
-    const friendId = parseInt(location.pathname.split('private_chat/')[1]);
-    if (!this._hasBeenFriend) {
-      const chatItem = allChatContent.privateChat.get(chatId);
-      this._hasBeenFriend = !!chatItem;
-      if (!this._hasBeenFriend) {
-        window.socket.emit('beFriend', { user_id: userId, from_user: friendId });
-      }
-    }
-
     const data = {
       from_user: userId, // 自己的id
-      to_user: friendId, // 对方id
+      to_user: this.friendId, // 对方id
       avatar, // 自己的头像
       name,
       message: inputMsg === '' ? attachments.type : `${name}: ${inputMsg}`, // 消息内容
@@ -43,6 +38,23 @@ export default class PrivateChat extends Component {
     const dataForHomePage = { ...data, name: location.search.split('=')[1] };
     updateHomePageList({ data: dataForHomePage, homePageList, myUserId: userId });
     console.log('sent message', data);
+  }
+
+  addAsTheContact =() => {
+    const {
+      allChatContent, homePageList,
+      updateHomePageList, updateUserInfo,
+    } = this.props;
+    window.socket.emit('addAsTheContact', { user_id: this._userInfo.userId, from_user: this.friendId }, (data) => {
+      updateUserInfo({ allChatContent, userInfo: data });
+      const dataInHomePageList = {
+        ...data,
+        to_user: data.user_id,
+        message: '添加联系人成功，给我发消息吧:)',
+        time: Date.parse(new Date()) / 1000
+      };
+      updateHomePageList({ data: dataInHomePageList, homePageList });
+    });
   }
 
   scrollToBottom(time = 0) {
@@ -72,6 +84,11 @@ export default class PrivateChat extends Component {
     return false;
   }
 
+
+  _showPrivateChatInfo(value) {
+    this.setState({ showPrivateChatInfo: value });
+  }
+
   componentDidUpdate() {
     console.log('componentDidUpdate in privateChat');
     this.scrollToBottom();
@@ -83,17 +100,41 @@ export default class PrivateChat extends Component {
 
   render() {
     const { chatId, allChatContent, location } = this.props;
+    const { showPrivateChatInfo } = this.state;
     console.log('allChatContent.privateChat', allChatContent.privateChat, chatId);
     if (!allChatContent.privateChat) return null;
     const chatItem = allChatContent.privateChat.get(chatId);
+    console.log('chatItem23333', chatItem);
     const messages = chatItem ? chatItem.messages : [];
+    const userInfo = chatItem ? chatItem.userInfo : {};
     return (
       <div className="chat-wrapper">
-        <ChatHeader title={location.search.split('=')[1]} chatType="private" />
+        <ChatHeader
+          showPrivateChatInfo={value => this._showPrivateChatInfo(value)}
+          title={location.search.split('=')[1]}
+          chatType="private" />
         <ChatContentList ChatContent={messages} chatId={chatId} />
-        <InputArea sendMessage={this.sendMessage} />
+        <PrivateChatInfo
+          userInfo={userInfo}
+          chatId={chatId}
+          showPrivateChatInfo={() => this._showPrivateChatInfo(false)}
+          modalVisible={chatItem && showPrivateChatInfo} />
+        { chatItem ? <InputArea sendMessage={this.sendMessage} />
+          : (
+            <input
+              type="button"
+              onClick={this.addAsTheContact}
+              className="button"
+              value="加为联系人"
+              />
+          )}
       </div>
     );
+  }
+
+  // question: writing as this is ok ?
+  get friendId() {
+    return parseInt(this.props.location.pathname.split('private_chat/')[1]);
   }
 }
 
@@ -102,6 +143,7 @@ PrivateChat.propTypes = {
   homePageList: PropTypes.array,
   updateHomePageList: PropTypes.func,
   updateAllChatContent: PropTypes.func,
+  updateUserInfo: PropTypes.func,
   chatId: PropTypes.number
 };
 
@@ -111,5 +153,6 @@ PrivateChat.defaultProps = {
   homePageList: [],
   updateHomePageList: undefined,
   updateAllChatContent: undefined,
+  updateUserInfo: undefined,
   chatId: undefined,
 };

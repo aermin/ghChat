@@ -60,14 +60,23 @@ class GroupChat extends Component {
     const {
       allChatContent, chatId, homePageList, updateHomePageList, updateAllChatContent
     } = this.props;
-    window.socket.emit('joinGroup', { userId, toGroupId: chatId });
-    window.socket.on('joinGroupRes', (data) => {
+    window.socket.emit('joinGroup', { userId, toGroupId: chatId }, (data) => {
       const { messages, groupInfo } = data;
       const name = groupInfo && groupInfo.name;
-      const lastContent = { ...messages[messages.length - 1], name };
+      let lastContent;
+      if (messages.length > 1) {
+        lastContent = { ...messages[messages.length - 1], name };
+      } else {
+        lastContent = {
+          ...data.groupInfo,
+          message: '加入群成功，开始聊天吧:)',
+          time: Date.parse(new Date()) / 1000
+        };
+      }
       updateAllChatContent({ allChatContent, newChatContents: data });
-      updateHomePageList({ data: lastContent, homePageList, myUserId: userId });
-    });
+      updateHomePageList({ data: lastContent, homePageList });
+    }
+    );
   }
 
   _showLeaveModal = () => {
@@ -141,13 +150,14 @@ class GroupChat extends Component {
           visible={visible}
           confirm={this.leaveGroup}
           hasCancel
+          hasConfirm
           cancel={this._showLeaveModal}
          />
         <ChatContentList
           ChatContent={messages}
           chatId={userId}
         />
-        { showGroupChatInfo && <div onClick={() => this._showGroupChatInfo(false)} className="mask" />}
+        { showGroupChatInfo && <div onClick={() => this._showGroupChatInfo(false)} className="groupChatInfoMask" />}
         { showGroupChatInfo && (<GroupChatInfo groupInfo={groupInfo} leaveGroup={this._showLeaveModal} chatId={chatId} />)}
         { chatItem ? <InputArea sendMessage={this.sendMessage} />
           : (

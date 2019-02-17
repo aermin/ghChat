@@ -1,5 +1,6 @@
 // 感谢 https://www.npmjs.com/package/react-user-avatar
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './style.scss';
 
 const defaultColors = [
@@ -31,8 +32,8 @@ export default class UserAvatar extends Component {
       color,
       colors = defaultColors,
       onClick,
-      size = '40',
-      borderRadius = '50%',
+      size,
+      borderRadius,
     } = this.props;
 
     if (!name) throw new Error('UserAvatar requires a name');
@@ -74,9 +75,31 @@ export default class UserAvatar extends Component {
     const avatarClassName = isGray ? 'UserAvatar gray' : 'UserAvatar';
 
     return (
-      <div className={avatarClassName} style={innerStyle}>
+      <div className={avatarClassName} style={innerStyle} onClick={onClick}>
         {inner}
       </div>
     );
   }
 }
+
+UserAvatar.propTypes = {
+  src: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  isGray: PropTypes.bool,
+  color: PropTypes.string,
+  colors: PropTypes.array,
+  onClick: PropTypes.func,
+  size: PropTypes.string,
+  borderRadius: PropTypes.string,
+};
+
+
+UserAvatar.defaultProps = {
+  src: undefined,
+  isGray: false,
+  color: undefined,
+  colors: defaultColors,
+  onClick: undefined,
+  size: '40',
+  borderRadius: '50%',
+};

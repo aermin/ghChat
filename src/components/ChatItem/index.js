@@ -7,12 +7,6 @@ import './style.scss';
 
 
 export default class ChatItem extends Component {
-  // lookInfo(){
-  //     console.log('href',this.props.href)
-  //     // this.$router.push(`/user_info/${this.props.href}`)
-  //     this.props.history.push("/login");
-
-  // }
   textRender = msg => (
     <div className="msg-render">
       <Emoji className="msg-render" emoji={msg} backgroundImageFn={() => emojiPng} size={26} fallback={(emoji, props) => (emoji ? `:${emoji.short_names[0]}:` : props.emoji)} />

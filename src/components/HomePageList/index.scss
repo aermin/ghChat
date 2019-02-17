@@ -54,7 +54,8 @@
                     margin-left: 10px;
                     max-width: 80%;
                     .title {
-                        font-size: 20px;
+                        font-size: 18px;
+                        padding-bottom: 4px;
                         span {
                             font-size: 14px;
                             color: $m-title;
@@ -66,7 +67,7 @@
                     }
                     .message {
                         color: $m-title;
-                        font-size: 14px;
+                        font-size: 12px;
                         max-height: 42px;
                         overflow: hidden;
                         position: relative;

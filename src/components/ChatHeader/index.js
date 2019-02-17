@@ -7,13 +7,18 @@ import './style.scss';
 
 class ChatHeader extends Component {
   clickToBack = () => {
-    const { history } = this.props;
-    history.push('/index');
+    this.props.history.push('/index');
   }
 
-  clickGroupChatInfo = () => {
-    console.log('this.props.hasShowed', this.props.hasShowed);
-    this.props.showGroupChatInfo(!this.props.hasShowed);
+  clickChatInfo = () => {
+    const {
+      showGroupChatInfo, showPrivateChatInfo, chatType, hasShowed
+    } = this.props;
+    if (chatType === 'group') {
+      showGroupChatInfo(!hasShowed);
+    } else if (chatType === 'private') {
+      showPrivateChatInfo(!hasShowed);
+    }
   }
 
   render() {
@@ -23,7 +28,7 @@ class ChatHeader extends Component {
       <div className="chat-header-wrapper">
         <svg onClick={this.clickToBack} className="icon back-icon" aria-hidden="true"><use xlinkHref="#icon-back1" /></svg>
         <div className="chat-title">{title}</div>
-        <svg onClick={this.clickGroupChatInfo} className="icon information-icon" aria-hidden="true"><use xlinkHref={icon} /></svg>
+        <svg onClick={this.clickChatInfo} className="icon information-icon" aria-hidden="true"><use xlinkHref={icon} /></svg>
       </div>
     );
   }
@@ -36,6 +41,7 @@ ChatHeader.propTypes = {
   history: PropTypes.object,
   chatType: PropTypes.string.isRequired,
   showGroupChatInfo: PropTypes.func,
+  showPrivateChatInfo: PropTypes.func,
   hasShowed: PropTypes.bool,
 };
 
@@ -44,5 +50,6 @@ ChatHeader.defaultProps = {
   title: '',
   history: undefined,
   showGroupChatInfo: undefined,
+  showPrivateChatInfo: undefined,
   hasShowed: false
 };

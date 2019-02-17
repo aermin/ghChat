@@ -1,0 +1,37 @@
+.mask {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: #000;
+    opacity: 0.3;
+    z-index: 998;
+}
+
+.modalWrapper {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);    //TODO 使用插件来自动做兼容 
+    -moz-transform: translate(-50%, -50%);
+    //Mozilla内核浏览器：firefox3.5+
+    -webkit-transform: translate(-50%, -50%); //Webkit内核浏览器：Safari and Chrome
+    -o-transform: translate(-50%, -50%); //Opera
+    -ms-transform: translate(-50%, -50%); //IE9
+    width: 40%;
+    height: auto;
+    background-color: white;
+    border-radius: 8px;
+    border-top: 1px solid white;
+    text-align: center;
+    z-index: 999;
+    .xIcon{
+      font-size: 18px;
+      line-height: 18px;
+      padding: 6px 12px;
+      cursor: pointer;
+      position: absolute;
+      right: 0px;
+    }
+}

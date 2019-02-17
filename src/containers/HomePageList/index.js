@@ -3,7 +3,9 @@ import HomePageList from '../../components/HomePageList';
 import {
   updateHomePageListAction, clearUnreadAction
 } from './homePageListAction';
-import { updateAllChatContentAction, relatedCurrentChatAction } from '../../redux/actions/chatContentAction';
+import {
+  updateAllChatContentAction, relatedCurrentChatAction,
+} from '../../redux/actions/chatContentAction';
 
 const mapStateToProps = state => ({
   homePageList: state.homePageListState,

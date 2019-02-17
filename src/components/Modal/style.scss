@@ -1,44 +1,4 @@
-.bg {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background-color: #000;
-    opacity: 0.3;
-    z-index: 998;
-}
-
-.modal-wrapper {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    //Mozilla内核浏览器：firefox3.5+
-    -webkit-transform: translate(-50%, -50%); //Webkit内核浏览器：Safari and Chrome
-    -o-transform: translate(-50%, -50%);
-    //Opera
-    -ms-transform: translate(-50%, -50%);
-    //IE9
-    width: 50%;
-    height: auto;
-    background-color: white;
-    border-radius: 8px;
-    border-top: 1px solid white;
-    animation: fade 1s ease 1 forwards;
-    text-align: center;
-    z-index: 999;
-    @keyframes fade {
-        from {
-            opacity: 0;
-            transform: translate(-50%, -50%) scale(0.8);
-        }
-        to {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-        }
-    }
+.dialogRender {
     h1 {
         text-align: center;
         font-size: 16px;
@@ -74,7 +34,7 @@
         /*点击高亮的颜色*/
         /*padding已在重置样式中去除，如果没有去除，记得有padding哦*/
     }
-    .hasCancel {
+    .twoButton {
         height:40px;
         p {
             background: transparent;
@@ -105,7 +65,7 @@
             background: #D6D6D6;
         }
     }
-    .noCancel {
+    .oneButton {
         height:40px;
         p {
             background: transparent;
@@ -128,23 +88,6 @@
         }
         p:active {
             background: #D6D6D6;
-        }
-    }
-    .editor-info {
-        display: flex;
-        display: -ms-flexbox;
-        flex-direction: column;
-        justify-content: center;
-        font-size: 16px;
-        div {
-            width: 100%;
-            margin: 20px auto;
-            select {
-                width: 60%;
-            }
-            input {
-                font-size: 8px;
-            }
         }
     }
 }

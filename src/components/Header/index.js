@@ -7,18 +7,12 @@ export default class Header extends Component {
   constructor() {
     super();
     this.state = {
-      userInfo: {},
       groupName: '',
       groupNotice: '',
       modalVisible: false,
       searchField: ''
     };
-  }
-
-  componentWillMount() {
-    this.setState({
-      userInfo: JSON.parse(localStorage.getItem('userInfo'))
-    });
+    this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
   }
 
   confirm = () => {
@@ -31,7 +25,7 @@ export default class Header extends Component {
   createGroup = () => {
     console.log('createGroup');
     const { groupName, groupNotice } = this.state;
-    const { name, userId } = JSON.parse(localStorage.getItem('userInfo'));
+    const { name, userId } = this._userInfo;
     const data = {
       name: groupName,
       group_notice: groupNotice,
@@ -69,7 +63,6 @@ export default class Header extends Component {
   }
 
   openModal = () => {
-    console.log('openModal');
     this.setState({
       modalVisible: true
     });
@@ -83,12 +76,12 @@ export default class Header extends Component {
 
   render() {
     const {
-      userInfo, groupName, groupNotice, searchField, modalVisible
+      groupName, groupNotice, searchField, modalVisible
     } = this.state;
     const { isSearching } = this.props;
     return (
       <div className="header-wrapper">
-        <img src={userInfo.avatar} alt="" />
+        <img src={this._userInfo && this._userInfo.avatar} alt="" />
         <div className="search-box">
           <svg className="icon" aria-hidden="true">
             <use xlinkHref="#icon-search1" />
@@ -103,6 +96,7 @@ export default class Header extends Component {
           visible={modalVisible}
           confirm={this.confirm}
           hasCancel
+          hasConfirm
           cancel={this.cancel}
         >
           <div className="content">
@@ -127,6 +121,7 @@ Header.propTypes = {
   homePageList: PropTypes.array,
   allChatContent: PropTypes.object,
   searchFieldChange: PropTypes.func,
+  isSearching: PropTypes.bool,
 };
 
 
@@ -135,5 +130,6 @@ Header.defaultProps = {
   updateAllChatContent: undefined,
   homePageList: [],
   allChatContent: {},
-  searchFieldChange: undefined
+  searchFieldChange: undefined,
+  isSearching: false
 };

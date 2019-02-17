@@ -70,6 +70,7 @@ export default class Register extends Component {
         <Modal
           title="提示"
           visible={visible}
+          hasConfirm
           confirm={this.confirm}
           hasCancel={false}
         >

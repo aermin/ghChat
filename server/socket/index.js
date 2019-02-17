@@ -92,13 +92,13 @@ module.exports = (server) => {
     });
 
     // 加群
-    socket.on('joinGroup', async (data) => {
+    socket.on('joinGroup', async (data, fn) => {
       const { userId, toGroupId } = data;
       await groupInfoModel.joinGroup(userId, toGroupId);
       socket.join(toGroupId);
       const groupMessages = await getGroupMsg({ groupId: toGroupId });
       console.log('groupMessages2333', groupMessages);
-      io.to(socketId).emit('joinGroupRes', groupMessages);
+      fn(groupMessages);
     });
 
     // 退群
@@ -136,15 +136,18 @@ module.exports = (server) => {
     });
 
     /**
-     * 加为好友
+     * 加为联系人
      * @param  user_id  本机用户
      *         from_user  本机用户的朋友（对方）
      */
-    // socket.on('beFriend', async (data) => {
-    //   const { user_id, from_user } = data;
-    //   const time = Date.parse(new Date()) / 1000;
-    //   await userInfoModel.addFriendEachOther(user_id, from_user, time);
-    // });
+    socket.on('addAsTheContact', async (data, fn) => {
+      const { user_id, from_user } = data;
+      const time = Date.parse(new Date()) / 1000;
+      await userInfoModel.addFriendEachOther(user_id, from_user, time);
+      const userInfo = await userInfoModel.getUserInfo(from_user);
+      console.log('userInfo', userInfo);
+      fn(userInfo[0]);
+    });
 
     socket.on('disconnect', async () => {
       await userInfoModel.updateUserStatus(_userId, 0);

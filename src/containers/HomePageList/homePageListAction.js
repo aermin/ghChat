@@ -5,6 +5,7 @@ const CLEAR_UNREAD = 'CLEAR_UNREAD';
 const DELETE_CHAT_FROM_LIST = 'DELETE_CHAT_FROM_LIST';
 const SET_HOME_PAGE_LIST = 'SET_HOME_PAGE_LIST';
 
+// TODO: 重构和代码注释
 const updateHomePageListAction = ({
   homePageList, data, myUserId, increaseUnread = false
 }) => {
@@ -46,7 +47,8 @@ const deleteHomePageListAction = ({
     const { to_group_id, user_id } = homePageListCopy[i];
     const id = to_group_id || user_id;
     if (chatId === id) {
-      const deletedItem = homePageListCopy.splice(i, i || 1);
+      const deletedItem = homePageListCopy.splice(i, 1);
+      console.log('deletedItem', deletedItem);
       break;
     }
   }

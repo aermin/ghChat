@@ -1,5 +1,7 @@
 import {
-  SET_ALL_CHAT_CONTENT, DELETE_CHAT_CONTENT, UPDATE_ALL_CHAT_CONTENT, RELATED_CURRENT_CHAT
+  SET_ALL_CHAT_CONTENT, DELETE_CHAT_CONTENT,
+  UPDATE_ALL_CHAT_CONTENT, RELATED_CURRENT_CHAT,
+  UPDATE_USER_INFO,
 } from '../actions/chatContentAction';
 
 
@@ -8,6 +10,7 @@ const getAllChatContentReducer = (previousState = {}, action) => {
     case SET_ALL_CHAT_CONTENT:
     case UPDATE_ALL_CHAT_CONTENT:
     case DELETE_CHAT_CONTENT:
+    case UPDATE_USER_INFO:
       return action.data;
     default:
       return previousState;
