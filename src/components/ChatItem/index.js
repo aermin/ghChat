@@ -36,7 +36,7 @@ export default class ChatItem extends Component {
 
   render() {
     const {
-      me, img, time, name, msg
+      me, img, time, name, msg, clickAvatar
     } = this.props;
     let attachments = this.props.attachments;
     if (typeof attachments === 'string') {
@@ -44,29 +44,29 @@ export default class ChatItem extends Component {
     }
     // TODO: reduce needless render
     console.log('attachments in chatItem', attachments);
+
     return (
       <div className="chat-item">
-        {!me && (
-        <div className="otherchat">
-          <UserAvatar name={name} src={img} size="40" />
-          <div className="nt">
-            {name && <span>{ name }</span>}
-            {time && <span>{ time }</span>}
+        {me ? (
+          <div className="mychat">
+            <UserAvatar name={name} src={img} size="40" />
+            <div className="nt">
+              {time && <span>{time}</span>}
+              {name && <span>{name}</span>}
+            </div>
+            {msg && this.textRender(msg)}
+            {attachments.length > 0 && this.filesRender(attachments)}
           </div>
-          {msg && this.textRender(msg)}
-          {attachments.length > 0 && this.filesRender(attachments)}
-        </div>
-        )}
-        {me && (
-        <div className="mychat">
-          <UserAvatar name={name} src={img} size="40" />
-          <div className="nt">
-            {time && <span>{time}</span>}
-            {name && <span>{name}</span>}
+        ) : (
+          <div className="otherchat">
+            <UserAvatar name={name} src={img} size="40" clickAvatar={clickAvatar} />
+            <div className="nt">
+              {name && <span>{ name }</span>}
+              {time && <span>{ time }</span>}
+            </div>
+            {msg && this.textRender(msg)}
+            {attachments.length > 0 && this.filesRender(attachments)}
           </div>
-          {msg && this.textRender(msg)}
-          {attachments.length > 0 && this.filesRender(attachments)}
-        </div>
         )}
       </div>
     );
@@ -83,7 +83,8 @@ ChatItem.propTypes = {
   attachments: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.array
-  ])
+  ]),
+  clickAvatar: PropTypes.func,
 };
 
 ChatItem.defaultProps = {
@@ -91,6 +92,7 @@ ChatItem.defaultProps = {
   img: undefined,
   name: '',
   time: undefined,
+  clickAvatar: undefined,
   msg: '',
   attachments: '[]'
 };

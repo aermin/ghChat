@@ -31,7 +31,7 @@ export default class UserAvatar extends Component {
       isGray,
       color,
       colors = defaultColors,
-      onClick,
+      clickAvatar,
       size,
       borderRadius,
     } = this.props;
@@ -73,9 +73,8 @@ export default class UserAvatar extends Component {
     }
 
     const avatarClassName = isGray ? 'UserAvatar gray' : 'UserAvatar';
-
     return (
-      <div className={avatarClassName} style={innerStyle} onClick={onClick}>
+      <div className={avatarClassName} style={innerStyle} onClick={clickAvatar}>
         {inner}
       </div>
     );
@@ -88,7 +87,7 @@ UserAvatar.propTypes = {
   isGray: PropTypes.bool,
   color: PropTypes.string,
   colors: PropTypes.array,
-  onClick: PropTypes.func,
+  clickAvatar: PropTypes.func,
   size: PropTypes.string,
   borderRadius: PropTypes.string,
 };
@@ -99,7 +98,7 @@ UserAvatar.defaultProps = {
   isGray: false,
   color: undefined,
   colors: defaultColors,
-  onClick: undefined,
+  clickAvatar: undefined,
   size: '40',
   borderRadius: '50%',
 };

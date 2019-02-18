@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ChatHeader from '../ChatHeader';
 import InputArea from '../InputArea';
 import ChatContentList from '../ChatContentList';
-import PrivateChatInfo from '../PrivateChatInfo';
+import PersonalInfo from '../PersonalInfo';
 
 export default class PrivateChat extends Component {
   constructor() {
@@ -12,7 +12,7 @@ export default class PrivateChat extends Component {
     this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this._hasBeenFriend = false;
     this.state = {
-      showPrivateChatInfo: false
+      showPersonalInfo: false
     };
   }
 
@@ -85,8 +85,8 @@ export default class PrivateChat extends Component {
   }
 
 
-  _showPrivateChatInfo(value) {
-    this.setState({ showPrivateChatInfo: value });
+  _showPersonalInfo(value) {
+    this.setState({ showPersonalInfo: value });
   }
 
   componentDidUpdate() {
@@ -100,7 +100,7 @@ export default class PrivateChat extends Component {
 
   render() {
     const { chatId, allChatContent, location } = this.props;
-    const { showPrivateChatInfo } = this.state;
+    const { showPersonalInfo } = this.state;
     console.log('allChatContent.privateChat', allChatContent.privateChat, chatId);
     if (!allChatContent.privateChat) return null;
     const chatItem = allChatContent.privateChat.get(chatId);
@@ -110,15 +110,15 @@ export default class PrivateChat extends Component {
     return (
       <div className="chat-wrapper">
         <ChatHeader
-          showPrivateChatInfo={value => this._showPrivateChatInfo(value)}
+          showPersonalInfo={value => this._showPersonalInfo(true)}
           title={location.search.split('=')[1]}
           chatType="private" />
-        <ChatContentList ChatContent={messages} chatId={chatId} />
-        <PrivateChatInfo
+        <ChatContentList ChatContent={messages} chatId={chatId} clickAvatar={() => this._showPersonalInfo(true)} />
+        <PersonalInfo
           userInfo={userInfo}
           chatId={chatId}
-          showPrivateChatInfo={() => this._showPrivateChatInfo(false)}
-          modalVisible={chatItem && showPrivateChatInfo} />
+          showPersonalInfo={() => this._showPersonalInfo(false)}
+          modalVisible={chatItem && showPersonalInfo} />
         { chatItem ? <InputArea sendMessage={this.sendMessage} />
           : (
             <input

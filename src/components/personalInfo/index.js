@@ -31,38 +31,38 @@ function userInfoRender(props) {
 
 const ModalRender = ModalBase(userInfoRender);
 
-class PrivateChatInfo extends Component {
+class PersonalInfo extends Component {
   goToChat = () => {
     const { user_id, name } = this.props.userInfo;
     // eslint-disable-next-line react/prop-types
     this.props.history.push(`/private_chat/${user_id}?name=${name}`);
-    this.props.showPrivateChatInfo();
+    this.props.showPersonalInfo();
   }
 
   render() {
-    const { userInfo, modalVisible, showPrivateChatInfo } = this.props;
+    const { userInfo, modalVisible, showPersonalInfo } = this.props;
     return (
       <ModalRender
         userInfo={userInfo}
         visible={modalVisible}
-        cancel={showPrivateChatInfo}
+        cancel={showPersonalInfo}
         goToChat={this.goToChat}
       />
     );
   }
 }
 
-PrivateChatInfo.propTypes = {
+PersonalInfo.propTypes = {
   userInfo: PropTypes.object,
-  showPrivateChatInfo: PropTypes.func,
+  showPersonalInfo: PropTypes.func,
   modalVisible: PropTypes.bool,
 };
 
-PrivateChatInfo.defaultProps = {
+PersonalInfo.defaultProps = {
   userInfo: {},
-  showPrivateChatInfo: undefined,
+  showPersonalInfo: undefined,
   modalVisible: false,
 };
 
 
-export default withRouter(PrivateChatInfo);
+export default withRouter(PersonalInfo);

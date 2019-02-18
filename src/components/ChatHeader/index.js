@@ -12,12 +12,12 @@ class ChatHeader extends Component {
 
   clickChatInfo = () => {
     const {
-      showGroupChatInfo, showPrivateChatInfo, chatType, hasShowed
+      showGroupChatInfo, showPersonalInfo, chatType, hasShowed
     } = this.props;
     if (chatType === 'group') {
       showGroupChatInfo(!hasShowed);
     } else if (chatType === 'private') {
-      showPrivateChatInfo(!hasShowed);
+      showPersonalInfo();
     }
   }
 
@@ -41,7 +41,7 @@ ChatHeader.propTypes = {
   history: PropTypes.object,
   chatType: PropTypes.string.isRequired,
   showGroupChatInfo: PropTypes.func,
-  showPrivateChatInfo: PropTypes.func,
+  showPersonalInfo: PropTypes.func,
   hasShowed: PropTypes.bool,
 };
 
@@ -50,6 +50,6 @@ ChatHeader.defaultProps = {
   title: '',
   history: undefined,
   showGroupChatInfo: undefined,
-  showPrivateChatInfo: undefined,
+  showPersonalInfo: undefined,
   hasShowed: false
 };

@@ -11,7 +11,7 @@ export default class ChatContentList extends Component {
   }
 
   render() {
-    const { ChatContent, chatId } = this.props;
+    const { ChatContent, chatId, clickAvatar } = this.props;
     const listItems = ChatContent.map((item, index) => {
       let isMe;
       if (item.to_user) { // is private chat
@@ -26,7 +26,14 @@ export default class ChatContentList extends Component {
       const attachments = item.attachments;
       return (
         <li key={index}>
-          <ChatItem me={isMe} img={item.avatar} msg={message} name={item.name} time={time} attachments={attachments} />
+          <ChatItem
+            me={isMe}
+            img={item.avatar}
+            msg={message}
+            name={item.name}
+            time={time}
+            clickAvatar={clickAvatar}
+            attachments={attachments} />
         </li>
       );
     }
@@ -42,11 +49,13 @@ export default class ChatContentList extends Component {
 
 ChatContentList.propTypes = {
   ChatContent: PropTypes.array,
-  chatId: PropTypes.number
+  chatId: PropTypes.number,
+  clickAvatar: PropTypes.func,
 };
 
 
 ChatContentList.defaultProps = {
   ChatContent: [],
-  chatId: null
+  chatId: null,
+  clickAvatar: undefined,
 };
