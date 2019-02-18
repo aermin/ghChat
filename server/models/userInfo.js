@@ -38,17 +38,17 @@ const updateGithubUser = ({
   return query(_sql, [name, avatar, location, website, github, intro, github_id]);
 };
 
-// 通过用户名查找用户信息 user_info
+// 通过用户名查找非github用户信息 user_info
 const findDataByName = (name) => {
-  const _sql = 'SELECT * FROM user_info WHERE name = ? ;';
+  const _sql = 'SELECT * FROM user_info WHERE name = ? and github_id IS NULL;';
   return query(_sql, name);
 };
 
 // 通过用户名查找用户信息 user_info 不包括密码
-const findUIByName = (name) => {
-  const _sql = 'SELECT id ,name ,sex,avatar,location,github FROM user_info WHERE name = ? ';
-  return query(_sql, name);
-};
+// const findUIByName = (name) => {
+//   const _sql = 'SELECT id ,name ,sex,avatar,location,github FROM user_info WHERE name = ? ';
+//   return query(_sql, name);
+// };
 
 // 更新登录状态
 const updateUserStatus = (userId, status) => {
@@ -115,7 +115,7 @@ module.exports = {
   fuzzyMatchUsers,
   insertData,
   findDataByName,
-  findUIByName,
+  // findUIByName,
   getUserInfo,
   isFriend,
   addFriendEachOther,

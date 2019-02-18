@@ -17,22 +17,22 @@ const getUserInfo = async (ctx, next) => {
   };
 };
 
-/**
- *  通过用户名获取用户信息 （不包括密码）
- * @param
- * @return id，用户名，性别，头像，地方，github
- */
+// /**
+//  *  通过用户名获取用户信息 （不包括密码）
+//  * @param
+//  * @return id，用户名，性别，头像，地方，github
+//  */
 
-const findUIByName = async (ctx, next) => {
-  const RowDataPacket = await userModel.findUIByName(ctx.query.name);
-  const userInfo = JSON.parse(JSON.stringify(RowDataPacket));
-  ctx.body = {
-    success: true,
-    data: {
-      userInfo
-    }
-  };
-};
+// const findUIByName = async (ctx, next) => {
+//   const RowDataPacket = await userModel.findUIByName(ctx.query.name);
+//   const userInfo = JSON.parse(JSON.stringify(RowDataPacket));
+//   ctx.body = {
+//     success: true,
+//     data: {
+//       userInfo
+//     }
+//   };
+// };
 
 /**
  * 通过要查看的用户id 查询是否是本机用户的好友
@@ -212,7 +212,7 @@ const editorInfo = async (ctx, next) => {
 
 module.exports = {
   getUserInfo,
-  findUIByName,
+  // findUIByName,
   isFriend,
   agreeBeFriend,
   delFriend,
