@@ -10,6 +10,7 @@ import ChatContentList from '../ChatContentList';
 import GroupChatInfo from '../GroupChatInfo';
 import Modal from '../Modal';
 import './style.scss';
+import PersonalInfo from '../PersonalInfo';
 
 class GroupChat extends Component {
   constructor() {
@@ -19,6 +20,8 @@ class GroupChat extends Component {
     this.state = {
       groupMsgAndInfo: {},
       showGroupChatInfo: false,
+      showPersonalInfo: false,
+      personalInfo: {},
       visible: false,
     };
   }
@@ -127,15 +130,32 @@ class GroupChat extends Component {
     this.scrollToBottom();
   }
 
+  _showPersonalInfo(value) {
+    this.setState({ showPersonalInfo: value });
+  }
+
+  _clickPersonAvatar = (userId) => {
+    console.log('userId', userId);
+    const { allChatContent, chatId } = this.props;
+    const { members } = allChatContent.groupChat.get(chatId).groupInfo;
+    const personalInfo = members.filter(member => member.user_id === userId)[0];
+    console.log('personalInfo', personalInfo);
+    this.setState({ personalInfo }, () => {
+      this._showPersonalInfo(true);
+    });
+  }
+
   render() {
     const { chatId, allChatContent } = this.props;
-    const { groupMsgAndInfo, showGroupChatInfo, visible } = this.state;
+    const {
+      groupMsgAndInfo, showGroupChatInfo,
+      visible, personalInfo,
+      showPersonalInfo
+    } = this.state;
     if (!allChatContent.groupChat) return null;
     const chatItem = allChatContent.groupChat.get(chatId);
-    console.log('chatItem, groupMsgAndInfo2222', chatItem, groupMsgAndInfo);
     const messages = chatItem ? chatItem.messages : groupMsgAndInfo.messages;
     const groupInfo = chatItem ? chatItem.groupInfo : groupMsgAndInfo.groupInfo;
-    console.log('groupInfo2222', groupInfo);
     const { userId } = this._userInfo;
     return (
       <div className="chat-wrapper">
@@ -153,9 +173,14 @@ class GroupChat extends Component {
           hasConfirm
           cancel={this._showLeaveModal}
          />
+        <PersonalInfo
+          userInfo={personalInfo}
+          hide={() => this._showPersonalInfo(false)}
+          modalVisible={chatItem && showPersonalInfo} />
         <ChatContentList
           ChatContent={messages}
           chatId={userId}
+          clickAvatar={userId => this._clickPersonAvatar(userId)}
         />
         { showGroupChatInfo && <div onClick={() => this._showGroupChatInfo(false)} className="groupChatInfoMask" />}
         { showGroupChatInfo && (<GroupChatInfo groupInfo={groupInfo} leaveGroup={this._showLeaveModal} chatId={chatId} />)}

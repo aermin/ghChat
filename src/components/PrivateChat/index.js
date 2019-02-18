@@ -110,14 +110,13 @@ export default class PrivateChat extends Component {
     return (
       <div className="chat-wrapper">
         <ChatHeader
-          showPersonalInfo={value => this._showPersonalInfo(true)}
+          showPersonalInfo={() => this._showPersonalInfo(true)}
           title={location.search.split('=')[1]}
           chatType="private" />
         <ChatContentList ChatContent={messages} chatId={chatId} clickAvatar={() => this._showPersonalInfo(true)} />
         <PersonalInfo
           userInfo={userInfo}
-          chatId={chatId}
-          showPersonalInfo={() => this._showPersonalInfo(false)}
+          hide={() => this._showPersonalInfo(false)}
           modalVisible={chatItem && showPersonalInfo} />
         { chatItem ? <InputArea sendMessage={this.sendMessage} />
           : (

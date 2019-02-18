@@ -36,16 +36,16 @@ class PersonalInfo extends Component {
     const { user_id, name } = this.props.userInfo;
     // eslint-disable-next-line react/prop-types
     this.props.history.push(`/private_chat/${user_id}?name=${name}`);
-    this.props.showPersonalInfo();
+    this.props.hide();
   }
 
   render() {
-    const { userInfo, modalVisible, showPersonalInfo } = this.props;
+    const { userInfo, modalVisible, hide } = this.props;
     return (
       <ModalRender
         userInfo={userInfo}
         visible={modalVisible}
-        cancel={showPersonalInfo}
+        cancel={hide}
         goToChat={this.goToChat}
       />
     );
@@ -54,13 +54,13 @@ class PersonalInfo extends Component {
 
 PersonalInfo.propTypes = {
   userInfo: PropTypes.object,
-  showPersonalInfo: PropTypes.func,
+  hide: PropTypes.func,
   modalVisible: PropTypes.bool,
 };
 
 PersonalInfo.defaultProps = {
   userInfo: {},
-  showPersonalInfo: undefined,
+  hide: undefined,
   modalVisible: false,
 };
 

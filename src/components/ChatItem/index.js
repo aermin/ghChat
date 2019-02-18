@@ -43,7 +43,7 @@ export default class ChatItem extends Component {
       attachments = JSON.parse(attachments);
     }
     // TODO: reduce needless render
-    console.log('attachments in chatItem', attachments);
+    // console.log('attachments in chatItem', attachments);
 
     return (
       <div className="chat-item">

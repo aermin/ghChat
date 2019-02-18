@@ -18,11 +18,13 @@ const getPrivateMsg = async ({ toUser, userId }) => {
 const getGroupMsg = async ({ groupId }) => {
   const RowDataPacket1 = await groupChatModel.getGroupMsg(groupId);
   const RowDataPacket2 = await groupChatModel.getGroupInfo([groupId, null]);
+  const RowDataPacket3 = await groupChatModel.getGroupMember(groupId);
+  const members = JSON.parse(JSON.stringify(RowDataPacket3));
   const messages = JSON.parse(JSON.stringify(RowDataPacket1));
   const groupInfo = JSON.parse(JSON.stringify(RowDataPacket2))[0];
   return {
     messages,
-    groupInfo
+    groupInfo: { ...groupInfo, members }
   };
 };
 
