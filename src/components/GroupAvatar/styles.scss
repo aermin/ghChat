@@ -1,0 +1,12 @@
+@import "../../assets/base.scss";
+.groupAvatar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content:center;
+  align-items: center;
+  width: 46px;
+  height: 46px;
+  overflow: hidden;
+  border-radius: 50%;
+  background-color: $lightBruce;
+}

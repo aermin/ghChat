@@ -2,16 +2,18 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { toNormalTime } from '../../utils/transformTime';
 import UserAvatar from '../UserAvatar';
+import GroupAvatar from '../GroupAvatar';
 import './style.scss';
 
-export default function listItems(props) {
+export default function listItems({
+  allChatContent, clickItem, clearUnread, dataList
+}) {
   const clickHandle = (chatFromId) => {
-    const { clickItem, clearUnread } = props;
     clickItem && clickItem();
     clearUnread(chatFromId);
   };
 
-  const listItems = props.dataList.map((data, index) => {
+  const listItems = dataList && dataList.map((data, index) => {
     let message;
     const attachments = (typeof data.attachments === 'string') && JSON.parse(data.attachments);
     if (!data.message && attachments.length > 0) {
@@ -20,12 +22,20 @@ export default function listItems(props) {
       message = data.message || '暂无消息';
     }
     const chatFromId = data.to_group_id || data.user_id;
+    const isGroupChat = !!data.to_group_id;
+    let GroupMembers;
+    if (isGroupChat) {
+      const chatItem = allChatContent.groupChat && allChatContent.groupChat.get(data.to_group_id);
+      GroupMembers = chatItem && chatItem.groupInfo && chatItem.groupInfo.members;
+    }
+    console.log('GroupMembers233', GroupMembers);
     return (
       // TODO: use group chat avatar which bases on some member avatar
       <li key={index} onClick={() => clickHandle(chatFromId)} value={chatFromId}>
-        <Link to={data.to_group_id ? `/group_chat/${data.to_group_id}?name=${data.name}` : `/private_chat/${data.user_id}?name=${data.name}`}>
-          {/* <img src={data.avatar} alt={data.to_group_id ? '群头像' : '用户头像'} className="img" /> */}
-          <UserAvatar src={data.avatar} name={data.name} size="46" />
+        <Link to={isGroupChat ? `/group_chat/${data.to_group_id}?name=${data.name}` : `/private_chat/${data.user_id}?name=${data.name}`}>
+          { isGroupChat
+            ? <GroupAvatar members={GroupMembers || []} />
+            : <UserAvatar src={data.avatar} name={data.name} size="46" />}
           {!!data.unread && <span className={data.to_group_id ? 'group-unread' : 'private-unread'}>{data.unread}</span>}
           <div className="content">
             <div className="title">

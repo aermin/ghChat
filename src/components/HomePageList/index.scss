@@ -26,7 +26,7 @@
             list-style: none;
             li {
                 list-style-type: none;
-                padding: 10px 0;
+                padding: 10px 0 10px 10px;
                 position: relative;
                 .title{
                     color: #000;
@@ -38,7 +38,6 @@
                     align-items: center;
                     text-decoration : none;
                     .UserAvatar {
-                        margin-left: 10px;
                         position: relative;
                     }
                 }
