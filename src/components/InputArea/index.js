@@ -4,6 +4,7 @@ import { Picker } from 'emoji-mart';
 import upload from '../../utils/qiniu';
 import emojiPng from '../../assets/emojione.png';
 import './style.scss';
+import notification from '../Notification';
 
 export default class InputArea extends Component {
   constructor(props) {
@@ -45,7 +46,12 @@ export default class InputArea extends Component {
     }
     const reader = new FileReader();
     reader.onloadend = (event) => {
-      console.log('file', file);
+      console.log('file, FileReader.DONE', file, FileReader.DONE);
+      const limitSize = 1000 * 1024 * 2; // 2 MB
+      if (file.size > limitSize) {
+        notification('发的文件不能超过2MB哦!', 'warn', 2);
+        return;
+      }
       if (event.target.readyState === FileReader.DONE) {
         upload(file, (fileUrl) => {
           const type = file.type.split('/')[0];

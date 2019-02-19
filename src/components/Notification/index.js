@@ -32,11 +32,12 @@ function addIcon(msg, type) {
   return content;
 }
 
-export default function notification(msg, type) {
+export default function notification(msg, type, duration) {
   const content = addIcon(msg, type);
   Notification.newInstance({}, (notification) => {
     notification.notice({
-      content
+      content,
+      duration
     });
   });
 }
