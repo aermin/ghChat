@@ -28,7 +28,7 @@ export default function listItems({
       const chatItem = allChatContent.groupChat && allChatContent.groupChat.get(data.to_group_id);
       GroupMembers = chatItem && chatItem.groupInfo && chatItem.groupInfo.members;
     }
-    console.log('GroupMembers233', GroupMembers);
+    // console.log('GroupMembers233', GroupMembers);
     return (
       // TODO: use group chat avatar which bases on some member avatar
       <li key={index} onClick={() => clickHandle(chatFromId)} value={chatFromId}>

@@ -1,12 +1,15 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
+import {
+  withRouter,
+} from 'react-router-dom';
 import Request from '../../utils/request';
 import Modal from '../../components/Modal';
 import notification from '../../components/Notification';
 import SignInSignUp from '../../components/SignInSignUp';
 import './index.scss';
 
-export default class LogIn extends Component {
+class LogIn extends Component {
   constructor() {
     super();
 
@@ -60,7 +63,7 @@ export default class LogIn extends Component {
         visible: true,
       }
     });
-    window.location.pathname = '/';
+    this.props.history.push('/index');
   };
 
   componentDidMount() {
@@ -76,7 +79,6 @@ export default class LogIn extends Component {
           visible={visible}
           confirm={this.confirm}
           hasConfirm
-          hasCancel={false}
         >
           <p className="content">
             {'您已登录成功'}
@@ -88,3 +90,5 @@ export default class LogIn extends Component {
     );
   }
 }
+
+export default withRouter(LogIn);
