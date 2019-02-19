@@ -2,7 +2,10 @@ import { connect } from 'react-redux';
 import {
   withRouter,
 } from 'react-router-dom';
-import { updateHomePageListAction } from '../HomePageList/homePageListAction';
+import {
+  updateHomePageListAction,
+  clearUnreadAction
+} from '../HomePageList/homePageListAction';
 import {
   updateAllChatContentAction,
   updateUserInfoAction
@@ -25,6 +28,9 @@ const mapDispatchToProps = dispatch => ({
   },
   updateUserInfo(arg = {}) {
     dispatch(updateUserInfoAction({ ...arg }));
+  },
+  clearUnread(arg = {}) {
+    dispatch(clearUnreadAction({ ...arg }));
   }
 });
 

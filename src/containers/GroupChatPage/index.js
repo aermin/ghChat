@@ -2,8 +2,15 @@ import { connect } from 'react-redux';
 import {
   withRouter,
 } from 'react-router-dom';
-import { updateHomePageListAction, deleteHomePageListAction } from '../HomePageList/homePageListAction';
-import { updateAllChatContentAction, deleteChatContentAction } from '../../redux/actions/chatContentAction';
+import {
+  updateHomePageListAction,
+  deleteHomePageListAction,
+  clearUnreadAction
+} from '../HomePageList/homePageListAction';
+import {
+  updateAllChatContentAction,
+  deleteChatContentAction
+} from '../../redux/actions/chatContentAction';
 
 import GroupChat from '../../components/GroupChat';
 
@@ -25,6 +32,9 @@ const mapDispatchToProps = dispatch => ({
   },
   deleteChatContent(arg = {}) {
     dispatch(deleteChatContentAction({ ...arg }));
+  },
+  clearUnread(arg = {}) {
+    dispatch(clearUnreadAction({ ...arg }));
   }
 });
 

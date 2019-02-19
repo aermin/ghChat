@@ -66,7 +66,17 @@ export default class PrivateChat extends Component {
     }
   }
 
+  _showPersonalInfo(value) {
+    this.setState({ showPersonalInfo: value });
+  }
+
+  clearUnreadHandle() {
+    const { homePageList, clearUnread, chatId } = this.props;
+    clearUnread({ homePageList, chatFromId: chatId });
+  }
+
   componentDidMount() {
+    this.clearUnreadHandle();
     this.scrollToBottom();
   }
 
@@ -82,11 +92,6 @@ export default class PrivateChat extends Component {
       return true;
     }
     return false;
-  }
-
-
-  _showPersonalInfo(value) {
-    this.setState({ showPersonalInfo: value });
   }
 
   componentDidUpdate() {
@@ -143,7 +148,8 @@ PrivateChat.propTypes = {
   updateHomePageList: PropTypes.func,
   updateAllChatContent: PropTypes.func,
   updateUserInfo: PropTypes.func,
-  chatId: PropTypes.number
+  chatId: PropTypes.number,
+  clearUnread: PropTypes.func.isRequired,
 };
 
 

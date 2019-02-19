@@ -6,13 +6,8 @@ import GroupAvatar from '../GroupAvatar';
 import './style.scss';
 
 export default function listItems({
-  allChatContent, clickItem, clearUnread, dataList
+  allChatContent, clickItem, dataList
 }) {
-  const clickHandle = (chatFromId) => {
-    clickItem && clickItem();
-    clearUnread(chatFromId);
-  };
-
   const listItems = dataList && dataList.map((data, index) => {
     let message;
     const attachments = (typeof data.attachments === 'string') && JSON.parse(data.attachments);
@@ -31,7 +26,7 @@ export default function listItems({
     // console.log('GroupMembers233', GroupMembers);
     return (
       // TODO: use group chat avatar which bases on some member avatar
-      <li key={index} onClick={() => clickHandle(chatFromId)} value={chatFromId}>
+      <li key={index} onClick={clickItem} value={chatFromId}>
         <Link to={isGroupChat ? `/group_chat/${data.to_group_id}?name=${data.name}` : `/private_chat/${data.user_id}?name=${data.name}`}>
           { isGroupChat
             ? <GroupAvatar members={GroupMembers || []} />

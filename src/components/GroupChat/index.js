@@ -101,6 +101,11 @@ class GroupChat extends Component {
     this.setState({ showGroupChatInfo: value });
   }
 
+  clearUnreadHandle() {
+    const { homePageList, clearUnread, chatId } = this.props;
+    clearUnread({ homePageList, chatFromId: chatId });
+  }
+
   shouldComponentUpdate(nextProps) {
     const { relatedCurrentChat, chatId } = nextProps;
     console.log('shouldComponentUpdate ', relatedCurrentChat, chatId, this.props.chatId, this._sendByMe);
@@ -114,6 +119,7 @@ class GroupChat extends Component {
   componentDidMount() {
     const { allChatContent, chatId } = this.props;
     const chatItem = allChatContent.groupChat && allChatContent.groupChat.get(chatId);
+    this.clearUnreadHandle();
     // (产品设计) 当查找没加过的群，点击去没群内容，请求出群内容，避免不了解而加错群
     if (!chatItem) {
       window.socket.emit('getGroupMsg', { groupId: chatId });
@@ -213,7 +219,8 @@ GroupChat.propTypes = {
   updateAllChatContent: PropTypes.func.isRequired,
   deleteHomePageList: PropTypes.func.isRequired,
   deleteChatContent: PropTypes.func.isRequired,
-  chatId: PropTypes.string
+  chatId: PropTypes.string,
+  clearUnread: PropTypes.func.isRequired,
 };
 
 

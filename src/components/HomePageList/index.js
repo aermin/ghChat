@@ -130,15 +130,10 @@ class HomePageList extends PureComponent {
     });
   }
 
-  clickItemHandle() {
+  clickItemHandle = () => {
     if (this.state.isSearching) {
       this.setState({ isSearching: false });
     }
-  }
-
-  clearUnreadHandle(chatFromId) {
-    const { homePageList, clearUnread } = this.props;
-    clearUnread({ homePageList, chatFromId });
   }
 
   componentWillMount() {
@@ -178,9 +173,8 @@ class HomePageList extends PureComponent {
                 ? (
                   <ListItems
                     dataList={contactedUsers}
-                    clearUnread={chatFromId => this.clearUnreadHandle(chatFromId)}
                     allChatContent={allChatContent}
-                    clickItem={() => this.clickItemHandle()} />
+                    clickItem={this.clickItemHandle} />
                 )
                 : <p className="search-none">暂无</p>}
               { showSearchUser && <p className="click-to-search" onClick={() => this.searchInDB({ searchUser: true })}>网络查找相关的用户</p>}
@@ -190,8 +184,7 @@ class HomePageList extends PureComponent {
                   <ListItems
                     dataList={contactedGroups}
                     allChatContent={allChatContent}
-                    clearUnread={chatFromId => this.clearUnreadHandle(chatFromId)}
-                    clickItem={() => this.clickItemHandle()} />
+                    clickItem={this.clickItemHandle} />
                 )
                 : <p className="search-none">暂无</p>}
               { showSearchGroup && <p className="click-to-search" onClick={() => this.searchInDB({ searchUser: false })}>网络查找相关的群组</p>}
@@ -200,8 +193,7 @@ class HomePageList extends PureComponent {
             : (
               <ListItems
                 dataList={homePageList}
-                allChatContent={allChatContent}
-                clearUnread={chatFromId => this.clearUnreadHandle(chatFromId)} />
+                allChatContent={allChatContent} />
             )}
         </div>
       </div>
@@ -217,7 +209,6 @@ HomePageList.propTypes = {
   updateHomePageList: PropTypes.func.isRequired,
   updateAllChatContent: PropTypes.func.isRequired,
   relatedCurrentChat: PropTypes.func.isRequired,
-  clearUnread: PropTypes.func.isRequired,
 };
 
 
