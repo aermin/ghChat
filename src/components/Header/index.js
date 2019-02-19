@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Modal from '../Modal';
 import './style.scss';
 
+
 export default class Header extends Component {
   constructor() {
     super();
@@ -10,7 +11,7 @@ export default class Header extends Component {
       groupName: '',
       groupNotice: '',
       modalVisible: false,
-      searchField: ''
+      searchField: '',
     };
     this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
   }
@@ -23,7 +24,6 @@ export default class Header extends Component {
   };
 
   createGroup = () => {
-    console.log('createGroup');
     const { groupName, groupNotice } = this.state;
     const { name, userId } = this._userInfo;
     const data = {
@@ -35,7 +35,6 @@ export default class Header extends Component {
     };
     // this.props.history.push('/login');
     window.socket.on('createGroupRes', (data) => {
-      console.log('createGroupRes', data);
       const {
         updateAllChatContent, updateHomePageList, homePageList, allChatContent,
       } = this.props;
@@ -74,19 +73,31 @@ export default class Header extends Component {
     });
   }
 
+  _openRepository = () => {
+    window.open('https://github.com/aermin/react-chat');
+  }
+
   render() {
     const {
-      groupName, groupNotice, searchField, modalVisible
+      groupName, groupNotice,
+      searchField, modalVisible,
     } = this.state;
     const { isSearching } = this.props;
     return (
       <div className="header-wrapper">
-        <img src={this._userInfo && this._userInfo.avatar} alt="" />
+        <svg onClick={this._openRepository} className="icon githubIcon" aria-hidden="true">
+          <use xlinkHref="#icon-github" />
+        </svg>
         <div className="search-box">
           <svg className="icon" aria-hidden="true">
             <use xlinkHref="#icon-search1" />
           </svg>
-          <input type="text" name="searchField" value={isSearching ? searchField : ''} placeholder="搜索用户/群" onChange={this.handleChange} />
+          <input
+            type="text"
+            name="searchField"
+            value={isSearching ? searchField : ''}
+            placeholder="搜索用户/群"
+            onChange={this.handleChange} />
         </div>
         <span className="add" onClick={this.openModal}>
           <svg className="icon" aria-hidden="true"><use xlinkHref="#icon-add" /></svg>
@@ -102,11 +113,24 @@ export default class Header extends Component {
           <div className="content">
             <p>
               <span>群名:</span>
-              <input name="groupName" value={groupName} onChange={this.handleChange} type="text" placeholder="不超过10个字哦" maxLength="10" />
+              <input
+                name="groupName"
+                value={groupName}
+                onChange={this.handleChange}
+                type="text"
+                placeholder="不超过10个字哦"
+                maxLength="10" />
             </p>
             <p>
               <span>群公告:</span>
-              <textarea name="groupNotice" value={groupNotice} onChange={this.handleChange} rows="3" type="text" placeholder="不超过60个字哦" maxLength="60" />
+              <textarea
+                name="groupNotice"
+                value={groupNotice}
+                onChange={this.handleChange}
+                rows="3"
+                type="text"
+                placeholder="不超过60个字哦"
+                maxLength="60" />
             </p>
           </div>
         </Modal>

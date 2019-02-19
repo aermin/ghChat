@@ -6,11 +6,10 @@
     display: flex;
     height: 50px;
     align-items: center;
-    img{
-        margin:0 10px;
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
+    .githubIcon {
+        font-size: 26px;
+        margin: 0 10px;
+        cursor: pointer;
     }
     .add {
         font-size: 22px;

@@ -1,7 +1,37 @@
+@import "../../assets/base.scss";
 .setting{
   width: 100%;
   padding-top: 60px;
   text-align: center;
+  .githubStarRender {
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #9baec8;
+    height: 26px;
+    width: 74px;
+    margin-left: 20px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
+    .githubIcon {
+      height: 30px;
+      font-size: 28px;
+      padding-right: 4px;
+      padding-left: 4px;
+    }
+    .starTitle{
+      font-size: 12px;
+      height: 26px;
+      padding-right: 4px;
+      padding-left: 4px;
+      line-height: 26px;
+      color: #fff;
+      background-color: #5893d4;
+    }
+  }
   .userInfo p {
     font-size: 12px;
     padding-top: 20px;
