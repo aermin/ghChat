@@ -1,0 +1,19 @@
+.setting{
+  width: 100%;
+  padding-top: 60px;
+  text-align: center;
+  .userInfo p {
+    font-size: 12px;
+    padding-top: 20px;
+  }
+  .name{
+    font-size: 18px;
+    padding-top: 20px;
+  }
+  .logoutButton {
+    position: relative;
+  }
+  input {
+    margin-top: 40px;
+  }
+}

@@ -32,9 +32,9 @@ class Tabs extends Component {
         </div>
 
         <div className="tab">
-          <Link to="/robot">
+          <Link to="/setting">
             <svg className="icon " aria-hidden="true">
-              <use xlinkHref={match.url === '/robot' ? '#icon-setting-copy' : '#icon-setting'} />
+              <use xlinkHref={match.url === '/setting' ? '#icon-setting-copy' : '#icon-setting'} />
             </svg>
           </Link>
         </div>

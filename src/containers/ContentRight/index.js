@@ -6,18 +6,22 @@ import GroupChatPage from '../GroupChatPage';
 import PrivateChatPage from '../PrivateChatPage';
 
 export default function ContentLeft(props) {
-  console.log('ContentLeftprops', props);
+  // console.log('ContentLeftprops', props);
   // eslint-disable-next-line react/destructuring-assignment
   const { params, url } = props.match;
   // eslint-disable-next-line radix
   const chatId = parseInt(params.userId) || params.to_group_id;
+  const isGroupChat = /\/group_chat\//.test(url);
+  const isPrivateChat = /\/private_chat\//.test(url);
+  const urlsOfShowingWelcomePage = ['/setting', '/index', '/'];
+  const shouldShowWelcomePage = urlsOfShowingWelcomePage.includes(url);
   return (
   // switch between privateChatPage not componentWillUnmount, switch other Page will componentWillUnmount
     <div className={(url === '/' || url === '/index') ? 'layout-right-mobile' : 'layout-right'}>
-      {(url === '/' || url === '/index') && <WelcomePage />}
+      {shouldShowWelcomePage && <WelcomePage />}
       {url === '/robot' && <RobotPage />}
-      {url.split('group_chat').length > 1 && <GroupChatPage chatId={chatId} />}
-      {url.split('private_chat').length > 1 && <PrivateChatPage chatId={chatId} />}
+      {isGroupChat && <GroupChatPage chatId={chatId} />}
+      {isPrivateChat && <PrivateChatPage chatId={chatId} />}
     </div>
   );
 }

@@ -24,11 +24,12 @@ class ChatHeader extends Component {
   render() {
     const { title, chatType, } = this.props;
     const icon = chatType === 'group' ? '#icon-group' : '#icon-people';
+    const isRobotChat = chatType === 'robot';
     return (
       <div className="chat-header-wrapper">
         <svg onClick={this.clickToBack} className="icon back-icon" aria-hidden="true"><use xlinkHref="#icon-back1" /></svg>
         <div className="chat-title">{title}</div>
-        <svg onClick={this.clickChatInfo} className="icon information-icon" aria-hidden="true"><use xlinkHref={icon} /></svg>
+        { !isRobotChat && <svg onClick={this.clickChatInfo} className="icon information-icon" aria-hidden="true"><use xlinkHref={icon} /></svg>}
       </div>
     );
   }

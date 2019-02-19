@@ -28,6 +28,9 @@ const routes = [
     path: '/robot'
   },
   {
+    path: '/setting'
+  },
+  {
     path: '/group_chat/:to_group_id',
   },
   {

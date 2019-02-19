@@ -68,11 +68,14 @@ export default class InputArea extends Component {
 
   render() {
     const { inputMsg, showEmojiPicker } = this.state;
+    const robotStyle = {
+      visibility: 'hidden'
+    };
     return (
       <div className="input-msg">
         { showEmojiPicker && <div onClick={this._clickShowEmojiPicker} className="mask" />}
         { showEmojiPicker && <Picker onSelect={this._selectEmoji} backgroundImageFn={(() => emojiPng)} showPreview={false} />}
-        <div className="left">
+        <div className="left" style={this.props.isRobotChat ? robotStyle : {}}>
           <svg onClick={this._clickShowEmojiPicker} className="icon emoji" aria-hidden="true"><use xlinkHref="#icon-smile" /></svg>
           <label className="file">
             <svg className="icon" aria-hidden="true"><use xlinkHref="#icon-file" /></svg>
@@ -90,9 +93,11 @@ export default class InputArea extends Component {
 
 InputArea.propTypes = {
   sendMessage: PropTypes.func,
+  isRobotChat: PropTypes.bool,
 };
 
 
 InputArea.defaultProps = {
-  sendMessage: undefined
+  sendMessage: undefined,
+  isRobotChat: false,
 };

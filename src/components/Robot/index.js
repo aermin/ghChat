@@ -12,10 +12,9 @@ import {
 export default class Robot extends Component {
   constructor() {
     super();
+    this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this.state = {
-      time: toNormalTime(Date.parse(new Date()) / 1000),
       inputMsg: '',
-      userInfo: {},
     };
   }
 
@@ -43,13 +42,6 @@ export default class Robot extends Component {
       });
     }
 
-    componentWillMount() {
-      console.log('componentWillMount');
-      this.setState({
-        userInfo: JSON.parse(localStorage.getItem('userInfo'))
-      });
-    }
-
     componentDidMount() {
       this.scrollToBottom(200);
     }
@@ -64,21 +56,33 @@ export default class Robot extends Component {
 
     render() {
       const { robotState } = this.props;
-      const { time, userInfo } = this.state;
       const robotImg = 'https://user-images.githubusercontent.com/24861316/47977782-fc0aac00-e0f4-11e8-9686-821e2f5342ca.jpeg';
       const listItems = robotState.map((msg, index) => (
         <li key={index}>
-          {msg.user && <ChatItem img={robotImg} msg={msg.message} name={msg.user} time={time} />}
-          {!msg.user && <ChatItem me img={userInfo.avatar} msg={msg.message} name={userInfo.name} time={time} />}
+          {msg.user && (
+          <ChatItem
+            img={robotImg}
+            msg={msg.message}
+            name={msg.user}
+            time={toNormalTime(Date.parse(new Date()) / 1000)} />
+          )}
+          {!msg.user && (
+          <ChatItem
+            me
+            img={this._userInfo.avatar}
+            msg={msg.message}
+            name={this._userInfo.name}
+            time={toNormalTime(Date.parse(new Date()) / 1000)} />
+          )}
         </li>
       ));
       return (
         <div className="chat-wrapper">
-          <ChatHeader title="机器人聊天" />
+          <ChatHeader title="机器人聊天" chatType="robot" />
           <ul className="chat-content-list">
             {listItems}
           </ul>
-          <InputArea sendMessage={this.sendMessage} />
+          <InputArea sendMessage={this.sendMessage} isRobotChat />
         </div>
       );
     }
