@@ -22,10 +22,7 @@ const routes = [
     exact: true
   },
   {
-    path: '/index'
-  },
-  {
-    path: '/robot'
+    path: '/robot_chat'
   },
   {
     path: '/setting'

@@ -21,12 +21,12 @@ class SignInSignUp extends Component {
 
   async loginGithub() {
     const href = window.location.href;
-    if (/\?code/.test(href)) {
+    if (/\/login\?code/.test(href)) {
       const code = href.split('?code=')[1];
       const response = await Request.axios('post', '/api/v1/github_oauth', { code, clientId: this.clientId });
       localStorage.setItem('userInfo', JSON.stringify(response));
       console.log('response11', response);
-      this.props.history.push('/index');
+      this.props.history.push('/');
     }
   }
 

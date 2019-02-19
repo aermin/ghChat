@@ -13,13 +13,13 @@ export default function ContentLeft(props) {
   const chatId = parseInt(params.userId) || params.to_group_id;
   const isGroupChat = /\/group_chat\//.test(url);
   const isPrivateChat = /\/private_chat\//.test(url);
-  const urlsOfShowingWelcomePage = ['/setting', '/index', '/'];
+  const urlsOfShowingWelcomePage = ['/', '/setting'];
   const shouldShowWelcomePage = urlsOfShowingWelcomePage.includes(url);
   return (
   // switch between privateChatPage not componentWillUnmount, switch other Page will componentWillUnmount
-    <div className={(url === '/' || url === '/index') ? 'layout-right-mobile' : 'layout-right'}>
+    <div className={shouldShowWelcomePage ? 'layout-right-mobile' : 'layout-right'}>
       {shouldShowWelcomePage && <WelcomePage />}
-      {url === '/robot' && <RobotPage />}
+      {url === '/robot_chat' && <RobotPage />}
       {isGroupChat && <GroupChatPage chatId={chatId} />}
       {isPrivateChat && <PrivateChatPage chatId={chatId} />}
     </div>

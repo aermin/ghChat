@@ -43,5 +43,26 @@ export default function listItems({
       </li>
     );
   });
-  return <ul>{listItems}</ul>;
+
+  const robotChat = (
+    <li>
+      <Link to="/robot_chat">
+        <UserAvatar
+          src="https://user-images.githubusercontent.com/24861316/47977782-fc0aac00-e0f4-11e8-9686-821e2f5342ca.jpeg"
+          name="机器人小R"
+          size="46" />
+        <div className="content">
+          <div className="title">
+              机器人小R
+          </div>
+        </div>
+      </Link>
+    </li>
+  );
+  return (
+    <ul>
+      {robotChat}
+      {listItems}
+    </ul>
+  );
 }

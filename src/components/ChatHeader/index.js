@@ -7,7 +7,7 @@ import './style.scss';
 
 class ChatHeader extends Component {
   clickToBack = () => {
-    this.props.history.push('/index');
+    this.props.history.push('/');
   }
 
   clickChatInfo = () => {

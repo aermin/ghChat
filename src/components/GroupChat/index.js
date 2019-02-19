@@ -94,7 +94,7 @@ class GroupChat extends Component {
     window.socket.emit('leaveGroup', { userId, toGroupId: chatId });
     deleteHomePageList({ homePageList, chatId });
     deleteChatContent({ allChatContent, chatId, chatType: 'groupChat' });
-    this.props.history.push('/index');
+    this.props.history.push('/');
   }
 
   _showGroupChatInfo(value) {

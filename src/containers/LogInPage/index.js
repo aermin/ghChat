@@ -63,7 +63,7 @@ class LogIn extends Component {
         visible: true,
       }
     });
-    this.props.history.push('/index');
+    this.props.history.push('/');
   };
 
   componentDidMount() {

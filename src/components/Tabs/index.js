@@ -17,20 +17,12 @@ class Tabs extends Component {
     return (
       <div className="tabs-wrapper">
         <div className="tab">
-          <Link to="/index">
+          <Link to="/">
             <svg className="icon " aria-hidden="true">
-              <use xlinkHref={match.url === '/index' ? '#icon-message-copy' : '#icon-message'} />
+              <use xlinkHref={match.url === '/' ? '#icon-message-copy' : '#icon-message'} />
             </svg>
           </Link>
         </div>
-        <div className="tab">
-          <Link to="/robot">
-            <svg className="icon " aria-hidden="true">
-              <use xlinkHref={match.url === '/robot' ? '#icon-robot_light-copy' : '#icon-robot_light'} />
-            </svg>
-          </Link>
-        </div>
-
         <div className="tab">
           <Link to="/setting">
             <svg className="icon " aria-hidden="true">
