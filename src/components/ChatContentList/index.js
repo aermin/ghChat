@@ -19,10 +19,9 @@ export default class ChatContentList extends Component {
       } else if (item.to_group_id) { // is group chat
         isMe = chatId && (chatId === item.from_user);
       }
-      // TODO: separate text and user name in message
-      const message = item.message && item.message.split(': ') && item.message.split(': ')[1];
+      const message = item.message && item.message.substring(item.name.length + 2);
       const time = toNormalTime(item.time);
-      console.log('item.attachments', item.attachments);
+      // console.log('item.attachments', item.attachments);
       const attachments = item.attachments;
       return (
         <li key={index}>

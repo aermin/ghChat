@@ -34,8 +34,8 @@ export default class InputArea extends Component {
   }
 
   _selectEmoji = (emoji) => {
-    console.log('emoji233', emoji);
-    this.setState({ inputMsg: emoji.colons });
+    this.setState(state => ({ inputMsg: `${state.inputMsg} ${emoji.colons}` }));
+    this._clickShowEmojiPicker();
   }
 
   // TODO: limit file size

@@ -28,7 +28,7 @@ export default class PrivateChat extends Component {
       to_user: this.friendId, // 对方id
       avatar, // 自己的头像
       name,
-      message: inputMsg === '' ? attachments.type : `${name}: ${inputMsg}`, // 消息内容
+      message: inputMsg === '' ? attachments[0].type : `${name}: ${inputMsg}`, // 消息内容
       attachments, // 附件
       time: Date.parse(new Date()) / 1000 // 时间
     };

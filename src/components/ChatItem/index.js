@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Emoji } from 'emoji-mart';
+import { MultiLineParser } from 'text-emoji-parser';
 import UserAvatar from '../UserAvatar';
 import emojiPng from '../../assets/emojione.png';
 import './style.scss';
@@ -9,7 +10,21 @@ import './style.scss';
 export default class ChatItem extends Component {
   textRender = msg => (
     <div className="msg-render">
-      <Emoji className="msg-render" emoji={msg} backgroundImageFn={() => emojiPng} size={26} fallback={(emoji, props) => (emoji ? `:${emoji.short_names[0]}:` : props.emoji)} />
+      {MultiLineParser(msg,
+        {
+          SplitLinesTag: 'p',
+          Rule: /(?:\:[^\:]+\:(?:\:skin-tone-(?:\d)\:)?)/gi
+        },
+        (Rule, ruleNumber) => (
+          <Emoji
+            className="msg-render"
+            emoji={Rule}
+            backgroundImageFn={() => emojiPng}
+            size={26}
+            fallback={(emoji, props) => (emoji ? `:${emoji.short_names[0]}:` : props.emoji)} />
+        ))
+    }
+
     </div>
   );
 

@@ -42,9 +42,9 @@ function dialogRender(props) {
   const { title, children } = props;
   return (
     <div className="dialogRender">
-      <h1>
+      <h3 className="title">
         {title}
-      </h1>
+      </h3>
       {children}
       {confirmCancelRender({ ...props })}
     </div>
