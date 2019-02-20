@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import io from 'socket.io-client';
 import getRouter from './router/router';
 import './app.scss';
@@ -9,7 +9,9 @@ import { setAllChatContentAction } from './redux/actions/chatContentAction';
 import { setHomePageListAction } from './containers/HomePageList/homePageListAction';
 import notification from './components/Notification';
 
-const WEBSITE_ADDRESS = 'http://localhost:3000';
+
+const isProduction = process.env.NODE_ENV === 'production';
+const WEBSITE_ADDRESS = isProduction ? 'http://localhost:3000' : 'http://localhost:3000';
 
 function fetchHomePageListAllChatContent() {
   // init: fetch HomePageList and AllChatContent;

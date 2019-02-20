@@ -1,8 +1,8 @@
 {
-  "name": "airchat",
+  "name": "react-chat",
   "version": "1.0.0",
-  "description": "server of airchat",
-  "author": "hxvin <hxvin@foxmail.com>",
+  "description": "server of react-chat",
+  "author": "aermin <aermin@qq.com>",
   "private": true,
   "scripts": {
     "init_sql": "node ./init/index.js",
@@ -19,7 +19,7 @@
     "koa-bodyparser": "^4.2.0",
     "koa-cors": "0.0.16",
     "koa-router": "^7.2.1",
-    "koa-static": "^4.0.0",
+    "koa-static": "^4.0.3",
     "koa2-cors": "^2.0.5",
     "md5": "^2.2.1",
     "mysql": "2.x",

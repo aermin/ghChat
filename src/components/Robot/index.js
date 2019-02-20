@@ -36,7 +36,10 @@ export default class Robot extends Component {
         );
         this.scrollToBottom();
         await getRobotMsg(
-          { message: inputMsg }
+          {
+            message: inputMsg,
+            userId: this._userInfo.userId
+          }
         );
         this.scrollToBottom();
       });

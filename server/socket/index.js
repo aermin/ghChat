@@ -1,6 +1,7 @@
 
 const socketIo = require('socket.io');
 const uuid = require('uuid/v1');
+const request = require('request-promise');
 const socketModel = require('../models/socket');
 const { savePrivateMsg } = require('../models/privateChat');
 const groupChatModel = require('../models/groupChat');
@@ -148,6 +149,28 @@ module.exports = (server) => {
       console.log('userInfo', userInfo);
       fn(userInfo[0]);
     });
+
+
+    // 机器人聊天
+    socket.on('robotChat', async (data, fn) => {
+      const date = {
+        key: '92febb91673740c2814911a6c16dbcc5',
+        info: data.message,
+        userid: data.userId
+      };
+
+      const options = {
+        method: 'POST',
+        uri: 'http://www.tuling123.com/openapi/api',
+        body: date,
+        json: true // Automatically stringifies the body to JSON
+      };
+
+      const response = await request(options);
+      console.log('robot chat response', response);
+      fn(response);
+    });
+
 
     socket.on('disconnect', async () => {
       await userInfoModel.updateUserStatus(_userId, 0);

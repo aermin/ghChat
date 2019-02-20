@@ -16,10 +16,14 @@ const publicConfig = {
         fallback: 'style-loader',
         use: 'css-loader'
       })
+    },
+    {
+      test: /\.scss$/,
+      use: ['style-loader', 'css-loader', 'sass-loader', 'postcss-loader']
     }]
   },
   plugins: [
-    new CleanWebpackPlugin(['dist/*.*']),
+    new CleanWebpackPlugin(['build/*.*']),
     new UglifyJSPlugin(),
     new webpack.DefinePlugin({
       'process.env': {

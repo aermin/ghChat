@@ -30,13 +30,12 @@ class HomePageList extends PureComponent {
     const chatType = data.to_group_id ? 'group_chat' : 'private_chat';
     const chatFromId = data.to_group_id ? data.to_group_id : data.user_id;
     const title = data.to_group_id && data.groupName ? data.groupName : name;
-    const { history } = this.props;
     this._notification.notify({
       title,
       text: message,
       icon: avatar,
       onClick() {
-        history.push(`/${chatType}/${chatFromId}?name=${title}`);
+        this.props.history.push(`/${chatType}/${chatFromId}?name=${title}`);
         window.focus();
       }
     });
@@ -55,7 +54,6 @@ class HomePageList extends PureComponent {
       // eslint-disable-next-line radix
       const chatId = parseInt(window.location.pathname.split('/').slice(-1)[0]);
       const isRelatedCurrentChat = (data.from_user === chatId || data.to_user === chatId);
-      console.log('isRelatedCurrentChat, data.from_user, data.to_user, chatId', isRelatedCurrentChat, data.from_user, data.to_user, chatId);
       relatedCurrentChat(isRelatedCurrentChat);
       updateAllChatContent({ allChatContent, newChatContent: data, action: 'get' });
       updateHomePageList({
@@ -73,7 +71,6 @@ class HomePageList extends PureComponent {
       // eslint-disable-next-line radix
       const chatId = window.location.pathname.split('/').slice(-1)[0];
       const isRelatedCurrentChat = (data.to_group_id === chatId);
-      console.log('isRelatedCurrentChat, data.to_group_id, chatId', isRelatedCurrentChat, data.to_group_id, chatId);
       relatedCurrentChat(isRelatedCurrentChat);
       updateAllChatContent({ allChatContent, newChatContent: data });
       updateHomePageList({ data, homePageList, increaseUnread: !isRelatedCurrentChat });
@@ -137,27 +134,18 @@ class HomePageList extends PureComponent {
   }
 
   componentWillMount() {
-    console.log('home page list props', this.props);
     const { userId } = this._userInfo;
     window.socket.emit('initGroupChat', { userId });
     this.subscribeSocket();
-  }
-
-  componentWillUnmount() {
-    console.log('componentWillUnmount in homePageList');
-  }
-
-  componentWillReceiveProps(nextProps) {
-    console.log('componentWillReceiveProps in homePageList', nextProps, this.props);
   }
 
   render() {
     const { homePageList, allChatContent } = this.props;
     homePageList.sort((a, b) => b.time - a.time);
     const {
-      isSearching, contactedItems, showSearchUser, showSearchGroup
+      isSearching, contactedItems,
+      showSearchUser, showSearchGroup
     } = this.state;
-    console.log('contactedItems, showSearchUser, showSearchGroup', contactedItems, showSearchUser, showSearchGroup);
     const contactedUsers = contactedItems.filter(e => e.user_id);
     const contactedGroups = contactedItems.filter(e => e.to_group_id);
     return (

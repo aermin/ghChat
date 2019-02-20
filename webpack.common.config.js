@@ -11,9 +11,9 @@ commonConfig = {
     ],
     vendor: ['react', 'react-router-dom', 'redux', 'react-dom', 'react-redux'] // 把react等库生成打包到vendor.hash.js里面去。
   },
-  /* 输出到dist文件夹，输出文件名字为[name].[chunkhash].js */
+  /* 输出到build文件夹，输出文件名字为[name].[chunkhash].js */
   output: {
-    path: path.join(__dirname, './dist'),
+    path: path.join(__dirname, './build'),
     filename: '[name].[chunkhash].js',
     chunkFilename: '[name].[chunkhash].js',
     publicPath: '/'

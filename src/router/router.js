@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import RegisterPage from 'bundle-loader?lazy&name=RegisterPage!../containers/RegisterPage';
 import LogInPage from 'bundle-loader?lazy&name=LogInPage!../containers/LogInPage';
 import ContentLeft from 'bundle-loader?lazy&name=ContentLeft!../containers/ContentLeft';

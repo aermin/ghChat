@@ -2,7 +2,9 @@ import axios from 'axios';
 
 export default class Request {
   static axiosConfigInit() {
-    axios.defaults.baseURL = 'http://localhost:3000';
+    if (process.env.NODE_ENV !== 'production') {
+      axios.defaults.baseURL = 'http://localhost:3000';
+    }
   }
 
   static async axios(method = 'get', url, params) {

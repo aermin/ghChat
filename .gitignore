@@ -2,4 +2,4 @@ node_modules
 
 server/secret.js
 src/secret.js
-dist
+build

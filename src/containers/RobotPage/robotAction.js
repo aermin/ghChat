@@ -1,4 +1,4 @@
-import Request from '../../utils/request';
+import Socket from '../../utils/socket';
 
 export const GET_ROBOT_MSG = 'robot/GET_ROBOT_MSG';
 export const INSERT_MSG = 'robot/INSERT_MSG';
@@ -8,15 +8,12 @@ export const insertMsgAction = data => ({
   data
 });
 
+const socket = new Socket();
+
 export const getRobotMsgAction = async (data) => {
   let finalData = {};
-  let res;
-  try {
-    res = await Request.axios('get', '/api/v1/robot', data);
-  } catch (error) {
-    console.error(error);
-  }
-  const { text, code, url } = res && res.data;
+  const response = await socket.emit('robotChat', data);
+  const { text, code, url } = response;
   if (code === 100000) {
     finalData = {
       message: text,
@@ -33,6 +30,7 @@ export const getRobotMsgAction = async (data) => {
       user: 'robot'
     };
   }
+  console.log('finalData', finalData);
   return {
     type: INSERT_MSG,
     data: finalData

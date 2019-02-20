@@ -8,9 +8,9 @@ import SettingPage from '../../components/Setting';
 
 function ContentLeft(props) {
   console.log('ContentLeftprops', props);
-  if (!localStorage.getItem('userInfo')) {
-    props.history.push('/login');
-  }
+  // if (!localStorage.getItem('userInfo')) {
+  //   props.history.push('/login');
+  // }
   const { url } = props.match;
   const isGroupChat = /\/group_chat\//.test(url);
   const isPrivateChat = /\/private_chat\//.test(url);
