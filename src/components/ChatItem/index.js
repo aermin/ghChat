@@ -69,8 +69,9 @@ export default class ChatItem extends Component {
               {time && <span>{time}</span>}
               {name && <span>{name}</span>}
             </div>
-            {msg && this.textRender(msg)}
-            {attachments.length > 0 && this.filesRender(attachments)}
+            {attachments.length ? this.filesRender(attachments)
+              : this.textRender(msg)
+            }
           </div>
         ) : (
           <div className="otherchat">
@@ -79,8 +80,9 @@ export default class ChatItem extends Component {
               {name && <span>{ name }</span>}
               {time && <span>{ time }</span>}
             </div>
-            {msg && this.textRender(msg)}
-            {attachments.length > 0 && this.filesRender(attachments)}
+            {attachments.length ? this.filesRender(attachments)
+              : this.textRender(msg)
+            }
           </div>
         )}
       </div>
