@@ -3,3 +3,4 @@ node_modules
 server/secret.js
 src/secret.js
 build
+.DS_Store

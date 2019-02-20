@@ -28,9 +28,3 @@ module.exports = {
   getGroupList,
   getPrivateList
 };
-
-
-// SELECT r.from_user as user_id  ,i.name , i.avatar , r.time as be_friend_time,  p.message as message, p.time as time
-// FROM  user_user_relation AS r inner join user_info AS i  inner join  private__msg AS p
-// on r.from_user  = i.id
-// WHERE r.user_id = 23 and ((p.to_user = r.from_user and p.from_user = r.user_id) or (p.from_user = r.from_user and p.to_user = r.user_id)) ORDER BY p.time DESC   LIMIT 1

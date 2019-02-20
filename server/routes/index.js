@@ -9,7 +9,4 @@ router.post('/register', register) // 注册
   .post('/login', login) // 登录
   .post('/github_oauth', githubOAuth);
 
-
-console.log('router');
-
 module.exports = router;

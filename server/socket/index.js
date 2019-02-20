@@ -11,11 +11,8 @@ const groupInfoModel = require('../models/groupInfo');
 const { getAllMessage, getGroupMsg } = require('./message');
 const verify = require('../middlewares/verify');
 const getUploadToken = require('../utils/qiniu');
-// const login = require('./login');
 
-// module.exports = server => (ctx) => {
 module.exports = (server) => {
-  // console.log('ctx233', ctx);
   const io = socketIo(server);
   io.use((socket, next) => {
     const token = socket.handshake.query.token;
@@ -25,7 +22,6 @@ module.exports = (server) => {
     return next(new Error('Authentication error'));
   });
   io.on('connection', (socket) => {
-    // console.log('socket2333', socket);
     const socketId = socket.id;
     let _userId;
     socket.on('login', async (userId) => {
@@ -36,7 +32,6 @@ module.exports = (server) => {
 
     // 初始化群聊
     socket.on('initGroupChat', async (data) => {
-      console.log('initGroupChat', data);
       const result = await msgModel.getGroupList(data.userId);
       const groupList = JSON.parse(JSON.stringify(result));
       for (const item of groupList) {
@@ -46,9 +41,7 @@ module.exports = (server) => {
 
     // 初始化， 获取群聊和私聊的数据
     socket.on('initMessage', async (userId) => {
-      console.log('userId233', userId);
       const data = await getAllMessage({ userId });
-      // console.log('getAllMessage', data);
       io.to(socketId).emit('getAllMessage', data);
     });
 
@@ -60,7 +53,6 @@ module.exports = (server) => {
       const arr = await socketModel.getUserSocketId(data.to_user);
       const RowDataPacket = arr[0];
       const socketId = JSON.parse(JSON.stringify(RowDataPacket)).socketid;
-      console.log('socketId2333', socketId);
       io.to(socketId).emit('getPrivateMsg', data);
     });
 
@@ -69,7 +61,6 @@ module.exports = (server) => {
       if (!data) return;
       data.attachments = JSON.stringify(data.attachments);
       await groupChatModel.saveGroupMsg({ ...data });
-      console.log('sendGroupMsg', data);
       socket.broadcast.to(data.to_group_id).emit('getGroupMsg', data);
     });
 
@@ -98,7 +89,6 @@ module.exports = (server) => {
       await groupInfoModel.joinGroup(userId, toGroupId);
       socket.join(toGroupId);
       const groupMessages = await getGroupMsg({ groupId: toGroupId });
-      console.log('groupMessages2333', groupMessages);
       fn(groupMessages);
     });
 
@@ -106,7 +96,6 @@ module.exports = (server) => {
     socket.on('leaveGroup', async (data) => {
       const { userId, toGroupId } = data;
       socket.leave(toGroupId);
-      console.log('userId, toGroupId', userId, toGroupId);
       await groupInfoModel.leaveGroup(userId, toGroupId);
     });
 
@@ -132,7 +121,6 @@ module.exports = (server) => {
     // qiniu token
     socket.on('getQiniuToken', async (fn) => {
       const uploadToken = await getUploadToken();
-      console.log('uploadToken233', uploadToken);
       return fn(uploadToken);
     });
 
@@ -146,7 +134,6 @@ module.exports = (server) => {
       const time = Date.parse(new Date()) / 1000;
       await userInfoModel.addFriendEachOther(user_id, from_user, time);
       const userInfo = await userInfoModel.getUserInfo(from_user);
-      console.log('userInfo', userInfo);
       fn(userInfo[0]);
     });
 
@@ -158,16 +145,13 @@ module.exports = (server) => {
         info: data.message,
         userid: data.userId
       };
-
       const options = {
         method: 'POST',
         uri: 'http://www.tuling123.com/openapi/api',
         body: date,
         json: true // Automatically stringifies the body to JSON
       };
-
       const response = await request(options);
-      console.log('robot chat response', response);
       fn(response);
     });
 
