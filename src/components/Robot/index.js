@@ -59,12 +59,10 @@ export default class Robot extends Component {
 
     render() {
       const { robotState } = this.props;
-      const robotImg = 'https://user-images.githubusercontent.com/24861316/47977782-fc0aac00-e0f4-11e8-9686-821e2f5342ca.jpeg';
       const listItems = robotState.map((msg, index) => (
         <li key={index}>
           {msg.user && (
           <ChatItem
-            img={robotImg}
             msg={msg.message}
             name={msg.user}
             time={toNormalTime(Date.parse(new Date()) / 1000)} />

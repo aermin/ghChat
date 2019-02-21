@@ -5,7 +5,7 @@ const initState = {
     // 机器人首语
     {
       message: 'hi , 欢迎与我聊天，问我问题哦！',
-      user: 'robot'
+      user: '机器人小R'
     }
   ]
 };

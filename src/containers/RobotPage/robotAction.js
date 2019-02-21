@@ -17,17 +17,17 @@ export const getRobotMsgAction = async (data) => {
   if (code === 100000) {
     finalData = {
       message: text,
-      user: 'robot'
+      user: '机器人小R'
     };
   } else if (code === 200000) {
     finalData = {
       message: text + url,
-      user: 'robot'
+      user: '机器人小R'
     };
   } else {
     finalData = {
       message: '暂不支持此类对话',
-      user: 'robot'
+      user: '机器人小R'
     };
   }
   console.log('finalData', finalData);
