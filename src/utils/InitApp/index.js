@@ -11,7 +11,7 @@ import notification from '../../components/Notification';
 
 class InitApp {
   constructor() {
-    this.WEBSITE_ADDRESS = process.env.NODE_ENV === 'production' ? 'http://localhost:3000' : 'http://localhost:3000';
+    this.WEBSITE_ADDRESS = process.env.NODE_ENV === 'production' ? '119.29.84.139:3000' : 'http://localhost:3000';
   }
 
   fetchHomePageListAllChatContent() {
@@ -20,7 +20,6 @@ class InitApp {
     // console.log('getAllMessage', data);
       const privateChat = new Map(data.privateChat);
       const groupChat = new Map(data.groupChat);
-      // console.log('privateChat, groupChat', privateChat, groupChat);
       this.props.setHomePageList(data.homePageList);
       this.props.setAllChatContentAction({ privateChat, groupChat });
     });
@@ -28,7 +27,6 @@ class InitApp {
 
   init() {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    console.log('APP.js~~');
     const isLoginUrl = /\/login/.test(window.location.href);
     const isRegisterUrl = /\/register/.test(window.location.href);
     if (userInfo && !isLoginUrl && !isRegisterUrl) {
