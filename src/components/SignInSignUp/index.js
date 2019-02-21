@@ -4,13 +4,15 @@ import PropTypes from 'prop-types';
 import { withRouter, Link } from 'react-router-dom';
 import Request from '../../utils/request';
 import icon from '../../assets/icon.svg';
+import Spinner from '../spinner';
 
 class SignInSignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
       name: '',
-      password: ''
+      password: '',
+      showSpinner: true
     };
   }
 
@@ -31,7 +33,9 @@ class SignInSignUp extends Component {
   }
 
   componentDidMount() {
-    this.loginGithub();
+    this.loginGithub().then(() => {
+      this.setState({ showSpinner: false });
+    });
   }
 
   handleClick = () => {
@@ -53,6 +57,7 @@ class SignInSignUp extends Component {
     const OAuthHref = `https://github.com/login/oauth/authorize?client_id=${this.clientId}`;
     return (
       <div className="formContent fadeInDown">
+        {this.state.showSpinner && <Spinner />}
         <Link to={linkUrl}>
           <h2 className={loginClass}>登录</h2>
         </Link>
