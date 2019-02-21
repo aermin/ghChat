@@ -7,8 +7,7 @@ import io from 'socket.io-client';
 import PropTypes from 'prop-types';
 import HomePageList from '../HomePageList';
 import Tabs from '../../components/Tabs';
-import SettingPage from '../../components/Setting';
-import Request from '../../utils/request';
+import SettingPage from '../SettingPage';
 import {
   setHomePageListAction,
 } from '../HomePageList/homePageListAction';
@@ -32,9 +31,7 @@ class ContentLeft extends Component {
 
   async init() {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    const isLoginUrl = /\/login/.test(window.location.href);
-    const isRegisterUrl = /\/register/.test(window.location.href);
-    if (userInfo && !isLoginUrl && !isRegisterUrl) {
+    if (userInfo) {
       window.socket = io(`${this.WEBSITE_ADDRESS}?token=${userInfo.token}`);
       window.socket.on('error', (errorMessage) => {
         notification(errorMessage, 'error');

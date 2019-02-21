@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-import {
-  withRouter
-} from 'react-router-dom';
 import axios from 'axios';
 import UserAvatar from '../UserAvatar';
 import './styles.scss';
 import Button from '../Button';
 import Modal from '../Modal';
 
-class Setting extends Component {
+export default class Setting extends Component {
   constructor(props) {
     super(props);
     this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -29,6 +26,7 @@ class Setting extends Component {
    logout = () => {
      window.socket.disconnect();
      localStorage.removeItem('userInfo');
+     this.props.initApp(false);
      this.props.history.push('/login');
    }
 
@@ -83,6 +81,3 @@ class Setting extends Component {
     );
   }
 }
-
-
-export default withRouter(Setting);

@@ -10,12 +10,17 @@ const Loading = function () {
   return <div>Loading...</div>;
 };
 
-const createComponent = component => props => (
-  <Bundle load={component}>
-    {Component => (Component ? <Component {...props} /> : <Loading />)}
-  </Bundle>
-);
-
+const createComponent = component => (props) => {
+  const { pathname } = props.location;
+  if (pathname !== '/login' && pathname !== '/register' && !localStorage.getItem('userInfo')) {
+    props.history.push('/login');
+  }
+  return (
+    <Bundle load={component}>
+      {Component => (Component ? <Component {...props} /> : <Loading />)}
+    </Bundle>
+  );
+};
 const routes = [
   {
     path: '/',
