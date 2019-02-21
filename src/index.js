@@ -8,7 +8,7 @@ import App from './App';
 // import axios from 'axios'
 import AxiosHandle from './utils/request';
 
-
+console.log(process.env.NODE_ENV);
 function renderWithHotReload(RootElement) {
   ReactDom.render(
     <AppContainer>

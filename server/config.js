@@ -2,14 +2,13 @@ const secrets = require('./secret');
 
 this._isProduction = process.env.NODE_ENV === 'production';
 
-const password = this._isProduction ? secrets.dbPassword : '123456';
 
-const db = {
+const db = this._isProduction ? secrets.db : {
   host: '127.0.0.1', // 数据库IP
   port: 3306, // 数据库端口
   database: 'airchat', // 数据库名称
   user: 'root', // 数据库用户名
-  password, // 数据库密码
+  password: '123456', // 数据库密码
 };
 const baseApi = 'api/v1';
 
