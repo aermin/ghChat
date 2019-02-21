@@ -1,9 +1,7 @@
 import * as qiniu from 'qiniu-js';
-import secret from '../secret';
 
 export default async function upload(file, completeEvent) {
   window.socket.emit('getQiniuToken', (data) => {
-    console.log('getQiniuToken~', data);
     const uploadToken = data;
     const observer = {
       next(res) {
