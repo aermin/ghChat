@@ -1,108 +1,111 @@
-    .formContent {
-      -webkit-border-radius: 12px 12px 12px 12px;
-      border-radius: 12px 12px 12px 12px;
-      background: #fff;
-      padding: 32px;
-      width: 80%;
-      max-width: 320px;
-      position: relative;
-      padding: 0;
-      -webkit-box-shadow: 0 32px 62px 0 rgba(0, 0, 0, 0.3);
-      box-shadow: 0 32px 62px 0 rgba(0, 0, 0, 0.3);
+@import "../../assets/base.scss";
+.formContent {
+  -webkit-border-radius: 12px 12px 12px 12px;
+  border-radius: 12px 12px 12px 12px;
+  background: #fff;
+  padding: 32px;
+  width: 80%;
+  max-width: 320px;
+  position: relative;
+  padding: 10px 0 20px;
+  -webkit-box-shadow: 0 32px 62px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 32px 62px 0 rgba(0, 0, 0, 0.3);
+  text-align: center;
+  .active, .inactive {
+    text-align: center;
+    font-size: 18px;
+    text-transform: uppercase;
+    display: inline-block;
+    margin: 22px 6px 12px;
+    color: #cccccc;
+  }
+
+  .active {
+    color: #39ace7;
+  }
+  form {
+    padding: 40px 10px;
+    input[type=button],
+    input[type=reset],
+    input[type=submit] {
+      background-color: #39ace7;
+      border: none;
+      color: white;
+      padding: 10px 30px;
       text-align: center;
-
-      h2 {
-        text-align: center;
-        font-size: 20px;
-        font-weight: 600;
-        text-transform: uppercase;
-        display: inline-block;
-        margin: 22px 6px 12px;
-        color: #cccccc;
-      }
-
-      .active {
-        color: #39ace7;
-      }
-      form {
-        input[type=button],
-        input[type=reset],
-        input[type=submit] {
-          background-color: #39ace7;
-          border: none;
-          color: white;
-          padding: 10px 40px;
-          text-align: center;
-          text-decoration: none;
-          display: inline-block;
-          text-transform: uppercase;
-          font-size: 16px;
-          -webkit-box-shadow: 0 6px 16px 0 rgba(95, 186, 233, 0.4);
-          box-shadow: 0 6px 16px 0 rgba(95, 186, 233, 0.4);
-          -webkit-border-radius: 4px 4px 4px 4px;
-          border-radius: 4px 4px 4px 4px;
-          margin: 30px 12px 60px;
-          -webkit-transition: all 0.3s ease-in-out;
-          -moz-transition: all 0.3s ease-in-out;
-          -ms-transition: all 0.3s ease-in-out;
-          -o-transition: all 0.3s ease-in-out;
-          transition: all 0.3s ease-in-out;
-        }
-
-        input[type=button]:hover,
-        input[type=reset]:hover,
-        input[type=submit]:hover {
-          background-color: #39ace7;
-        }
-
-        input[type=button]:active,
-        input[type=reset]:active,
-        input[type=submit]:active {
-          -moz-transform: scale(0.95);
-          -webkit-transform: scale(0.95);
-          -o-transform: scale(0.95);
-          -ms-transform: scale(0.95);
-          transform: scale(0.95);
-        }
-
-        input[type=password],
-        input[type=text] {
-          background-color: #f6f6f6;
-          border: none;
-          color: #0d0d0d;
-          padding: 8px 18px;
-          text-align: center;
-          text-decoration: none;
-          display: inline-block;
-          font-size: 16px;
-          margin: 20px;
-          width: 85%;
-          border: 1px solid #f6f6f6;
-          -webkit-transition: all 0.5s ease-in-out;
-          -moz-transition: all 0.5s ease-in-out;
-          -ms-transition: all 0.5s ease-in-out;
-          -o-transition: all 0.5s ease-in-out;
-          transition: all 0.5s ease-in-out;
-          -webkit-border-radius: 4px 4px 4px 4px;
-          border-radius: 4px 4px 4px 4px;
-        }
-
-        input[type=text]:focus {
-          background-color: #fff;
-          border-bottom: 1px solid #5fbae9;
-        }
-
-        input[type=password]:focus {
-          background-color: #fff;
-          border-bottom: 1px solid #5fbae9;
-        }
-
-        input[type=text]:placeholder {
-          color: #cccccc;
-        }
-
-        input[type=password]:placeholder {
-          color: #cccccc;
-        }
-      }
+      text-decoration: none;
+      display: inline-block;
+      text-transform: uppercase;
+      font-size: 14px;
+      -webkit-box-shadow: 0 6px 16px 0 rgba(95, 186, 233, 0.4);
+      box-shadow: 0 6px 16px 0 rgba(95, 186, 233, 0.4);
+      -webkit-border-radius: 4px 4px 4px 4px;
+      border-radius: 4px 4px 4px 4px;
+      -webkit-transition: all 0.3s ease-in-out;
+      -moz-transition: all 0.3s ease-in-out;
+      -ms-transition: all 0.3s ease-in-out;
+      -o-transition: all 0.3s ease-in-out;
+      transition: all 0.3s ease-in-out;
     }
+
+    input[type=button]:hover,
+    input[type=reset]:hover,
+    input[type=submit]:hover {
+      background-color: #39ace7;
+    }
+
+    input[type=button]:active,
+    input[type=reset]:active,
+    input[type=submit]:active {
+      -moz-transform: scale(0.95);
+      -webkit-transform: scale(0.95);
+      -o-transform: scale(0.95);
+      -ms-transform: scale(0.95);
+      transform: scale(0.95);
+    }
+
+    input[type=password],
+    input[type=text] {
+      background-color: #f6f6f6;
+      border: none;
+      color: #0d0d0d;
+      padding: 8px 18px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin-bottom: 30px;
+      width: 85%;
+      border: 1px solid #f6f6f6;
+      -webkit-transition: all 0.5s ease-in-out;
+      -moz-transition: all 0.5s ease-in-out;
+      -ms-transition: all 0.5s ease-in-out;
+      -o-transition: all 0.5s ease-in-out;
+      transition: all 0.5s ease-in-out;
+      -webkit-border-radius: 4px 4px 4px 4px;
+      border-radius: 4px 4px 4px 4px;
+    }
+
+    input[type=text]:focus {
+      background-color: #fff;
+      border-bottom: 1px solid #5fbae9;
+    }
+
+    input[type=password]:focus {
+      background-color: #fff;
+      border-bottom: 1px solid #5fbae9;
+    }
+
+    input[type=text]:placeholder {
+      color: #cccccc;
+    }
+
+    input[type=password]:placeholder {
+      color: #cccccc;
+    }
+  }
+  .githubOAuth {
+    text-decoration: none;
+    font-size: 30px;
+  }
+}

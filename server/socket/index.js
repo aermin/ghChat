@@ -40,9 +40,9 @@ module.exports = (server) => {
     });
 
     // 初始化， 获取群聊和私聊的数据
-    socket.on('initMessage', async (userId) => {
+    socket.on('initMessage', async (userId, fn) => {
       const data = await getAllMessage({ userId });
-      io.to(socketId).emit('getAllMessage', data);
+      fn(data);
     });
 
     // 私聊发信息

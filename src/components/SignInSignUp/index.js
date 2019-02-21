@@ -3,8 +3,8 @@ import './index.scss';
 import PropTypes from 'prop-types';
 import { withRouter, Link } from 'react-router-dom';
 import Request from '../../utils/request';
-import icon from '../../assets/icon.svg';
 import Spinner from '../spinner';
+import UserAvatar from '../UserAvatar';
 
 class SignInSignUp extends Component {
   constructor(props) {
@@ -39,8 +39,7 @@ class SignInSignUp extends Component {
   }
 
   handleClick = () => {
-    const { setValue } = this.props;
-    setValue(this.state);
+    this.props.setValue(this.state);
   }
 
   get clientId() {
@@ -59,13 +58,13 @@ class SignInSignUp extends Component {
       <div className="formContent fadeInDown">
         {this.state.showSpinner && <Spinner />}
         <Link to={linkUrl}>
-          <h2 className={loginClass}>登录</h2>
+          <span className={loginClass}>登录</span>
         </Link>
         <Link to={linkUrl}>
-          <h2 className={registerClass}>注册</h2>
+          <span className={registerClass}>注册</span>
         </Link>
         <div className="fadeIn first">
-          <img src={icon} id="icon" alt="Icon" />
+          <UserAvatar name={name || 'Ÿ'} size="100" />
         </div>
         <form>
           <input
@@ -90,10 +89,12 @@ class SignInSignUp extends Component {
             className="fadeIn fourth"
             value={buttonName}
               />
-          <a href={OAuthHref}>
-            Github登录
-          </a>
         </form>
+        <a className="githubOAuth" href={OAuthHref}>
+          <svg className="icon githubIcon" aria-hidden="true">
+            <use xlinkHref="#icon-github" />
+          </svg>
+        </a>
       </div>
     );
   }

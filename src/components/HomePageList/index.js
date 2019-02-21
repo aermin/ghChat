@@ -45,7 +45,6 @@ class HomePageList extends PureComponent {
     window.socket.removeAllListeners('getPrivateMsg');
     window.socket.removeAllListeners('getGroupMsg');
     window.socket.on('getPrivateMsg', (data) => {
-      console.log('subscribeSocket for private chat', data);
       const { userId } = this._userInfo;
       const {
         allChatContent, homePageList, updateHomePageList,
@@ -63,7 +62,6 @@ class HomePageList extends PureComponent {
       // TODO: mute notifications switch
     });
     window.socket.on('getGroupMsg', (data) => {
-      console.log('subscribeSocket for group chat', data);
       const {
         allChatContent, homePageList, updateHomePageList,
         updateAllChatContent, relatedCurrentChat
@@ -109,11 +107,8 @@ class HomePageList extends PureComponent {
   }
 
   searchInDB({ searchUser }) {
-    console.log('this._filedStr', this._filedStr);
     window.socket.emit('fuzzyMatch', { field: this._filedStr, searchUser });
     window.socket.on('fuzzyMatchRes', (data) => {
-      console.log(data);
-      const { contactedItems } = this.state;
       if (data.searchUser) {
         this.setState({ showSearchUser: false });
         data.fuzzyMatchResult.forEach((element) => {
@@ -123,7 +118,6 @@ class HomePageList extends PureComponent {
         this.setState({ showSearchGroup: false });
       }
       this.setState({ contactedItems: data.fuzzyMatchResult });
-      console.log('contactedItems', contactedItems);
     });
   }
 

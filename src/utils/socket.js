@@ -1,5 +1,3 @@
-import { rejects } from 'assert';
-
 export default class Socket {
   emit(emitName, data) {
     return new Promise((resolve, reject) => {

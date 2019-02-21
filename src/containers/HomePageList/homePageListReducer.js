@@ -8,7 +8,7 @@ const getHomePageListReducer = (previousState = [], action) => {
     case UPDATE_HOME_PAGE_LIST:
     case CLEAR_UNREAD:
     case DELETE_CHAT_FROM_LIST:
-      return action.data;
+      return [...action.data];
     default:
       return previousState;
   }
