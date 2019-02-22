@@ -7,7 +7,8 @@
   "scripts": {
     "init_sql": "node ./init/index.js",
     "start": "gulp start",
-    "dev": "node --inspect ../server"
+    "dev": "node --inspect ../server",
+    "pm2-pod": "pm2 start ecosystem.config.js --env production"
   },
   "engines": {
     "node": ">= 0.10.0"
