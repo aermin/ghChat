@@ -24,7 +24,7 @@ const joinGroup = (user_id, to_group_id) => {
 
 // 建群
 const createGroup = (arr) => {
-  const _sql = 'INSERT INTO group_info (to_group_id,name,group_notice,avatar,creator,create_time) VALUES (?,?,?,?,?,?)';
+  const _sql = 'INSERT INTO group_info (to_group_id,name,group_notice,creator,create_time,avatar) VALUES (?,?,?,?,?,?)';
   return query(_sql, arr);
 };
 

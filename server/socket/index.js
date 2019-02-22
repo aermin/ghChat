@@ -71,16 +71,16 @@ module.exports = (server) => {
     });
 
     // 建群
-    socket.on('createGroup', async (data) => {
+    socket.on('createGroup', async (data, fn) => {
       const to_group_id = uuid();
       const {
         name, group_notice, creator, create_time
       } = data;
-      const avatar = 'https://user-images.githubusercontent.com/24861316/47977783-fdd46f80-e0f4-11e8-93ec-8b0a1268c1e3.jpeg';
-      const arr = [to_group_id, name, group_notice, avatar, creator, create_time];
+      const avatar = data.avatar || null;
+      const arr = [to_group_id, name, group_notice, creator, create_time, avatar];
       await groupInfoModel.createGroup(arr);
       await groupInfoModel.joinGroup(data.creator_id, to_group_id);
-      io.to(socketId).emit('createGroupRes', { to_group_id, avatar, ...data });
+      fn({ to_group_id, ...data });
     });
 
     // 加群

@@ -33,23 +33,26 @@ export default class Header extends Component {
       creator_id: userId,
       create_time: Date.parse(new Date()) / 1000
     };
-    // this.props.history.push('/login');
-    window.socket.on('createGroupRes', (data) => {
+    window.socket.emit('createGroup', data, (res) => {
       const {
         updateAllChatContent, updateHomePageList, homePageList, allChatContent,
       } = this.props;
-      const groupInfo = Object.assign({}, data);
-      data.message = `${data.creator}: 创建群成功！`;
-      data.time = Date.parse(new Date()) / 1000;
-      updateHomePageList({ data, homePageList });
+      const members = [{
+        user_id: userId,
+        name,
+        status: 1
+      }];
+      const groupInfo = Object.assign({ members }, res);
+      res.message = `${res.creator}: 创建群成功！`;
+      res.time = res.create_time;
+      updateHomePageList({ data: res, homePageList });
       const newChatContents = {
-        messages: [{ ...data, name }],
+        messages: [{ ...res, name }],
         groupInfo
       };
       updateAllChatContent({ allChatContent, newChatContents });
-      this.props.history.push(`/group_chat/${data.to_group_id}`);
+      this.props.history.push(`/group_chat/${res.to_group_id}?name=${res.name}`);
     });
-    window.socket.emit('createGroup', data);
   }
 
   handleChange = (event) => {
