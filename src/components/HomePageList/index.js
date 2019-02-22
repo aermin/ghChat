@@ -175,7 +175,9 @@ class HomePageList extends PureComponent {
             : (
               <ListItems
                 dataList={homePageList}
-                allChatContent={allChatContent} />
+                allChatContent={allChatContent}
+                showRobot
+                 />
             )}
         </div>
       </div>

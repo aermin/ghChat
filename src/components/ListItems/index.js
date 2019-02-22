@@ -6,7 +6,7 @@ import GroupAvatar from '../GroupAvatar';
 import './style.scss';
 
 export default function listItems({
-  allChatContent, clickItem, dataList
+  allChatContent, clickItem, dataList, showRobot
 }) {
   const listItems = dataList && dataList.map((data, index) => {
     let message;
@@ -23,9 +23,7 @@ export default function listItems({
       const chatItem = allChatContent.groupChat && allChatContent.groupChat.get(data.to_group_id);
       GroupMembers = chatItem && chatItem.groupInfo && chatItem.groupInfo.members;
     }
-    // console.log('GroupMembers233', GroupMembers);
     return (
-      // TODO: use group chat avatar which bases on some member avatar
       <li key={index} onClick={clickItem} value={chatFromId}>
         <Link to={isGroupChat ? `/group_chat/${data.to_group_id}?name=${data.name}` : `/private_chat/${data.user_id}?name=${data.name}`}>
           { isGroupChat
@@ -60,7 +58,7 @@ export default function listItems({
   );
   return (
     <ul>
-      {robotChat}
+      {showRobot && robotChat}
       {listItems}
     </ul>
   );

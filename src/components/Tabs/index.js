@@ -14,12 +14,14 @@ class Tabs extends Component {
 
   render() {
     const { match } = this.props;
+    console.log('match', match);
+    const showMessageIcon = match.url === '/' || /\/group_chat|\/private_chat|\/robot_chat/.test(match.url);
     return (
       <div className="tabs-wrapper">
         <div className="tab">
           <Link to="/">
             <svg className="icon " aria-hidden="true">
-              <use xlinkHref={match.url === '/' ? '#icon-message-copy' : '#icon-message'} />
+              <use xlinkHref={showMessageIcon ? '#icon-message-copy' : '#icon-message'} />
             </svg>
           </Link>
         </div>
