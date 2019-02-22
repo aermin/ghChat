@@ -1,4 +1,4 @@
-const secrets = require('./secret');
+const secrets = require('../secret');
 
 this._isProduction = process.env.NODE_ENV === 'production';
 

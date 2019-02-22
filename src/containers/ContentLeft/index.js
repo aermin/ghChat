@@ -16,11 +16,12 @@ import {
 } from '../../redux/actions/chatContentAction';
 import { initAppAction } from '../../utils/InitApp/initAppAction';
 import notification from '../../components/Notification';
+import secret from '../../../secret';
 
 class ContentLeft extends Component {
   constructor(props) {
     super(props);
-    this.WEBSITE_ADDRESS = process.env.NODE_ENV === 'production' ? process.env.WEBSITE_ADDRESS : 'http://localhost:3000';
+    this.WEBSITE_ADDRESS = process.env.NODE_ENV === 'production' ? secret.proIp : 'http://localhost:3000';
   }
 
   componentWillMount() {

@@ -1,5 +1,5 @@
 const qiniu = require('qiniu');
-const secret = require('../secret');
+const secret = require('../../secret');
 
 function getUploadToken() {
   const { accessKey, secretKey, bucket } = secret.qiniu;

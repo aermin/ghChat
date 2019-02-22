@@ -1,6 +1,6 @@
 const request = require('request-promise');
 const jwt = require('jsonwebtoken');
-const secret = require('../secret');
+const secret = require('../../secret');
 const config = require('../config');
 const userModel = require('../models/userInfo');
 
