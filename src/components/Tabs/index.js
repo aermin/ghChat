@@ -14,7 +14,6 @@ class Tabs extends Component {
 
   render() {
     const { match } = this.props;
-    console.log('match', match);
     const showMessageIcon = match.url === '/' || /\/group_chat|\/private_chat|\/robot_chat/.test(match.url);
     return (
       <div className="tabs-wrapper">

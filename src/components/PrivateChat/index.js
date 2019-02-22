@@ -4,6 +4,7 @@ import ChatHeader from '../ChatHeader';
 import InputArea from '../InputArea';
 import ChatContentList from '../ChatContentList';
 import PersonalInfo from '../PersonalInfo';
+import notification from '../Notification';
 
 export default class PrivateChat extends Component {
   constructor() {
@@ -37,14 +38,18 @@ export default class PrivateChat extends Component {
     updateAllChatContent({ allChatContent, newChatContent: data, action: 'send' });
     const dataForHomePage = { ...data, name: location.search.split('=')[1] };
     updateHomePageList({ data: dataForHomePage, homePageList, myUserId: userId });
-    console.log('sent message', data);
   }
 
   addAsTheContact =() => {
     const {
       allChatContent, homePageList,
       updateHomePageList, updateUserInfo,
+      chatId,
     } = this.props;
+    if (chatId === this._userInfo.userId) {
+      notification('不能添加自己为联系人哦', 'error');
+      return;
+    }
     window.socket.emit('addAsTheContact', { user_id: this._userInfo.userId, from_user: this.friendId }, (data) => {
       updateUserInfo({ allChatContent, userInfo: data });
       const dataInHomePageList = {
@@ -86,7 +91,7 @@ export default class PrivateChat extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     const { relatedCurrentChat, chatId } = nextProps;
-    console.log('shouldComponentUpdate', relatedCurrentChat, chatId, this.props.chatId, this._sendByMe);
+    // console.log('shouldComponentUpdate', relatedCurrentChat, chatId, this.props.chatId, this._sendByMe);
     if (relatedCurrentChat || chatId !== this.props.chatId || this._sendByMe) {
       this._sendByMe = false;
       return true;
@@ -95,21 +100,15 @@ export default class PrivateChat extends Component {
   }
 
   componentDidUpdate() {
-    console.log('componentDidUpdate in privateChat');
     this.scrollToBottom();
   }
 
-  componentWillUnmount() {
-    console.log('componentWillUnmount in privateChat');
-  }
 
   render() {
     const { chatId, allChatContent, location } = this.props;
     const { showPersonalInfo } = this.state;
-    console.log('allChatContent.privateChat', allChatContent.privateChat, chatId);
     if (!allChatContent.privateChat) return null;
     const chatItem = allChatContent.privateChat.get(chatId);
-    console.log('chatItem23333', chatItem);
     const messages = chatItem ? chatItem.messages : [];
     const userInfo = chatItem ? chatItem.userInfo : {};
     return (

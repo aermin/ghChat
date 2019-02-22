@@ -140,7 +140,7 @@ class HomePageList extends PureComponent {
       isSearching, contactedItems,
       showSearchUser, showSearchGroup
     } = this.state;
-    const contactedUsers = contactedItems.filter(e => e.user_id);
+    const contactedUsers = contactedItems.filter(e => (e.user_id && e.user_id !== this._userInfo.userId));
     const contactedGroups = contactedItems.filter(e => e.to_group_id);
     return (
       <div className="home-page-list-wrapper">

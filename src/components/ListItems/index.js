@@ -25,11 +25,17 @@ export default function listItems({
     }
     return (
       <li key={index} onClick={clickItem} value={chatFromId}>
-        <Link to={isGroupChat ? `/group_chat/${data.to_group_id}?name=${data.name}` : `/private_chat/${data.user_id}?name=${data.name}`}>
+        <Link to={isGroupChat
+          ? `/group_chat/${data.to_group_id}?name=${data.name}`
+          : `/private_chat/${data.user_id}?name=${data.name}`}>
           { isGroupChat
             ? <GroupAvatar members={GroupMembers || []} />
             : <UserAvatar src={data.avatar} name={data.name} size="46" />}
-          {!!data.unread && <span className={data.to_group_id ? 'group-unread' : 'private-unread'}>{data.unread}</span>}
+          {!!data.unread && (
+          <span className={data.to_group_id ? 'group-unread' : 'private-unread'}>
+            {data.unread}
+          </span>
+          )}
           <div className="content">
             <div className="title">
               {data.name}
