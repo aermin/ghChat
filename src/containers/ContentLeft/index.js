@@ -20,7 +20,7 @@ import notification from '../../components/Notification';
 class ContentLeft extends Component {
   constructor(props) {
     super(props);
-    this.WEBSITE_ADDRESS = process.env.NODE_ENV === 'production' ? 'http://localhost:3000' : 'http://localhost:3000';
+    this.WEBSITE_ADDRESS = process.env.NODE_ENV === 'production' ? process.env.WEBSITE_ADDRESS : 'http://localhost:3000';
   }
 
   componentWillMount() {

@@ -32,7 +32,6 @@ export default class Setting extends Component {
 
    componentDidMount() {
      axios.get('https://api.github.com/repos/aermin/react-chat').then((res) => {
-       console.log('github res', res);
        this.setState({ githubStars: res.data.stargazers_count });
      });
    }
