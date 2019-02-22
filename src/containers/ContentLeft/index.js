@@ -14,7 +14,7 @@ import {
 import {
   setAllChatContentAction,
 } from '../../redux/actions/chatContentAction';
-import { initAppAction } from '../../utils/InitApp/initAppAction';
+import { initAppAction } from '../../redux/actions/initAppAction';
 import notification from '../../components/Notification';
 import secret from '../../../secret';
 

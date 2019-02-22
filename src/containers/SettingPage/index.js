@@ -3,7 +3,7 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Setting from '../../components/Setting';
-import { initAppAction } from '../../utils/InitApp/initAppAction';
+import { initAppAction } from '../../redux/actions/initAppAction';
 
 const mapDispatchToProps = dispatch => ({
   initApp(arg) {

@@ -1,4 +1,4 @@
-import { INIT_APP } from './initAppAction';
+import { INIT_APP } from '../actions/initAppAction';
 
 
 const initAppReducer = (previousState = false, action) => {
