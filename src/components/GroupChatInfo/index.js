@@ -15,14 +15,17 @@ export default class GroupChatInfo extends Component {
     const groupId = this.props.chatId;
     window.socket.emit('getGroupMember', groupId, (data) => {
       this.setState({ groupMember: data });
-      console.log('this.state.groupMember', this.state.groupMember);
     });
+  }
+
+  clickMember = (userId) => {
+    this.props.clickMember(userId);
   }
 
   GroupMemberRender = groupMember => (
     <ul className="members">
       {groupMember.length > 0 && groupMember.map(e => (
-        <li key={e.user_id} className="member">
+        <li key={e.user_id} className="member" onClick={() => this.clickMember(e.user_id)}>
           <UserAdapter src={e.avatar} name={e.name} isGray={!e.status} />
           <span className="memberName">{e.name}</span>
         </li>
@@ -34,8 +37,6 @@ export default class GroupChatInfo extends Component {
     const { groupMember } = this.state;
     const { groupInfo, leaveGroup } = this.props;
     groupMember.sort((a, b) => b.status - a.status);
-    console.log('groupMember， groupInfo', groupMember, groupInfo);
-    // const onlineNumber = groupMember.filter((e)=> e.status);
     return (
       <div className="chat-information">
         <div className="info">

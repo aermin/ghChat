@@ -130,7 +130,6 @@ class GroupChat extends Component {
   }
 
   componentDidUpdate() {
-    console.log('componentDidUpdate in group chat');
     this.scrollToBottom();
   }
 
@@ -139,11 +138,9 @@ class GroupChat extends Component {
   }
 
   _clickPersonAvatar = (userId) => {
-    console.log('userId', userId);
     const { allChatContent, chatId } = this.props;
     const { members } = allChatContent.groupChat.get(chatId).groupInfo;
     const personalInfo = members.filter(member => member.user_id === userId)[0];
-    console.log('personalInfo', personalInfo);
     this.setState({ personalInfo }, () => {
       this._showPersonalInfo(true);
     });
@@ -187,7 +184,13 @@ class GroupChat extends Component {
           clickAvatar={userId => this._clickPersonAvatar(userId)}
         />
         { showGroupChatInfo && <div onClick={() => this._showGroupChatInfo(false)} className="groupChatInfoMask" />}
-        { showGroupChatInfo && (<GroupChatInfo groupInfo={groupInfo} leaveGroup={this._showLeaveModal} chatId={chatId} />)}
+        { showGroupChatInfo && (
+        <GroupChatInfo
+          groupInfo={groupInfo}
+          leaveGroup={this._showLeaveModal}
+          clickMember={userId => this._clickPersonAvatar(userId)}
+          chatId={chatId} />
+        )}
         { chatItem ? <InputArea sendMessage={this.sendMessage} />
           : (
             <input
