@@ -60,7 +60,7 @@
     .layout-wrapper{
         min-width: 100%;
         .layout-left,.layout-left-mobile{
-            width: 48%;
+            width: 40%;
             display: flex;
             flex-wrap: nowrap;
             .tabs-wrapper{
@@ -76,7 +76,7 @@
             }
         }
         .layout-right ,.layout-right-mobile{
-            width: 70%;
+            width: 60%;
         }
     }
 }

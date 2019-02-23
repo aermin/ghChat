@@ -2,15 +2,23 @@
     font-size: 12px;
     border-radius: 50%;
     padding: 0 4px;
-    position: absolute;
-    top: 10px;
-    left: 50px;
     color: #fff;
     z-index: 8;
+    position: absolute;
+    bottom: 14px;
+    right: 20px;
+
 }
 .private-unread {
     background-color: red;
 }
 .group-unread {
     background-color: #98d1f2;
+}
+
+.viaGithub {
+    font-size: 14px;
+    position: absolute;
+    top: 10px;
+    left: 50px;
 }

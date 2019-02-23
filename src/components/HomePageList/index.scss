@@ -70,12 +70,10 @@
                         max-height: 42px;
                         overflow: hidden;
                         position: relative;
-                    }
-                    .message :after {
-                        content: "...";
-                        position: absolute;
-                        bottom: 0;
-                        right: 0;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                        width: 100px;
+                        white-space: nowrap;
                     }
                 }
             }
