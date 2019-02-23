@@ -65,9 +65,9 @@ module.exports = (server) => {
     });
 
     // 获取群聊信息
-    socket.on('getGroupMsg', async (data) => {
+    socket.on('getOneGroupMsg', async (data, fn) => {
       const groupMsgAndInfo = await getGroupMsg({ groupId: data.groupId });
-      io.to(socketId).emit('getGroupMsgRes', groupMsgAndInfo);
+      fn(groupMsgAndInfo);
     });
 
     // 建群
@@ -107,7 +107,7 @@ module.exports = (server) => {
     });
 
     //  模糊匹配用户或者群组
-    socket.on('fuzzyMatch', async (data) => {
+    socket.on('fuzzyMatch', async (data, fn) => {
       let fuzzyMatchResult;
       const field = `%${data.field}%`;
       if (data.searchUser) {
@@ -115,7 +115,7 @@ module.exports = (server) => {
       } else {
         fuzzyMatchResult = await groupInfoModel.fuzzyMatchGroups(field);
       }
-      io.to(socketId).emit('fuzzyMatchRes', { fuzzyMatchResult, searchUser: data.searchUser });
+      fn({ fuzzyMatchResult, searchUser: data.searchUser });
     });
 
     // qiniu token

@@ -70,7 +70,7 @@ const updateUserStatus = (userId, status) => {
 
 // 通过用户id查找用户信息 user_info 包括用户名，性别，头像，最后登录时间，状态等，不包括密码
 const getUserInfo = (user_id) => {
-  const _sql = 'SELECT id AS user_id, name, avatar, location, website, github, intro, status  FROM user_info   WHERE  user_info.id =? ';
+  const _sql = 'SELECT id AS user_id, name, avatar, location, website, github, github_id, intro, status  FROM user_info   WHERE  user_info.id =? ';
   return query(_sql, [user_id]);
 };
 

@@ -107,8 +107,7 @@ class HomePageList extends PureComponent {
   }
 
   searchInDB({ searchUser }) {
-    window.socket.emit('fuzzyMatch', { field: this._filedStr, searchUser });
-    window.socket.on('fuzzyMatchRes', (data) => {
+    window.socket.emit('fuzzyMatch', { field: this._filedStr, searchUser }, (data) => {
       if (data.searchUser) {
         this.setState({ showSearchUser: false });
         data.fuzzyMatchResult.forEach((element) => {

@@ -122,10 +122,8 @@ class GroupChat extends Component {
     this.clearUnreadHandle();
     // (产品设计) 当查找没加过的群，点击去没群内容，请求出群内容，避免不了解而加错群
     if (!chatItem) {
-      window.socket.emit('getGroupMsg', { groupId: chatId });
-      window.socket.on('getGroupMsgRes', (groupMsgAndInfo) => {
+      window.socket.emit('getOneGroupMsg', { groupId: chatId }, (groupMsgAndInfo) => {
         this.setState({ groupMsgAndInfo });
-        console.log('this.state.groupMsgAndInfo', this.state.groupMsgAndInfo);
       });
     }
     this.scrollToBottom();
