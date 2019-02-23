@@ -39,12 +39,10 @@ module.exports = async (ctx, next) => {
       },
       json: true
     };
-    console.log('options', options);
     const response = await request(options);
     const {
       avatar_url, html_url, bio, login, location, id, blog
     } = response;
-    console.log('response11', response);
     const payload = { id };
     const token = jwt.sign(payload, config.secret, {
       expiresIn: Math.floor(Date.now() / 1000) + 24 * 60 * 60 // 一天

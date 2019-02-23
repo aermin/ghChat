@@ -1,32 +1,65 @@
 import React, { Component } from 'react';
+import {
+  withRouter,
+} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Emoji } from 'emoji-mart';
 import { MultiLineParser } from 'text-emoji-parser';
 import UserAvatar from '../UserAvatar';
 import emojiPng from '../../assets/emojione.png';
 import './style.scss';
+import Button from '../Button';
 
 
-export default class ChatItem extends Component {
-  textRender = msg => (
-    <div className="msg-render">
-      {MultiLineParser(msg,
-        {
-          SplitLinesTag: 'p',
-          Rule: /(?:\:[^\:]+\:(?:\:skin-tone-(?:\d)\:)?)/gi
-        },
-        (Rule, ruleNumber) => (
-          <Emoji
-            className="msg-render"
-            emoji={Rule}
-            backgroundImageFn={() => emojiPng}
-            size={26}
-            fallback={(emoji, props) => (emoji ? `:${emoji.short_names[0]}:` : props.emoji)} />
-        ))
+class ChatItem extends Component {
+  clickToInvite({ groupUrl, inviter }) {
+    this.props.history.push(groupUrl);
+  }
+
+  invitingCard = (url) => {
+    const splitArray = url.split(/&inviter=/);
+    const groupUrl = splitArray[0];
+    const str = '?name=';
+    const num = groupUrl.indexOf(str);
+    const groupName = groupUrl.substring(num + str.length);
+    const inviter = splitArray[1];
+    return (
+      <div
+        className="invitingCard"
+        >
+        <p>
+          {`${inviter} 邀请你加入`}
+        </p>
+        <p>
+          {` "${groupName}"`}
+        </p>
+        <Button clickFn={() => { this.clickToInvite({ groupUrl, inviter }); }} value="点击加入" />
+      </div>
+    );
+  }
+
+  textRender = (msg) => {
+    const isInvitingUrl = /^\/group_chat\/\S+\?name=\S.*&inviter=\S.*$/;
+    if (isInvitingUrl.test(msg)) return <div className="msg-render">{this.invitingCard(msg)}</div>;
+    return (
+      <div className="msg-render">
+        {MultiLineParser(msg,
+          {
+            SplitLinesTag: 'p',
+            Rule: /(?:\:[^\:]+\:(?:\:skin-tone-(?:\d)\:)?)/gi
+          },
+          (Rule, ruleNumber) => (
+            <Emoji
+              className="msg-render"
+              emoji={Rule}
+              backgroundImageFn={() => emojiPng}
+              size={26}
+              fallback={(emoji, props) => (emoji ? `:${emoji.short_names[0]}:` : props.emoji)} />
+          ))
     }
-
-    </div>
-  );
+      </div>
+    );
+  };
 
   filesRender = attachments => attachments.map((attachment) => {
     if (attachment.type === 'image') {
@@ -90,6 +123,7 @@ export default class ChatItem extends Component {
   }
 }
 
+export default withRouter(ChatItem);
 
 ChatItem.propTypes = {
   me: PropTypes.bool,
