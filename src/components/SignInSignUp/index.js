@@ -57,6 +57,9 @@ class SignInSignUp extends Component {
     return (
       <div className="formContent fadeInDown">
         {this.state.showSpinner && <Spinner />}
+        <div className="ghChatLogo">
+          <img src="http://me.aermin.top/ghChat.png" alt="ghChatLogo" />
+        </div>
         <Link to={linkUrl}>
           <span className={loginClass}>登录</span>
         </Link>

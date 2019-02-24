@@ -122,7 +122,7 @@ export default class Header extends Component {
                 onChange={this.handleChange}
                 type="text"
                 placeholder="不超过10个字哦"
-                maxLength="10" />
+                maxLength="12" />
             </p>
             <p>
               <span>群公告:</span>

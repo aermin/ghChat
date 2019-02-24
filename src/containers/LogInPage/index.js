@@ -84,7 +84,6 @@ class LogIn extends Component {
             {'您已登录成功'}
           </p>
         </Modal>
-        {/* <Message isShow = {this.state.message.isShow}  type = {this.state.message.type}  content = {this.state.message.content} /> */}
         <SignInSignUp setValue={this.setValue} isLogin />
       </div>
     );

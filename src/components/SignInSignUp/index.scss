@@ -5,18 +5,28 @@
   background: #fff;
   padding: 32px;
   width: 80%;
-  max-width: 320px;
+  max-width: 330px;
   position: relative;
   padding: 10px 0 20px;
   -webkit-box-shadow: 0 32px 62px 0 rgba(0, 0, 0, 0.3);
   box-shadow: 0 32px 62px 0 rgba(0, 0, 0, 0.3);
   text-align: center;
+  .ghChatLogo {
+    position: absolute;
+    top: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    img {
+      width: 80px;
+      height: 80px;
+    }
+  }
   .active, .inactive {
     text-align: center;
     font-size: 18px;
     text-transform: uppercase;
     display: inline-block;
-    margin: 22px 6px 12px;
+    padding: 10px 10px 20px;
     color: #cccccc;
   }
 
@@ -75,7 +85,7 @@
       display: inline-block;
       font-size: 14px;
       margin-bottom: 30px;
-      width: 85%;
+      width: 76%;
       border: 1px solid #f6f6f6;
       -webkit-transition: all 0.5s ease-in-out;
       -moz-transition: all 0.5s ease-in-out;
