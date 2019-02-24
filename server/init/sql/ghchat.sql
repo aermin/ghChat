@@ -6,8 +6,8 @@
 # https://github.com/sequelpro/sequelpro
 #
 # Host: localhost (MySQL 5.7.22)
-# Database: airchat
-# Generation Time: 2019-02-21 13:36:16 +0000
+# Database: ghchat
+# Generation Time: 2019-02-24 04:02:07 +0000
 # ************************************************************
 
 
@@ -99,7 +99,6 @@ CREATE TABLE `user_info` (
   `github_id` int(11) DEFAULT NULL,
   `name` varchar(20) NOT NULL DEFAULT 'NOT NULL',
   `password` varchar(40) DEFAULT NULL,
-  `sex` varchar(2) NOT NULL DEFAULT '0',
   `avatar` varchar(250) DEFAULT '',
   `location` varchar(50) DEFAULT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0',

@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import { Emoji } from 'emoji-mart';
 import { MultiLineParser } from 'text-emoji-parser';
 import UserAvatar from '../UserAvatar';
-import emojiPng from '../../assets/emojione.png';
 import './style.scss';
 import Button from '../Button';
 
@@ -52,7 +51,7 @@ class ChatItem extends Component {
             <Emoji
               className="msg-render"
               emoji={Rule}
-              backgroundImageFn={() => emojiPng}
+              backgroundImageFn={() => 'http://me.aermin.top/emojione.png'}
               size={26}
               fallback={(emoji, props) => (emoji ? `:${emoji.short_names[0]}:` : props.emoji)} />
           ))

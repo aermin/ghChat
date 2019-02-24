@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'airChat',
+      name: 'ghchat',
       script: './index.js',
       watch: true,
       env: {

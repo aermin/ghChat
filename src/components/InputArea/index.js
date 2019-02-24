@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Picker } from 'emoji-mart';
 import upload from '../../utils/qiniu';
-import emojiPng from '../../assets/emojione.png';
 import './style.scss';
 import notification from '../Notification';
 
@@ -80,7 +79,7 @@ export default class InputArea extends Component {
     return (
       <div className="input-msg">
         { showEmojiPicker && <div onClick={this._clickShowEmojiPicker} className="mask" />}
-        { showEmojiPicker && <Picker onSelect={this._selectEmoji} backgroundImageFn={(() => emojiPng)} showPreview={false} />}
+        { showEmojiPicker && <Picker onSelect={this._selectEmoji} backgroundImageFn={(() => 'http://me.aermin.top/emojione.png')} showPreview={false} />}
         <div className="left" style={this.props.isRobotChat ? robotStyle : {}}>
           <svg onClick={this._clickShowEmojiPicker} className="icon emoji" aria-hidden="true"><use xlinkHref="#icon-smile" /></svg>
           <label className="file">
