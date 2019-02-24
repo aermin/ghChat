@@ -7,5 +7,6 @@ gulp.task('start', () => {
     script: 'index.js',
     ext: 'js html',
     env: { NODE_ENV: 'development' }
+    // env: { NODE_ENV: 'production' }
   });
 });

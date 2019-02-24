@@ -1,6 +1,7 @@
 const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
 const cors = require('koa2-cors');
+const compress = require('koa-compress');
 const http = require('http');
 const statics = require('koa-static'); // 静态资源服务插件
 const path = require('path'); // 路径管理
@@ -10,6 +11,8 @@ const { query } = require('./utils/db');
 const koa2FallbackApiMiddleware = require('./middlewares/koa2FallbackApiMiddleware');
 
 const app = new Koa();
+
+app.use(compress());
 
 const server = http.createServer(app.callback());
 socketHandle(server);

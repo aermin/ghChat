@@ -4,7 +4,7 @@ const webpack = require('webpack');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-
+const CompressionPlugin = require('compression-webpack-plugin');
 const commonConfig = require('./webpack.common.config.js');
 
 const publicConfig = {
@@ -24,6 +24,7 @@ const publicConfig = {
   },
   plugins: [
     new CleanWebpackPlugin(['build/*.*']),
+    new CompressionPlugin(),
     new UglifyJSPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
