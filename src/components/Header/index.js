@@ -121,7 +121,7 @@ export default class Header extends Component {
                 value={groupName}
                 onChange={this.handleChange}
                 type="text"
-                placeholder="不超过10个字哦"
+                placeholder="不超过12个字哦"
                 maxLength="12" />
             </p>
             <p>
