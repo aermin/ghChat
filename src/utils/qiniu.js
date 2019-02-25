@@ -25,7 +25,6 @@ export default async function upload(file, completeEvent) {
     const putExtra = {};
     const { userId } = JSON.parse(localStorage.getItem('userInfo'));
     const key = `${userId}_${new Date().getTime()}_${file.name}`;
-    console.log('file, key, uploadToken, putExtra, config', file, key, uploadToken, putExtra, config);
     const observable = qiniu.upload(file, key, uploadToken, putExtra, config);
     const subscription = observable.subscribe(observer); // 上传开始
   });

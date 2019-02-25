@@ -12,8 +12,8 @@ import Notification from '../../utils/notification';
 // import Spinner from '../spinner';
 
 class HomePageList extends PureComponent {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       isSearching: false,
       contactedItems: [],
@@ -34,7 +34,7 @@ class HomePageList extends PureComponent {
       title,
       text: message,
       icon: avatar,
-      onClick() {
+      onClick: () => {
         this.props.history.push(`/${chatType}/${chatFromId}?name=${title}`);
         window.focus();
       }
