@@ -43,8 +43,8 @@ export default function listItems({
           )}
           <div className="content">
             <div className="title">
-              {data.name}
-              <span>{!!data.time && toNormalTime(data.time)}</span>
+              <p className="name">{data.name}</p>
+              <span className="time">{!!data.time && toNormalTime(data.time)}</span>
             </div>
             <div className="message">{message}</div>
           </div>
@@ -60,9 +60,9 @@ export default function listItems({
           name="机器人小R"
           size="46" />
         <div className="content">
-          <div className="title">
+          <span className="title robotTitle">
               机器人小R
-          </div>
+          </span>
         </div>
       </Link>
     </li>

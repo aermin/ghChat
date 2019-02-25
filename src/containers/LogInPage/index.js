@@ -66,10 +66,6 @@ class LogIn extends Component {
     this.props.history.push('/');
   };
 
-  componentDidMount() {
-    console.log('login componentDidMount');
-  }
-
   render() {
     const { visible } = this.state.modal;
     return (

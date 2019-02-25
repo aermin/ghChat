@@ -16,7 +16,6 @@ export default function ContentLeft(props) {
   const urlsOfShowingWelcomePage = ['/', '/setting'];
   const shouldShowWelcomePage = urlsOfShowingWelcomePage.includes(url);
   return (
-  // switch between privateChatPage not componentWillUnmount, switch other Page will componentWillUnmount
     <div className={shouldShowWelcomePage ? 'layout-right-mobile' : 'layout-right'}>
       {shouldShowWelcomePage && <WelcomePage />}
       {url === '/robot_chat' && <RobotPage />}
