@@ -30,12 +30,7 @@ export default function listItems({
           : `/private_chat/${data.user_id}?name=${data.name}`}>
           { isGroupChat
             ? <GroupAvatar members={GroupMembers || []} />
-            : <UserAvatar src={data.avatar} name={data.name} size="46" />}
-          {data.github_id && (
-            <svg className="icon viaGithub" aria-hidden="true">
-              <use xlinkHref="#icon-github" />
-            </svg>
-          )}
+            : <UserAvatar src={data.avatar} name={data.name} size="46" showLogo={!!data.github_id} />}
           {!!data.unread && (
           <span className={data.to_group_id ? 'group-unread' : 'private-unread'}>
             {data.unread}

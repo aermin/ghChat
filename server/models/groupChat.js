@@ -10,7 +10,7 @@ const {
  *  @return  avatar  发送人头像
  */
 const getGroupMsg = (groupId) => {
-  const _sql = 'SELECT g.message,g.attachments,g.time,g.from_user,g.to_group_id, i.avatar ,i.name FROM group_msg  As g inner join user_info AS i ON g.from_user = i.id  WHERE to_group_id = ? order by time ';
+  const _sql = 'SELECT g.message,g.attachments,g.time,g.from_user,g.to_group_id, i.avatar ,i.name, i.github_id FROM group_msg  As g inner join user_info AS i ON g.from_user = i.id  WHERE to_group_id = ? order by time ';
   return query(_sql, groupId);
 };
 /**

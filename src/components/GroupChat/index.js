@@ -28,7 +28,9 @@ class GroupChat extends Component {
 
   sendMessage = (inputMsg = '', attachments = []) => {
     if (inputMsg.trim() === '' && attachments.length === 0) return;
-    const { userId, avatar, name } = this._userInfo;
+    const {
+      userId, avatar, name, github_id
+    } = this._userInfo;
     const {
       allChatContent, chatId, homePageList,
       updateHomePageList, updateAllChatContent,
@@ -37,6 +39,7 @@ class GroupChat extends Component {
       from_user: userId, // 自己的id
       avatar, // 自己的头像
       name,
+      github_id,
       groupName: this.groupName,
       message: inputMsg === '' ? attachments[0].type : `${name}: ${inputMsg}`, // 消息内容
       attachments, // 附件
@@ -106,13 +109,19 @@ class GroupChat extends Component {
     clearUnread({ homePageList, chatFromId: chatId });
   }
 
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps, nextState) {
     const { relatedCurrentChat, chatId } = nextProps;
-    console.log('shouldComponentUpdate ', relatedCurrentChat, chatId, this.props.chatId, this._sendByMe);
     if (relatedCurrentChat || chatId !== this.props.chatId || this._sendByMe) {
       this._sendByMe = false;
       return true;
     }
+
+    const { showGroupChatInfo, showPersonalInfo, visible } = nextState;
+    if (showGroupChatInfo !== this.state.showGroupChatInfo
+       || showPersonalInfo !== this.state.showPersonalInfo
+       || visible !== this.state.visible
+    ) return true;
+
     return false;
   }
 

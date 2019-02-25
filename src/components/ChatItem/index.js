@@ -83,7 +83,7 @@ class ChatItem extends Component {
 
   render() {
     const {
-      me, img, time, name, msg, clickAvatar
+      me, img, time, name, msg, clickAvatar, github_id
     } = this.props;
     let attachments = this.props.attachments;
     if (typeof attachments === 'string') {
@@ -96,7 +96,7 @@ class ChatItem extends Component {
       <div className="chat-item">
         {me ? (
           <div className="mychat">
-            <UserAvatar name={name} src={img} size="40" />
+            <UserAvatar name={name} src={img} size="40" showLogo={!!github_id} />
             <div className="nt">
               {time && <span>{time}</span>}
               {name && <span>{name}</span>}
@@ -107,7 +107,7 @@ class ChatItem extends Component {
           </div>
         ) : (
           <div className="otherchat">
-            <UserAvatar name={name} src={img} size="40" clickAvatar={clickAvatar} />
+            <UserAvatar name={name} src={img} size="40" clickAvatar={clickAvatar} showLogo={!!github_id} />
             <div className="nt">
               {name && <span>{ name }</span>}
               {time && <span>{ time }</span>}
@@ -135,6 +135,7 @@ ChatItem.propTypes = {
     PropTypes.array
   ]),
   clickAvatar: PropTypes.func,
+  github_id: PropTypes.number,
 };
 
 ChatItem.defaultProps = {
@@ -144,5 +145,6 @@ ChatItem.defaultProps = {
   time: undefined,
   clickAvatar: undefined,
   msg: '',
-  attachments: '[]'
+  attachments: '[]',
+  github_id: null,
 };

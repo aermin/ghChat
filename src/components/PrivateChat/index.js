@@ -19,7 +19,9 @@ export default class PrivateChat extends Component {
 
   sendMessage = (inputMsg = '', attachments = []) => {
     if (inputMsg.trim() === '' && attachments.length === 0) return;
-    const { userId, avatar, name } = this._userInfo;
+    const {
+      userId, avatar, name, github_id
+    } = this._userInfo;
     const {
       allChatContent, homePageList,
       updateHomePageList, updateAllChatContent,
@@ -29,6 +31,7 @@ export default class PrivateChat extends Component {
       to_user: this.friendId, // 对方id
       avatar, // 自己的头像
       name,
+      github_id,
       message: inputMsg === '' ? attachments[0].type : `${name}: ${inputMsg}`, // 消息内容
       attachments, // 附件
       time: Date.parse(new Date()) / 1000 // 时间
@@ -85,10 +88,6 @@ export default class PrivateChat extends Component {
     this.scrollToBottom();
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log('componentWillReceiveProps in privateChat', nextProps, this.props);
-  }
-
   shouldComponentUpdate(nextProps, nextState) {
     const { relatedCurrentChat, chatId } = nextProps;
     // console.log('shouldComponentUpdate', relatedCurrentChat, chatId, this.props.chatId, this._sendByMe);
@@ -96,6 +95,10 @@ export default class PrivateChat extends Component {
       this._sendByMe = false;
       return true;
     }
+
+    const { showPersonalInfo } = nextState;
+    if (showPersonalInfo !== this.state.showPersonalInfo) return true;
+
     return false;
   }
 

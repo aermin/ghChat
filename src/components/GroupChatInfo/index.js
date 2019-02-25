@@ -26,7 +26,7 @@ export default class GroupChatInfo extends Component {
     <ul className="members">
       {groupMember.length > 0 && groupMember.map(e => (
         <li key={e.user_id} className="member" onClick={() => this.clickMember(e.user_id)}>
-          <UserAdapter src={e.avatar} name={e.name} isGray={!e.status} />
+          <UserAdapter src={e.avatar} name={e.name} isGray={!e.status} showLogo={!!e.github_id} />
           <span className="memberName">{e.name}</span>
         </li>
       ))}

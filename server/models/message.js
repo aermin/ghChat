@@ -16,7 +16,7 @@ const getGroupList = (userId) => {
 // 通过user_id查找首页私聊列表
 // TODO： 优化sql语句
 const getPrivateList = (userId) => {
-  const _sql = ` SELECT r.from_user as user_id  ,i.name , i.avatar , r.time as be_friend_time,
+  const _sql = ` SELECT r.from_user as user_id, i.name, i.avatar, i.github_id, r.time as be_friend_time,
     (SELECT p.message FROM private__msg AS p WHERE (p.to_user = r.from_user and p.from_user = r.user_id) or (p.from_user = r.from_user and p.to_user = r.user_id) ORDER BY p.time DESC   LIMIT 1 )  AS message ,
     (SELECT p.time FROM private__msg AS p WHERE (p.to_user = r.from_user and p.from_user = r.user_id) or (p.from_user = r.from_user and p.to_user = r.user_id) ORDER BY p.time DESC   LIMIT 1 )  AS time,
     (SELECT p.attachments FROM private__msg AS p WHERE (p.to_user = r.from_user and p.from_user = r.user_id) or (p.from_user = r.from_user and p.to_user = r.user_id) ORDER BY p.time DESC   LIMIT 1 )  AS attachments

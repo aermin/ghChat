@@ -31,6 +31,7 @@ export default class ChatContentList extends Component {
             msg={message}
             name={item.name}
             time={time}
+            github_id={item.github_id}
             clickAvatar={() => clickAvatar(item.from_user)}
             attachments={attachments} />
         </li>

@@ -34,6 +34,7 @@ export default class UserAvatar extends Component {
       clickAvatar,
       size,
       borderRadius,
+      showLogo,
     } = this.props;
 
     if (!name) throw new Error('UserAvatar requires a name');
@@ -75,6 +76,11 @@ export default class UserAvatar extends Component {
     const avatarClassName = isGray ? 'UserAvatar gray' : 'UserAvatar';
     return (
       <div className={avatarClassName} style={innerStyle} onClick={clickAvatar}>
+        {showLogo && (
+        <svg className="icon viaGithub" aria-hidden="true">
+          <use xlinkHref="#icon-github" />
+        </svg>
+        )}
         {inner}
       </div>
     );
@@ -90,6 +96,7 @@ UserAvatar.propTypes = {
   clickAvatar: PropTypes.func,
   size: PropTypes.string,
   borderRadius: PropTypes.string,
+  showLogo: PropTypes.bool,
 };
 
 
@@ -101,4 +108,5 @@ UserAvatar.defaultProps = {
   clickAvatar: undefined,
   size: '40',
   borderRadius: '50%',
+  showLogo: false,
 };
