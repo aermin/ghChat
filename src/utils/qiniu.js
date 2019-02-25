@@ -16,7 +16,7 @@ export default async function upload(file, completeEvent) {
       complete(res) {
         // ...
         console.log('qiniu observer complete', res);
-        const fileUrl = `http://cdn.aermin.top/${res.key}`;
+        const fileUrl = `https://cdn.aermin.top/${res.key}`;
         completeEvent(fileUrl);
       }
     };

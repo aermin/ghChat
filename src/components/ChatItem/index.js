@@ -51,7 +51,7 @@ class ChatItem extends Component {
             <Emoji
               className="msg-render"
               emoji={Rule}
-              backgroundImageFn={() => 'http://me.aermin.top/emojione.png'}
+              backgroundImageFn={() => 'https://cdn.aermin.top/emojione.png'}
               size={26}
               fallback={(emoji, props) => (emoji ? `:${emoji.short_names[0]}:` : props.emoji)} />
           ))

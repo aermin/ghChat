@@ -79,7 +79,7 @@ export default class InputArea extends Component {
     return (
       <div className="input-msg">
         { showEmojiPicker && <div onClick={this._clickShowEmojiPicker} className="mask" />}
-        { showEmojiPicker && <Picker onSelect={this._selectEmoji} backgroundImageFn={(() => 'http://me.aermin.top/emojione.png')} showPreview={false} />}
+        { showEmojiPicker && <Picker onSelect={this._selectEmoji} backgroundImageFn={(() => 'https://cdn.aermin.top/emojione.png')} showPreview={false} />}
         <div className="left" style={this.props.isRobotChat ? robotStyle : {}}>
           <svg onClick={this._clickShowEmojiPicker} className="icon emoji" aria-hidden="true"><use xlinkHref="#icon-smile" /></svg>
           <label className="file">

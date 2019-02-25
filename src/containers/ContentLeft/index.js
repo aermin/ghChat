@@ -21,7 +21,7 @@ import secret from '../../../secret';
 class ContentLeft extends Component {
   constructor(props) {
     super(props);
-    this.WEBSITE_ADDRESS = process.env.NODE_ENV === 'production' ? secret.proIp : 'http://localhost:3000';
+    this.WEBSITE_ADDRESS = process.env.NODE_ENV === 'production' ? secret.proIp : 'https://localhost:3000';
   }
 
   componentWillMount() {
