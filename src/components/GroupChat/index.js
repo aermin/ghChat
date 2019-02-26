@@ -170,7 +170,7 @@ class GroupChat extends Component {
     return (
       <div className="chat-wrapper">
         <ChatHeader
-          title={this.groupName}
+          title={groupInfo && groupInfo.name || '----'}
           chatType="group"
           hasShowed={showGroupChatInfo}
           showGroupChatInfo={value => this._showGroupChatInfo(value)}
@@ -211,11 +211,6 @@ class GroupChat extends Component {
           )}
       </div>
     );
-  }
-
-  get groupName() {
-    const { location } = this.props;
-    return location.search.split('name=')[1];
   }
 }
 
