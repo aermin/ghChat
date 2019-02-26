@@ -39,10 +39,35 @@ github对gif图有限制，我就直接截图了，具体详情建议直接[线�
 
 ### 本地跑项目
 
+1. 项目拉到本地
 ```
 git clone https://github.com/aermin/react-chat.git
 ```
 
+
+2. 在react-chat文件夹下创建一个secret.js的空白文件。
+
+如果要使用github授权登录，使用七牛云cdn，生产环境数据库和jwt的secret的单独配置，就要填充相应的配置了。
+```
+module.exports = {
+  client_secret: '', // github授权登录需要的  github-> settings ->  Developer settings 那边生成获取
+  db: {
+    host: '', // 数据库IP
+    port: , // 数据库端口
+    database: '', // 数据库名称
+    user: '', // 数据库用户名
+    password: '', // 数据库密码
+  },
+  secretValue: '', // json web token 的 secret
+  qiniu: { // 七牛云配置
+    accessKey: '',
+    secretKey: '',
+    bucket: ''
+  }
+};
+```
+
+3. 下载前端的npm包
 ```
 cd react-chat
 ```
@@ -51,6 +76,7 @@ cd react-chat
 npm i
 ```
 
+4. 下载后端的npm包
 ```
 cd cd react-chat/server 
 ```
@@ -59,6 +85,7 @@ cd cd react-chat/server
 npm i
 ```
 
+5. 初始化数据库
 ```
 //需要先在本地建一个名为ghchat的mysql数据库
 配置如下看react-chat/server/config.js
@@ -66,6 +93,7 @@ npm i
 npm run init_sql    //然后查看下数据库是否init成功
 ```
 
+6. 跑起前端后后端的代码
 ```
 npm run start
 ```
