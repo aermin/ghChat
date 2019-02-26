@@ -71,7 +71,7 @@ export default class Setting extends Component {
         <div className="userInfo">
           {intro && <p>{`介绍: ${intro}`}</p>}
           {location && <p>{`来自: ${location}`}</p>}
-          {website && <p>{`网站: ${intro}`}</p>}
+          {website && <p>{`网站: ${website}`}</p>}
           {github && <p>{`github: ${github}`}</p>}
         </div>
 
