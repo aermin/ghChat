@@ -48,6 +48,7 @@ class GroupChat extends Component {
     };
     this._sendByMe = true;
     window.socket.emit('sendGroupMsg', data);
+    this.scrollToBottom();
     updateAllChatContent({ allChatContent, newChatContent: data, action: 'send' });
     updateHomePageList({ data, homePageList, myUserId: userId });
   }
@@ -135,10 +136,6 @@ class GroupChat extends Component {
         this.setState({ groupMsgAndInfo });
       });
     }
-    this.scrollToBottom();
-  }
-
-  componentDidUpdate() {
     this.scrollToBottom();
   }
 

@@ -38,6 +38,7 @@ export default class PrivateChat extends Component {
     };
     this._sendByMe = true;
     window.socket.emit('sendPrivateMsg', data);
+    this.scrollToBottom();
     updateAllChatContent({ allChatContent, newChatContent: data, action: 'send' });
     const dataForHomePage = { ...data, name: location.search.split('=')[1] };
     updateHomePageList({ data: dataForHomePage, homePageList, myUserId: userId });
@@ -101,11 +102,6 @@ export default class PrivateChat extends Component {
 
     return false;
   }
-
-  componentDidUpdate() {
-    this.scrollToBottom();
-  }
-
 
   render() {
     const { chatId, allChatContent, location } = this.props;
