@@ -19,6 +19,7 @@ export default class InputArea extends Component {
     const { inputMsg } = this.state;
     sendMessage(inputMsg, attachments);
     this.state.inputMsg = '';
+    this.nameInput.focus();
   }
 
   _inputMsgChange = (event) => {
@@ -35,6 +36,11 @@ export default class InputArea extends Component {
   _selectEmoji = (emoji) => {
     this.setState(state => ({ inputMsg: `${state.inputMsg} ${emoji.colons}` }));
     this._clickShowEmojiPicker();
+    this.nameInput.focus();
+  }
+
+  componentDidMount() {
+    this.nameInput.focus();
   }
 
   // TODO: limit file size
@@ -45,7 +51,6 @@ export default class InputArea extends Component {
     }
     const reader = new FileReader();
     reader.onloadend = (event) => {
-      console.log('file, FileReader.DONE', file, FileReader.DONE);
       const limitSize = 1000 * 1024 * 2; // 2 MB
       if (file.size > limitSize) {
         notification('发的文件不能超过2MB哦!', 'warn', 2);
@@ -71,11 +76,24 @@ export default class InputArea extends Component {
   //    element.textContent = contents;
   //  }
 
+  _keyPress = (e) => {
+    if (
+      e.key === 'Enter'
+        && !e.shiftKey
+        && !e.ctrlKey
+        && !e.altKey
+    ) {
+      this._sendMessage({ attachments: [] });
+      e.preventDefault();
+    }
+  }
+
   render() {
     const { inputMsg, showEmojiPicker } = this.state;
     const robotStyle = {
       visibility: 'hidden'
     };
+    const buttonClass = inputMsg ? 'btn btnActive' : 'btn';
     return (
       <div className="input-msg">
         { showEmojiPicker && <div onClick={this._clickShowEmojiPicker} className="mask" />}
@@ -87,9 +105,13 @@ export default class InputArea extends Component {
             <input type="file" className="file-input" onChange={this._onSelectFile} />
           </label>
         </div>
-        <textarea value={inputMsg} onChange={this._inputMsgChange} />
+        <textarea
+          ref={(input) => { this.nameInput = input; }}
+          value={inputMsg}
+          onChange={this._inputMsgChange}
+          onKeyPressCapture={this._keyPress} />
         <pre id="textarea" />
-        <p className="btn" onClick={this._sendMessage}>发送</p>
+        <p className={buttonClass} onClick={this._sendMessage}>发送</p>
       </div>
     );
   }

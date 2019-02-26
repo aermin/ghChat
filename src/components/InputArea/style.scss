@@ -73,5 +73,10 @@
         color: white;
         border-radius: 2px;
         font-family: 'Microsoft Yahei';
+        cursor: not-allowed;
+    }
+    p.btnActive {
+        background-color: $blue;
+        cursor: pointer !important;
     }
 }
