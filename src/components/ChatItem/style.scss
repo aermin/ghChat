@@ -4,9 +4,10 @@
     width: 100%;
     margin: 36px 0;
     .image-render {
+        background-color: #fff !important;
         img {
-            width: 200px;
-            height: 200px;
+         max-width: 80%;
+         max-height: 80%;
         }
     }
     .other-file-render {
@@ -62,6 +63,9 @@
             background-color: $other-msg-color;
             border-radius: 6px;
         }
+        .image-render img {
+             float: left;
+        }
     }
     .mychat {
         width: 100%;
@@ -89,5 +93,8 @@
             background-color: $my-msg-color;
             border-radius: 6px;
         }
+         .image-render img {
+             float: right;
+         }
     }
 }
