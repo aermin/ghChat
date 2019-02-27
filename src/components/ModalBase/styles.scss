@@ -11,6 +11,7 @@
 
 .modalWrapper {
     position: fixed;
+    min-width: 30%;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);    //TODO 使用插件来自动做兼容 
@@ -18,8 +19,7 @@
     //Mozilla内核浏览器：firefox3.5+
     -webkit-transform: translate(-50%, -50%); //Webkit内核浏览器：Safari and Chrome
     -o-transform: translate(-50%, -50%); //Opera
-    -ms-transform: translate(-50%, -50%); //IE9
-    width: 40%;
+    -ms-transform: translate(-50%, -50%); //IE9    
     height: auto;
     background-color: white;
     border-radius: 8px;

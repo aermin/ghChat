@@ -11,6 +11,7 @@ import GroupChatInfo from '../GroupChatInfo';
 import Modal from '../Modal';
 import './style.scss';
 import PersonalInfo from '../PersonalInfo';
+import notification from '../Notification';
 
 class GroupChat extends Component {
   constructor() {
@@ -147,6 +148,10 @@ class GroupChat extends Component {
     const { allChatContent, chatId } = this.props;
     const { members } = allChatContent.groupChat.get(chatId).groupInfo;
     const personalInfo = members.filter(member => member.user_id === userId)[0];
+    if (!personalInfo) {
+      notification('此人已不在群中啦', 'warn', 1.5);
+      return;
+    }
     this.setState({ personalInfo }, () => {
       this._showPersonalInfo(true);
     });
