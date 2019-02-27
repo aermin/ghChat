@@ -5,10 +5,14 @@
     margin: 36px 0;
     .image-render {
         background-color: #fff !important;
+        max-width: 80%;
         img {
          max-width: 80%;
          max-height: 80%;
         }
+    }
+    .msg-render {
+        max-width: 50%;
     }
     .other-file-render {
         font-size: 16px;
@@ -19,7 +23,6 @@
         }
     }
     .msg-render {
-        max-width: 60%;
         font-size: 14px;
         word-wrap:break-word;
         .invitingCard {
@@ -93,8 +96,8 @@
             background-color: $my-msg-color;
             border-radius: 6px;
         }
-         .image-render img {
+        .image-render img {
              float: right;
-         }
+        }
     }
 }

@@ -5,6 +5,7 @@ import InputArea from '../InputArea';
 import ChatContentList from '../ChatContentList';
 import PersonalInfo from '../PersonalInfo';
 import notification from '../Notification';
+import Chat from '../../modules/Chat';
 
 export default class PrivateChat extends Component {
   constructor() {
@@ -15,6 +16,7 @@ export default class PrivateChat extends Component {
     this.state = {
       showPersonalInfo: false
     };
+    this._chat = new Chat();
   }
 
   sendMessage = (inputMsg = '', attachments = []) => {
@@ -38,7 +40,7 @@ export default class PrivateChat extends Component {
     };
     this._sendByMe = true;
     window.socket.emit('sendPrivateMsg', data);
-    this.scrollToBottom();
+    this._chat.scrollToBottom();
     updateAllChatContent({ allChatContent, newChatContent: data, action: 'send' });
     const dataForHomePage = { ...data, name: location.search.split('=')[1] };
     updateHomePageList({ data: dataForHomePage, homePageList, myUserId: userId });
@@ -66,27 +68,20 @@ export default class PrivateChat extends Component {
     });
   }
 
-  scrollToBottom(time = 0) {
-    const ulDom = document.getElementsByClassName('chat-content-list')[0];
-    if (ulDom) {
-      setTimeout(() => {
-        ulDom.scrollTop = ulDom.scrollHeight + 10000;
-      }, time);
-    }
-  }
-
   _showPersonalInfo(value) {
     this.setState({ showPersonalInfo: value });
   }
 
-  clearUnreadHandle() {
+  componentDidMount() {
     const { homePageList, clearUnread, chatId } = this.props;
-    clearUnread({ homePageList, chatFromId: chatId });
+    this._chat.clearUnreadHandle({ homePageList, clearUnread, chatFromId: chatId });
+    this._chat.scrollToBottom();
   }
 
-  componentDidMount() {
-    this.clearUnreadHandle();
-    this.scrollToBottom();
+  componentWillUpdate() {
+    if (this._chat.isScrollInBottom) {
+      this._chat.scrollToBottom();
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {

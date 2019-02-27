@@ -12,6 +12,7 @@ import Modal from '../Modal';
 import './style.scss';
 import PersonalInfo from '../PersonalInfo';
 import notification from '../Notification';
+import Chat from '../../modules/Chat';
 
 class GroupChat extends Component {
   constructor() {
@@ -25,6 +26,7 @@ class GroupChat extends Component {
       personalInfo: {},
       visible: false,
     };
+    this._chat = new Chat();
   }
 
   sendMessage = (inputMsg = '', attachments = []) => {
@@ -49,18 +51,9 @@ class GroupChat extends Component {
     };
     this._sendByMe = true;
     window.socket.emit('sendGroupMsg', data);
-    this.scrollToBottom();
+    this._chat.scrollToBottom();
     updateAllChatContent({ allChatContent, newChatContent: data, action: 'send' });
     updateHomePageList({ data, homePageList, myUserId: userId });
-  }
-
-  scrollToBottom(time = 0) {
-    const ulDom = document.getElementsByClassName('chat-content-list')[0];
-    if (ulDom) {
-      setTimeout(() => {
-        ulDom.scrollTop = ulDom.scrollHeight + 10000;
-      }, time);
-    }
   }
 
   joinGroup = () => {
@@ -106,11 +99,6 @@ class GroupChat extends Component {
     this.setState({ showGroupChatInfo: value });
   }
 
-  clearUnreadHandle() {
-    const { homePageList, clearUnread, chatId } = this.props;
-    clearUnread({ homePageList, chatFromId: chatId });
-  }
-
   shouldComponentUpdate(nextProps, nextState) {
     const { relatedCurrentChat, chatId } = nextProps;
     if (relatedCurrentChat || chatId !== this.props.chatId || this._sendByMe) {
@@ -125,19 +113,6 @@ class GroupChat extends Component {
     ) return true;
 
     return false;
-  }
-
-  componentDidMount() {
-    const { allChatContent, chatId } = this.props;
-    const chatItem = allChatContent.groupChat && allChatContent.groupChat.get(chatId);
-    this.clearUnreadHandle();
-    // (产品设计) 当查找没加过的群，点击去没群内容，请求出群内容，避免不了解而加错群
-    if (!chatItem) {
-      window.socket.emit('getOneGroupMsg', { groupId: chatId }, (groupMsgAndInfo) => {
-        this.setState({ groupMsgAndInfo });
-      });
-    }
-    this.scrollToBottom();
   }
 
   _showPersonalInfo(value) {
@@ -155,6 +130,27 @@ class GroupChat extends Component {
     this.setState({ personalInfo }, () => {
       this._showPersonalInfo(true);
     });
+  }
+
+  componentDidMount() {
+    const {
+      allChatContent, homePageList, clearUnread, chatId
+    } = this.props;
+    const chatItem = allChatContent.groupChat && allChatContent.groupChat.get(chatId);
+    this._chat.clearUnreadHandle({ homePageList, clearUnread, chatFromId: chatId });
+    // (产品设计) 当查找没加过的群，点击去没群内容，请求出群内容，避免不了解而加错群
+    if (!chatItem) {
+      window.socket.emit('getOneGroupMsg', { groupId: chatId }, (groupMsgAndInfo) => {
+        this.setState({ groupMsgAndInfo });
+      });
+    }
+    this._chat.scrollToBottom();
+  }
+
+  componentWillUpdate() {
+    if (this._chat.isScrollInBottom) {
+      this._chat.scrollToBottom();
+    }
   }
 
   render() {
