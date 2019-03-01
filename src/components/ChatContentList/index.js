@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ChatItem from '../ChatItem';
 import { toNormalTime } from '../../utils/transformTime';
+import './styles.scss';
 
 export default class ChatContentList extends Component {
   constructor() {
@@ -27,6 +28,9 @@ export default class ChatContentList extends Component {
       const time = toNormalTime(item.time);
       // console.log('item.attachments', item.attachments);
       const attachments = item.attachments;
+      if (item.tip) {
+        return <li className="tip" key={index}>{item.message}</li>;
+      }
       return (
         <li key={index}>
           <ChatItem

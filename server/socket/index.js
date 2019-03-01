@@ -91,7 +91,12 @@ module.exports = (server) => {
       socket.join(toGroupId);
       const groupMessages = await getGroupMsg({ groupId: toGroupId });
       fn(groupMessages);
-      socket.broadcast.to(toGroupId).emit('getGroupMsg', { ...userInfo, message: `${userInfo.name}加入了群聊`, to_group_id: toGroupId });
+      socket.broadcast.to(toGroupId).emit('getGroupMsg', {
+        ...userInfo,
+        message: `${userInfo.name}加入了群聊`,
+        to_group_id: toGroupId,
+        tip: true
+      });
     });
 
     // 退群
