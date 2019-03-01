@@ -4,7 +4,6 @@ import {
 } from 'react-router-dom';
 import {
   updateHomePageListAction,
-  clearUnreadAction
 } from '../HomePageList/homePageListAction';
 import {
   updateAllChatContentAction,
@@ -28,9 +27,6 @@ const mapDispatchToProps = dispatch => ({
   },
   updateUserInfo(arg = {}) {
     dispatch(updateUserInfoAction({ ...arg }));
-  },
-  clearUnread(arg = {}) {
-    dispatch(clearUnreadAction({ ...arg }));
   }
 });
 

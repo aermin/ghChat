@@ -24,7 +24,7 @@ export default function listItems({
       GroupMembers = chatItem && chatItem.groupInfo && chatItem.groupInfo.members;
     }
     return (
-      <li key={index} onClick={clickItem} value={chatFromId}>
+      <li key={index} onClick={() => clickItem(chatFromId)} value={chatFromId}>
         <Link to={isGroupChat
           ? `/group_chat/${data.to_group_id}?name=${data.name}`
           : `/private_chat/${data.user_id}?name=${data.name}`}>

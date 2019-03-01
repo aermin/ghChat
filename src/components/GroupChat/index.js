@@ -35,8 +35,8 @@ class GroupChat extends Component {
       userId, avatar, name, github_id
     } = this._userInfo;
     const {
-      allChatContent, chatId, homePageList,
-      updateHomePageList, updateAllChatContent,
+      allGroupChats, chatId, homePageList,
+      updateHomePageList, addGroupMessages,
     } = this.props;
     const data = {
       from_user: userId, // 自己的id
@@ -52,16 +52,15 @@ class GroupChat extends Component {
     this._sendByMe = true;
     window.socket.emit('sendGroupMsg', data);
     this._chat.scrollToBottom();
-    updateAllChatContent({ allChatContent, newChatContent: data, action: 'send' });
+    addGroupMessages({ allGroupChats, message: data, groupId: chatId });
     updateHomePageList({ data, homePageList, myUserId: userId });
   }
 
   joinGroup = () => {
-    const { userId } = this._userInfo;
     const {
-      allChatContent, chatId, homePageList, updateHomePageList, updateAllChatContent
+      allGroupChats, chatId, homePageList, updateHomePageList, addGroupMessageAndInfo
     } = this.props;
-    window.socket.emit('joinGroup', { userId, toGroupId: chatId }, (data) => {
+    window.socket.emit('joinGroup', { userInfo: this._userInfo, toGroupId: chatId }, (data) => {
       const { messages, groupInfo } = data;
       const name = groupInfo && groupInfo.name;
       let lastContent;
@@ -74,7 +73,9 @@ class GroupChat extends Component {
           time: Date.parse(new Date()) / 1000
         };
       }
-      updateAllChatContent({ allChatContent, newChatContents: data });
+      addGroupMessageAndInfo({
+        allGroupChats, messages, groupId: chatId, groupInfo
+      });
       updateHomePageList({ data: lastContent, homePageList });
     }
     );
@@ -87,11 +88,11 @@ class GroupChat extends Component {
   leaveGroup = () => {
     const { userId } = this._userInfo;
     const {
-      chatId, homePageList, deleteHomePageList, allChatContent, deleteChatContent
+      chatId, homePageList, deleteHomePageList, allGroupChats, deleteGroupChat
     } = this.props;
     window.socket.emit('leaveGroup', { userId, toGroupId: chatId });
     deleteHomePageList({ homePageList, chatId });
-    deleteChatContent({ allChatContent, chatId, chatType: 'groupChat' });
+    deleteGroupChat({ allGroupChats, groupId: chatId });
     this.props.history.push('/');
   }
 
@@ -120,8 +121,8 @@ class GroupChat extends Component {
   }
 
   _clickPersonAvatar = (userId) => {
-    const { allChatContent, chatId } = this.props;
-    const { members } = allChatContent.groupChat.get(chatId).groupInfo;
+    const { allGroupChats, chatId } = this.props;
+    const { members } = allGroupChats.get(chatId).groupInfo;
     const personalInfo = members.filter(member => member.user_id === userId)[0];
     if (!personalInfo) {
       notification('此人已不在群中啦', 'warn', 1.5);
@@ -134,10 +135,9 @@ class GroupChat extends Component {
 
   componentDidMount() {
     const {
-      allChatContent, homePageList, clearUnread, chatId
+      allGroupChats, chatId
     } = this.props;
-    const chatItem = allChatContent.groupChat && allChatContent.groupChat.get(chatId);
-    this._chat.clearUnreadHandle({ homePageList, clearUnread, chatFromId: chatId });
+    const chatItem = allGroupChats && allGroupChats.get(chatId);
     // (产品设计) 当查找没加过的群，点击去没群内容，请求出群内容，避免不了解而加错群
     if (!chatItem) {
       window.socket.emit('getOneGroupMsg', { groupId: chatId }, (groupMsgAndInfo) => {
@@ -154,14 +154,14 @@ class GroupChat extends Component {
   }
 
   render() {
-    const { chatId, allChatContent } = this.props;
+    const { chatId, allGroupChats } = this.props;
     const {
       groupMsgAndInfo, showGroupChatInfo,
       visible, personalInfo,
       showPersonalInfo
     } = this.state;
-    if (!allChatContent.groupChat) return null;
-    const chatItem = allChatContent.groupChat.get(chatId);
+    if (!allGroupChats) return null;
+    const chatItem = allGroupChats.get(chatId);
     const messages = chatItem ? chatItem.messages : groupMsgAndInfo.messages;
     const groupInfo = chatItem ? chatItem.groupInfo : groupMsgAndInfo.groupInfo;
     const { userId } = this._userInfo;
@@ -216,19 +216,19 @@ export default withRouter(GroupChat);
 
 
 GroupChat.propTypes = {
-  allChatContent: PropTypes.object,
+  allGroupChats: PropTypes.object,
   homePageList: PropTypes.array,
   updateHomePageList: PropTypes.func.isRequired,
-  updateAllChatContent: PropTypes.func.isRequired,
+  addGroupMessages: PropTypes.func.isRequired,
+  addGroupMessageAndInfo: PropTypes.func.isRequired,
   deleteHomePageList: PropTypes.func.isRequired,
-  deleteChatContent: PropTypes.func.isRequired,
+  deleteGroupChat: PropTypes.func.isRequired,
   chatId: PropTypes.string,
-  clearUnread: PropTypes.func.isRequired,
 };
 
 
 GroupChat.defaultProps = {
-  allChatContent: {},
+  allGroupChats: new Map(),
   homePageList: [],
   chatId: undefined,
 };

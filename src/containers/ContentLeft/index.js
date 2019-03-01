@@ -11,9 +11,8 @@ import SettingPage from '../SettingPage';
 import {
   setHomePageListAction,
 } from '../HomePageList/homePageListAction';
-import {
-  setAllChatContentAction,
-} from '../../redux/actions/chatContentAction';
+import { setAllGroupChatsAction } from '../GroupChatPage/groupChatAction';
+import { setAllPrivateChatsAction } from '../PrivateChatPage/privateChatAction';
 import { initAppAction } from '../../redux/actions/initAppAction';
 import notification from '../../components/Notification';
 
@@ -41,7 +40,8 @@ class ContentLeft extends Component {
         const privateChat = new Map(allMessage.privateChat);
         const groupChat = new Map(allMessage.groupChat);
         this.props.setHomePageList(allMessage.homePageList);
-        this.props.setAllChatContent({ privateChat, groupChat });
+        this.props.setAllPrivateChats({ data: privateChat });
+        this.props.setAllGroupChats({ data: groupChat });
         this.props.initApp(true);
       });
     }
@@ -71,8 +71,11 @@ const mapDispatchToProps = dispatch => ({
   setHomePageList(arg) {
     dispatch(setHomePageListAction(arg));
   },
-  setAllChatContent(arg = {}) {
-    dispatch(setAllChatContentAction({ ...arg }));
+  setAllGroupChats(arg = {}) {
+    dispatch(setAllGroupChatsAction({ ...arg }));
+  },
+  setAllPrivateChats(arg = {}) {
+    dispatch(setAllPrivateChatsAction({ ...arg }));
   },
   initApp(arg) {
     dispatch(initAppAction(arg));
@@ -84,7 +87,8 @@ export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ContentLe
 
 ContentLeft.propTypes = {
   setHomePageList: PropTypes.func.isRequired,
-  setAllChatContent: PropTypes.func.isRequired,
+  setAllGroupChats: PropTypes.func.isRequired,
+  setAllPrivateChats: PropTypes.func.isRequired,
   initApp: PropTypes.func.isRequired,
   initAppState: PropTypes.bool,
 };

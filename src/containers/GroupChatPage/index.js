@@ -5,24 +5,33 @@ import {
 import {
   updateHomePageListAction,
   deleteHomePageListAction,
-  clearUnreadAction
 } from '../HomePageList/homePageListAction';
 import {
-  updateAllChatContentAction,
-  deleteChatContentAction
-} from '../../redux/actions/chatContentAction';
-
+  addGroupMessagesAction,
+  deleteGroupChatAction,
+  addGroupInfoAction,
+  addGroupMessageAndInfoAction,
+} from './groupChatAction';
 import GroupChat from '../../components/GroupChat';
 
 const mapStateToProps = state => ({
-  allChatContent: state.allChatContentState,
+  allGroupChats: state.allGroupChatsState,
   homePageList: state.homePageListState,
   relatedCurrentChat: state.relatedCurrentChat
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateAllChatContent(arg = {}) {
-    dispatch(updateAllChatContentAction({ ...arg }));
+  addGroupMessageAndInfo(arg = {}) {
+    dispatch(addGroupMessageAndInfoAction({ ...arg }));
+  },
+  addGroupMessages(arg = {}) {
+    dispatch(addGroupMessagesAction({ ...arg }));
+  },
+  deleteGroupChat(arg = {}) {
+    dispatch(deleteGroupChatAction({ ...arg }));
+  },
+  addGroupInfo(arg = {}) {
+    dispatch(addGroupInfoAction({ ...arg }));
   },
   updateHomePageList(arg = {}) {
     dispatch(updateHomePageListAction({ ...arg }));
@@ -30,12 +39,6 @@ const mapDispatchToProps = dispatch => ({
   deleteHomePageList(arg = {}) {
     dispatch(deleteHomePageListAction({ ...arg }));
   },
-  deleteChatContent(arg = {}) {
-    dispatch(deleteChatContentAction({ ...arg }));
-  },
-  clearUnread(arg = {}) {
-    dispatch(clearUnreadAction({ ...arg }));
-  }
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(GroupChat));

@@ -85,11 +85,12 @@ module.exports = (server) => {
 
     // 加群
     socket.on('joinGroup', async (data, fn) => {
-      const { userId, toGroupId } = data;
-      await groupInfoModel.joinGroup(userId, toGroupId);
+      const { userInfo, toGroupId } = data;
+      await groupInfoModel.joinGroup(userInfo.userId, toGroupId);
       socket.join(toGroupId);
       const groupMessages = await getGroupMsg({ groupId: toGroupId });
       fn(groupMessages);
+      socket.broadcast.to(toGroupId).emit('getGroupMsg', userInfo);
     });
 
     // 退群

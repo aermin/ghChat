@@ -73,8 +73,6 @@ export default class PrivateChat extends Component {
   }
 
   componentDidMount() {
-    const { homePageList, clearUnread, chatId } = this.props;
-    this._chat.clearUnreadHandle({ homePageList, clearUnread, chatFromId: chatId });
     this._chat.scrollToBottom();
   }
 
@@ -142,7 +140,6 @@ PrivateChat.propTypes = {
   updateAllChatContent: PropTypes.func,
   updateUserInfo: PropTypes.func,
   chatId: PropTypes.number,
-  clearUnread: PropTypes.func.isRequired,
 };
 
 

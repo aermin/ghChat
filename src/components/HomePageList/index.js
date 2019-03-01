@@ -9,7 +9,9 @@ import Header from '../../containers/Header';
 import './index.scss';
 import ListItems from '../ListItems';
 import Notification from '../../utils/notification';
+import Chat from '../../modules/Chat';
 // import Spinner from '../spinner';
+
 
 class HomePageList extends PureComponent {
   constructor(props) {
@@ -23,6 +25,7 @@ class HomePageList extends PureComponent {
     this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this._filedStr = null;
     this._notification = new Notification();
+    this._chat = new Chat();
   }
 
   _notificationHandle(data) {
@@ -44,33 +47,33 @@ class HomePageList extends PureComponent {
   subscribeSocket() {
     window.socket.removeAllListeners('getPrivateMsg');
     window.socket.removeAllListeners('getGroupMsg');
-    window.socket.on('getPrivateMsg', (data) => {
-      const { userId } = this._userInfo;
-      const {
-        allChatContent, homePageList, updateHomePageList,
-        updateAllChatContent, relatedCurrentChat
-      } = this.props;
-      // eslint-disable-next-line radix
-      const chatId = parseInt(window.location.pathname.split('/').slice(-1)[0]);
-      const isRelatedCurrentChat = (data.from_user === chatId || data.to_user === chatId);
-      relatedCurrentChat(isRelatedCurrentChat);
-      updateAllChatContent({ allChatContent, newChatContent: data, action: 'get' });
-      updateHomePageList({
-        data, homePageList, myUserId: userId, increaseUnread: !isRelatedCurrentChat
-      });
-      this._notificationHandle(data);
-      // TODO: mute notifications switch
-    });
+    // window.socket.on('getPrivateMsg', (data) => {
+    //   const { userId } = this._userInfo;
+    //   const {
+    //     allChatContent, homePageList, updateHomePageList,
+    //     updateAllChatContent, relatedCurrentChat
+    //   } = this.props;
+    //   // eslint-disable-next-line radix
+    //   const chatId = parseInt(window.location.pathname.split('/').slice(-1)[0]);
+    //   const isRelatedCurrentChat = (data.from_user === chatId || data.to_user === chatId);
+    //   relatedCurrentChat(isRelatedCurrentChat);
+    //   updateAllChatContent({ allChatContent, newChatContent: data, action: 'get' });
+    //   updateHomePageList({
+    //     data, homePageList, myUserId: userId, increaseUnread: !isRelatedCurrentChat
+    //   });
+    //   this._notificationHandle(data);
+    //   // TODO: mute notifications switch
+    // });
     window.socket.on('getGroupMsg', (data) => {
       const {
-        allChatContent, homePageList, updateHomePageList,
-        updateAllChatContent, relatedCurrentChat
+        allGroupChats, homePageList, updateHomePageList,
+        addGroupMessages, relatedCurrentChat
       } = this.props;
       // eslint-disable-next-line radix
       const chatId = window.location.pathname.split('/').slice(-1)[0];
       const isRelatedCurrentChat = (data.to_group_id === chatId);
       relatedCurrentChat(isRelatedCurrentChat);
-      updateAllChatContent({ allChatContent, newChatContent: data });
+      addGroupMessages({ allGroupChats, message: data, groupId: data.to_group_id });
       updateHomePageList({ data, homePageList, increaseUnread: !isRelatedCurrentChat });
       this._notificationHandle(data);
       // TODO: mute notifications switch
@@ -120,10 +123,11 @@ class HomePageList extends PureComponent {
     });
   }
 
-  clickItemHandle = () => {
+  clickItemHandle = ({ homePageList, chatFromId }) => {
     if (this.state.isSearching) {
       this.setState({ isSearching: false });
     }
+    this._chat.clearUnreadHandle({ homePageList, chatFromId });
   }
 
   componentWillMount() {
@@ -155,7 +159,7 @@ class HomePageList extends PureComponent {
                   <ListItems
                     dataList={contactedUsers}
                     allChatContent={allChatContent}
-                    clickItem={this.clickItemHandle} />
+                    clickItem={chatFromId => this.clickItemHandle({ homePageList, chatFromId })} />
                 )
                 : <p className="search-none">暂无</p>}
               { showSearchUser && <p className="click-to-search" onClick={() => this.searchInDB({ searchUser: true })}>网络查找相关的用户</p>}
@@ -165,7 +169,7 @@ class HomePageList extends PureComponent {
                   <ListItems
                     dataList={contactedGroups}
                     allChatContent={allChatContent}
-                    clickItem={this.clickItemHandle} />
+                    clickItem={chatFromId => this.clickItemHandle({ homePageList, chatFromId })} />
                 )
                 : <p className="search-none">暂无</p>}
               { showSearchGroup && <p className="click-to-search" onClick={() => this.searchInDB({ searchUser: false })}>网络查找相关的群组</p>}
@@ -176,6 +180,7 @@ class HomePageList extends PureComponent {
                 dataList={homePageList}
                 allChatContent={allChatContent}
                 showRobot
+                clickItem={chatFromId => this.clickItemHandle({ homePageList, chatFromId })}
                  />
             )}
         </div>
@@ -190,7 +195,7 @@ HomePageList.propTypes = {
   allChatContent: PropTypes.object,
   homePageList: PropTypes.array,
   updateHomePageList: PropTypes.func.isRequired,
-  updateAllChatContent: PropTypes.func.isRequired,
+  addGroupMessages: PropTypes.func.isRequired,
   relatedCurrentChat: PropTypes.func.isRequired,
 };
 
