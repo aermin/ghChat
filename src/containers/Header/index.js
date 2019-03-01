@@ -4,8 +4,7 @@ import {
 } from 'react-router-dom';
 import { updateHomePageListAction } from '../HomePageList/homePageListAction';
 import {
-  addGroupMessagesAction,
-  addGroupInfoAction,
+  addGroupMessageAndInfoAction,
 } from '../GroupChatPage/groupChatAction';
 import Header from '../../components/Header';
 
@@ -15,11 +14,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  addGroupMessages(arg = {}) {
-    dispatch(addGroupMessagesAction({ ...arg }));
-  },
-  addGroupInfo(arg = {}) {
-    dispatch(addGroupInfoAction({ ...arg }));
+  addGroupMessageAndInfo(arg = {}) {
+    dispatch(addGroupMessageAndInfoAction({ ...arg }));
   },
   updateHomePageList(arg = {}) {
     dispatch(updateHomePageListAction({ ...arg }));

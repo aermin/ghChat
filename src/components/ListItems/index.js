@@ -6,7 +6,7 @@ import GroupAvatar from '../GroupAvatar';
 import './style.scss';
 
 export default function listItems({
-  allChatContent, clickItem, dataList, showRobot
+  allGroupChats, clickItem, dataList, showRobot
 }) {
   const listItems = dataList && dataList.map((data, index) => {
     let message;
@@ -20,7 +20,7 @@ export default function listItems({
     const isGroupChat = !!data.to_group_id;
     let GroupMembers;
     if (isGroupChat) {
-      const chatItem = allChatContent.groupChat && allChatContent.groupChat.get(data.to_group_id);
+      const chatItem = allGroupChats && allGroupChats.get(data.to_group_id);
       GroupMembers = chatItem && chatItem.groupInfo && chatItem.groupInfo.members;
     }
     return (

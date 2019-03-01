@@ -35,7 +35,7 @@ export default class Header extends Component {
     };
     window.socket.emit('createGroup', data, (res) => {
       const {
-        addGroupMessages, addGroupInfo, updateHomePageList, homePageList, allGroupChats,
+        addGroupMessageAndInfo, updateHomePageList, homePageList, allGroupChats,
       } = this.props;
       const members = [{
         user_id: userId,
@@ -45,9 +45,11 @@ export default class Header extends Component {
       const groupInfo = Object.assign({ members }, res);
       res.message = `${res.creator}: 创建群成功！`;
       res.time = res.create_time;
+      res.from_user = res.creator_id;
       updateHomePageList({ data: res, homePageList });
-      addGroupMessages({ allGroupChats, message: { ...res, name }, groupId: res.to_group_id });
-      addGroupInfo({ allGroupChats, groupInfo, groupId: res.to_group_id });
+      addGroupMessageAndInfo({
+        allGroupChats, message: { ...res, name }, groupId: res.to_group_id, groupInfo
+      });
       this.props.history.push(`/group_chat/${res.to_group_id}?name=${res.name}`);
     });
   }
@@ -141,19 +143,19 @@ export default class Header extends Component {
 
 Header.propTypes = {
   updateHomePageList: PropTypes.func,
-  addGroupMessages: PropTypes.func,
   homePageList: PropTypes.array,
   allGroupChats: PropTypes.object,
   searchFieldChange: PropTypes.func,
   isSearching: PropTypes.bool,
+  addGroupMessageAndInfo: PropTypes.func,
 };
 
 
 Header.defaultProps = {
   updateHomePageList: undefined,
-  addGroupMessages: undefined,
   homePageList: [],
   allGroupChats: new Map(),
   searchFieldChange: undefined,
-  isSearching: false
+  isSearching: false,
+  addGroupMessageAndInfo() {}
 };

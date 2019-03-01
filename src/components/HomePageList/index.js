@@ -137,7 +137,7 @@ class HomePageList extends PureComponent {
   }
 
   render() {
-    const { homePageList, allChatContent } = this.props;
+    const { homePageList, allGroupChats } = this.props;
     homePageList.sort((a, b) => b.time - a.time);
     const {
       isSearching, contactedItems,
@@ -158,27 +158,39 @@ class HomePageList extends PureComponent {
                 ? (
                   <ListItems
                     dataList={contactedUsers}
-                    allChatContent={allChatContent}
+                    allGroupChats={allGroupChats}
                     clickItem={chatFromId => this.clickItemHandle({ homePageList, chatFromId })} />
                 )
                 : <p className="search-none">暂无</p>}
-              { showSearchUser && <p className="click-to-search" onClick={() => this.searchInDB({ searchUser: true })}>网络查找相关的用户</p>}
+              { showSearchUser && (
+              <p
+                className="click-to-search"
+                onClick={() => this.searchInDB({ searchUser: true })}>
+                网络查找相关的用户
+              </p>
+              )}
               <p>您联系过的群组</p>
               { contactedGroups.length
                 ? (
                   <ListItems
                     dataList={contactedGroups}
-                    allChatContent={allChatContent}
+                    allGroupChats={allGroupChats}
                     clickItem={chatFromId => this.clickItemHandle({ homePageList, chatFromId })} />
                 )
                 : <p className="search-none">暂无</p>}
-              { showSearchGroup && <p className="click-to-search" onClick={() => this.searchInDB({ searchUser: false })}>网络查找相关的群组</p>}
+              { showSearchGroup && (
+              <p
+                className="click-to-search"
+                onClick={() => this.searchInDB({ searchUser: false })}>
+                网络查找相关的群组
+              </p>
+              )}
             </div>
           )
             : (
               <ListItems
                 dataList={homePageList}
-                allChatContent={allChatContent}
+                allGroupChats={allGroupChats}
                 showRobot
                 clickItem={chatFromId => this.clickItemHandle({ homePageList, chatFromId })}
                  />

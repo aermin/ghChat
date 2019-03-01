@@ -19,7 +19,11 @@ export default class ChatContentList extends Component {
       } else if (item.to_group_id) { // is group chat
         isMe = chatId && (chatId === item.from_user);
       }
-      const message = item.message && item.message.substring(item.name.length + 2);
+      let message;
+      if (item.message) {
+        const beginWithName = /\S.*:\s/.test(item.message);
+        message = beginWithName ? item.message.substring(item.name.length + 2) : item.message;
+      }
       const time = toNormalTime(item.time);
       // console.log('item.attachments', item.attachments);
       const attachments = item.attachments;

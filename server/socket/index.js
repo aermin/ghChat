@@ -80,6 +80,7 @@ module.exports = (server) => {
       const arr = [to_group_id, name, group_notice, creator, create_time, avatar];
       await groupInfoModel.createGroup(arr);
       await groupInfoModel.joinGroup(data.creator_id, to_group_id);
+      socket.join(to_group_id);
       fn({ to_group_id, ...data });
     });
 
@@ -90,7 +91,7 @@ module.exports = (server) => {
       socket.join(toGroupId);
       const groupMessages = await getGroupMsg({ groupId: toGroupId });
       fn(groupMessages);
-      socket.broadcast.to(toGroupId).emit('getGroupMsg', userInfo);
+      socket.broadcast.to(toGroupId).emit('getGroupMsg', { ...userInfo, message: `${userInfo.name}加入了群聊`, to_group_id: toGroupId });
     });
 
     // 退群
