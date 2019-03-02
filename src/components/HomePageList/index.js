@@ -47,23 +47,28 @@ class HomePageList extends PureComponent {
   subscribeSocket() {
     window.socket.removeAllListeners('getPrivateMsg');
     window.socket.removeAllListeners('getGroupMsg');
-    // window.socket.on('getPrivateMsg', (data) => {
-    //   const { userId } = this._userInfo;
-    //   const {
-    //     allChatContent, homePageList, updateHomePageList,
-    //     updateAllChatContent, relatedCurrentChat
-    //   } = this.props;
-    //   // eslint-disable-next-line radix
-    //   const chatId = parseInt(window.location.pathname.split('/').slice(-1)[0]);
-    //   const isRelatedCurrentChat = (data.from_user === chatId || data.to_user === chatId);
-    //   relatedCurrentChat(isRelatedCurrentChat);
-    //   updateAllChatContent({ allChatContent, newChatContent: data, action: 'get' });
-    //   updateHomePageList({
-    //     data, homePageList, myUserId: userId, increaseUnread: !isRelatedCurrentChat
-    //   });
-    //   this._notificationHandle(data);
-    //   // TODO: mute notifications switch
-    // });
+    window.socket.on('getPrivateMsg', (data) => {
+      const { userId } = this._userInfo;
+      const {
+        allPrivateChats, homePageList, updateHomePageList,
+        addPrivateChatMessages, relatedCurrentChat
+      } = this.props;
+      console.log('allPrivateChats111', allPrivateChats);
+      // eslint-disable-next-line radix
+      const chatId = parseInt(window.location.pathname.split('/').slice(-1)[0]);
+      const isRelatedCurrentChat = (data.from_user === chatId || data.to_user === chatId);
+      relatedCurrentChat(isRelatedCurrentChat);
+      addPrivateChatMessages({
+        allPrivateChats,
+        message: data,
+        chatId: data.from_user,
+      });
+      updateHomePageList({
+        data, homePageList, myUserId: userId, increaseUnread: !isRelatedCurrentChat
+      });
+      this._notificationHandle(data);
+      // TODO: mute notifications switch
+    });
     window.socket.on('getGroupMsg', (data) => {
       const {
         allGroupChats, homePageList, updateHomePageList,
@@ -73,7 +78,6 @@ class HomePageList extends PureComponent {
       const chatId = window.location.pathname.split('/').slice(-1)[0];
       const isRelatedCurrentChat = (data.to_group_id === chatId);
       relatedCurrentChat(isRelatedCurrentChat);
-      debugger;
       if (data.tip === 'joinGroup') {
         addGroupMessageAndInfo({
           allGroupChats,
@@ -214,16 +218,24 @@ class HomePageList extends PureComponent {
 export default withRouter(HomePageList);
 
 HomePageList.propTypes = {
-  allGroupChats: PropTypes.object,
+  allGroupChats: PropTypes.instanceOf(Map),
+  allPrivateChats: PropTypes.instanceOf(Map),
   homePageList: PropTypes.array,
-  updateHomePageList: PropTypes.func.isRequired,
-  addGroupMessages: PropTypes.func.isRequired,
-  addGroupMessageAndInfo: PropTypes.func.isRequired,
-  relatedCurrentChat: PropTypes.func.isRequired,
+  updateHomePageList: PropTypes.func,
+  addGroupMessages: PropTypes.func,
+  addGroupMessageAndInfo: PropTypes.func,
+  addPrivateChatMessages: PropTypes.func,
+  relatedCurrentChat: PropTypes.func,
 };
 
 
 HomePageList.defaultProps = {
   allGroupChats: new Map(),
+  allPrivateChats: new Map(),
+  updateHomePageList() {},
+  addGroupMessages() {},
+  addGroupMessageAndInfo() {},
+  addPrivateChatMessages() {},
+  relatedCurrentChat() {},
   homePageList: [],
 };

@@ -12,13 +12,20 @@ import {
   addGroupInfoAction,
   addGroupMessageAndInfoAction,
 } from '../GroupChatPage/groupChatAction';
+import {
+  addPrivateChatMessagesAction,
+} from '../PrivateChatPage/privateChatAction';
 
 const mapStateToProps = state => ({
   homePageList: state.homePageListState,
-  allGroupChats: state.allGroupChatsState
+  allGroupChats: state.allGroupChatsState,
+  allPrivateChats: state.allPrivateChatsState,
 });
 
 const mapDispatchToProps = dispatch => ({
+  addPrivateChatMessages(arg = {}) {
+    dispatch(addPrivateChatMessagesAction({ ...arg }));
+  },
   addGroupMessageAndInfo(arg = {}) {
     dispatch(addGroupMessageAndInfoAction({ ...arg }));
   },

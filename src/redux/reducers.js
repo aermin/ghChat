@@ -10,7 +10,6 @@ import { fetchAllPrivateChatsReducer } from '../containers/PrivateChatPage/priva
 export default combineReducers({
   robotState: robotReducer,
   homePageListState: getHomePageListReducer,
-  // allChatContentState: getAllChatContentReducer,
   allGroupChatsState: fetchAllGroupChatsReducer,
   allPrivateChatsState: fetchAllPrivateChatsReducer,
   relatedCurrentChat: relatedCurrentChatReducer,

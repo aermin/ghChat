@@ -161,7 +161,7 @@ class GroupChat extends Component {
       visible, personalInfo,
       showPersonalInfo
     } = this.state;
-    if (!allGroupChats) return null;
+    if (!allGroupChats && !allGroupChats.size) return null;
     const chatItem = allGroupChats.get(chatId);
     const messages = chatItem ? chatItem.messages : groupMsgAndInfo.messages;
     const groupInfo = chatItem ? chatItem.groupInfo : groupMsgAndInfo.groupInfo;
@@ -217,13 +217,13 @@ export default withRouter(GroupChat);
 
 
 GroupChat.propTypes = {
-  allGroupChats: PropTypes.object,
+  allGroupChats: PropTypes.instanceOf(Map),
   homePageList: PropTypes.array,
-  updateHomePageList: PropTypes.func.isRequired,
-  addGroupMessages: PropTypes.func.isRequired,
-  addGroupMessageAndInfo: PropTypes.func.isRequired,
-  deleteHomePageList: PropTypes.func.isRequired,
-  deleteGroupChat: PropTypes.func.isRequired,
+  updateHomePageList: PropTypes.func,
+  addGroupMessages: PropTypes.func,
+  addGroupMessageAndInfo: PropTypes.func,
+  deleteHomePageList: PropTypes.func,
+  deleteGroupChat: PropTypes.func,
   chatId: PropTypes.string,
 };
 
@@ -231,5 +231,10 @@ GroupChat.propTypes = {
 GroupChat.defaultProps = {
   allGroupChats: new Map(),
   homePageList: [],
+  updateHomePageList() {},
+  addGroupMessages() {},
+  addGroupMessageAndInfo() {},
+  deleteHomePageList() {},
+  deleteGroupChat() {},
   chatId: undefined,
 };

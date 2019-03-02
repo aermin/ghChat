@@ -25,8 +25,8 @@ export default class PrivateChat extends Component {
       userId, avatar, name, github_id
     } = this._userInfo;
     const {
-      allChatContent, homePageList,
-      updateHomePageList, updateAllChatContent,
+      allPrivateChats, homePageList,
+      updateHomePageList, addPrivateChatMessages,
     } = this.props;
     const data = {
       from_user: userId, // 自己的id
@@ -41,15 +41,17 @@ export default class PrivateChat extends Component {
     this._sendByMe = true;
     window.socket.emit('sendPrivateMsg', data);
     this._chat.scrollToBottom();
-    updateAllChatContent({ allChatContent, newChatContent: data, action: 'send' });
+    addPrivateChatMessages({
+      allPrivateChats, message: data, chatId: this.friendId
+    });
     const dataForHomePage = { ...data, name: location.search.split('=')[1] };
     updateHomePageList({ data: dataForHomePage, homePageList, myUserId: userId });
   }
 
   addAsTheContact =() => {
     const {
-      allChatContent, homePageList,
-      updateHomePageList, updateUserInfo,
+      allPrivateChats, homePageList,
+      updateHomePageList, addPrivateChatInfo,
       chatId,
     } = this.props;
     if (chatId === this._userInfo.userId) {
@@ -57,7 +59,7 @@ export default class PrivateChat extends Component {
       return;
     }
     window.socket.emit('addAsTheContact', { user_id: this._userInfo.userId, from_user: this.friendId }, (data) => {
-      updateUserInfo({ allChatContent, userInfo: data });
+      addPrivateChatInfo({ allPrivateChats, chatId: this.friendId, userInfo: data });
       const dataInHomePageList = {
         ...data,
         to_user: data.user_id,
@@ -97,10 +99,10 @@ export default class PrivateChat extends Component {
   }
 
   render() {
-    const { chatId, allChatContent, location } = this.props;
+    const { chatId, allPrivateChats, location } = this.props;
     const { showPersonalInfo } = this.state;
-    if (!allChatContent.privateChat) return null;
-    const chatItem = allChatContent.privateChat.get(chatId);
+    if (!allPrivateChats && !allPrivateChats.size) return null;
+    const chatItem = allPrivateChats.get(chatId);
     const messages = chatItem ? chatItem.messages : [];
     const userInfo = chatItem ? chatItem.userInfo : {};
     return (
@@ -134,20 +136,20 @@ export default class PrivateChat extends Component {
 }
 
 PrivateChat.propTypes = {
-  allChatContent: PropTypes.object,
+  allPrivateChats: PropTypes.instanceOf(Map),
   homePageList: PropTypes.array,
   updateHomePageList: PropTypes.func,
-  updateAllChatContent: PropTypes.func,
-  updateUserInfo: PropTypes.func,
+  addPrivateChatMessages: PropTypes.func,
+  addPrivateChatInfo: PropTypes.func,
   chatId: PropTypes.number,
 };
 
 
 PrivateChat.defaultProps = {
-  allChatContent: {},
+  allPrivateChats: new Map(),
   homePageList: [],
   updateHomePageList: undefined,
-  updateAllChatContent: undefined,
-  updateUserInfo: undefined,
+  addPrivateChatMessages: undefined,
+  addPrivateChatInfo: undefined,
   chatId: undefined,
 };
