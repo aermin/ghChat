@@ -95,7 +95,7 @@ module.exports = (server) => {
         ...userInfo,
         message: `${userInfo.name}加入了群聊`,
         to_group_id: toGroupId,
-        tip: true
+        tip: 'joinGroup'
       });
     });
 

@@ -10,6 +10,7 @@ import {
 import {
   addGroupMessagesAction,
   addGroupInfoAction,
+  addGroupMessageAndInfoAction,
 } from '../GroupChatPage/groupChatAction';
 
 const mapStateToProps = state => ({
@@ -18,9 +19,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  // updateAllChatContent(arg = {}) {
-  //   dispatch(updateAllChatContentAction({ ...arg }));
-  // },
+  addGroupMessageAndInfo(arg = {}) {
+    dispatch(addGroupMessageAndInfoAction({ ...arg }));
+  },
   addGroupMessages(arg = {}) {
     dispatch(addGroupMessagesAction({ ...arg }));
   },

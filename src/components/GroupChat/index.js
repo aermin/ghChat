@@ -123,7 +123,8 @@ class GroupChat extends Component {
   _clickPersonAvatar = (userId) => {
     const { allGroupChats, chatId } = this.props;
     const { members } = allGroupChats.get(chatId).groupInfo;
-    const personalInfo = members.filter(member => member.user_id === userId)[0];
+    // TODO: unify Naming format
+    const personalInfo = members.filter(member => (member.user_id || member.userId) === userId)[0];
     if (!personalInfo) {
       notification('此人已不在群中啦', 'warn', 1.5);
       return;

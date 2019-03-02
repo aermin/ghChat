@@ -67,13 +67,23 @@ class HomePageList extends PureComponent {
     window.socket.on('getGroupMsg', (data) => {
       const {
         allGroupChats, homePageList, updateHomePageList,
-        addGroupMessages, relatedCurrentChat
+        addGroupMessages, relatedCurrentChat, addGroupMessageAndInfo
       } = this.props;
       // eslint-disable-next-line radix
       const chatId = window.location.pathname.split('/').slice(-1)[0];
       const isRelatedCurrentChat = (data.to_group_id === chatId);
       relatedCurrentChat(isRelatedCurrentChat);
-      addGroupMessages({ allGroupChats, message: data, groupId: data.to_group_id });
+      debugger;
+      if (data.tip === 'joinGroup') {
+        addGroupMessageAndInfo({
+          allGroupChats,
+          groupId: data.to_group_id,
+          message: data,
+          member: data,
+        });
+      } else {
+        addGroupMessages({ allGroupChats, message: data, groupId: data.to_group_id });
+      }
       updateHomePageList({ data, homePageList, increaseUnread: !isRelatedCurrentChat });
       this._notificationHandle(data);
       // TODO: mute notifications switch
@@ -204,15 +214,16 @@ class HomePageList extends PureComponent {
 export default withRouter(HomePageList);
 
 HomePageList.propTypes = {
-  allChatContent: PropTypes.object,
+  allGroupChats: PropTypes.object,
   homePageList: PropTypes.array,
   updateHomePageList: PropTypes.func.isRequired,
   addGroupMessages: PropTypes.func.isRequired,
+  addGroupMessageAndInfo: PropTypes.func.isRequired,
   relatedCurrentChat: PropTypes.func.isRequired,
 };
 
 
 HomePageList.defaultProps = {
-  allChatContent: {},
+  allGroupChats: new Map(),
   homePageList: [],
 };
