@@ -10,10 +10,10 @@ export default class Chat {
   }
 
   scrollToBottom(time = 0) {
-    const ulDom = document.getElementsByClassName('chat-content-list')[0];
+    const ulDom = document.querySelector('.chat-content-list');
     if (ulDom) {
       setTimeout(() => {
-        ulDom.scrollTop = ulDom.scrollHeight + 10000;
+        ulDom.scrollTop = ulDom.scrollHeight;
       }, time);
     }
   }
@@ -61,8 +61,8 @@ export default class Chat {
   get isScrollInBottom() {
     const ulDom = document.getElementsByClassName('chat-content-list')[0];
     if (ulDom) {
-      const { scrollTop, clientHeight, scrollHeight } = ulDom;
-      return (scrollTop + clientHeight) === scrollHeight;
+      const { scrollTop, offsetHeight, scrollHeight } = ulDom;
+      return scrollTop === (scrollHeight - offsetHeight);
     }
     return false;
   }

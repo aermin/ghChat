@@ -9,10 +9,8 @@ import './styles.scss';
 export default class ChatContentList extends Component {
   constructor() {
     super();
-    this._didMount = false;
     this._chat = new Chat();
     this._scrollHeight = 0;
-    this._scrollTop = null;
     this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this._loadingNewMessages = false;
   }
@@ -22,6 +20,7 @@ export default class ChatContentList extends Component {
   }
 
   componentWillUpdate() {
+    // If It is the bottom of scroll just now, keep it in the bottom.
     if (this._chat.isScrollInBottom) {
       this._chat.scrollToBottom();
     }
@@ -36,20 +35,13 @@ export default class ChatContentList extends Component {
     if (this._scrollHeight && this._loadingNewMessages) {
       this._ulRef.scrollTop = this._ulRef.scrollHeight - this._scrollHeight;
       this._loadingNewMessages = false;
-      return;
-    }
-    if (nextProps.chatId === this.props.chatId && !this._loadingNewMessages && !this._chat.isScrollInBottom) {
-      // when it is not lazy loading and not in scroll top or bottom in a chat,
-      // keep scroll in original position
-      this._ulRef.scrollTop = this._scrollTop;
     }
   }
 
   _onScroll = (e) => {
     if (!this._ulRef) return;
-    const { scrollTop, scrollHeight } = e && e.target;
-    this._scrollTop = scrollTop;
-    if (scrollTop === 0) {
+    const { scrollTop, scrollHeight, clientHeight } = e && e.target;
+    if (scrollTop === 0 && scrollHeight !== clientHeight) {
       this._scrollHeight = scrollHeight;
       const {
         chats, chatId, ChatContent, chatType
