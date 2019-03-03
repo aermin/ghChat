@@ -22,14 +22,14 @@ export default class PrivateChat extends Component {
   sendMessage = (inputMsg = '', attachments = []) => {
     if (inputMsg.trim() === '' && attachments.length === 0) return;
     const {
-      userId, avatar, name, github_id
+      user_id, avatar, name, github_id
     } = this._userInfo;
     const {
       allPrivateChats, homePageList,
       updateHomePageList, addPrivateChatMessages,
     } = this.props;
     const data = {
-      from_user: userId, // 自己的id
+      from_user: user_id, // 自己的id
       to_user: this.friendId, // 对方id
       avatar, // 自己的头像
       name,
@@ -45,7 +45,7 @@ export default class PrivateChat extends Component {
       allPrivateChats, message: data, chatId: this.friendId
     });
     const dataForHomePage = { ...data, name: location.search.split('=')[1] };
-    updateHomePageList({ data: dataForHomePage, homePageList, myUserId: userId });
+    updateHomePageList({ data: dataForHomePage, homePageList, myUserId: user_id });
   }
 
   addAsTheContact =() => {
@@ -54,11 +54,11 @@ export default class PrivateChat extends Component {
       updateHomePageList, addPrivateChatInfo,
       chatId,
     } = this.props;
-    if (chatId === this._userInfo.userId) {
+    if (chatId === this._userInfo.user_id) {
       notification('不能添加自己为联系人哦', 'error');
       return;
     }
-    window.socket.emit('addAsTheContact', { user_id: this._userInfo.userId, from_user: this.friendId }, (data) => {
+    window.socket.emit('addAsTheContact', { user_id: this._userInfo.user_id, from_user: this.friendId }, (data) => {
       addPrivateChatInfo({ allPrivateChats, chatId: this.friendId, userInfo: data });
       const dataInHomePageList = {
         ...data,
@@ -72,16 +72,6 @@ export default class PrivateChat extends Component {
 
   _showPersonalInfo(value) {
     this.setState({ showPersonalInfo: value });
-  }
-
-  componentDidMount() {
-    this._chat.scrollToBottom();
-  }
-
-  componentWillUpdate() {
-    if (this._chat.isScrollInBottom) {
-      this._chat.scrollToBottom();
-    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {

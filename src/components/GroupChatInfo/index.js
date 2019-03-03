@@ -18,8 +18,8 @@ export default class GroupChatInfo extends Component {
     });
   }
 
-  clickMember = (userId) => {
-    this.props.clickMember(userId);
+  clickMember = (user_id) => {
+    this.props.clickMember(user_id);
   }
 
   GroupMemberRender = groupMember => (

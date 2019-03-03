@@ -30,7 +30,7 @@ module.exports = async (ctx, next) => {
         message: '登录成功',
         userInfo: {
           name,
-          userId: id,
+          user_id: id,
           sex,
           website,
           github,

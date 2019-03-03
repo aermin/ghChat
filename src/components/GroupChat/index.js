@@ -32,14 +32,14 @@ class GroupChat extends Component {
   sendMessage = (inputMsg = '', attachments = []) => {
     if (inputMsg.trim() === '' && attachments.length === 0) return;
     const {
-      userId, avatar, name, github_id
+      user_id, avatar, name, github_id
     } = this._userInfo;
     const {
       allGroupChats, chatId, homePageList,
       updateHomePageList, addGroupMessages,
     } = this.props;
     const data = {
-      from_user: userId, // 自己的id
+      from_user: user_id, // 自己的id
       avatar, // 自己的头像
       name,
       github_id,
@@ -53,7 +53,7 @@ class GroupChat extends Component {
     window.socket.emit('sendGroupMsg', data);
     this._chat.scrollToBottom();
     addGroupMessages({ allGroupChats, message: data, groupId: chatId });
-    updateHomePageList({ data, homePageList, myUserId: userId });
+    updateHomePageList({ data, homePageList, myUserId: user_id });
   }
 
   joinGroup = () => {
@@ -86,11 +86,11 @@ class GroupChat extends Component {
   }
 
   leaveGroup = () => {
-    const { userId } = this._userInfo;
+    const { user_id } = this._userInfo;
     const {
       chatId, homePageList, deleteHomePageList, allGroupChats, deleteGroupChat
     } = this.props;
-    window.socket.emit('leaveGroup', { userId, toGroupId: chatId });
+    window.socket.emit('leaveGroup', { user_id, toGroupId: chatId });
     deleteHomePageList({ homePageList, chatId });
     deleteGroupChat({ allGroupChats, groupId: chatId });
     this.props.history.push('/');
@@ -120,11 +120,10 @@ class GroupChat extends Component {
     this.setState({ showPersonalInfo: value });
   }
 
-  _clickPersonAvatar = (userId) => {
+  _clickPersonAvatar = (user_id) => {
     const { allGroupChats, chatId } = this.props;
     const { members } = allGroupChats.get(chatId).groupInfo;
-    // TODO: unify Naming format
-    const personalInfo = members.filter(member => (member.user_id || member.userId) === userId)[0];
+    const personalInfo = members.filter(member => member.user_id === user_id)[0];
     if (!personalInfo) {
       notification('此人已不在群中啦', 'warn', 1.5);
       return;
@@ -144,13 +143,6 @@ class GroupChat extends Component {
       window.socket.emit('getOneGroupItem', { groupId: chatId, start: 1 }, (groupMsgAndInfo) => {
         this.setState({ groupMsgAndInfo });
       });
-    }
-    this._chat.scrollToBottom();
-  }
-
-  componentWillUpdate() {
-    if (this._chat.isScrollInBottom) {
-      this._chat.scrollToBottom();
     }
   }
 
@@ -190,14 +182,14 @@ class GroupChat extends Component {
           ChatContent={messages}
           chatId={chatId}
           chatType="groupChat"
-          clickAvatar={userId => this._clickPersonAvatar(userId)}
+          clickAvatar={user_id => this._clickPersonAvatar(user_id)}
         />
         { showGroupChatInfo && <div onClick={() => this._showGroupChatInfo(false)} className="groupChatInfoMask" />}
         { showGroupChatInfo && (
         <GroupChatInfo
           groupInfo={groupInfo}
           leaveGroup={this._showLeaveModal}
-          clickMember={userId => this._clickPersonAvatar(userId)}
+          clickMember={user_id => this._clickPersonAvatar(user_id)}
           chatId={chatId} />
         )}
         { chatItem ? <InputArea sendMessage={this.sendMessage} />

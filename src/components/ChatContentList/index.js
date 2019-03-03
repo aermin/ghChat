@@ -14,15 +14,32 @@ export default class ChatContentList extends Component {
     this._scrollHeight = 0;
     this._scrollTop = null;
     this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    this._isLazyLoading = false;
+    this._loadingNewMessages = false;
   }
 
-  componentDidUpdate() {
-    if (this._scrollHeight && this._isLazyLoading) {
+  componentDidMount() {
+    this._chat.scrollToBottom();
+  }
+
+  componentWillUpdate() {
+    if (this._chat.isScrollInBottom) {
+      this._chat.scrollToBottom();
+    }
+  }
+
+  componentDidUpdate(nextProps) {
+    if (nextProps.chatId !== this.props.chatId) { // go to another chat
+      this._loadingNewMessages = false;
+      this._chat = new Chat();
+      this._chat.scrollToBottom();
+    }
+    if (this._scrollHeight && this._loadingNewMessages) {
       this._ulRef.scrollTop = this._ulRef.scrollHeight - this._scrollHeight;
-      this._isLazyLoading = false;
-    } else if (!this._isLazyLoading && !this._chat.isScrollInBottom) {
-      // when it is not lazy loading and not in scroll top or bottom,
+      this._loadingNewMessages = false;
+      return;
+    }
+    if (nextProps.chatId === this.props.chatId && !this._loadingNewMessages && !this._chat.isScrollInBottom) {
+      // when it is not lazy loading and not in scroll top or bottom in a chat,
       // keep scroll in original position
       this._ulRef.scrollTop = this._scrollTop;
     }
@@ -44,13 +61,13 @@ export default class ChatContentList extends Component {
       } else if (chatType === 'privateChat') {
         this._chat.lazyLoadPrivateChatMessages({
           chats,
-          userId: this._userInfo.userId,
+          user_id: this._userInfo.user_id,
           chatId,
           start: ChatContent.length + 1,
           count: 20
         });
       }
-      this._isLazyLoading = true;
+      this._loadingNewMessages = true;
     }
   }
 
@@ -59,9 +76,9 @@ export default class ChatContentList extends Component {
     const listItems = ChatContent.map((item, index) => {
       let isMe;
       if (item.to_user) { // is private chat
-        isMe = this._userInfo && (this._userInfo.userId === item.from_user);
+        isMe = this._userInfo && (this._userInfo.user_id === item.from_user);
       } else if (item.to_group_id) { // is group chat
-        isMe = this._userInfo && (this._userInfo.userId === item.from_user);
+        isMe = this._userInfo && (this._userInfo.user_id === item.from_user);
       }
       let message;
       if (item.message) {

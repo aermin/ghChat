@@ -48,7 +48,7 @@ class HomePageList extends PureComponent {
     window.socket.removeAllListeners('getPrivateMsg');
     window.socket.removeAllListeners('getGroupMsg');
     window.socket.on('getPrivateMsg', (data) => {
-      const { userId } = this._userInfo;
+      const { user_id } = this._userInfo;
       const {
         allPrivateChats, homePageList, updateHomePageList,
         addPrivateChatMessages, relatedCurrentChat
@@ -64,7 +64,7 @@ class HomePageList extends PureComponent {
         chatId: data.from_user,
       });
       updateHomePageList({
-        data, homePageList, myUserId: userId, increaseUnread: !isRelatedCurrentChat
+        data, homePageList, myUserId: user_id, increaseUnread: !isRelatedCurrentChat
       });
       this._notificationHandle(data);
       // TODO: mute notifications switch
@@ -145,8 +145,8 @@ class HomePageList extends PureComponent {
   }
 
   componentWillMount() {
-    const { userId } = this._userInfo;
-    window.socket.emit('initGroupChat', { userId });
+    const { user_id } = this._userInfo;
+    window.socket.emit('initGroupChat', { user_id });
     this.subscribeSocket();
   }
 
@@ -157,7 +157,7 @@ class HomePageList extends PureComponent {
       isSearching, contactedItems,
       showSearchUser, showSearchGroup
     } = this.state;
-    const contactedUsers = contactedItems.filter(e => (e.user_id && e.user_id !== this._userInfo.userId));
+    const contactedUsers = contactedItems.filter(e => (e.user_id && e.user_id !== this._userInfo.user_id));
     const contactedGroups = contactedItems.filter(e => e.to_group_id);
     return (
       <div className="home-page-list-wrapper">

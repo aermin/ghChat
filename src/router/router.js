@@ -36,7 +36,7 @@ const routes = [
     path: '/group_chat/:to_group_id',
   },
   {
-    path: '/private_chat/:userId',
+    path: '/private_chat/:user_id',
   },
 ];
 

@@ -24,15 +24,15 @@ module.exports = (server) => {
   io.on('connection', (socket) => {
     const socketId = socket.id;
     let _userId;
-    socket.on('login', async (userId) => {
-      _userId = userId;
-      await socketModel.saveUserSocketId(userId, socketId);
-      await userInfoModel.updateUserStatus(userId, 1);
+    socket.on('login', async (user_id) => {
+      _userId = user_id;
+      await socketModel.saveUserSocketId(user_id, socketId);
+      await userInfoModel.updateUserStatus(user_id, 1);
     });
 
     // 初始化群聊
     socket.on('initGroupChat', async (data) => {
-      const result = await msgModel.getGroupList(data.userId);
+      const result = await msgModel.getGroupList(data.user_id);
       const groupList = JSON.parse(JSON.stringify(result));
       for (const item of groupList) {
         socket.join(item.to_group_id);
@@ -40,8 +40,8 @@ module.exports = (server) => {
     });
 
     // 初始化， 获取群聊和私聊的数据
-    socket.on('initMessage', async (userId, fn) => {
-      const data = await getAllMessage({ userId });
+    socket.on('initMessage', async (user_id, fn) => {
+      const data = await getAllMessage({ user_id });
       fn(data);
     });
 
@@ -66,9 +66,9 @@ module.exports = (server) => {
 
     socket.on('getOnePrivateChatMessages', async (data, fn) => {
       const {
-        userId, toUser, start, count
+        user_id, toUser, start, count
       } = data;
-      const RowDataPacket = await privateChatModel.getPrivateDetail(userId, toUser, start - 1, count);
+      const RowDataPacket = await privateChatModel.getPrivateDetail(user_id, toUser, start - 1, count);
       const groupMessages = JSON.parse(JSON.stringify(RowDataPacket));
       fn(groupMessages);
     });
@@ -107,7 +107,7 @@ module.exports = (server) => {
     // 加群
     socket.on('joinGroup', async (data, fn) => {
       const { userInfo, toGroupId } = data;
-      await groupInfoModel.joinGroup(userInfo.userId, toGroupId);
+      await groupInfoModel.joinGroup(userInfo.user_id, toGroupId);
       socket.join(toGroupId);
       const groupItem = await getGroupItem({ groupId: toGroupId });
       fn(groupItem);
@@ -121,9 +121,9 @@ module.exports = (server) => {
 
     // 退群
     socket.on('leaveGroup', async (data) => {
-      const { userId, toGroupId } = data;
+      const { user_id, toGroupId } = data;
       socket.leave(toGroupId);
-      await groupInfoModel.leaveGroup(userId, toGroupId);
+      await groupInfoModel.leaveGroup(user_id, toGroupId);
     });
 
     // 获取群成员信息
@@ -170,7 +170,7 @@ module.exports = (server) => {
       const date = {
         key: '92febb91673740c2814911a6c16dbcc5',
         info: data.message,
-        userid: data.userId
+        userid: data.user_id
       };
       const options = {
         method: 'POST',

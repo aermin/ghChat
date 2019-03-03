@@ -30,13 +30,20 @@ class ContentLeft extends Component {
 
   async init() {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    // force logged in user to log in again to update userInfo in localStorage because I change userId to user_id global
+    // TODO: remove this after one week
+    if (userInfo.userId) {
+      localStorage.removeItem('userInfo');
+      this.props.history.push('/login');
+    }
+
     if (userInfo) {
       window.socket = io(`${this.WEBSITE_ADDRESS}?token=${userInfo.token}`);
       window.socket.on('error', (errorMessage) => {
         notification(errorMessage, 'error');
       });
-      window.socket.emit('login', userInfo.userId);
-      window.socket.emit('initMessage', userInfo.userId, (allMessage) => {
+      window.socket.emit('login', userInfo.user_id);
+      window.socket.emit('initMessage', userInfo.user_id, (allMessage) => {
         const privateChat = new Map(allMessage.privateChat);
         const groupChat = new Map(allMessage.groupChat);
         this.props.setHomePageList(allMessage.homePageList);

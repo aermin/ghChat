@@ -34,7 +34,8 @@ const addGroupInfoAction = ({
   const goalGroupChat = allGroupChatsCopy.get(groupId);
   const originGroupInfo = goalGroupChat && goalGroupChat.groupInfo || {};
   const originMembers = originGroupInfo && originGroupInfo.members || [];
-  const newGroupMembers = [...originMembers, ...membersArg];
+  const newGroupMembers = originMembers.filter(m => m.user_id === (member && member.user_id)).length === 0
+    ? [...originMembers, ...membersArg] : originMembers;
   const newGroupInfo = groupInfo || { ...originGroupInfo, members: newGroupMembers };
   if (goalGroupChat) {
     allGroupChatsCopy.get(groupId).groupInfo = newGroupInfo;

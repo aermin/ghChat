@@ -34,7 +34,7 @@ const getGroupInfo = (arr) => {
 
 /**
  * 存聊天记录
- * @param   userId  用户id
+ * @param   user_id  用户id
  * @param   groupId 群id
  * @param   message  消息
  * @param   name 用户名
@@ -51,12 +51,12 @@ const saveGroupMsg = ({
 };
 /**
  * 群添加成员并返回群成员
- * @param   userId  用户id
+ * @param   user_id  用户id
  * @param   groupId 群id
  * @return
  */
-const addGroupUserRelation = (userId, groupId) => {
-  const data = [groupId, userId];
+const addGroupUserRelation = (user_id, groupId) => {
+  const data = [groupId, user_id];
   const _sql = ' INSERT INTO  group_user_relation(to_group_id,user_id) VALUES(?,?); ';
   return query(_sql, data);
 };

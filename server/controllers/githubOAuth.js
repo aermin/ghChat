@@ -67,7 +67,7 @@ module.exports = async (ctx, next) => {
       const RowDataPacket = await userModel.findGithubUser(id);
       githubUser = JSON.parse(JSON.stringify(RowDataPacket));
     }
-    data.userId = githubUser[0].id;
+    data.user_id = githubUser[0].id;
     console.log('oauth 2333 res', data);
     ctx.body = data;
   } catch (error) {

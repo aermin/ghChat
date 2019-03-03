@@ -25,12 +25,12 @@ export default class Header extends Component {
 
   createGroup = () => {
     const { groupName, groupNotice } = this.state;
-    const { name, userId } = this._userInfo;
+    const { name, user_id } = this._userInfo;
     const data = {
       name: groupName,
       group_notice: groupNotice,
       creator: name,
-      creator_id: userId,
+      creator_id: user_id,
       create_time: Date.parse(new Date()) / 1000
     };
     window.socket.emit('createGroup', data, (res) => {
@@ -38,7 +38,7 @@ export default class Header extends Component {
         addGroupMessageAndInfo, updateHomePageList, homePageList, allGroupChats,
       } = this.props;
       const members = [{
-        user_id: userId,
+        user_id,
         name,
         status: 1
       }];

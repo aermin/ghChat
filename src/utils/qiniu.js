@@ -23,8 +23,8 @@ export default async function upload(file, completeEvent) {
 
     const config = { useCdnDomain: true };
     const putExtra = {};
-    const { userId } = JSON.parse(localStorage.getItem('userInfo'));
-    const key = `${userId}_${new Date().getTime()}_${file.name}`;
+    const { user_id } = JSON.parse(localStorage.getItem('userInfo'));
+    const key = `${user_id}_${new Date().getTime()}_${file.name}`;
     const observable = qiniu.upload(file, key, uploadToken, putExtra, config);
     const subscription = observable.subscribe(observer); // 上传开始
   });

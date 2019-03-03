@@ -40,11 +40,11 @@ export default class Chat {
   }
 
   lazyLoadPrivateChatMessages({
-    chats, userId, chatId, start, count
+    chats, user_id, chatId, start, count
   }) {
     if (!this._hasLoadAllMessages) {
       window.socket.emit('getOnePrivateChatMessages', {
-        userId, toUser: chatId, start, count
+        user_id, toUser: chatId, start, count
       }, (privateChatMessages) => {
         if (privateChatMessages && privateChatMessages.length === 0) {
           this._hasLoadAllMessages = true;
@@ -61,7 +61,8 @@ export default class Chat {
   get isScrollInBottom() {
     const ulDom = document.getElementsByClassName('chat-content-list')[0];
     if (ulDom) {
-      return (ulDom.scrollTop + ulDom.clientHeight) === ulDom.scrollHeight;
+      const { scrollTop, clientHeight, scrollHeight } = ulDom;
+      return (scrollTop + clientHeight) === scrollHeight;
     }
     return false;
   }
