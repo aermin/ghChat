@@ -7,7 +7,7 @@ function GroupAvatar({ members }) {
   const willRenderMembers = members.slice(0, 4);
   const avatarRender = willRenderMembers.map((e) => {
     const size = `${46 / 2}`;
-    return <UserAvatar key={e.user_id} src={e.avatar} name={e.name} size={size} borderRadius="0%" />;
+    return <UserAvatar key={e.user_id || e.userId} src={e.avatar} name={e.name} size={size} borderRadius="0%" />;
   });
 
   return (

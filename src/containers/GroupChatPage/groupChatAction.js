@@ -33,7 +33,7 @@ const addGroupInfoAction = ({
   const allGroupChatsCopy = new Map(allGroupChats);
   const goalGroupChat = allGroupChatsCopy.get(groupId);
   const originGroupInfo = goalGroupChat && goalGroupChat.groupInfo || {};
-  const originMembers = groupInfo && groupInfo.members || [];
+  const originMembers = originGroupInfo && originGroupInfo.members || [];
   const newGroupMembers = [...originMembers, ...membersArg];
   const newGroupInfo = groupInfo || { ...originGroupInfo, members: newGroupMembers };
   if (goalGroupChat) {
