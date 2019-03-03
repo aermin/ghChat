@@ -10,14 +10,15 @@ const setAllGroupChatsAction = ({ data = new Map() }) => ({
 });
 
 const addGroupMessagesAction = ({
-  allGroupChats, messages, message, groupId
+  allGroupChats, messages, message, groupId, inLazyLoading = false
 }) => {
   const allGroupChatsCopy = new Map(allGroupChats);
   const goalGroupChat = allGroupChatsCopy.get(groupId);
   const originMessages = goalGroupChat && goalGroupChat.messages || [];
   const newMessages = messages || [message];
   if (goalGroupChat) {
-    allGroupChatsCopy.get(groupId).messages = [...originMessages, ...newMessages];
+    const finalMessages = inLazyLoading ? [...newMessages, ...originMessages] : [...originMessages, ...newMessages];
+    allGroupChatsCopy.get(groupId).messages = finalMessages;
   } else {
     allGroupChatsCopy.set(groupId, { messages: newMessages });
   }

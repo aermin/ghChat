@@ -141,7 +141,7 @@ class GroupChat extends Component {
     const chatItem = allGroupChats && allGroupChats.get(chatId);
     // (产品设计) 当查找没加过的群，点击去没群内容，请求出群内容，避免不了解而加错群
     if (!chatItem) {
-      window.socket.emit('getOneGroupMsg', { groupId: chatId }, (groupMsgAndInfo) => {
+      window.socket.emit('getOneGroupItem', { groupId: chatId, start: 1 }, (groupMsgAndInfo) => {
         this.setState({ groupMsgAndInfo });
       });
     }
@@ -165,7 +165,6 @@ class GroupChat extends Component {
     const chatItem = allGroupChats.get(chatId);
     const messages = chatItem ? chatItem.messages : groupMsgAndInfo.messages;
     const groupInfo = chatItem ? chatItem.groupInfo : groupMsgAndInfo.groupInfo;
-    const { userId } = this._userInfo;
     return (
       <div className="chat-wrapper">
         <ChatHeader
@@ -187,8 +186,10 @@ class GroupChat extends Component {
           hide={() => this._showPersonalInfo(false)}
           modalVisible={chatItem && showPersonalInfo} />
         <ChatContentList
+          chats={allGroupChats}
           ChatContent={messages}
-          chatId={userId}
+          chatId={chatId}
+          chatType="groupChat"
           clickAvatar={userId => this._clickPersonAvatar(userId)}
         />
         { showGroupChatInfo && <div onClick={() => this._showGroupChatInfo(false)} className="groupChatInfoMask" />}

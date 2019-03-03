@@ -3,12 +3,12 @@ const socketIo = require('socket.io');
 const uuid = require('uuid/v1');
 const request = require('request-promise');
 const socketModel = require('../models/socket');
-const { savePrivateMsg } = require('../models/privateChat');
+const privateChatModel = require('../models/privateChat');
 const groupChatModel = require('../models/groupChat');
 const msgModel = require('../models/message');
 const userInfoModel = require('../models/userInfo');
 const groupInfoModel = require('../models/groupInfo');
-const { getAllMessage, getGroupMsg } = require('./message');
+const { getAllMessage, getGroupItem } = require('./message');
 const verify = require('../middlewares/verify');
 const getUploadToken = require('../utils/qiniu');
 
@@ -49,7 +49,7 @@ module.exports = (server) => {
     socket.on('sendPrivateMsg', async (data) => {
       if (!data) return;
       data.attachments = JSON.stringify(data.attachments);
-      await savePrivateMsg({ ...data });
+      await privateChatModel.savePrivateMsg({ ...data });
       const arr = await socketModel.getUserSocketId(data.to_user);
       const RowDataPacket = arr[0];
       const socketId = JSON.parse(JSON.stringify(RowDataPacket)).socketid;
@@ -64,9 +64,29 @@ module.exports = (server) => {
       socket.broadcast.to(data.to_group_id).emit('getGroupMsg', data);
     });
 
-    // 获取群聊信息
-    socket.on('getOneGroupMsg', async (data, fn) => {
-      const groupMsgAndInfo = await getGroupMsg({ groupId: data.groupId });
+    socket.on('getOnePrivateChatMessages', async (data, fn) => {
+      const {
+        userId, toUser, start, count
+      } = data;
+      const RowDataPacket = await privateChatModel.getPrivateDetail(userId, toUser, start - 1, count);
+      const groupMessages = JSON.parse(JSON.stringify(RowDataPacket));
+      fn(groupMessages);
+    });
+
+    // get group messages in a group;
+    socket.on('getOneGroupMessages', async (data, fn) => {
+      const RowDataPacket = await groupChatModel.getGroupMsg(data.groupId, data.start - 1, data.count);
+      const groupMessages = JSON.parse(JSON.stringify(RowDataPacket));
+      fn(groupMessages);
+    });
+
+    // get group item including messages and group info.
+    socket.on('getOneGroupItem', async (data, fn) => {
+      const groupMsgAndInfo = await getGroupItem({
+        groupId: data.groupId,
+        startLine: data.start || 1,
+        count: 20
+      });
       fn(groupMsgAndInfo);
     });
 
@@ -89,8 +109,8 @@ module.exports = (server) => {
       const { userInfo, toGroupId } = data;
       await groupInfoModel.joinGroup(userInfo.userId, toGroupId);
       socket.join(toGroupId);
-      const groupMessages = await getGroupMsg({ groupId: toGroupId });
-      fn(groupMessages);
+      const groupItem = await getGroupItem({ groupId: toGroupId });
+      fn(groupItem);
       socket.broadcast.to(toGroupId).emit('getGroupMsg', {
         ...userInfo,
         message: `${userInfo.name}加入了群聊`,

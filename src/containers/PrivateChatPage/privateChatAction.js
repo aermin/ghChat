@@ -9,14 +9,15 @@ const setAllPrivateChatsAction = ({ data = new Map() }) => ({
 });
 
 const addPrivateChatMessagesAction = ({
-  allPrivateChats, messages, message, chatId
+  allPrivateChats, messages, message, chatId, inLazyLoading
 }) => {
   const allPrivateChatsCopy = new Map(allPrivateChats);
   const goalPrivateChat = allPrivateChatsCopy.get(chatId);
   const originMessages = goalPrivateChat && goalPrivateChat.messages || [];
   const newMessages = messages || [message];
   if (goalPrivateChat) {
-    allPrivateChatsCopy.get(chatId).messages = [...originMessages, ...newMessages];
+    const finalMessages = inLazyLoading ? [...newMessages, ...originMessages] : [...originMessages, ...newMessages];
+    allPrivateChatsCopy.get(chatId).messages = finalMessages;
   } else {
     allPrivateChatsCopy.set(chatId, { messages: newMessages });
   }

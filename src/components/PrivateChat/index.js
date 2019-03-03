@@ -111,7 +111,12 @@ export default class PrivateChat extends Component {
           showPersonalInfo={() => this._showPersonalInfo(true)}
           title={location.search.split('=')[1]}
           chatType="private" />
-        <ChatContentList ChatContent={messages} chatId={chatId} clickAvatar={() => this._showPersonalInfo(true)} />
+        <ChatContentList
+          chats={allPrivateChats}
+          ChatContent={messages}
+          chatId={chatId}
+          chatType="privateChat"
+          clickAvatar={() => this._showPersonalInfo(true)} />
         <PersonalInfo
           userInfo={userInfo}
           hide={() => this._showPersonalInfo(false)}

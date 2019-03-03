@@ -9,9 +9,9 @@ const {
  * @return  from_user  发送人id
  *  @return  avatar  发送人头像
  */
-const getGroupMsg = (groupId) => {
-  const _sql = 'SELECT g.message,g.attachments,g.time,g.from_user,g.to_group_id, i.avatar ,i.name, i.github_id FROM group_msg  As g inner join user_info AS i ON g.from_user = i.id  WHERE to_group_id = ? order by time ';
-  return query(_sql, groupId);
+const getGroupMsg = (groupId, start, count) => {
+  const _sql = 'SELECT * FROM (SELECT g.message,g.attachments,g.time,g.from_user,g.to_group_id, i.avatar ,i.name, i.github_id FROM group_msg  As g inner join user_info AS i ON g.from_user = i.id  WHERE to_group_id = ? order by time desc limit ?,?) as n order by n.time; ';
+  return query(_sql, [groupId, start, count]);
 };
 /**
  * 获取群成员

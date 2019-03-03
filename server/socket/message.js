@@ -4,8 +4,10 @@ const userModel = require('../models/userInfo');
 const groupChatModel = require('../models/groupChat');
 
 
-const getPrivateMsg = async ({ toUser, userId }) => {
-  const RowDataPacket1 = await privateChatModel.getPrivateDetail(userId, toUser);
+const getPrivateMsg = async ({
+  toUser, userId, start = 1, count = 20
+}) => {
+  const RowDataPacket1 = await privateChatModel.getPrivateDetail(userId, toUser, start - 1, count);
   const RowDataPacket2 = await userModel.getUserInfo(toUser);
   const messages = JSON.parse(JSON.stringify(RowDataPacket1));
   const userInfo = JSON.parse(JSON.stringify(RowDataPacket2));
@@ -15,8 +17,8 @@ const getPrivateMsg = async ({ toUser, userId }) => {
   };
 };
 
-const getGroupMsg = async ({ groupId }) => {
-  const RowDataPacket1 = await groupChatModel.getGroupMsg(groupId);
+const getGroupItem = async ({ groupId, start = 1, count = 20 }) => {
+  const RowDataPacket1 = await groupChatModel.getGroupMsg(groupId, start - 1, count);
   const RowDataPacket2 = await groupChatModel.getGroupInfo([groupId, null]);
   const RowDataPacket3 = await groupChatModel.getGroupMember(groupId);
   const members = JSON.parse(JSON.stringify(RowDataPacket3));
@@ -51,7 +53,7 @@ const getAllMessage = async ({ userId }) => {
         const data = await getPrivateMsg({ toUser: item.user_id, userId });
         privateChat.set(item.user_id, data);
       } else if (item.to_group_id) {
-        const data = await getGroupMsg({ groupId: item.to_group_id });
+        const data = await getGroupItem({ groupId: item.to_group_id });
         groupChat.set(item.to_group_id, data);
       }
     }
@@ -70,5 +72,5 @@ const getAllMessage = async ({ userId }) => {
 module.exports = {
   getAllMessage,
   getPrivateMsg,
-  getGroupMsg,
+  getGroupItem,
 };
