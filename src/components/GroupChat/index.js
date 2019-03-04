@@ -15,8 +15,8 @@ import notification from '../Notification';
 import Chat from '../../modules/Chat';
 
 class GroupChat extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this._sendByMe = false;
     this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this.state = {

@@ -8,9 +8,15 @@ import { MultiLineParser } from 'text-emoji-parser';
 import UserAvatar from '../UserAvatar';
 import './style.scss';
 import Button from '../Button';
-
+import Chat from '../../modules/Chat';
 
 class ChatItem extends Component {
+  constructor(props) {
+    super(props);
+    this._scrollIntoView = null;
+    this._chat = new Chat();
+  }
+
   clickToInvite({ groupUrl, inviter }) {
     this.props.history.push(groupUrl);
   }
@@ -35,6 +41,18 @@ class ChatItem extends Component {
         <Button clickFn={() => { this.clickToInvite({ groupUrl, inviter }); }} value="点击加入" />
       </div>
     );
+  }
+
+  _onloadImg = () => {
+    // TODO: just the latest image should scrollIntoView.
+    clearTimeout(this._scrollIntoView);
+    this._scrollIntoView = setTimeout(() => {
+      const imgDom = document.querySelectorAll('.image-render');
+      if (imgDom[imgDom.length - 1] && this.props.shouldScrollIntoView) {
+        imgDom[imgDom.length - 1].scrollIntoView();
+        this._chat.scrollToBottom();
+      }
+    }, 0);
   }
 
   textRender = (msg) => {
@@ -64,7 +82,7 @@ class ChatItem extends Component {
     if (attachment.type === 'image') {
       return (
         <div className="image-render" key={attachment.fileUrl}>
-          <img src={attachment.fileUrl} />
+          <img src={attachment.fileUrl} onLoad={this._onloadImg} />
         </div>
       );
     }
@@ -136,6 +154,7 @@ ChatItem.propTypes = {
   ]),
   clickAvatar: PropTypes.func,
   github_id: PropTypes.number,
+  shouldScrollIntoView: PropTypes.bool,
 };
 
 ChatItem.defaultProps = {
@@ -147,4 +166,5 @@ ChatItem.defaultProps = {
   msg: '',
   attachments: '[]',
   github_id: null,
+  shouldScrollIntoView: true
 };

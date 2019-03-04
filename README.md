@@ -106,7 +106,7 @@ cd ..      // 返回到react-chat/目录
 npm run start
 ```
 
-ps: 本地发表情和发文件和github登录无法使用，需要自己去github和七牛云申请一些东西
+ps: 本地发图片和发文件和github登录无法使用，需要自己去github和七牛云申请一些东西
 
 ### 文档
 

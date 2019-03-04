@@ -19,7 +19,7 @@ export const toNormalTime = (timestamp) => {
   const minuteOfArg = addZero(date.getMinutes());
   const today = new Date().getDate();
   // 显示当天几点
-  if (dayOfArg === today) {
+  if (date.getDate() === today) {
     return `${hourOfArg}: ${minuteOfArg}`;
   }
   const yearOfArg = date.getFullYear();

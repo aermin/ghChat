@@ -5,17 +5,14 @@ export default async function upload(file, completeEvent) {
     const uploadToken = data;
     const observer = {
       next(res) {
-        console.log('qiniu observer next', res);
-        // ...
+        // console.log('qiniu observer next', res);
       },
       error(err) {
-        console.log('qiniu observer err', err);
+        // console.log('qiniu observer err', err);
         return err;
-        // ...
       },
       complete(res) {
-        // ...
-        console.log('qiniu observer complete', res);
+        // console.log('qiniu observer complete', res);
         const fileUrl = `https://cdn.aermin.top/${res.key}`;
         completeEvent(fileUrl);
       }
