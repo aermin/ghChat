@@ -28,7 +28,7 @@ class HomePageList extends PureComponent {
     this._chat = new Chat();
   }
 
-  _notificationHandle(data) {
+  _notificationHandle = (data) => {
     const { name, message, avatar } = data;
     const chatType = data.to_group_id ? 'group_chat' : 'private_chat';
     const chatFromId = data.to_group_id ? data.to_group_id : data.user_id;
@@ -40,6 +40,7 @@ class HomePageList extends PureComponent {
       onClick: () => {
         this.props.history.push(`/${chatType}/${chatFromId}?name=${title}`);
         window.focus();
+        this._chat.clearUnreadHandle({ homePageList: this.props.homePageList, chatFromId });
       }
     });
   }
@@ -53,7 +54,6 @@ class HomePageList extends PureComponent {
         allPrivateChats, homePageList, updateHomePageList,
         addPrivateChatMessages, relatedCurrentChat
       } = this.props;
-      console.log('allPrivateChats111', allPrivateChats);
       // eslint-disable-next-line radix
       const chatId = parseInt(window.location.pathname.split('/').slice(-1)[0]);
       const isRelatedCurrentChat = (data.from_user === chatId || data.to_user === chatId);
