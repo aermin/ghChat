@@ -7,9 +7,8 @@ import notification from '../../components/Notification';
 import SignInSignUp from '../../components/SignInSignUp';
 
 export default class Register extends Component {
-  constructor() {
-    super();
-
+  constructor(props) {
+    super(props);
     this.state = {
       name: '',
       password: '',
@@ -21,25 +20,28 @@ export default class Register extends Component {
 
   register = async () => {
     const { name, password } = this.state;
-    if (name !== '' && password !== '') {
-      try {
-        const res = await Request.axios('post', '/api/v1/register', { name, password });
-        if (res && res.success) {
-          // 弹窗
-          this.setState({
-            modal: {
-              visible: true,
-            }
-          });
-        } else {
-          notification(res.message, 'error');
-        }
-      } catch (error) {
-        notification(error, 'error');
+    if (!/^[a-zA-Z0-9_\u4e00-\u9fa5]+$/.test(name)) {
+      notification('用户名只能由汉字，数字，字母，下划线组成', 'warn');
+      return;
+    }
+    if (!/^[A-Za-z0-9]+$/.test(password)) {
+      notification('密码只能由字母数字组成', 'warn');
+      return;
+    }
+    try {
+      const res = await Request.axios('post', '/api/v1/register', { name, password });
+      if (res && res.success) {
+        // 弹窗
+        this.setState({
+          modal: {
+            visible: true,
+          }
+        });
+      } else {
+        notification(res.message, 'error');
       }
-    } else {
-      const msg = name === '' ? '请输入用户名' : '请输入密码';
-      notification(msg, 'warn');
+    } catch (error) {
+      notification(error, 'error');
     }
   };
 

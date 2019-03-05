@@ -185,7 +185,7 @@ module.exports = (server) => {
 
     socket.on('disconnect', async () => {
       await userInfoModel.updateUserStatus(_userId, 0);
-      console.log('disconnect', _userId);
+      console.log('disconnect', _userId, 'time: ', new Date());
     });
   });
 };

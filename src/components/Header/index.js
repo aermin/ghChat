@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Modal from '../Modal';
+import notification from '../Notification';
 import './style.scss';
 
 
@@ -17,6 +18,11 @@ export default class Header extends Component {
   }
 
   confirm = () => {
+    const { groupName, groupNotice } = this.state;
+    if (!groupName || !groupNotice) {
+      notification('你有空行没填哦', 'error');
+      return;
+    }
     this.setState({
       modalVisible: false
     });
