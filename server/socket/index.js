@@ -183,9 +183,9 @@ module.exports = (server) => {
     });
 
 
-    socket.on('disconnect', async () => {
+    socket.on('disconnect', async (reason) => {
       await userInfoModel.updateUserStatus(_userId, 0);
-      console.log('disconnect', _userId, 'time: ', new Date());
+      console.log('disconnect.==>reason', reason, 'user_id=>', _userId, 'time=>', new Date().toLocaleString());
     });
   });
 };

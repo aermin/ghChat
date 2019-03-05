@@ -42,6 +42,16 @@ class ContentLeft extends Component {
       window.socket.on('error', (errorMessage) => {
         notification(errorMessage, 'error');
       });
+      window.socket.on('reconnect', (attemptNumber) => {
+        console.log('reconnect successfully. attemptNumber ==>', attemptNumber);
+      });
+      window.socket.on('disconnect', (reason) => {
+        // window.socket.open();
+        console.log('disconnect but socket open it again. disconnect reason ==>', reason);
+      });
+      window.socket.on('reconnect_error', (error) => {
+        console.log('reconnect_error. error ==>', error);
+      });
       window.socket.emit('login', userInfo.user_id);
       window.socket.emit('initMessage', userInfo.user_id, (allMessage) => {
         const privateChat = new Map(allMessage.privateChat);

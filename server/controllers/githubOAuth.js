@@ -45,7 +45,7 @@ module.exports = async (ctx, next) => {
     } = response;
     const payload = { id };
     const token = jwt.sign(payload, config.secret, {
-      expiresIn: Math.floor(Date.now() / 1000) + 24 * 60 * 60 // 一天
+      expiresIn: Math.floor(Date.now() / 1000) + 24 * 60 * 60 * 7 // 一周
     });
     const data = {
       avatar: avatar_url,
