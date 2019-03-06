@@ -24,7 +24,9 @@ const updateHomePageListAction = ({
       const { user_id, to_group_id, unread = 0 } = homePageListCopy[i];
       if (user_id === chatFromId || to_group_id === chatFromId) {
         const updatedUnread = increaseUnread ? unread + 1 : unread;
-        homePageListCopy[i] = Object.assign(homePageListCopy[i], { message: data.message, time: data.time, unread: updatedUnread });
+        homePageListCopy[i] = Object.assign(homePageListCopy[i], {
+          message: data.message, time: data.time, unread: updatedUnread
+        });
         break;
       }
     }
@@ -63,7 +65,8 @@ const clearUnreadAction = ({ chatFromId, homePageList }) => {
   const length = homePageListCopy.length;
   for (let i = 0; i < length; i++) {
     const { user_id, to_group_id } = homePageListCopy[i];
-    if (user_id === chatFromId || to_group_id === chatFromId) {
+    if ((user_id && user_id.toString()) === (chatFromId && chatFromId.toString())
+        || to_group_id === chatFromId) {
       homePageListCopy[i].unread = 0;
       break;
     }

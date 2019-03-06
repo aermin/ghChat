@@ -27,7 +27,6 @@ class SignInSignUp extends Component {
       const code = href.split('?code=')[1];
       const response = await Request.axios('post', '/api/v1/github_oauth', { code, clientId: this.clientId });
       localStorage.setItem('userInfo', JSON.stringify(response));
-      console.log('response11', response);
       this.props.history.push('/');
     }
   }

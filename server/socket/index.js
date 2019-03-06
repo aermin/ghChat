@@ -19,12 +19,12 @@ module.exports = (server) => {
     if (verify(token)) {
       return next();
     }
-    return next(new Error('Authentication error'));
+    return next(new Error(`Authentication error! time =>${new Date().toLocaleString()}`));
   });
   io.on('connection', (socket) => {
     const socketId = socket.id;
     let _userId;
-    socket.on('login', async (user_id) => {
+    socket.on('initSocket', async (user_id) => {
       _userId = user_id;
       await socketModel.saveUserSocketId(user_id, socketId);
       await userInfoModel.updateUserStatus(user_id, 1);
@@ -185,7 +185,7 @@ module.exports = (server) => {
 
     socket.on('disconnect', async (reason) => {
       await userInfoModel.updateUserStatus(_userId, 0);
-      console.log('disconnect.==>reason', reason, 'user_id=>', _userId, 'time=>', new Date().toLocaleString());
+      console.log('disconnect.=>reason', reason, 'user_id=>', _userId, 'socket.id=>', socket.id, 'time=>', new Date().toLocaleString());
     });
   });
 };

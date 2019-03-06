@@ -39,20 +39,9 @@ class ContentLeft extends Component {
 
     if (userInfo) {
       window.socket = io(`${this.WEBSITE_ADDRESS}?token=${userInfo.token}`);
-      window.socket.on('error', (errorMessage) => {
-        notification(errorMessage, 'error');
+      window.socket.emit('initSocket', userInfo.user_id, (data) => {
+        console.log('connect socket success.', data, 'time=>', new Date().toLocaleString());
       });
-      window.socket.on('reconnect', (attemptNumber) => {
-        console.log('reconnect successfully. attemptNumber ==>', attemptNumber);
-      });
-      window.socket.on('disconnect', (reason) => {
-        // window.socket.open();
-        console.log('disconnect but socket open it again. disconnect reason ==>', reason);
-      });
-      window.socket.on('reconnect_error', (error) => {
-        console.log('reconnect_error. error ==>', error);
-      });
-      window.socket.emit('login', userInfo.user_id);
       window.socket.emit('initMessage', userInfo.user_id, (allMessage) => {
         const privateChat = new Map(allMessage.privateChat);
         const groupChat = new Map(allMessage.groupChat);
@@ -60,6 +49,22 @@ class ContentLeft extends Component {
         this.props.setAllPrivateChats({ data: privateChat });
         this.props.setAllGroupChats({ data: groupChat });
         this.props.initApp(true);
+      });
+      window.socket.on('error', (errorMessage) => {
+        notification(errorMessage, 'error');
+      });
+      window.socket.on('reconnect', (attemptNumber) => {
+        console.log('reconnect successfully. attemptNumber =>', attemptNumber, 'time=>', new Date().toLocaleString());
+      });
+      window.socket.on('disconnect', (reason) => {
+        console.log('disconnect in client, disconnect reason =>', reason, 'time=>', new Date().toLocaleString());
+        window.socket = io(`${this.WEBSITE_ADDRESS}?token=${userInfo.token}`);
+        window.socket.emit('initSocket', userInfo.user_id, (data) => {
+          console.log('connect socket success.', data, 'time=>', new Date().toLocaleString());
+        });
+      });
+      window.socket.on('reconnect_error', (error) => {
+        console.log('reconnect_error. error =>', error, 'time=>', new Date().toLocaleString());
       });
     }
   }
