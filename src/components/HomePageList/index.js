@@ -88,7 +88,17 @@ class HomePageList extends PureComponent {
       } else {
         addGroupMessages({ allGroupChats, message: data, groupId: data.to_group_id });
       }
-      updateHomePageList({ data, homePageList, increaseUnread: !isRelatedCurrentChat });
+      let showCallMeTip;
+      if (data.message) {
+        const regexp = new RegExp(`@${this._userInfo.name}\\s\\S*|@${this._userInfo.name}$`);
+        showCallMeTip = regexp.test(data.message);
+      }
+      updateHomePageList({
+        data,
+        homePageList,
+        increaseUnread: !isRelatedCurrentChat,
+        showCallMeTip
+      });
       this._notificationHandle(data);
       // TODO: mute notifications switch
     });
@@ -142,11 +152,11 @@ class HomePageList extends PureComponent {
       this.setState({ isSearching: false });
     }
     this._chat.clearUnreadHandle({ homePageList, chatFromId });
+    // clear [有人@我] [@Me]
+    this.props.showCallMeTip({ homePageList, chatFromId, showCallMeTip: false });
   }
 
   componentWillMount() {
-    const { user_id } = this._userInfo;
-    window.socket.emit('initGroupChat', { user_id });
     this.subscribeSocket();
   }
 
@@ -226,6 +236,7 @@ HomePageList.propTypes = {
   addGroupMessageAndInfo: PropTypes.func,
   addPrivateChatMessages: PropTypes.func,
   relatedCurrentChat: PropTypes.func,
+  showCallMeTip: PropTypes.func,
 };
 
 
@@ -238,4 +249,5 @@ HomePageList.defaultProps = {
   addPrivateChatMessages() {},
   relatedCurrentChat() {},
   homePageList: [],
+  showCallMeTip() {},
 };

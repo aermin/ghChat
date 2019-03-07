@@ -24,19 +24,21 @@ module.exports = (server) => {
   io.on('connection', (socket) => {
     const socketId = socket.id;
     let _userId;
-    socket.on('initSocket', async (user_id) => {
+    socket.on('initSocket', async (user_id, fn) => {
       _userId = user_id;
       await socketModel.saveUserSocketId(user_id, socketId);
       await userInfoModel.updateUserStatus(user_id, 1);
+      fn('initSocket success');
     });
 
     // 初始化群聊
-    socket.on('initGroupChat', async (data) => {
-      const result = await msgModel.getGroupList(data.user_id);
+    socket.on('initGroupChat', async (user_id, fn) => {
+      const result = await msgModel.getGroupList(user_id);
       const groupList = JSON.parse(JSON.stringify(result));
       for (const item of groupList) {
         socket.join(item.to_group_id);
       }
+      fn('init group chat success');
     });
 
     // 初始化， 获取群聊和私聊的数据

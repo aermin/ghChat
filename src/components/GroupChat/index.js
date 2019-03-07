@@ -192,7 +192,7 @@ class GroupChat extends Component {
           clickMember={user_id => this._clickPersonAvatar(user_id)}
           chatId={chatId} />
         )}
-        { chatItem ? <InputArea sendMessage={this.sendMessage} />
+        { chatItem ? <InputArea sendMessage={this.sendMessage} groupMembers={groupInfo.members} />
           : (
             <input
               type="button"

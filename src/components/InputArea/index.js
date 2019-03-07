@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Picker } from 'emoji-mart';
+import Fuse from 'fuse.js';
 import upload from '../../utils/qiniu';
 import './style.scss';
 import notification from '../Notification';
@@ -10,7 +11,8 @@ export default class InputArea extends Component {
     super(props);
     this.state = {
       inputMsg: '',
-      showEmojiPicker: false
+      showEmojiPicker: false,
+      relatedMembers: [],
     };
   }
 
@@ -22,9 +24,27 @@ export default class InputArea extends Component {
     this.nameInput.focus();
   }
 
+  _selectSomeOneOrNot = () => {
+    const { inputMsg } = this.state;
+    const shouldPrompt = /\S*@$|\S*@\S+$/.test(inputMsg);
+    if (!shouldPrompt) {
+      this.setState({ relatedMembers: [] });
+      return;
+    }
+    const groupMembers = this.props.groupMembers;
+    if (groupMembers && groupMembers.length > 1) {
+      const fuse = new Fuse(groupMembers, this.filterOptions);
+      const filterText = /@\S*$/.exec(inputMsg)[0].slice(1);
+      const relatedMembers = filterText ? fuse.search(filterText) : groupMembers;
+      this.setState({ relatedMembers });
+    }
+  }
+
   _inputMsgChange = (event) => {
     this.setState({
       inputMsg: event.target.value
+    }, () => {
+      this._selectSomeOneOrNot();
     });
   }
 
@@ -43,7 +63,6 @@ export default class InputArea extends Component {
     this.nameInput.focus();
   }
 
-  // TODO: limit file size
   _onSelectFile = (e) => {
     const file = e.target.files[0];
     if (!file) {
@@ -88,8 +107,45 @@ export default class InputArea extends Component {
     }
   }
 
+  get filterOptions() {
+    const options = {
+      shouldSort: true,
+      threshold: 0.3,
+      location: 0,
+      distance: 100,
+      maxPatternLength: 32,
+      minMatchCharLength: 1,
+      keys: [
+        'name',
+      ]
+    };
+    return options;
+  }
+
+  _clickSomeOneSelected = (name) => {
+    this.setState((state) => {
+      const newInputMsg = state.inputMsg.replace(/@\S*$/, `@${name} `);
+      return ({ inputMsg: newInputMsg, relatedMembers: [] });
+    }, () => {
+      this.nameInput.focus();
+    });
+  }
+
+  filterMembersRender = () => {
+    const { relatedMembers } = this.state;
+    return (
+      <ul className="filterMembers">
+        {relatedMembers && relatedMembers.length > 0 && relatedMembers.map((e, index) => (
+          <li key={index} onClick={() => this._clickSomeOneSelected(e.name)}>
+            {e.name}
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
   render() {
-    const { inputMsg, showEmojiPicker } = this.state;
+    const { inputMsg, showEmojiPicker, relatedMembers } = this.state;
     const robotStyle = {
       visibility: 'hidden'
     };
@@ -105,13 +161,14 @@ export default class InputArea extends Component {
             <input type="file" className="file-input" onChange={this._onSelectFile} />
           </label>
         </div>
+        { relatedMembers && relatedMembers.length > 0 && this.filterMembersRender()}
         <textarea
           ref={(input) => { this.nameInput = input; }}
           value={inputMsg}
           onChange={this._inputMsgChange}
           placeholder="支持Enter快捷键发送信息哦"
           onKeyPressCapture={this._keyPress} />
-        <pre id="textarea" />
+        {/* <pre id="textarea" /> */}
         <p className={buttonClass} onClick={this._sendMessage}>发送</p>
       </div>
     );

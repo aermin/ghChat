@@ -1,0 +1,83 @@
+@import "../../assets/base.scss";
+.private-unread, .group-unread {
+    font-size: 12px;
+    border-radius: 50%;
+    padding: 0 4px;
+    color: #fff;
+    z-index: 8;
+    position: absolute;
+    bottom: 14px;
+    right: 20px;
+
+}
+
+.robotTitle {
+    font-size: 16px !important;
+}
+ 
+ul {
+    background-color: #fff;
+    list-style: none;
+    li {
+        list-style-type: none;
+        padding: 10px 0 10px 10px;
+        position: relative;
+        .title{
+            color: #000;
+        }
+        a {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            align-items: center;
+            text-decoration : none;
+            .UserAvatar {
+                position: relative;
+            }
+        }
+
+        .private-unread {
+            background-color: red;
+        }
+        .group-unread {
+            background-color: #98d1f2;
+        }
+        .content {
+            display: inline-block;
+            margin-left: 10px;
+            max-width: 80%;
+            .title {
+                font-size: 18px;
+                padding-bottom: 4px;
+                .time {
+                    font-size: 14px;
+                    color: $m-title;
+                    padding: 0 9px;
+                    position: absolute;
+                    top: 14px;
+                    right: 0;
+                }
+                .name {
+                    font-size: 14px;
+                    overflow: hidden;
+                    text-overflow:ellipsis;
+                    white-space: nowrap;
+                    width: 90px;
+                }
+            }
+            .message {
+                color: $m-title;
+                font-size: 12px;
+                max-height: 42px;
+                position: relative;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                width: 120px;
+                white-space: nowrap;
+                .callMe {
+                    color: red;
+                }
+            }
+        }
+    }
+}   

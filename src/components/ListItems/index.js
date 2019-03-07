@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { toNormalTime } from '../../utils/transformTime';
 import UserAvatar from '../UserAvatar';
 import GroupAvatar from '../GroupAvatar';
-import './style.scss';
+import './styles.scss';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class ListItems extends Component {
@@ -67,14 +67,17 @@ class ListItems extends Component {
                 <p className="name">{data.name}</p>
                 <span className="time">{!!data.time && toNormalTime(data.time)}</span>
               </div>
-              <div className="message">{message}</div>
+              <div className="message">
+                { data.showCallMeTip && <span className="callMe">[有人@我]</span> }
+                {message}
+              </div>
             </div>
           </Link>
         </li>
       );
     });
     return (
-      <ul>
+      <ul className="homePageList">
         {this.props.showRobot && robotChat}
         {listItems}
       </ul>

@@ -20,6 +20,7 @@ class ContentLeft extends Component {
   constructor(props) {
     super(props);
     this.WEBSITE_ADDRESS = process.env.NODE_ENV === 'production' ? 'https://im.aermin.top' : 'http://localhost:3000';
+    this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
   }
 
   componentWillMount() {
@@ -28,21 +29,29 @@ class ContentLeft extends Component {
     }
   }
 
+  initSocket = () => {
+    const { token, user_id } = this._userInfo;
+    window.socket = io(`${this.WEBSITE_ADDRESS}?token=${token}`);
+    window.socket.emit('initSocket', user_id, (data) => {
+      console.log(`${user_id} connect socket success.`, data, 'time=>', new Date().toLocaleString());
+    });
+    window.socket.emit('initGroupChat', user_id, (res) => {
+      console.log(res, 'time=>', new Date().toLocaleString());
+    });
+  };
+
   async init() {
-    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
     // force logged in user to log in again to update userInfo in localStorage because I change userId to user_id global
     // TODO: remove this after one week
-    if (userInfo.userId) {
+    if (this._userInfo.userId) {
       localStorage.removeItem('userInfo');
       this.props.history.push('/login');
     }
 
-    if (userInfo) {
-      window.socket = io(`${this.WEBSITE_ADDRESS}?token=${userInfo.token}`);
-      window.socket.emit('initSocket', userInfo.user_id, (data) => {
-        console.log('connect socket success.', data, 'time=>', new Date().toLocaleString());
-      });
-      window.socket.emit('initMessage', userInfo.user_id, (allMessage) => {
+    if (this._userInfo) {
+      const { user_id } = this._userInfo;
+      this.initSocket();
+      window.socket.emit('initMessage', user_id, (allMessage) => {
         const privateChat = new Map(allMessage.privateChat);
         const groupChat = new Map(allMessage.groupChat);
         this.props.setHomePageList(allMessage.homePageList);
@@ -57,11 +66,9 @@ class ContentLeft extends Component {
         console.log('reconnect successfully. attemptNumber =>', attemptNumber, 'time=>', new Date().toLocaleString());
       });
       window.socket.on('disconnect', (reason) => {
+        // TODO: 拿新的数据update本地数据，注意要显示为未读
         console.log('disconnect in client, disconnect reason =>', reason, 'time=>', new Date().toLocaleString());
-        window.socket = io(`${this.WEBSITE_ADDRESS}?token=${userInfo.token}`);
-        window.socket.emit('initSocket', userInfo.user_id, (data) => {
-          console.log('connect socket success.', data, 'time=>', new Date().toLocaleString());
-        });
+        this.initSocket();
       });
       window.socket.on('reconnect_error', (error) => {
         console.log('reconnect_error. error =>', error, 'time=>', new Date().toLocaleString());

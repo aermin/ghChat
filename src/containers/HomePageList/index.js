@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import HomePageList from '../../components/HomePageList';
 import {
   updateHomePageListAction,
+  showCallMeTipAction,
 } from './homePageListAction';
 import {
   relatedCurrentChatAction,
@@ -40,6 +41,9 @@ const mapDispatchToProps = dispatch => ({
   },
   relatedCurrentChat(arg) {
     dispatch(relatedCurrentChatAction(arg));
+  },
+  showCallMeTip(arg = {}) {
+    dispatch(showCallMeTipAction({ ...arg }));
   }
 });
 
