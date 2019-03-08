@@ -5,6 +5,7 @@ import ChatItem from '../ChatItem';
 import { toNormalTime } from '../../utils/transformTime';
 import Chat from '../../modules/Chat';
 import './styles.scss';
+import sleep from '../../utils/sleep';
 
 export default class ChatContentList extends Component {
   constructor() {
@@ -13,6 +14,7 @@ export default class ChatContentList extends Component {
     this._scrollHeight = 0;
     this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this._loadingNewMessages = false;
+    this._executeNextLoad = true;
   }
 
   componentDidMount() {
@@ -38,28 +40,50 @@ export default class ChatContentList extends Component {
     }
   }
 
+  _lazyLoadMessage = () => {
+    this._executeNextLoad = false;
+    const {
+      chats, chatId, ChatContent, chatType
+    } = this.props;
+    if (chatType === 'groupChat') {
+      this._chat.lazyLoadGroupMessages({
+        chats, chatId, start: ChatContent.length + 1, count: 20
+      }).then(() => {
+        this._loadingNewMessages = true;
+        this._executeNextLoad = true;
+      }).catch((error) => {
+        if (error === 'try again later') {
+          sleep(3000).then(() => {
+            this._executeNextLoad = true;
+          });
+        }
+      });
+    } else if (chatType === 'privateChat') {
+      this._chat.lazyLoadPrivateChatMessages({
+        chats,
+        user_id: this._userInfo.user_id,
+        chatId,
+        start: ChatContent.length + 1,
+        count: 20
+      }).then(() => {
+        this._loadingNewMessages = true;
+        this._executeNextLoad = true;
+      }).catch((error) => {
+        if (error === 'try again later') {
+          sleep(3000).then(() => {
+            this._executeNextLoad = true;
+          });
+        }
+      });
+    }
+  }
+
   _onScroll = (e) => {
     if (!this._ulRef) return;
     const { scrollTop, scrollHeight, clientHeight } = e && e.target;
-    if (scrollTop === 0 && scrollHeight !== clientHeight) {
-      this._scrollHeight = scrollHeight;
-      const {
-        chats, chatId, ChatContent, chatType
-      } = this.props;
-      if (chatType === 'groupChat') {
-        this._chat.lazyLoadGroupMessages({
-          chats, chatId, start: ChatContent.length + 1, count: 20
-        });
-      } else if (chatType === 'privateChat') {
-        this._chat.lazyLoadPrivateChatMessages({
-          chats,
-          user_id: this._userInfo.user_id,
-          chatId,
-          start: ChatContent.length + 1,
-          count: 20
-        });
-      }
-      this._loadingNewMessages = true;
+    this._scrollHeight = scrollHeight;
+    if (scrollTop === 0 && scrollHeight !== clientHeight && this._executeNextLoad) {
+      this._lazyLoadMessage();
     }
   }
 

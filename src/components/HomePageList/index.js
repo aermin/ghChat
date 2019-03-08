@@ -181,6 +181,7 @@ class HomePageList extends PureComponent {
               { contactedUsers.length
                 ? (
                   <ListItems
+                    isSearching={isSearching}
                     dataList={contactedUsers}
                     allGroupChats={allGroupChats}
                     clickItem={chatFromId => this.clickItemHandle({ homePageList, chatFromId })} />
@@ -197,6 +198,7 @@ class HomePageList extends PureComponent {
               { contactedGroups.length
                 ? (
                   <ListItems
+                    isSearching={isSearching}
                     dataList={contactedGroups}
                     allGroupChats={allGroupChats}
                     clickItem={chatFromId => this.clickItemHandle({ homePageList, chatFromId })} />

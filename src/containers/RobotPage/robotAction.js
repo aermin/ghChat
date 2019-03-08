@@ -30,7 +30,6 @@ export const getRobotMsgAction = async (data) => {
       user: '机器人小R'
     };
   }
-  console.log('finalData', finalData);
   return {
     type: INSERT_MSG,
     data: finalData

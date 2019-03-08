@@ -76,9 +76,10 @@ class ListItems extends Component {
         </li>
       );
     });
+    const { showRobot, isSearching } = this.props;
     return (
       <ul className="homePageList">
-        {this.props.showRobot && robotChat}
+        {showRobot && !isSearching && robotChat}
         {listItems}
       </ul>
     );
@@ -93,6 +94,7 @@ ListItems.propTypes = {
   showRobot: PropTypes.bool,
   clickItem: PropTypes.func,
   match: PropTypes.object.isRequired,
+  isSearching: PropTypes.bool,
 };
 
 ListItems.defaultProps = {
@@ -100,4 +102,5 @@ ListItems.defaultProps = {
   dataList: [],
   showRobot: true,
   clickItem() {},
+  isSearching: false
 };
