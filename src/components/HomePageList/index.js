@@ -26,6 +26,7 @@ class HomePageList extends PureComponent {
     this._filedStr = null;
     this._notification = new Notification();
     this._chat = new Chat();
+    this._hasCalledMe = false;
   }
 
   _notificationHandle = (data) => {
@@ -89,16 +90,15 @@ class HomePageList extends PureComponent {
       } else {
         addGroupMessages({ allGroupChats, message: data, groupId: data.to_group_id });
       }
-      let showCallMeTip;
-      if (data.message) {
+      if (data.message && !this._hasCalledMe) {
         const regexp = new RegExp(`@${this._userInfo.name}\\s\\S*|@${this._userInfo.name}$`);
-        showCallMeTip = regexp.test(data.message);
+        this._hasCalledMe = regexp.test(data.message);
       }
       updateHomePageList({
         data,
         homePageList,
         increaseUnread: isRelatedCurrentChat ? 0 : 1,
-        showCallMeTip
+        showCallMeTip: this._hasCalledMe
       });
       this._notificationHandle(data);
       // TODO: mute notifications switch
