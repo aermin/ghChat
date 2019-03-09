@@ -1,8 +1,14 @@
 @import "../../assets/base.scss";
+@import '~react-viewer/dist/index.css';
 
 .tip {
   font-size: 12px;
   color: $gray;
   text-align: center;
   margin: 10px 0;
+}
+
+.react-viewer-toolbar :nth-child(3),
+.react-viewer-toolbar :nth-child(5){
+    display: none;
 }

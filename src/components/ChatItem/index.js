@@ -21,6 +21,10 @@ class ChatItem extends Component {
     this.props.history.push(groupUrl);
   }
 
+  _clickImage(imageUrl) {
+    this.props.clickImage(imageUrl);
+  }
+
   invitingCard = (url) => {
     const splitArray = url.split(/&inviter=/);
     const groupUrl = splitArray[0];
@@ -81,7 +85,7 @@ class ChatItem extends Component {
   filesRender = attachments => attachments.map((attachment) => {
     if (attachment.type === 'image') {
       return (
-        <div className="image-render" key={attachment.fileUrl}>
+        <div className="image-render" key={attachment.fileUrl} onClick={() => { this._clickImage(attachment.fileUrl); }}>
           <img src={attachment.fileUrl} onLoad={this._onloadImg} />
         </div>
       );
@@ -155,6 +159,7 @@ ChatItem.propTypes = {
   clickAvatar: PropTypes.func,
   github_id: PropTypes.number,
   shouldScrollIntoView: PropTypes.bool,
+  clickImage: PropTypes.func,
 };
 
 ChatItem.defaultProps = {
@@ -166,5 +171,6 @@ ChatItem.defaultProps = {
   msg: '',
   attachments: '[]',
   github_id: null,
-  shouldScrollIntoView: true
+  shouldScrollIntoView: true,
+  clickImage() {},
 };

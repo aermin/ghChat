@@ -1,6 +1,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Viewer from 'react-viewer';
 import ChatItem from '../ChatItem';
 import { toNormalTime } from '../../utils/transformTime';
 import Chat from '../../modules/Chat';
@@ -15,6 +16,10 @@ export default class ChatContentList extends Component {
     this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this._loadingNewMessages = false;
     this._executeNextLoad = true;
+    this.state = {
+      imageVisible: false,
+      imageUrl: null
+    };
   }
 
   componentDidMount() {
@@ -86,6 +91,14 @@ export default class ChatContentList extends Component {
     }
   }
 
+  clickImage = (imageUrl) => {
+    this.setState({ imageUrl, imageVisible: true });
+  }
+
+  _closeImageView = () => {
+    this.setState({ imageVisible: false });
+  }
+
   render() {
     const { ChatContent, clickAvatar } = this.props;
     const listItems = ChatContent.map((item, index) => {
@@ -115,6 +128,7 @@ export default class ChatContentList extends Component {
             name={item.name}
             time={time}
             github_id={item.github_id}
+            clickImage={this.clickImage}
             shouldScrollIntoView={!(this._scrollHeight && this._loadingNewMessages) && !this._chat.isScrollInBottom}
             clickAvatar={() => clickAvatar(item.from_user)}
             attachments={attachments} />
@@ -128,6 +142,12 @@ export default class ChatContentList extends Component {
         ref={(list) => { this._ulRef = list; }}
         onScroll={this._onScroll}
       >
+        <Viewer
+          visible={this.state.imageVisible}
+          noNavbar
+          onClose={this._closeImageView}
+          images={[{ src: this.state.imageUrl, alt: '' }]}
+        />
         {listItems}
       </ul>
     );

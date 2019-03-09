@@ -68,6 +68,7 @@
     "react-markdown": "^4.0.6",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
+    "react-viewer": "^2.8.0",
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
