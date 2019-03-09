@@ -24,12 +24,12 @@ class ContentLeft extends Component {
   }
 
   componentWillMount() {
-    if (!this.props.initAppState) {
+    if (!this.props.initializedApp) {
       this.init();
     }
   }
 
-  initSocket = () => {
+  _initSocket = () => {
     const { token, user_id } = this._userInfo;
     window.socket = io(`${this.WEBSITE_ADDRESS}?token=${token}`);
     window.socket.emit('initSocket', user_id, (data) => {
@@ -40,6 +40,18 @@ class ContentLeft extends Component {
     });
   };
 
+  _initMessage = () => {
+    const { user_id } = this._userInfo;
+    window.socket.emit('initMessage', user_id, (allMessage) => {
+      const privateChat = new Map(allMessage.privateChat);
+      const groupChat = new Map(allMessage.groupChat);
+      this.props.setHomePageList(allMessage.homePageList);
+      this.props.setAllPrivateChats({ data: privateChat });
+      this.props.setAllGroupChats({ data: groupChat });
+      this.props.initApp(true);
+    });
+  }
+
   async init() {
     // force logged in user to log in again to update userInfo in localStorage because I change userId to user_id global
     // TODO: remove this after one week
@@ -47,18 +59,9 @@ class ContentLeft extends Component {
       localStorage.removeItem('userInfo');
       this.props.history.push('/login');
     }
-
     if (this._userInfo) {
-      const { user_id } = this._userInfo;
-      this.initSocket();
-      window.socket.emit('initMessage', user_id, (allMessage) => {
-        const privateChat = new Map(allMessage.privateChat);
-        const groupChat = new Map(allMessage.groupChat);
-        this.props.setHomePageList(allMessage.homePageList);
-        this.props.setAllPrivateChats({ data: privateChat });
-        this.props.setAllGroupChats({ data: groupChat });
-        this.props.initApp(true);
-      });
+      this._initSocket();
+      this._initMessage();
       window.socket.on('error', (errorMessage) => {
         notification(errorMessage, 'error');
       });
@@ -66,9 +69,10 @@ class ContentLeft extends Component {
         console.log('reconnect successfully. attemptNumber =>', attemptNumber, 'time=>', new Date().toLocaleString());
       });
       window.socket.on('disconnect', (reason) => {
-        // TODO: 拿新的数据update本地数据，注意要显示为未读
         console.log('disconnect in client, disconnect reason =>', reason, 'time=>', new Date().toLocaleString());
-        this.initSocket();
+        this._initSocket();
+        // TODO: 重现拿完数据更新未读数目
+        this._initMessage();
       });
       window.socket.on('reconnect_error', (error) => {
         console.log('reconnect_error. error =>', error, 'time=>', new Date().toLocaleString());
@@ -93,7 +97,8 @@ class ContentLeft extends Component {
 }
 
 const mapStateToProps = state => ({
-  initAppState: state.initAppState,
+  initializedApp: state.initAppState,
+  homePageList: state.homePageListState,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -119,10 +124,10 @@ ContentLeft.propTypes = {
   setAllGroupChats: PropTypes.func.isRequired,
   setAllPrivateChats: PropTypes.func.isRequired,
   initApp: PropTypes.func.isRequired,
-  initAppState: PropTypes.bool,
+  initializedApp: PropTypes.bool,
 };
 
 
 ContentLeft.defaultProps = {
-  initAppState: false
+  initializedApp: false
 };

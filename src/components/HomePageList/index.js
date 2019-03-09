@@ -57,6 +57,7 @@ class HomePageList extends PureComponent {
       // eslint-disable-next-line radix
       const chatId = parseInt(window.location.pathname.split('/').slice(-1)[0]);
       const isRelatedCurrentChat = (data.from_user === chatId || data.to_user === chatId);
+      const increaseUnread = isRelatedCurrentChat ? 0 : 1;
       relatedCurrentChat(isRelatedCurrentChat);
       addPrivateChatMessages({
         allPrivateChats,
@@ -64,7 +65,7 @@ class HomePageList extends PureComponent {
         chatId: data.from_user,
       });
       updateHomePageList({
-        data, homePageList, myUserId: user_id, increaseUnread: !isRelatedCurrentChat
+        data, homePageList, myUserId: user_id, increaseUnread
       });
       this._notificationHandle(data);
       // TODO: mute notifications switch
@@ -96,7 +97,7 @@ class HomePageList extends PureComponent {
       updateHomePageList({
         data,
         homePageList,
-        increaseUnread: !isRelatedCurrentChat,
+        increaseUnread: isRelatedCurrentChat ? 0 : 1,
         showCallMeTip
       });
       this._notificationHandle(data);

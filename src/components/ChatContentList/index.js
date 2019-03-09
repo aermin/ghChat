@@ -49,7 +49,6 @@ export default class ChatContentList extends Component {
       this._chat.lazyLoadGroupMessages({
         chats, chatId, start: ChatContent.length + 1, count: 20
       }).then(() => {
-        this._loadingNewMessages = true;
         this._executeNextLoad = true;
       }).catch((error) => {
         if (error === 'try again later') {
@@ -66,7 +65,6 @@ export default class ChatContentList extends Component {
         start: ChatContent.length + 1,
         count: 20
       }).then(() => {
-        this._loadingNewMessages = true;
         this._executeNextLoad = true;
       }).catch((error) => {
         if (error === 'try again later') {
@@ -76,6 +74,7 @@ export default class ChatContentList extends Component {
         }
       });
     }
+    this._loadingNewMessages = true;
   }
 
   _onScroll = (e) => {

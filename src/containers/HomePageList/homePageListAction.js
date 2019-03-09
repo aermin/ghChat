@@ -8,7 +8,7 @@ const SHOW_CALL_ME_TIP = 'SHOW_CALL_ME_TIP';
 
 // TODO: 重构和代码注释
 const updateHomePageListAction = ({
-  homePageList, data, myUserId, increaseUnread = false, showCallMeTip = false
+  homePageList, data, myUserId, increaseUnread = 0, showCallMeTip = false
 }) => {
   const homePageListCopy = [...List(homePageList)];
   data.showCallMeTip = showCallMeTip;
@@ -25,7 +25,7 @@ const updateHomePageListAction = ({
     for (let i = 0; i < length; i++) {
       const { user_id, to_group_id, unread = 0 } = homePageListCopy[i];
       if (user_id === chatFromId || to_group_id === chatFromId) {
-        const updatedUnread = increaseUnread ? unread + 1 : unread;
+        const updatedUnread = unread + increaseUnread;
         homePageListCopy[i] = Object.assign(homePageListCopy[i], {
           message: data.message, time: data.time, unread: updatedUnread, showCallMeTip
         });
@@ -33,7 +33,7 @@ const updateHomePageListAction = ({
       }
     }
   } else {
-    data.unread = increaseUnread ? 1 : 0;
+    data.unread = increaseUnread;
     homePageListCopy.push(data);
   }
   return {
@@ -67,7 +67,7 @@ const deleteHomePageListAction = ({
     const { to_group_id, user_id } = homePageListCopy[i];
     const id = to_group_id || user_id;
     if (chatId === id) {
-      const deletedItem = homePageListCopy.splice(i, 1);
+      homePageListCopy.splice(i, 1);
       break;
     }
   }
