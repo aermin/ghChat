@@ -7,6 +7,10 @@ import ModalBase from '../ModalBase';
 import UserAvatar from '../UserAvatar';
 import './styles.scss';
 
+function _openUrl(url) {
+  window.open(url);
+}
+
 function userInfoRender(props) {
   const {
     name, location,
@@ -20,8 +24,8 @@ function userInfoRender(props) {
       {intro && <p>{`介绍: ${intro}`}</p>}
       {location && <p>{`来自: ${location}`}</p>}
       {/* {status && <p>{status}</p>} */}
-      {website && <p>{`网站: ${intro}`}</p>}
-      {github && <p>{`github: ${github}`}</p>}
+      {website && <p className="website" onClick={() => _openUrl(website)}>{`网站: ${website}`}</p>}
+      {github && <p className="github" onClick={() => _openUrl(github)}>{`github: ${github}`}</p>}
       <svg onClick={props && props.goToChat} className="icon" aria-hidden="true">
         <use xlinkHref="#icon-message" />
       </svg>
