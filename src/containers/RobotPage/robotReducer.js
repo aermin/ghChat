@@ -10,7 +10,7 @@ const initState = {
       user: '机器人小R'
     },
     {
-      message: `/group_chat/${GROUP_CHAT_ID}?name=ghChat项目交流群&inviter=机器人小R`,
+      message: `/group_chat/${GROUP_CHAT_ID}?name=ghChat&inviter=机器人小R`,
       user: '机器人小R'
     }
   ]

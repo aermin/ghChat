@@ -23,6 +23,10 @@ export default class Header extends Component {
       notification('你有空行没填哦', 'error');
       return;
     }
+    if (groupName === 'ghChat') {
+      notification('这个群名仅供项目本身使用啦，请用别的群名', 'error');
+      return;
+    }
     this.setState({
       modalVisible: false
     });

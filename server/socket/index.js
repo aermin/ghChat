@@ -55,8 +55,10 @@ module.exports = (server) => {
         await privateChatModel.savePrivateMsg({ ...data });
         const arr = await socketModel.getUserSocketId(data.to_user);
         const RowDataPacket = arr[0];
-        const socketId = JSON.parse(JSON.stringify(RowDataPacket)).socketid;
-        io.to(socketId).emit('getPrivateMsg', data);
+        const toUserSocketId = JSON.parse(JSON.stringify(RowDataPacket)).socketid;
+        io.to(toUserSocketId).emit('getPrivateMsg', data);
+        // logs to debug;
+        console.log(`[userId:${_userId}, socketId:${socketId}] send private msg to [userId:${data.to_user}, socketId:${toUserSocketId}]`);
       });
 
       // 群聊发信息
@@ -65,6 +67,8 @@ module.exports = (server) => {
         data.attachments = JSON.stringify(data.attachments);
         await groupChatModel.saveGroupMsg({ ...data });
         socket.broadcast.to(data.to_group_id).emit('getGroupMsg', data);
+        // logs to debug;
+        console.log(`[userId:${_userId}, socketId:${socketId}] send group msg:${data} to to_group_id:${data.to_group_id}`);
       });
 
       socket.on('getOnePrivateChatMessages', async (data, fn) => {
