@@ -1,4 +1,4 @@
-![ghChat](https://user-images.githubusercontent.com/24861316/54087029-11853080-438a-11e9-9607-bc48d3746a70.png)
+![ghChat](https://user-images.githubusercontent.com/24861316/54087066-55783580-438a-11e9-9a5d-14288e84a3f9.png)
 
 
 [English](./README.md) | 简体中文

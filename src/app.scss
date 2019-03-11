@@ -34,8 +34,9 @@
             }
             .home-page-list-wrapper{
                 width: 100%;
+                height: calc(100% - 46px);
                 .home-page-list-content {
-                    height: calc(100% - 96px);
+                    height: calc(100% - 46px);
                 }
             }
         }

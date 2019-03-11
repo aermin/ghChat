@@ -11,7 +11,7 @@ I hope that this project can be a chat tool for GitHub. So I will try to make it
 
 [GitHub address](https://github.com/aermin/react-chat)
 
-[Project online address，support log in with GitHub authorization](https://im.aermin.top)
+[Project online address，support logging in with GitHub authorization](https://im.aermin.top)
 
 Welcome to join this project's group which named 'ghChat'. You click the inviting button from the robot. And you can search to join it as well.
 
@@ -35,14 +35,14 @@ And get other technology please follow the package.json file.
   - [x] Log out
 
 - UI
-    - [x] Basic UI components: modal，nitification ...
+    - [x] Basic UI components: modal，notification ...
     - [x] Responsive layout.
 
 - Private chat
 
   - [x] Chat with my contacts
   - [x] Add contact
-  - [x] Contact infomation card
+  - [x] Contact information card
   - [ ] Delete contact
 
 - Group chat
@@ -60,7 +60,7 @@ And get other technology please follow the package.json file.
 
 - Rich chat mode
 
-  - [x] Chat list sort by time everytime
+  - [x] Chat list sort by time every time
   - [x] Send photo
   - [x] Send emoji
   - [x] Send file

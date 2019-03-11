@@ -9,7 +9,7 @@
     opacity: 0.97;
     z-index: 99;
     .info {
-      padding: 20px 16px 0;
+      padding: 10px 16px;
       .noticeTitle {
         color: $m-title;
         padding-bottom: 10px;
@@ -17,19 +17,24 @@
       }
       .noticeContent {
           word-wrap: break-word;
+          height: 80px;
+          overflow: hidden;
+          overflow-y: auto;
+          font-size: 14px;
       }
     }
     .members{
-      padding: 20px 0;
       list-style: none;
       overflow-y: auto;
       font-size: 18px;
-      height: calc(100% - 140px);
+      height: calc(100% - 170px);
       .member {
         padding: 10px 10px 0;
         display: flex;
         align-items: center;
+        cursor: pointer;
         .memberName {
+          font-size: 14px;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
@@ -47,5 +52,6 @@
       padding: 10px 0;
       font-size: 14px;
       color: $warn-red;
+      cursor: pointer;
     }
 }
