@@ -88,8 +88,21 @@ And get other technology please follow the package.json file.
   - [x] Robot smart reply (just support Chinese)
   - [x] Add SSL for website
   - [ ] PWA
-  - [ ] Back end rewrite with TS，encapsulated as sdk.
+  - [ ] Multilingual solution with I18
+  - [ ] Rewrite back end code with TS，encapsulated as sdk.
   - [ ] CI/CD
+
+### Demo with photo：
+
+![image](https://user-images.githubusercontent.com/24861316/53351929-e1d33300-395c-11e9-84a9-0a9fd793b5a1.png)
+
+![image](https://user-images.githubusercontent.com/24861316/53295822-b3f7cc80-383e-11e9-83b4-82a12bd4a24f.png)
+
+![image](https://user-images.githubusercontent.com/24861316/53296063-eb687800-3842-11e9-9da3-ab1c312c673d.png)
+
+![image](https://user-images.githubusercontent.com/24861316/53296160-afcead80-3844-11e9-9827-4b03303fcd3d.png)
+
+![image](https://user-images.githubusercontent.com/24861316/53351432-4346d200-395c-11e9-936e-e08d887f1355.png)
 
 ### Development
 
@@ -161,15 +174,3 @@ cd ..
 ```
 npm run start
 ```
-
-### Demo with photo：
-
-![image](https://user-images.githubusercontent.com/24861316/53351929-e1d33300-395c-11e9-84a9-0a9fd793b5a1.png)
-
-![image](https://user-images.githubusercontent.com/24861316/53295822-b3f7cc80-383e-11e9-83b4-82a12bd4a24f.png)
-
-![image](https://user-images.githubusercontent.com/24861316/53296063-eb687800-3842-11e9-9da3-ab1c312c673d.png)
-
-![image](https://user-images.githubusercontent.com/24861316/53296160-afcead80-3844-11e9-9827-4b03303fcd3d.png)
-
-![image](https://user-images.githubusercontent.com/24861316/53351432-4346d200-395c-11e9-936e-e08d887f1355.png)

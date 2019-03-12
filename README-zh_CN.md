@@ -20,9 +20,6 @@
 
 ![image](https://user-images.githubusercontent.com/24861316/53296199-6337a200-3845-11e9-8435-3f5480cca602.png)
 
-
-
-
 ### 技术栈
 
 前端React全家桶，后端node.js(koa2), 数据库MySQL, 双向通信SocKet.io, jwt鉴权等等。具体看package.json哦。
@@ -90,8 +87,23 @@
   - [x] 机器人智能聊天回复
   - [x] 部署SSL证书
   - [ ] 支持PWA
+  - [ ] 国际化
   - [ ] 后端用TS重写，封装成sdk
   - [ ] CI/CD
+
+### 项目展示：
+
+github对gif图有限制，我就直接截图了，具体详情建议直接[线上体验](https://im.aermin.top)。
+
+![image](https://user-images.githubusercontent.com/24861316/53351929-e1d33300-395c-11e9-84a9-0a9fd793b5a1.png)
+
+![image](https://user-images.githubusercontent.com/24861316/53295822-b3f7cc80-383e-11e9-83b4-82a12bd4a24f.png)
+
+![image](https://user-images.githubusercontent.com/24861316/53296063-eb687800-3842-11e9-9da3-ab1c312c673d.png)
+
+![image](https://user-images.githubusercontent.com/24861316/53296160-afcead80-3844-11e9-9827-4b03303fcd3d.png)
+
+![image](https://user-images.githubusercontent.com/24861316/53351432-4346d200-395c-11e9-936e-e08d887f1355.png)
 
 ### 本地跑项目
 
@@ -167,17 +179,3 @@ ps: 本地发图片和发文件和github登录无法使用，需要自己去gith
 ### 文档
 
 这边开坑了一篇[ghChat开发历程](https://github.com/aermin/blog/issues/60) ，将不断地更新总结做这个全栈项目时会遇到的问题，知识点，和坑。
-
-### 项目展示：
-
-github对gif图有限制，我就直接截图了，具体详情建议直接[线上体验](https://im.aermin.top)。
-
-![image](https://user-images.githubusercontent.com/24861316/53351929-e1d33300-395c-11e9-84a9-0a9fd793b5a1.png)
-
-![image](https://user-images.githubusercontent.com/24861316/53295822-b3f7cc80-383e-11e9-83b4-82a12bd4a24f.png)
-
-![image](https://user-images.githubusercontent.com/24861316/53296063-eb687800-3842-11e9-9da3-ab1c312c673d.png)
-
-![image](https://user-images.githubusercontent.com/24861316/53296160-afcead80-3844-11e9-9827-4b03303fcd3d.png)
-
-![image](https://user-images.githubusercontent.com/24861316/53351432-4346d200-395c-11e9-936e-e08d887f1355.png)

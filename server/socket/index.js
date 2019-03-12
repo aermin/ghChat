@@ -76,14 +76,16 @@ module.exports = (server) => {
           user_id, toUser, start, count
         } = data;
         const RowDataPacket = await privateChatModel.getPrivateDetail(user_id, toUser, start - 1, count);
-        const groupMessages = JSON.parse(JSON.stringify(RowDataPacket));
-        fn(groupMessages);
+        const privateMessages = JSON.parse(JSON.stringify(RowDataPacket));
+        console.log('getOnePrivateChatMessages: data, privateMessages', data, privateMessages);
+        fn(privateMessages);
       });
 
       // get group messages in a group;
       socket.on('getOneGroupMessages', async (data, fn) => {
         const RowDataPacket = await groupChatModel.getGroupMsg(data.groupId, data.start - 1, data.count);
         const groupMessages = JSON.parse(JSON.stringify(RowDataPacket));
+        console.log('getOneGroupMessages: data, groupMessages', data, groupMessages);
         fn(groupMessages);
       });
 
