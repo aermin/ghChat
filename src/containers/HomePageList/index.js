@@ -15,6 +15,7 @@ import {
 } from '../GroupChatPage/groupChatAction';
 import {
   addPrivateChatMessagesAction,
+  addPrivateChatMessageAndInfoAction,
 } from '../PrivateChatPage/privateChatAction';
 
 const mapStateToProps = state => ({
@@ -26,6 +27,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   addPrivateChatMessages(arg = {}) {
     dispatch(addPrivateChatMessagesAction({ ...arg }));
+  },
+  addPrivateChatMessageAndInfo(arg = {}) {
+    dispatch(addPrivateChatMessageAndInfoAction({ ...arg }));
   },
   addGroupMessageAndInfo(arg = {}) {
     dispatch(addGroupMessageAndInfoAction({ ...arg }));

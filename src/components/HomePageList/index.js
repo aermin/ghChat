@@ -46,31 +46,43 @@ class HomePageList extends PureComponent {
     });
   }
 
-  subscribeSocket() {
-    window.socket.removeAllListeners('getPrivateMsg');
-    window.socket.removeAllListeners('getGroupMsg');
+  _listeningPrivateChatMsg = () => {
     window.socket.on('getPrivateMsg', (data) => {
       const { user_id } = this._userInfo;
       const {
         allPrivateChats, homePageList, updateHomePageList,
-        addPrivateChatMessages, relatedCurrentChat
+        addPrivateChatMessages, relatedCurrentChat,
+        addPrivateChatMessageAndInfo
       } = this.props;
       // eslint-disable-next-line radix
       const chatId = parseInt(window.location.pathname.split('/').slice(-1)[0]);
       const isRelatedCurrentChat = (data.from_user === chatId || data.to_user === chatId);
       const increaseUnread = isRelatedCurrentChat ? 0 : 1;
       relatedCurrentChat(isRelatedCurrentChat);
-      addPrivateChatMessages({
-        allPrivateChats,
-        message: data,
-        chatId: data.from_user,
-      });
+      if (!allPrivateChats.get(data.from_user) || !allPrivateChats.get(data.from_user).userInfo) {
+        const userInfo = {
+          ...data,
+          user_id: data.from_user
+        };
+        addPrivateChatMessageAndInfo({
+          allPrivateChats, message: data, chatId: data.from_user, userInfo,
+        });
+      } else {
+        addPrivateChatMessages({
+          allPrivateChats,
+          message: data,
+          chatId: data.from_user,
+        });
+      }
       updateHomePageList({
         data, homePageList, myUserId: user_id, increaseUnread
       });
       this._notificationHandle(data);
       // TODO: mute notifications switch
     });
+  }
+
+  _listeningGroupChatMsg = () => {
     window.socket.on('getGroupMsg', (data) => {
       const {
         allGroupChats, homePageList, updateHomePageList,
@@ -103,6 +115,13 @@ class HomePageList extends PureComponent {
       this._notificationHandle(data);
       // TODO: mute notifications switch
     });
+  }
+
+  subscribeSocket() {
+    window.socket.removeAllListeners('getPrivateMsg');
+    window.socket.removeAllListeners('getGroupMsg');
+    this._listeningPrivateChatMsg();
+    this._listeningGroupChatMsg();
   }
 
   searchFieldChange(field) {
