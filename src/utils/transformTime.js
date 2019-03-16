@@ -18,11 +18,15 @@ export const toNormalTime = (timestamp) => {
   const hourOfArg = addZero(date.getHours());
   const minuteOfArg = addZero(date.getMinutes());
   const today = new Date().getDate();
+  const thisYear = new Date().getFullYear();
   // 显示当天几点
   if (date.getDate() === today) {
     return `${hourOfArg}: ${minuteOfArg}`;
   }
   const yearOfArg = date.getFullYear();
   const monthOfArg = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}`;
+  if (yearOfArg === thisYear) {
+    return `${monthOfArg}/${dayOfArg}`;
+  }
   return `${yearOfArg}/${monthOfArg}/${dayOfArg}`;
 };
