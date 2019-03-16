@@ -3,10 +3,8 @@ import HomePageList from '../../components/HomePageList';
 import {
   updateHomePageListAction,
   showCallMeTipAction,
-} from './homePageListAction';
-import {
   relatedCurrentChatAction,
-} from '../../redux/actions/chatContentAction';
+} from './homePageListAction';
 
 import {
   addGroupMessagesAction,

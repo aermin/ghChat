@@ -5,6 +5,7 @@ const CLEAR_UNREAD = 'CLEAR_UNREAD';
 const DELETE_CHAT_FROM_LIST = 'DELETE_CHAT_FROM_LIST';
 const SET_HOME_PAGE_LIST = 'SET_HOME_PAGE_LIST';
 const SHOW_CALL_ME_TIP = 'SHOW_CALL_ME_TIP';
+const RELATED_CURRENT_CHAT = 'RELATED_CURRENT_CHAT';
 
 // TODO: 重构和代码注释
 const updateHomePageListAction = ({
@@ -100,15 +101,22 @@ const setHomePageListAction = (homePageList = []) => ({
   data: homePageList
 });
 
+const relatedCurrentChatAction = isRelatedCurrentChat => ({
+  type: RELATED_CURRENT_CHAT,
+  data: isRelatedCurrentChat
+});
+
 export {
   UPDATE_HOME_PAGE_LIST,
   CLEAR_UNREAD,
   DELETE_CHAT_FROM_LIST,
   SET_HOME_PAGE_LIST,
   SHOW_CALL_ME_TIP,
+  RELATED_CURRENT_CHAT,
   updateHomePageListAction,
   clearUnreadAction,
   deleteHomePageListAction,
   setHomePageListAction,
-  showCallMeTipAction
+  showCallMeTipAction,
+  relatedCurrentChatAction
 };

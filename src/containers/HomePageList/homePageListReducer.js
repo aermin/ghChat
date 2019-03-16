@@ -2,6 +2,7 @@ import {
   SET_HOME_PAGE_LIST, UPDATE_HOME_PAGE_LIST,
   CLEAR_UNREAD, DELETE_CHAT_FROM_LIST,
   SHOW_CALL_ME_TIP,
+  RELATED_CURRENT_CHAT,
 } from './homePageListAction';
 
 const getHomePageListReducer = (previousState = [], action) => {
@@ -17,6 +18,16 @@ const getHomePageListReducer = (previousState = [], action) => {
   }
 };
 
+const relatedCurrentChatReducer = (previousState = true, action) => {
+  switch (action.type) {
+    case RELATED_CURRENT_CHAT:
+      return action.data;
+    default:
+      return previousState;
+  }
+};
+
 export {
   getHomePageListReducer,
+  relatedCurrentChatReducer
 };
