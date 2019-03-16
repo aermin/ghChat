@@ -5,7 +5,6 @@ import InputArea from '../InputArea';
 import ChatContentList from '../ChatContentList';
 import PersonalInfo from '../PersonalInfo';
 import notification from '../Notification';
-import Chat from '../../modules/Chat';
 
 export default class PrivateChat extends Component {
   constructor() {
@@ -16,7 +15,6 @@ export default class PrivateChat extends Component {
     this.state = {
       showPersonalInfo: false
     };
-    this._chat = new Chat();
   }
 
   sendMessage = (inputMsg = '', attachments = []) => {
@@ -40,7 +38,6 @@ export default class PrivateChat extends Component {
     };
     this._sendByMe = true;
     window.socket.emit('sendPrivateMsg', data);
-    this._chat.scrollToBottom();
     addPrivateChatMessages({
       allPrivateChats, message: data, chatId: this.friendId
     });

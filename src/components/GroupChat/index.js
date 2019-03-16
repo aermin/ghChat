@@ -12,7 +12,6 @@ import Modal from '../Modal';
 import './style.scss';
 import PersonalInfo from '../PersonalInfo';
 import notification from '../Notification';
-import Chat from '../../modules/Chat';
 
 class GroupChat extends Component {
   constructor(props) {
@@ -26,7 +25,6 @@ class GroupChat extends Component {
       personalInfo: {},
       visible: false,
     };
-    this._chat = new Chat();
   }
 
   sendMessage = (inputMsg = '', attachments = []) => {
@@ -51,7 +49,6 @@ class GroupChat extends Component {
     };
     this._sendByMe = true;
     window.socket.emit('sendGroupMsg', data);
-    this._chat.scrollToBottom();
     addGroupMessages({ allGroupChats, message: data, groupId: chatId });
     updateHomePageList({ data, homePageList, myUserId: user_id });
   }

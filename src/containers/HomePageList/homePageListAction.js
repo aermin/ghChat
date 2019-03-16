@@ -11,13 +11,14 @@ const updateHomePageListAction = ({
   homePageList, data, myUserId, increaseUnread = 0, showCallMeTip = false
 }) => {
   const homePageListCopy = [...List(homePageList)];
-  data.showCallMeTip = showCallMeTip;
+  const dataCopy = { ...data };
+  dataCopy.showCallMeTip = showCallMeTip;
   let chatFromId;
-  if (data && data.to_user) {
-    chatFromId = data.from_user === myUserId ? data.to_user : data.from_user;
-    data.user_id = chatFromId;
-  } else if (data && data.to_group_id) {
-    chatFromId = data.to_group_id;
+  if (dataCopy && dataCopy.to_user) {
+    chatFromId = dataCopy.from_user === myUserId ? dataCopy.to_user : dataCopy.from_user;
+    dataCopy.user_id = chatFromId;
+  } else if (dataCopy && dataCopy.to_group_id) {
+    chatFromId = dataCopy.to_group_id;
   }
   const chatExist = homePageListCopy.find(e => e.user_id === chatFromId || e.to_group_id === chatFromId);
   if (chatExist) {
@@ -27,14 +28,14 @@ const updateHomePageListAction = ({
       if (user_id === chatFromId || to_group_id === chatFromId) {
         const updatedUnread = unread + increaseUnread;
         homePageListCopy[i] = Object.assign(homePageListCopy[i], {
-          message: data.message, time: data.time, unread: updatedUnread, showCallMeTip
+          message: dataCopy.message, time: dataCopy.time, unread: updatedUnread, showCallMeTip
         });
         break;
       }
     }
   } else {
-    data.unread = increaseUnread;
-    homePageListCopy.push(data);
+    dataCopy.unread = increaseUnread;
+    homePageListCopy.push(dataCopy);
   }
   return {
     type: UPDATE_HOME_PAGE_LIST,

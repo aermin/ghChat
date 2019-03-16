@@ -54,8 +54,7 @@ module.exports = (server) => {
         data.attachments = JSON.stringify(data.attachments);
         await privateChatModel.savePrivateMsg({ ...data });
         const arr = await socketModel.getUserSocketId(data.to_user);
-        const RowDataPacket = arr[0];
-        const toUserSocketId = JSON.parse(JSON.stringify(RowDataPacket)).socketid;
+        const toUserSocketId = JSON.parse(JSON.stringify(arr[0])).socketid;
         io.to(toUserSocketId).emit('getPrivateMsg', data);
         // logs to debug;
         console.log(`[userId:${_userId}, socketId:${socketId}] send private msg to [userId:${data.to_user}, socketId:${toUserSocketId}]`);
