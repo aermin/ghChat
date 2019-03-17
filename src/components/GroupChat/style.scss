@@ -1,5 +1,7 @@
+@import "../../assets/base.scss";
+
 .button {
-  background-color: #39ace7;
+  background-color: $blue;
   border: none;
   color: white;
   padding: 10px 40px;

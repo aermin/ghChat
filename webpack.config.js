@@ -5,6 +5,7 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const commonConfig = require('./webpack.common.config.js');
 
 const publicConfig = {
@@ -34,7 +35,11 @@ const publicConfig = {
     new ExtractTextPlugin({
       filename: '[name].[contenthash:5].css',
       allChunks: true
-    })
+    }),
+    new CopyWebpackPlugin([
+      { from: 'src/manifest.json', to: 'manifest.json' },
+      { from: 'src/service-worker.js', to: 'service-worker.js' }
+    ]),
   ]
 
 };

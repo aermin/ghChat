@@ -7,7 +7,16 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>ghChat</title>
   <link rel="icon" href="https://cdn.aermin.top/ghChatIcon.png">
+  <link rel="manifest" href="./manifest.json">
   <script src="https://at.alicdn.com/t/font_1043659_4i8koqavf6h.js"></script>
+  <!-- Add to home screen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="ghChat">
+  <link rel="apple-touch-icon" href="https://cdn.aermin.top/ghChatIcon.png">
+  <!-- for windows-->
+  <meta name="msapplication-TileImage" content="https://cdn.aermin.top/ghChatIcon.png">
+  <meta name="msapplication-TileColor" content="#fff">
 </head>
 <style type="text/css">
   * {
@@ -25,6 +34,13 @@
 </style>
 <body>
   <div id="app"></div>
+  <script>
+    if (navigator.serviceWorker != null) {
+      navigator.serviceWorker.register('./service-worker.js')
+      .then(function(registration) {
+        console.log('Registered events at scope: ', registration.scope);
+      });
+    }
+  </script>
 </body>
-
 </html>

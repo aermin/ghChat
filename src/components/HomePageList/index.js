@@ -32,7 +32,7 @@ class HomePageList extends PureComponent {
   _notificationHandle = (data) => {
     const { name, message, avatar } = data;
     const chatType = data.to_group_id ? 'group_chat' : 'private_chat';
-    const chatFromId = data.to_group_id ? data.to_group_id : data.user_id;
+    const chatFromId = data.to_group_id ? data.to_group_id : data.from_user;
     const title = data.to_group_id && data.groupName ? data.groupName : name;
     this._notification.notify({
       title,

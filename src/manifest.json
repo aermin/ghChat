@@ -1,0 +1,15 @@
+{
+  "name": "ghChat",
+  "short_name": "ghChat",
+  "display": "standalone",
+  "start_url": "/",
+  "theme_color": "#60b0f4",
+  "background_color": "#fff",
+  "icons": [
+    {
+      "src": "https://cdn.aermin.top/ghChatIcon.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    }
+  ]
+}

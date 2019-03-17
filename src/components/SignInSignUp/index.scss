@@ -31,14 +31,14 @@
   }
 
   .active {
-    color: #39ace7;
+    color: $blue;
   }
   form {
     padding: 40px 10px;
     input[type=button],
     input[type=reset],
     input[type=submit] {
-      background-color: #39ace7;
+      background-color: $blue;
       border: none;
       color: white;
       padding: 10px 30px;
@@ -61,7 +61,7 @@
     input[type=button]:hover,
     input[type=reset]:hover,
     input[type=submit]:hover {
-      background-color: #39ace7;
+      background-color: $blue;
     }
 
     input[type=button]:active,

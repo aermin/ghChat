@@ -34,6 +34,7 @@
     "bundle-loader": "^0.5.6",
     "clean-webpack-plugin": "^0.1.19",
     "compression-webpack-plugin": "v1.1.12",
+    "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.11",
     "eslint": "^5.9.0",
     "eslint-config-airbnb": "^17.1.0",

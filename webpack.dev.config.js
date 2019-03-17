@@ -14,7 +14,8 @@ const devConfig = {
   },
   output: {
     /* 这里本来应该是[chunkhash]的，但是由于[chunkhash]和react-hot-loader不兼容。只能妥协 */
-    filename: '[name].[hash].js'
+    filename: '[name].[hash].js',
+    path: path.resolve(__dirname, './src'),
   },
   module: {
     rules: [
@@ -28,7 +29,7 @@ const devConfig = {
       }]
   },
   devServer: {
-    contentBase: path.join(__dirname, './build'), // 让WEB服务器运行静态资源（index.html）
+    contentBase: path.join(__dirname, './src'), // 让WEB服务器运行静态资源（index.html）
     historyApiFallback: true,
     host: '127.0.0.1',
   },
