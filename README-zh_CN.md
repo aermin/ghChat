@@ -86,7 +86,7 @@
 
   - [x] 机器人智能聊天回复
   - [x] 部署SSL证书
-  - [ ] 支持PWA
+  - [x] 支持PWA
   - [ ] 国际化
   - [ ] 后端用TS重写，封装成sdk
   - [ ] CI/CD
@@ -104,6 +104,15 @@ github对gif图有限制，我就直接截图了，具体详情建议直接[线�
 ![image](https://user-images.githubusercontent.com/24861316/53296160-afcead80-3844-11e9-9827-4b03303fcd3d.png)
 
 ![image](https://user-images.githubusercontent.com/24861316/53351432-4346d200-395c-11e9-936e-e08d887f1355.png)
+
+![image](https://user-images.githubusercontent.com/24861316/54492992-42271600-4906-11e9-8828-a79e018af1c8.png)
+
+Tips: 如何在chrome浏览器中开启对PWA的支持?
+
+![image](https://user-images.githubusercontent.com/24861316/54492876-3ab33d00-4905-11e9-8283-089f2af82399.png)
+![image](https://user-images.githubusercontent.com/24861316/54493160-9e3e6a00-4907-11e9-8f26-427c6753e2a4.png)
+
+
 
 ### 本地跑项目
 

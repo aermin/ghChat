@@ -87,7 +87,7 @@ And get other technology please follow the package.json file.
 
   - [x] Robot smart reply (just support Chinese)
   - [x] Add SSL for website
-  - [ ] PWA
+  - [x] PWA
   - [ ] Multilingual solution with I18
   - [ ] Rewrite back end code with TS，encapsulated as sdk.
   - [ ] CI/CD
@@ -103,6 +103,14 @@ And get other technology please follow the package.json file.
 ![image](https://user-images.githubusercontent.com/24861316/53296160-afcead80-3844-11e9-9827-4b03303fcd3d.png)
 
 ![image](https://user-images.githubusercontent.com/24861316/53351432-4346d200-395c-11e9-936e-e08d887f1355.png)
+
+![image](https://user-images.githubusercontent.com/24861316/54492992-42271600-4906-11e9-8828-a79e018af1c8.png)
+
+Tips: How to turn on PWA in chrome?
+
+![image](https://user-images.githubusercontent.com/24861316/54492876-3ab33d00-4905-11e9-8283-089f2af82399.png)
+![image](https://user-images.githubusercontent.com/24861316/54493160-9e3e6a00-4907-11e9-8f26-427c6753e2a4.png)
+
 
 ### Development
 
