@@ -8,7 +8,8 @@ import UserAvatar from '../UserAvatar';
 import './styles.scss';
 
 function _openUrl(url) {
-  window.open(url);
+  const formatUrl = /https:\/\/|http:\/\//.test(url) ? url : `https://${url}`;
+  window.open(formatUrl);
 }
 
 function userInfoRender(props) {

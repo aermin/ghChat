@@ -166,7 +166,7 @@ export default class InputArea extends Component {
           ref={(input) => { this.nameInput = input; }}
           value={inputMsg}
           onChange={this._inputMsgChange}
-          placeholder="支持Enter快捷键发送信息哦"
+          placeholder="支持Enter快捷键发送信息和@别人哦"
           onKeyPressCapture={this._keyPress} />
         {/* <pre id="textarea" /> */}
         <p className={buttonClass} onClick={this._sendMessage}>发送</p>

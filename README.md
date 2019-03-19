@@ -31,8 +31,13 @@ And get other technology please follow the package.json file.
 
   - [x] Log in
   - [x] Resister
-  - [x] Log in with github authorization
   - [x] Log out
+  - [ ] multiple devices log in at the same time
+
+- Integrate with github
+
+  - [x] Log in with github authorization
+  - [x] show github user public information
 
 - UI
     - [x] Basic UI components: modal，notification ...
@@ -67,7 +72,8 @@ And get other technology please follow the package.json file.
   - [x] Download file
   - [x] Press enter key to send message
   - [x] @somebody
-  - [x] View photo
+  - [x] Full view photo
+  - [ ] Send photo from copy
   - [ ] Search expression online
   - [ ] Markdown
   - [ ] Quote
