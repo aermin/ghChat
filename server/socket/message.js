@@ -30,25 +30,23 @@ const getGroupItem = async ({ groupId, start = 1, count = 20 }) => {
   };
 };
 
-const getAllMessage = async ({ user_id }) => {
+const getAllMessage = async ({ user_id, clientHomePageList }) => {
   try {
     const res1 = await msgModel.getPrivateList(user_id);
     const privateList = JSON.parse(JSON.stringify(res1));
-    // console.log('privateList111', privateList);
     const res2 = await msgModel.getGroupList(user_id);
     const groupList = JSON.parse(JSON.stringify(res2));
-    // console.log('groupList111', groupList);
-    // groupList.forEach((element) => {
-    //   element.time = element.time ? element.time : element.create_time;
-    // });
-    // privateList.forEach((element) => {
-    //   element.time = element.time ? element.time : element.be_friend_time;
-    // });
     const homePageList = groupList.concat(privateList);
-    // homePageList.sort((a, b) => b.time - a.time);
     const privateChat = new Map();
     const groupChat = new Map();
     for (const item of homePageList) {
+      if (clientHomePageList) {
+        const goal = clientHomePageList.find(e => (e.user_id ? e.user_id === item.user_id : e.to_group_id === item.to_group_id));
+        const sortTime = goal.time;
+        const res = item.user_id ? await privateChatModel.getUnreadCount({ sortTime, from_user: user_id, to_user: item.user_id })
+          : await groupChatModel.getUnreadCount({ sortTime, to_group_id: item.to_group_id });
+        item.unread = goal.unread + JSON.parse(JSON.stringify(res))[0].unread;
+      }
       if (item.user_id) {
         const data = await getPrivateMsg({ toUser: item.user_id, user_id });
         privateChat.set(item.user_id, data);

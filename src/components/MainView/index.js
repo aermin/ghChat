@@ -134,7 +134,10 @@ export default class MainView extends Component {
 
   _initMessage = () => {
     const { user_id } = this._userInfo;
-    window.socket.emit('initMessage', user_id, (allMessage) => {
+    window.socket.emit('initMessage', {
+      user_id,
+      clientHomePageList: JSON.parse(localStorage.getItem('homePageList'))
+    }, (allMessage) => {
       const privateChat = new Map(allMessage.privateChat);
       const groupChat = new Map(allMessage.groupChat);
       this.props.setHomePageList(allMessage.homePageList);
@@ -145,12 +148,6 @@ export default class MainView extends Component {
   }
 
   async init() {
-    // force logged in user to log in again to update userInfo in localStorage because I change userId to user_id global
-    // TODO: remove this after one week
-    if (this._userInfo.userId) {
-      localStorage.removeItem('userInfo');
-      this.props.history.push('/login');
-    }
     if (this._userInfo) {
       this._initSocket();
       this._initMessage();
@@ -164,7 +161,6 @@ export default class MainView extends Component {
         console.log('disconnect in client, disconnect reason =>', reason, 'time=>', new Date().toLocaleString());
         this._initSocket();
         this.subscribeSocket();
-        // TODO: 重现拿完数据更新未读数目
         this._initMessage();
       });
       window.socket.on('reconnect_error', (error) => {

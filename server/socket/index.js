@@ -43,8 +43,8 @@ module.exports = (server) => {
       });
 
       // 初始化， 获取群聊和私聊的数据
-      socket.on('initMessage', async (user_id, fn) => {
-        const data = await getAllMessage({ user_id });
+      socket.on('initMessage', async ({ user_id, clientHomePageList }, fn) => {
+        const data = await getAllMessage({ user_id, clientHomePageList });
         fn(data);
       });
 

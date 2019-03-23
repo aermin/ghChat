@@ -12,6 +12,7 @@ const getHomePageListReducer = (previousState = [], action) => {
     case CLEAR_UNREAD:
     case DELETE_CHAT_FROM_LIST:
     case SHOW_CALL_ME_TIP:
+      localStorage.setItem('homePageList', JSON.stringify(action.data));
       return [...action.data];
     default:
       return previousState;

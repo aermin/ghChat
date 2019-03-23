@@ -70,12 +70,12 @@ CREATE TABLE `group_user_relation` (
 
 
 
-# Dump of table private__msg
+# Dump of table private_msg
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `private__msg`;
+DROP TABLE IF EXISTS `private_msg`;
 
-CREATE TABLE `private__msg` (
+CREATE TABLE `private_msg` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `from_user` int(11) NOT NULL,
   `to_user` int(11) NOT NULL,

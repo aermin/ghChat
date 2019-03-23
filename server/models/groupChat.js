@@ -49,6 +49,7 @@ const saveGroupMsg = ({
   const _sql = ' INSERT INTO group_msg(from_user,to_group_id,message ,time, attachments) VALUES(?,?,?,?,?); ';
   return query(_sql, data);
 };
+
 /**
  * 群添加成员并返回群成员
  * @param   user_id  用户id
@@ -60,10 +61,18 @@ const addGroupUserRelation = (user_id, groupId) => {
   const _sql = ' INSERT INTO  group_user_relation(to_group_id,user_id) VALUES(?,?); ';
   return query(_sql, data);
 };
+
+const getUnreadCount = ({ sortTime, to_group_id }) => {
+  const data = [sortTime, to_group_id];
+  const _sql = 'SELECT count(time) as unread FROM group_msg as p where p.time > ? and p.to_group_id = ?;';
+  return query(_sql, data);
+};
+
 module.exports = {
   getGroupMsg,
   getGroupMember,
   getGroupInfo,
   saveGroupMsg,
-  addGroupUserRelation
+  addGroupUserRelation,
+  getUnreadCount
 };

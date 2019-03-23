@@ -5,7 +5,7 @@ import {
 } from './homePageListAction';
 
 const mapStateToProps = state => ({
-  homePageList: state.homePageListState,
+  homePageList: JSON.parse(localStorage.getItem('homePageList')) || state.homePageListState,
   allGroupChats: state.allGroupChatsState,
   allPrivateChats: state.allPrivateChatsState,
 });
