@@ -1,3 +1,5 @@
+import notification from '../../components/Notification';
+
 export default class BrowserNotification {
   constructor() {
     this._notificationEnable = false;
@@ -7,7 +9,7 @@ export default class BrowserNotification {
   _checkOrRequirePermission() {
     if (!this.notification) {
       // eslint-disable-next-line no-alert
-      alert('此浏览器不支持浏览器提示.');
+      notification('此浏览器不支持浏览器提示', 'warn', 3);
     }
     if (this.hasPermission) {
       this._notificationEnable = true;

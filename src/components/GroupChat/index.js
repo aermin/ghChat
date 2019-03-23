@@ -177,6 +177,7 @@ class GroupChat extends Component {
         <ChatContentList
           chats={allGroupChats}
           ChatContent={messages}
+          shouldScrollToFetchData={!!chatItem}
           chatId={chatId}
           chatType="groupChat"
           clickAvatar={user_id => this._clickPersonAvatar(user_id)}

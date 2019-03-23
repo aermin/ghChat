@@ -7,6 +7,7 @@ import { toNormalTime } from '../../utils/transformTime';
 import Chat from '../../modules/Chat';
 import './styles.scss';
 import sleep from '../../utils/sleep';
+import notification from '../Notification';
 
 export default class ChatContentList extends Component {
   constructor() {
@@ -87,6 +88,10 @@ export default class ChatContentList extends Component {
     const { scrollTop, scrollHeight, clientHeight } = e && e.target;
     this._scrollHeight = scrollHeight;
     if (scrollTop === 0 && scrollHeight !== clientHeight && this._executeNextLoad) {
+      if (!this.props.shouldScrollToFetchData) {
+        notification('查看更多请先加群哦', 'warn');
+        return;
+      }
       this._lazyLoadMessage();
     }
   }
@@ -161,6 +166,7 @@ ChatContentList.propTypes = {
   clickAvatar: PropTypes.func,
   chatType: PropTypes.string.isRequired,
   chats: PropTypes.instanceOf(Map),
+  shouldScrollToFetchData: PropTypes.bool,
 };
 
 
@@ -169,4 +175,5 @@ ChatContentList.defaultProps = {
   chatId: null,
   clickAvatar() {},
   chats: new Map(),
+  shouldScrollToFetchData: true,
 };
