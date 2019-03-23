@@ -8,7 +8,6 @@ import { List } from 'immutable';
 import Header from '../../containers/Header';
 import './index.scss';
 import ListItems from '../ListItems';
-import Notification from '../../utils/notification';
 import Chat from '../../modules/Chat';
 // import Spinner from '../spinner';
 
@@ -24,104 +23,11 @@ class HomePageList extends PureComponent {
     };
     this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this._filedStr = null;
-    this._notification = new Notification();
     this._chat = new Chat();
-    this._hasCalledMe = false;
   }
 
-  _notificationHandle = (data) => {
-    const { name, message, avatar } = data;
-    const chatType = data.to_group_id ? 'group_chat' : 'private_chat';
-    const chatFromId = data.to_group_id ? data.to_group_id : data.from_user;
-    const title = data.to_group_id && data.groupName ? data.groupName : name;
-    this._notification.notify({
-      title,
-      text: message,
-      icon: avatar,
-      onClick: () => {
-        this.props.history.push(`/${chatType}/${chatFromId}?name=${title}`);
-        window.focus();
-        this._chat.clearUnreadHandle({ homePageList: this.props.homePageList, chatFromId });
-      }
-    });
-  }
-
-  _listeningPrivateChatMsg = () => {
-    window.socket.on('getPrivateMsg', (data) => {
-      const { user_id } = this._userInfo;
-      const {
-        allPrivateChats, homePageList, updateHomePageList,
-        addPrivateChatMessages, relatedCurrentChat,
-        addPrivateChatMessageAndInfo
-      } = this.props;
-      // eslint-disable-next-line radix
-      const chatId = parseInt(window.location.pathname.split('/').slice(-1)[0]);
-      const isRelatedCurrentChat = (data.from_user === chatId || data.to_user === chatId);
-      const increaseUnread = isRelatedCurrentChat ? 0 : 1;
-      relatedCurrentChat(isRelatedCurrentChat);
-      if (!allPrivateChats.get(data.from_user) || !allPrivateChats.get(data.from_user).userInfo) {
-        const userInfo = {
-          ...data,
-          user_id: data.from_user
-        };
-        addPrivateChatMessageAndInfo({
-          allPrivateChats, message: data, chatId: data.from_user, userInfo,
-        });
-      } else {
-        addPrivateChatMessages({
-          allPrivateChats,
-          message: data,
-          chatId: data.from_user,
-        });
-      }
-      updateHomePageList({
-        data, homePageList, myUserId: user_id, increaseUnread
-      });
-      this._notificationHandle(data);
-      // TODO: mute notifications switch
-    });
-  }
-
-  _listeningGroupChatMsg = () => {
-    window.socket.on('getGroupMsg', (data) => {
-      const {
-        allGroupChats, homePageList, updateHomePageList,
-        addGroupMessages, relatedCurrentChat, addGroupMessageAndInfo
-      } = this.props;
-      // eslint-disable-next-line radix
-      const chatId = window.location.pathname.split('/').slice(-1)[0];
-      const isRelatedCurrentChat = (data.to_group_id === chatId);
-      relatedCurrentChat(isRelatedCurrentChat);
-      if (data.tip === 'joinGroup') {
-        addGroupMessageAndInfo({
-          allGroupChats,
-          groupId: data.to_group_id,
-          message: data,
-          member: data,
-        });
-      } else {
-        addGroupMessages({ allGroupChats, message: data, groupId: data.to_group_id });
-      }
-      if (data.message && !this._hasCalledMe) {
-        const regexp = new RegExp(`@${this._userInfo.name}\\s\\S*|@${this._userInfo.name}$`);
-        this._hasCalledMe = regexp.test(data.message);
-      }
-      updateHomePageList({
-        data,
-        homePageList,
-        increaseUnread: isRelatedCurrentChat ? 0 : 1,
-        showCallMeTip: this._hasCalledMe
-      });
-      this._notificationHandle(data);
-      // TODO: mute notifications switch
-    });
-  }
-
-  subscribeSocket() {
-    window.socket.removeAllListeners('getPrivateMsg');
-    window.socket.removeAllListeners('getGroupMsg');
-    this._listeningPrivateChatMsg();
-    this._listeningGroupChatMsg();
+  componentWillMount() {
+    this.props.subscribeSocket();
   }
 
   searchFieldChange(field) {
@@ -174,10 +80,6 @@ class HomePageList extends PureComponent {
     this._chat.clearUnreadHandle({ homePageList, chatFromId });
     // clear [有人@我] [@Me]
     this.props.showCallMeTip({ homePageList, chatFromId, showCallMeTip: false });
-  }
-
-  componentWillMount() {
-    this.subscribeSocket();
   }
 
   render() {
@@ -251,25 +153,15 @@ export default withRouter(HomePageList);
 
 HomePageList.propTypes = {
   allGroupChats: PropTypes.instanceOf(Map),
-  allPrivateChats: PropTypes.instanceOf(Map),
   homePageList: PropTypes.array,
-  updateHomePageList: PropTypes.func,
-  addGroupMessages: PropTypes.func,
-  addGroupMessageAndInfo: PropTypes.func,
-  addPrivateChatMessages: PropTypes.func,
-  relatedCurrentChat: PropTypes.func,
   showCallMeTip: PropTypes.func,
+  subscribeSocket: PropTypes.func,
 };
 
 
 HomePageList.defaultProps = {
   allGroupChats: new Map(),
-  allPrivateChats: new Map(),
-  updateHomePageList() {},
-  addGroupMessages() {},
-  addGroupMessageAndInfo() {},
-  addPrivateChatMessages() {},
-  relatedCurrentChat() {},
   homePageList: [],
   showCallMeTip() {},
+  subscribeSocket() {},
 };

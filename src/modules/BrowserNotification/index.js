@@ -1,4 +1,4 @@
-export default class Notification {
+export default class BrowserNotification {
   constructor() {
     this._notificationEnable = false;
     this._checkOrRequirePermission();

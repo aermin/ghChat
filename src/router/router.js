@@ -2,13 +2,11 @@ import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import RegisterPage from 'bundle-loader?lazy&name=RegisterPage!../containers/RegisterPage';
 import LogInPage from 'bundle-loader?lazy&name=LogInPage!../containers/LogInPage';
-import ContentLeft from 'bundle-loader?lazy&name=ContentLeft!../containers/ContentLeft';
-import ContentRight from 'bundle-loader?lazy&name=ContentRight!../containers/ContentRight';
+import MainView from 'bundle-loader?lazy&name=MainView!../containers/MainView';
+import RightView from 'bundle-loader?lazy&name=RightView!../containers/RightView';
 import Bundle from './Bundle';
 
-const Loading = function () {
-  return <div>Loading...</div>;
-};
+const Loading = () => <div>Loading...</div>;
 
 const createComponent = component => (props) => {
   const { pathname } = props.location;
@@ -51,14 +49,14 @@ export default function getRouter() {
             key={index}
             path={route.path}
             exact={route.exact}
-            component={createComponent(ContentLeft)} />
+            component={createComponent(MainView)} />
         ))}
         {routes.map((route, index) => (
           <Route
             key={index}
             path={route.path}
             exact={route.exact}
-            component={createComponent(ContentRight)} />
+            component={createComponent(RightView)} />
         ))}
       </div>
     </Router>

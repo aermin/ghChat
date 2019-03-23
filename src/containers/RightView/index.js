@@ -5,8 +5,7 @@ import WelcomePage from '../WelcomePage';
 import GroupChatPage from '../GroupChatPage';
 import PrivateChatPage from '../PrivateChatPage';
 
-export default function ContentLeft(props) {
-  // console.log('ContentLeftprops', props);
+export default function RightView(props) {
   // eslint-disable-next-line react/destructuring-assignment
   const { params, url } = props.match;
   // eslint-disable-next-line radix
