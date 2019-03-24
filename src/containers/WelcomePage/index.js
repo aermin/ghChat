@@ -8,7 +8,7 @@ export default class welcome extends Component {
 
   render() {
     return (
-      <div>选个群组/用户开始聊天吧ε==(づ′▽`)づ</div>
+      <div style={{ fontSize: '14px' }}>选个群组/用户开始聊天吧ε==(づ′▽`)づ</div>
     );
   }
 }

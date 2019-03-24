@@ -1,24 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Modal from '../Modal';
+import GroupModal from '../GroupModal';
 import notification from '../Notification';
 import './style.scss';
 
 
 export default class Header extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      groupName: '',
-      groupNotice: '',
       modalVisible: false,
       searchField: '',
     };
     this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
   }
 
-  confirm = () => {
-    const { groupName, groupNotice } = this.state;
+  confirm = ({ groupName, groupNotice }) => {
     if (!groupName || !groupNotice) {
       notification('你有空行没填哦', 'error');
       return;
@@ -30,11 +27,10 @@ export default class Header extends Component {
     this.setState({
       modalVisible: false
     });
-    this.createGroup();
+    this.createGroup({ groupName, groupNotice });
   };
 
-  createGroup = () => {
-    const { groupName, groupNotice } = this.state;
+  createGroup = ({ groupName, groupNotice }) => {
     const { name, user_id } = this._userInfo;
     const data = {
       name: groupName,
@@ -64,13 +60,10 @@ export default class Header extends Component {
     });
   }
 
-  handleChange = (event) => {
-    const { name, value } = event.target;
-    this.setState({ [name]: value });
-    if (name === 'searchField') {
-      const { searchFieldChange } = this.props;
-      searchFieldChange(value);
-    }
+  _searchFieldChange = (event) => {
+    const { value } = event.target;
+    const { searchFieldChange } = this.props;
+    searchFieldChange(value);
   }
 
   openModal = () => {
@@ -91,8 +84,7 @@ export default class Header extends Component {
 
   render() {
     const {
-      groupName, groupNotice,
-      searchField, modalVisible,
+      searchField, modalVisible
     } = this.state;
     const { isSearching } = this.props;
     return (
@@ -109,43 +101,19 @@ export default class Header extends Component {
             name="searchField"
             value={isSearching ? searchField : ''}
             placeholder="搜索用户/群"
-            onChange={this.handleChange} />
+            onChange={this._searchFieldChange} />
         </div>
         <span className="add" onClick={this.openModal}>
           <svg className="icon" aria-hidden="true"><use xlinkHref="#icon-add" /></svg>
         </span>
-        <Modal
+        <GroupModal
           title="创建群组"
-          visible={modalVisible}
-          confirm={this.confirm}
+          modalVisible={modalVisible}
+          confirm={args => this.confirm(args)}
           hasCancel
           hasConfirm
           cancel={this.cancel}
-        >
-          <div className="content">
-            <p>
-              <span>群名:</span>
-              <input
-                name="groupName"
-                value={groupName}
-                onChange={this.handleChange}
-                type="text"
-                placeholder="不超过12个字哦"
-                maxLength="12" />
-            </p>
-            <p>
-              <span>群公告:</span>
-              <textarea
-                name="groupNotice"
-                value={groupNotice}
-                onChange={this.handleChange}
-                rows="3"
-                type="text"
-                placeholder="不超过60个字哦"
-                maxLength="60" />
-            </p>
-          </div>
-        </Modal>
+         />
       </div>
     );
   }

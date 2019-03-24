@@ -11,7 +11,7 @@
 
 ### 地址
 
-[github项目地址](https://github.com/aermin/react-chat)。***可以的话给个star支持一下*** 😄
+[github项目地址](https://github.com/aermin/react-chat)。***本项目长期迭代，给个star支持一下*** 😄
 
 
 [网站线上地址，支持直接github授权登录](https://im.aermin.top)。
@@ -80,7 +80,8 @@
 - 新消息提示
 
   - [x] 浏览器桌面通知（生产环境下，使用chrome的桌面通知需要你的网站是HTTPS的）
-  - [x] 列表未读数字提示
+  - [x] 列表未读消息数目提示
+  - [x] 刷新/重开/重登页面，列表未读消息的数目将仍然且准确显示
 
 - 不断的重构和性能优化
 

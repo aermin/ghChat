@@ -1,5 +1,5 @@
 @import "../../assets/base.scss";
-.chat-information {
+.chatInformation {
     height: calc(100% - 50px);
     width: 200px;
     position: absolute;
@@ -14,13 +14,25 @@
         color: $m-title;
         padding-bottom: 10px;
         font-size: 14px;
+        position: relative;
+        .iconEditor {
+          position: absolute;
+          right: 10px;
+          font-size: 18px;
+          cursor: pointer;
+        }
       }
       .noticeContent {
           word-wrap: break-word;
           height: 80px;
           overflow: hidden;
           overflow-y: auto;
-          font-size: 14px;
+          font-size: 12px;
+      }
+      .memberTitle {
+        font-size: 14px;
+        padding-top: 10px;
+        color: $m-title;
       }
     }
     .members{
