@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Modal from '../Modal';
 import './styles.scss';
-
+import notification from '../Notification';
 
 export default class GroupModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      groupName: '',
-      groupNotice: '',
+      groupName: props.defaultGroupName,
+      groupNotice: props.defaultGroupNotice,
     };
   }
 
@@ -20,6 +20,14 @@ export default class GroupModal extends Component {
 
     _confirm = () => {
       const { groupName, groupNotice } = this.state;
+      if (!groupName || !groupNotice) {
+        notification('你有空行没填哦', 'error');
+        return;
+      }
+      if (groupName === 'ghChat') {
+        notification('这个群名仅供项目本身使用啦，请用别的群名', 'error');
+        return;
+      }
       this.props.confirm({ groupName, groupNotice });
     }
 
@@ -37,7 +45,7 @@ export default class GroupModal extends Component {
           hasConfirm
           cancel={cancel}
         >
-          <div className="content">
+          <div className="groupModalContent">
             <p>
               <span>群名:</span>
               <input
@@ -71,6 +79,8 @@ GroupModal.propTypes = {
   confirm: PropTypes.func,
   cancel: PropTypes.func,
   title: PropTypes.string,
+  defaultGroupName: PropTypes.string,
+  defaultGroupNotice: PropTypes.string,
 };
 
 GroupModal.defaultProps = {
@@ -78,4 +88,6 @@ GroupModal.defaultProps = {
   confirm() {},
   cancel() {},
   title: '',
+  defaultGroupName: '',
+  defaultGroupNotice: ''
 };

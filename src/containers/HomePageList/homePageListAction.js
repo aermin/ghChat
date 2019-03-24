@@ -6,14 +6,14 @@ const DELETE_CHAT_FROM_LIST = 'DELETE_CHAT_FROM_LIST';
 const SET_HOME_PAGE_LIST = 'SET_HOME_PAGE_LIST';
 const SHOW_CALL_ME_TIP = 'SHOW_CALL_ME_TIP';
 const RELATED_CURRENT_CHAT = 'RELATED_CURRENT_CHAT';
+const UPDATE_LIST_GROUP_NAME = 'UPDATE_LIST_GROUP_NAME';
 
 // TODO: 重构和代码注释
 const updateHomePageListAction = ({
   homePageList, data, myUserId, increaseUnread = 0, showCallMeTip = false
 }) => {
   const homePageListCopy = [...List(homePageList)];
-  const dataCopy = { ...data };
-  dataCopy.showCallMeTip = showCallMeTip;
+  const dataCopy = { ...data, showCallMeTip };
   let chatFromId;
   if (dataCopy && dataCopy.to_user) {
     chatFromId = dataCopy.from_user === myUserId ? dataCopy.to_user : dataCopy.from_user;
@@ -28,8 +28,9 @@ const updateHomePageListAction = ({
       const { user_id, to_group_id, unread = 0 } = homePageListCopy[i];
       if (user_id === chatFromId || to_group_id === chatFromId) {
         const updatedUnread = unread + increaseUnread;
+        const { message, time } = dataCopy;
         homePageListCopy[i] = Object.assign(homePageListCopy[i], {
-          message: dataCopy.message, time: dataCopy.time, unread: updatedUnread, showCallMeTip
+          message, time, unread: updatedUnread, showCallMeTip
         });
         break;
       }
@@ -40,6 +41,19 @@ const updateHomePageListAction = ({
   }
   return {
     type: UPDATE_HOME_PAGE_LIST,
+    data: homePageListCopy
+  };
+};
+
+
+const updateListGroupNameAction = ({
+  homePageList, name, to_group_id
+}) => {
+  const homePageListCopy = [...List(homePageList)];
+  const goal = homePageListCopy.find(e => e.to_group_id === to_group_id);
+  goal.name = name;
+  return {
+    type: UPDATE_LIST_GROUP_NAME,
     data: homePageListCopy
   };
 };
@@ -113,10 +127,12 @@ export {
   SET_HOME_PAGE_LIST,
   SHOW_CALL_ME_TIP,
   RELATED_CURRENT_CHAT,
+  UPDATE_LIST_GROUP_NAME,
   updateHomePageListAction,
   clearUnreadAction,
   deleteHomePageListAction,
   setHomePageListAction,
   showCallMeTipAction,
-  relatedCurrentChatAction
+  relatedCurrentChatAction,
+  updateListGroupNameAction
 };

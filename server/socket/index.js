@@ -102,14 +102,20 @@ module.exports = (server) => {
       socket.on('createGroup', async (data, fn) => {
         const to_group_id = uuid();
         const {
-          name, group_notice, creator, create_time
+          name, group_notice, creator_id, create_time
         } = data;
         const avatar = data.avatar || null;
-        const arr = [to_group_id, name, group_notice, creator, create_time, avatar];
+        const arr = [to_group_id, name, group_notice, creator_id, create_time, avatar];
         await groupInfoModel.createGroup(arr);
-        await groupInfoModel.joinGroup(data.creator_id, to_group_id);
+        await groupInfoModel.joinGroup(creator_id, to_group_id);
         socket.join(to_group_id);
         fn({ to_group_id, ...data });
+      });
+
+      // 修改群资料
+      socket.on('updateGroupInfo', async (data, fn) => {
+        await groupInfoModel.updateGroupInfo(data);
+        fn('修改群资料成功');
       });
 
       // 加群

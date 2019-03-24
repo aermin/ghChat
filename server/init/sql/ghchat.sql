@@ -30,8 +30,7 @@ CREATE TABLE `group_info` (
   `to_group_id` char(100) NOT NULL DEFAULT '',
   `name` varchar(20) NOT NULL DEFAULT '',
   `group_notice` varchar(100) NOT NULL DEFAULT '',
-  `avatar` varchar(250) DEFAULT '',
-  `creator` varchar(30) NOT NULL DEFAULT '',
+  `creator_id` int(11) NOT NULL,
   `create_time` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

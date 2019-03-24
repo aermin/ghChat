@@ -5,12 +5,14 @@ import {
 import {
   updateHomePageListAction,
   deleteHomePageListAction,
+  updateListGroupNameAction,
 } from '../HomePageList/homePageListAction';
 import {
   addGroupMessagesAction,
   deleteGroupChatAction,
   addGroupInfoAction,
   addGroupMessageAndInfoAction,
+  updateGroupTitleNoticeAction,
 } from './groupChatAction';
 import GroupChat from '../../components/GroupChat';
 
@@ -38,6 +40,12 @@ const mapDispatchToProps = dispatch => ({
   },
   deleteHomePageList(arg = {}) {
     dispatch(deleteHomePageListAction({ ...arg }));
+  },
+  updateGroupTitleNotice(arg = {}) {
+    dispatch(updateGroupTitleNoticeAction({ ...arg }));
+  },
+  updateListGroupName(arg = {}) {
+    dispatch(updateListGroupNameAction({ ...arg }));
   },
 });
 

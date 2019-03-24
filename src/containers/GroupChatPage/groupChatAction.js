@@ -3,6 +3,7 @@ const ADD_GROUP_MESSAGES = 'ADD_GROUP_MESSAGES';
 const ADD_GROUP_INFO = 'ADD_GROUP_INFO';
 const DELETE_GROUP_CHAT = 'DELETE_GROUP_CHAT';
 const ADD_GROUP_MESSAGE_AND_INFO = 'ADD_GROUP_MESSAGE_AND_INFO';
+const UPDATE_GROUP_TITLE_NOTICE = 'UPDATE_GROUP_TITLE_NOTICE';
 
 const setAllGroupChatsAction = ({ data = new Map() }) => ({
   type: SET_ALL_GROUP_CHATS,
@@ -45,6 +46,17 @@ const addGroupInfoAction = ({
   return { type: ADD_GROUP_INFO, data: allGroupChatsCopy };
 };
 
+const updateGroupTitleNoticeAction = ({
+  allGroupChats, groupNotice, groupName, groupId
+}) => {
+  const allGroupChatsCopy = new Map(allGroupChats);
+  const goalGroupChat = allGroupChatsCopy.get(groupId);
+  if (!goalGroupChat || !goalGroupChat.groupInfo) console.error('不存在此群的信息');
+  goalGroupChat.groupInfo = { ...goalGroupChat.groupInfo, group_notice: groupNotice, name: groupName };
+  return { type: UPDATE_GROUP_TITLE_NOTICE, data: allGroupChatsCopy };
+};
+
+
 const addGroupMessageAndInfoAction = ({
   allGroupChats, groupId, messages, message, member,
   members, groupInfo
@@ -80,9 +92,11 @@ export {
   DELETE_GROUP_CHAT,
   ADD_GROUP_INFO,
   ADD_GROUP_MESSAGE_AND_INFO,
+  UPDATE_GROUP_TITLE_NOTICE,
   setAllGroupChatsAction,
   addGroupMessagesAction,
   deleteGroupChatAction,
   addGroupInfoAction,
   addGroupMessageAndInfoAction,
+  updateGroupTitleNoticeAction,
 };

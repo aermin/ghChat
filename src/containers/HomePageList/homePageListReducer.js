@@ -3,6 +3,7 @@ import {
   CLEAR_UNREAD, DELETE_CHAT_FROM_LIST,
   SHOW_CALL_ME_TIP,
   RELATED_CURRENT_CHAT,
+  UPDATE_LIST_GROUP_NAME,
 } from './homePageListAction';
 
 const getHomePageListReducer = (previousState = [], action) => {
@@ -12,6 +13,7 @@ const getHomePageListReducer = (previousState = [], action) => {
     case CLEAR_UNREAD:
     case DELETE_CHAT_FROM_LIST:
     case SHOW_CALL_ME_TIP:
+    case UPDATE_LIST_GROUP_NAME:
       localStorage.setItem('homePageList', JSON.stringify(action.data));
       return [...action.data];
     default:

@@ -57,7 +57,7 @@ And get other technology please follow the package.json file.
   - [x] Join a group
   - [x] Group information view, include group members, group notice, group name...
   - [x] Quit the group
-  - [ ] Editor group information
+  - [x] Editor group information
 
 - Search
 

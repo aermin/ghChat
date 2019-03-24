@@ -2,14 +2,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import UserAdapter from '../UserAvatar';
 import './styles.scss';
+import GroupModal from '../GroupModal';
+import notification from '../Notification';
 
 export default class GroupChatInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
       groupMember: [],
-      onlineNumber: '--'
+      onlineNumber: '--',
+      modalVisible: false,
     };
+    this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    this._isCreator = this._userInfo.user_id === parseInt(props.groupInfo.creator_id);
   }
 
   componentDidMount() {
@@ -29,7 +34,7 @@ export default class GroupChatInfo extends Component {
   }
 
   _openEditorInfoModal = () => {
-
+    this.setState({ modalVisible: true });
   }
 
   GroupMemberRender = groupMember => (
@@ -43,15 +48,61 @@ export default class GroupChatInfo extends Component {
     </ul>
   );
 
+  _confirm = ({ groupName, groupNotice }) => {
+    this._closeModal();
+    this._updateGroupInfo({ groupName, groupNotice });
+  }
+
+  _closeModal= () => {
+    this.setState({
+      modalVisible: false
+    });
+  }
+
+  _updateGroupInfo = ({ groupName, groupNotice }) => {
+    const {
+      groupInfo, allGroupChats,
+      updateGroupTitleNotice,
+      updateListGroupName,
+      homePageList
+    } = this.props;
+    const { to_group_id } = groupInfo;
+    const data = {
+      name: groupName,
+      group_notice: groupNotice,
+      to_group_id
+    };
+    window.socket.emit('updateGroupInfo', data, (res) => {
+      updateGroupTitleNotice({
+        allGroupChats, groupNotice, groupName, groupId: to_group_id
+      });
+      updateListGroupName({
+        homePageList, name: groupName, to_group_id
+      });
+      notification(res, 'success');
+      this._closeModal();
+    });
+  }
+
   render() {
-    const { groupMember, onlineNumber } = this.state;
+    const { groupMember, onlineNumber, modalVisible } = this.state;
     const { groupInfo, leaveGroup } = this.props;
     return (
       <div className="chatInformation">
+        <GroupModal
+          title="修改群资料"
+          modalVisible={modalVisible}
+          confirm={args => this._confirm(args)}
+          hasCancel
+          hasConfirm
+          cancel={this._closeModal}
+          defaultGroupName={groupInfo.name}
+          defaultGroupNotice={groupInfo.group_notice}
+         />
         <div className="info">
           <p className="noticeTitle">
             群公告
-            <svg onClick={this._openEditorInfoModal} className="icon iconEditor" aria-hidden="true"><use xlinkHref="#icon-editor" /></svg>
+            {this._isCreator && <svg onClick={this._openEditorInfoModal} className="icon iconEditor" aria-hidden="true"><use xlinkHref="#icon-editor" /></svg>}
           </p>
           <p className="noticeContent">{groupInfo.group_notice}</p>
           <p className="memberTitle">
@@ -74,9 +125,17 @@ GroupChatInfo.propTypes = {
   leaveGroup: PropTypes.func.isRequired,
   chatId: PropTypes.string.isRequired,
   groupInfo: PropTypes.object,
+  updateGroupTitleNotice: PropTypes.func,
+  updateListGroupName: PropTypes.func,
+  allGroupChats: PropTypes.instanceOf(Map),
+  homePageList: PropTypes.array,
 };
 
 
 GroupChatInfo.defaultProps = {
-  groupInfo: {}
+  groupInfo: {},
+  updateGroupTitleNotice() {},
+  updateListGroupName() {},
+  allGroupChats: new Map(),
+  homePageList: [],
 };

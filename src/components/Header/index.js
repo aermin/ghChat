@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import GroupModal from '../GroupModal';
-import notification from '../Notification';
 import './style.scss';
 
 
@@ -16,14 +15,6 @@ export default class Header extends Component {
   }
 
   confirm = ({ groupName, groupNotice }) => {
-    if (!groupName || !groupNotice) {
-      notification('你有空行没填哦', 'error');
-      return;
-    }
-    if (groupName === 'ghChat') {
-      notification('这个群名仅供项目本身使用啦，请用别的群名', 'error');
-      return;
-    }
     this.setState({
       modalVisible: false
     });
@@ -35,7 +26,6 @@ export default class Header extends Component {
     const data = {
       name: groupName,
       group_notice: groupNotice,
-      creator: name,
       creator_id: user_id,
       create_time: Date.parse(new Date()) / 1000
     };
@@ -49,7 +39,7 @@ export default class Header extends Component {
         status: 1
       }];
       const groupInfo = Object.assign({ members }, res);
-      res.message = `${res.creator}: 创建群成功！`;
+      res.message = `${name}: 创建群成功！`;
       res.time = res.create_time;
       res.from_user = res.creator_id;
       updateHomePageList({ data: res, homePageList });

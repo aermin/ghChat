@@ -144,7 +144,12 @@ class GroupChat extends Component {
   }
 
   render() {
-    const { chatId, allGroupChats } = this.props;
+    const {
+      chatId, allGroupChats,
+      updateGroupTitleNotice,
+      updateListGroupName,
+      homePageList
+    } = this.props;
     const {
       groupMsgAndInfo, showGroupChatInfo,
       visible, personalInfo,
@@ -186,8 +191,12 @@ class GroupChat extends Component {
         { showGroupChatInfo && (
         <GroupChatInfo
           groupInfo={groupInfo}
+          allGroupChats={allGroupChats}
+          homePageList={homePageList}
           leaveGroup={this._showLeaveModal}
           clickMember={user_id => this._clickPersonAvatar(user_id)}
+          updateGroupTitleNotice={updateGroupTitleNotice}
+          updateListGroupName={updateListGroupName}
           chatId={chatId} />
         )}
         { chatItem ? <InputArea sendMessage={this.sendMessage} groupMembers={groupInfo.members} />
@@ -216,6 +225,8 @@ GroupChat.propTypes = {
   deleteHomePageList: PropTypes.func,
   deleteGroupChat: PropTypes.func,
   chatId: PropTypes.string,
+  updateGroupTitleNotice: PropTypes.func,
+  updateListGroupName: PropTypes.func,
 };
 
 
@@ -228,4 +239,6 @@ GroupChat.defaultProps = {
   deleteHomePageList() {},
   deleteGroupChat() {},
   chatId: undefined,
+  updateGroupTitleNotice() {},
+  updateListGroupName() {},
 };
