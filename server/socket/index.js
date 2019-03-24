@@ -104,8 +104,7 @@ module.exports = (server) => {
         const {
           name, group_notice, creator_id, create_time
         } = data;
-        const avatar = data.avatar || null;
-        const arr = [to_group_id, name, group_notice, creator_id, create_time, avatar];
+        const arr = [to_group_id, name, group_notice, creator_id, create_time];
         await groupInfoModel.createGroup(arr);
         await groupInfoModel.joinGroup(creator_id, to_group_id);
         socket.join(to_group_id);

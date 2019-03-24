@@ -5,7 +5,7 @@ const {
 // 通过user_id查找首页群列表
 // TODO： 优化sql语句
 const getGroupList = (user_id) => {
-  const _sql = `SELECT r.to_group_id ,i.name , i.create_time, i.avatar ,
+  const _sql = `SELECT r.to_group_id ,i.name , i.create_time,
     (SELECT g.message  FROM group_msg AS g  WHERE g.to_group_id = r.to_group_id  ORDER BY TIME DESC   LIMIT 1 )  AS message ,
     (SELECT g.time  FROM group_msg AS g  WHERE g.to_group_id = r.to_group_id  ORDER BY TIME DESC   LIMIT 1 )  AS time,
     (SELECT g.attachments FROM group_msg AS g  WHERE g.to_group_id = r.to_group_id  ORDER BY TIME DESC   LIMIT 1 )  AS attachments
