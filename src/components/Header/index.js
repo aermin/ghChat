@@ -51,7 +51,8 @@ export default class Header extends Component {
   }
 
   _searchFieldChange = (event) => {
-    const { value } = event.target;
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
     const { searchFieldChange } = this.props;
     searchFieldChange(value);
   }

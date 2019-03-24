@@ -54,7 +54,6 @@ export default class MainView extends Component {
       const isRelatedCurrentChat = (data.from_user === chatId || data.to_user === chatId);
       const increaseUnread = isRelatedCurrentChat ? 0 : 1;
       relatedCurrentChat(isRelatedCurrentChat);
-      console.log('allPrivateChats, data.from_user', allPrivateChats, data.from_user);
       if (!allPrivateChats.get(data.from_user) || !allPrivateChats.get(data.from_user).userInfo) {
         const userInfo = {
           ...data,
@@ -136,7 +135,7 @@ export default class MainView extends Component {
     const { user_id } = this._userInfo;
     window.socket.emit('initMessage', {
       user_id,
-      clientHomePageList: JSON.parse(localStorage.getItem('homePageList'))
+      clientHomePageList: JSON.parse(localStorage.getItem(`homePageList-${user_id}`))
     }, (allMessage) => {
       const privateChat = new Map(allMessage.privateChat);
       const groupChat = new Map(allMessage.groupChat);

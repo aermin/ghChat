@@ -6,6 +6,7 @@ import {
   UPDATE_LIST_GROUP_NAME,
 } from './homePageListAction';
 
+const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 const getHomePageListReducer = (previousState = [], action) => {
   switch (action.type) {
     case SET_HOME_PAGE_LIST:
@@ -14,7 +15,9 @@ const getHomePageListReducer = (previousState = [], action) => {
     case DELETE_CHAT_FROM_LIST:
     case SHOW_CALL_ME_TIP:
     case UPDATE_LIST_GROUP_NAME:
-      localStorage.setItem('homePageList', JSON.stringify(action.data));
+      if (userInfo) {
+        localStorage.setItem(`homePageList-${userInfo.user_id}`, JSON.stringify(action.data));
+      }
       return [...action.data];
     default:
       return previousState;

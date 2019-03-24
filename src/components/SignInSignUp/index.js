@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import './index.scss';
 import PropTypes from 'prop-types';
-import { withRouter, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Request from '../../utils/request';
 import Spinner from '../spinner';
 import UserAvatar from '../UserAvatar';
 
-class SignInSignUp extends Component {
+export default class SignInSignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,7 +27,8 @@ class SignInSignUp extends Component {
       const code = href.split('?code=')[1];
       const response = await Request.axios('post', '/api/v1/github_oauth', { code, clientId: this.clientId });
       localStorage.setItem('userInfo', JSON.stringify(response));
-      this.props.history.push('/');
+      window.location.reload();
+      window.location.href = '/';
     }
   }
 
@@ -113,6 +114,3 @@ SignInSignUp.defaultProps = {
   setValue() {},
   isLogin: false,
 };
-
-
-export default withRouter(SignInSignUp);

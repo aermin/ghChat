@@ -1,8 +1,5 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
-import {
-  withRouter,
-} from 'react-router-dom';
 import Request from '../../utils/request';
 import Modal from '../../components/Modal';
 import notification from '../../components/Notification';
@@ -66,7 +63,8 @@ class LogIn extends Component {
         visible: true,
       }
     });
-    this.props.history.push('/');
+    window.location.reload();
+    window.location.href = '/';
   };
 
   render() {
@@ -89,4 +87,4 @@ class LogIn extends Component {
   }
 }
 
-export default withRouter(LogIn);
+export default LogIn;

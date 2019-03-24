@@ -39,22 +39,27 @@ const getAllMessage = async ({ user_id, clientHomePageList }) => {
     const homePageList = groupList.concat(privateList);
     const privateChat = new Map();
     const groupChat = new Map();
-    for (const item of homePageList) {
-      if (clientHomePageList) {
-        const goal = clientHomePageList.find(e => (e.user_id ? e.user_id === item.user_id : e.to_group_id === item.to_group_id));
-        const sortTime = goal.time;
-        const res = item.user_id ? await privateChatModel.getUnreadCount({ sortTime, from_user: user_id, to_user: item.user_id })
-          : await groupChatModel.getUnreadCount({ sortTime, to_group_id: item.to_group_id });
-        item.unread = goal.unread + JSON.parse(JSON.stringify(res))[0].unread;
-      }
-      if (item.user_id) {
-        const data = await getPrivateMsg({ toUser: item.user_id, user_id });
-        privateChat.set(item.user_id, data);
-      } else if (item.to_group_id) {
-        const data = await getGroupItem({ groupId: item.to_group_id });
-        groupChat.set(item.to_group_id, data);
+    if (homePageList && homePageList.length) {
+      for (const item of homePageList) {
+        if (clientHomePageList && clientHomePageList.length) {
+          const goal = clientHomePageList.find(e => (e.user_id ? e.user_id === item.user_id : e.to_group_id === item.to_group_id));
+          if (goal) {
+            const sortTime = goal.time;
+            const res = item.user_id ? await privateChatModel.getUnreadCount({ sortTime, from_user: user_id, to_user: item.user_id })
+              : await groupChatModel.getUnreadCount({ sortTime, to_group_id: item.to_group_id });
+            item.unread = goal.unread + JSON.parse(JSON.stringify(res))[0].unread;
+          }
+        }
+        if (item.user_id) {
+          const data = await getPrivateMsg({ toUser: item.user_id, user_id });
+          privateChat.set(item.user_id, data);
+        } else if (item.to_group_id) {
+          const data = await getGroupItem({ groupId: item.to_group_id });
+          groupChat.set(item.to_group_id, data);
+        }
       }
     }
+
     return {
       homePageList,
       privateChat: Array.from(privateChat),

@@ -4,11 +4,16 @@ import {
   showCallMeTipAction,
 } from './homePageListAction';
 
-const mapStateToProps = state => ({
-  homePageList: JSON.parse(localStorage.getItem('homePageList')) || state.homePageListState,
-  allGroupChats: state.allGroupChatsState,
-  allPrivateChats: state.allPrivateChatsState,
-});
+
+const mapStateToProps = (state) => {
+  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  const homePageListStorage = userInfo && userInfo.user_id && JSON.parse(localStorage.getItem(`homePageList-${userInfo.user_id}`));
+  return ({
+    homePageList: homePageListStorage || state.homePageListState,
+    allGroupChats: state.allGroupChatsState,
+    allPrivateChats: state.allPrivateChatsState,
+  });
+};
 
 const mapDispatchToProps = dispatch => ({
   showCallMeTip(arg = {}) {

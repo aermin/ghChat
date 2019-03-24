@@ -22,7 +22,7 @@
 
 ### 技术栈
 
-前端React全家桶，后端node.js(koa2), 数据库MySQL, 双向通信SocKet.io, jwt鉴权等等。具体看package.json哦。
+前端React全家桶，后端node.js(koa2), 数据库MySQL, 双向通信SocKet.io, jwt鉴权等等。具体看package.json。有疑问的可以加ghChat群交流哦，我每天都在线，也可以私聊我，我的ghChat用户名是aermin(白色头像的那个)
 
 ### 目前进度
 
