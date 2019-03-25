@@ -73,7 +73,7 @@ And get other technology please follow the package.json file.
   - [x] Press enter key to send message
   - [x] @somebody
   - [x] Full view photo
-  - [ ] Send photo from copy
+  - [x] Send photo from copy
   - [ ] Search expression online
   - [ ] Markdown
   - [ ] Quote

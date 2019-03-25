@@ -5,6 +5,7 @@ import Fuse from 'fuse.js';
 import upload from '../../utils/qiniu';
 import './style.scss';
 import notification from '../Notification';
+import debounce from '../../utils/debounce';
 
 export default class InputArea extends Component {
   constructor(props) {
@@ -14,7 +15,8 @@ export default class InputArea extends Component {
       showEmojiPicker: false,
       relatedMembers: [],
     };
-    this._placeholder = /group_chat/.test(window.location.href) ? '支持Enter快捷键发信息和@别人哦' : '支持Enter快捷键发信息哦';
+    this._placeholder = /group_chat/.test(window.location.href) ? '支持Enter发信息/粘贴发图/@别人哦' : '支持Enter发信息/粘贴发图哦';
+    this._onPaste = debounce(this._paste, 2000, true);
   }
 
   _sendMessage = ({ attachments = [] }) => {
@@ -145,6 +147,32 @@ export default class InputArea extends Component {
     );
   }
 
+  _paste = (e) => {
+    const clipboardData = (e.clipboardData || e.originalEvent.clipboardData);
+    const items = clipboardData && clipboardData.items;
+    if (!items) return;
+    const len = items.length;
+    for (let i = 0; i < len; i++) {
+      if (items[i].kind === 'file') {
+        e.preventDefault();
+        const file = items[i].getAsFile();
+        if (!file) {
+          return;
+        }
+        const limitSize = 1000 * 1024 * 2; // 2 MB
+        if (file.size > limitSize) {
+          notification('发的文件不能超过2MB哦!', 'warn', 2);
+          return;
+        }
+        upload(file, (fileUrl) => {
+          const type = file.type.split('/')[0];
+          const attachments = [{ fileUrl, type, name: file.name }];
+          this._sendMessage({ attachments });
+        });
+      }
+    }
+  }
+
   render() {
     const { inputMsg, showEmojiPicker, relatedMembers } = this.state;
     const robotStyle = {
@@ -168,6 +196,7 @@ export default class InputArea extends Component {
           value={inputMsg}
           onChange={this._inputMsgChange}
           placeholder={this._placeholder}
+          onPaste={this._onPaste}
           onKeyPressCapture={this._keyPress} />
         {/* <pre id="textarea" /> */}
         <p className={buttonClass} onClick={this._sendMessage}>发送</p>

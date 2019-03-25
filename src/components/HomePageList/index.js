@@ -9,7 +9,7 @@ import Header from '../../containers/Header';
 import './index.scss';
 import ListItems from '../ListItems';
 import Chat from '../../modules/Chat';
-// import Spinner from '../spinner';
+// import Spinner from '../Spinner';
 
 
 class HomePageList extends PureComponent {
