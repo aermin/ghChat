@@ -1,36 +1,17 @@
-const cacheName = 'ghChat-step-6-1';
-const filesToCache = [
-  '/',
-  '/index.html',
-];
+// 用workbox-sw替代之前的实现方案，感谢碎碎酱@yinxin630的建议和方案
 
-self.addEventListener('install', (e) => {
-  console.log('[ServiceWorker] Install');
-  e.waitUntil(
-    caches.open(cacheName).then((cache) => {
-      console.log('[ServiceWorker] Caching app shell');
-      return cache.addAll(filesToCache);
-    })
-  );
-});
+importScripts('https://g.alicdn.com/kg/workbox/3.3.0/workbox-sw.js');
 
-self.addEventListener('activate', (e) => {
-  console.log('[ServiceWorker] Activate');
-  e.waitUntil(
-    caches.keys().then(keyList => Promise.all(keyList.map((key) => {
-      if (key !== cacheName) {
-        console.log('[ServiceWorker] Removing old cache', key);
-        return caches.delete(key);
-      }
-    })))
-  );
-  return self.clients.claim();
-});
+if (workbox) {
+  workbox.setConfig({ modulePathPrefix: 'https://g.alicdn.com/kg/workbox/3.3.0/' });
 
+  workbox.precaching.precache(['/', '/index.html']);
 
-// self.addEventListener('fetch', (e) => {
-//   console.log('[ServiceWorker] Fetch', e.request.url);
-//   e.respondWith(
-//     caches.match(e.request).then(response => response || fetch(e.request))
-//   );
-// });
+  workbox.routing.registerRoute(new RegExp('^https?://im.aermin.top/?$'), workbox.strategies.networkFirst());
+
+  workbox.routing.registerRoute(new RegExp('.*.html'), workbox.strategies.networkFirst());
+
+  workbox.routing.registerRoute(new RegExp('.*.(?:js|css)'), workbox.strategies.staleWhileRevalidate());
+
+  workbox.routing.registerRoute(new RegExp('https://cdn.aremin.top/'), workbox.strategies.cacheFirst());
+}

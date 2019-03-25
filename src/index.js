@@ -7,6 +7,17 @@ import store from './redux/store';
 import App from './App';
 import AxiosHandle from './utils/request';
 
+
+if (
+  (window.location.protocol === 'https:' || window.location.hostname === 'localhost')
+    && navigator.serviceWorker
+) {
+  window.addEventListener('load', () => {
+    const sw = '/service-worker.js';
+    navigator.serviceWorker.register(sw);
+  });
+}
+
 console.log(process.env.NODE_ENV);
 function renderWithHotReload(RootElement) {
   ReactDom.render(
