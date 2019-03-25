@@ -82,7 +82,7 @@ And get other technology please follow the package.json file.
 
   - [x] Browser notification
   - [x] Show chat messages unread number in the chat list
-  - [x] chat messages unread number still show accurately when user refresh, reopen page or login again
+  - [x] chat messages unread number still show accurately when user refresh, reopen page or (different accounts)login again
 
 - Performance
 
