@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './styles.scss';
 
 export default class welcome extends Component {
   constructor() {
@@ -8,7 +9,10 @@ export default class welcome extends Component {
 
   render() {
     return (
-      <div style={{ fontSize: '14px' }}>选个群组/用户开始聊天吧ε==(づ′▽`)づ</div>
+      <div className="welcomeWrapper">
+        <p className="title">欢迎ヾ(=･ω･=)o</p>
+        <p className="content">选个群组/用户开始聊天吧ε==(づ′▽`)づ</p>
+      </div>
     );
   }
 }

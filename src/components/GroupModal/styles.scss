@@ -7,19 +7,22 @@
                 outline: none;
                 resize: none;
                 padding-left: 0;
-                margin-left: 12px;
                 border: 1px solid #fff;
                 color: #999; 
+            }
+            input {
+                margin-left: -26px
             }
             span {
                 float: left;
                 font-size: 14px;
                 margin-top: 4px;
-                margin-left: 18px;
-                margin-right: -10px;
+                padding-left: 18px;
+                width: 20%;
             }
             textarea {
                 padding-top: 6px;
+                width: 70%;
             }
             input::-webkit-input-placeholder , textarea::-webkit-input-placeholder {
                 /* WebKit browsers */

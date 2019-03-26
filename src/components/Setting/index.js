@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import UserAvatar from '../UserAvatar';
 import './styles.scss';
 import Button from '../Button';
@@ -11,7 +11,7 @@ export default class Setting extends Component {
     this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this.state = {
       visible: false,
-      githubStars: '--',
+      // githubStars: '--',
     };
   }
 
@@ -30,11 +30,11 @@ export default class Setting extends Component {
      this.props.history.push('/login');
    }
 
-   componentDidMount() {
-     axios.get('https://api.github.com/repos/aermin/react-chat').then((res) => {
-       this.setState({ githubStars: res.data.stargazers_count });
-     });
-   }
+   //  componentDidMount() {
+   //    axios.get('https://api.github.com/repos/aermin/react-chat').then((res) => {
+   //      this.setState({ githubStars: res.data.stargazers_count });
+   //    });
+   //  }
 
   _openRepository = () => {
     window.open('https://github.com/aermin/react-chat');
@@ -50,7 +50,7 @@ export default class Setting extends Component {
           <use xlinkHref="#icon-github-copy" />
         </svg>
         <span className="starTitle">
-          {`${this.state.githubStars} Stars`}
+          源码 & star
         </span>
       </div>
     );
