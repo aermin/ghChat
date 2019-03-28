@@ -6,7 +6,7 @@ const initState = {
   robotMsg: [
     // 机器人首语
     {
-      message: 'hi, 欢迎与我聊天，问我问题哦！也欢迎点击加入关于本项目的交流群进行交流 :grinning:',
+      message: 'hi, 我是机器人，欢迎与我聊天哦！也欢迎点击加入ghChat交流群进行交流 :grinning:',
       user: '机器人小R'
     },
     {

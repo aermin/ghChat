@@ -15,8 +15,18 @@ export default class InputArea extends Component {
       showEmojiPicker: false,
       relatedMembers: [],
     };
-    this._placeholder = /group_chat/.test(window.location.href) ? '支持Enter发信息/粘贴发图/@别人哦' : '支持Enter发信息/粘贴发图哦';
-    this._onPaste = debounce(this._paste, 2000, true);
+    this._placeholder = null;
+    this._onPaste = props.isRobotChat ? () => {} : debounce(this._paste, 2000, true);
+  }
+
+  componentWillMount() {
+    if (/group_chat/.test(window.location.href)) {
+      this._placeholder = '支持Enter发信息/粘贴发图/@别人哦';
+    } else if (this.props.isRobotChat) {
+      this._placeholder = '支持Enter发信息哦';
+    } else { // private chat
+      this._placeholder = '支持Enter发信息/粘贴发图哦';
+    }
   }
 
   _sendMessage = ({ attachments = [] }) => {

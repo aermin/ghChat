@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import { toNormalTime } from '../../utils/transformTime';
 import UserAvatar from '../UserAvatar';
 import GroupAvatar from '../GroupAvatar';
@@ -43,6 +44,18 @@ class ListItems extends Component {
         GroupMembers = chatItem && chatItem.groupInfo && chatItem.groupInfo.members;
       }
       const { params } = this.props.match;
+      const unreadColor = data.to_group_id ? 'groupUnread' : 'privateUnread';
+      let unreadCircular;
+      switch (data.unread.toString().length) {
+        case 2:
+          unreadCircular = 'twoDigitsUnread';
+          break;
+        case 3:
+          unreadCircular = 'threeDigitsUnread';
+          break;
+        default:
+          unreadCircular = 'oneDigitUnread';
+      }
       return (
         <li
           key={index}
@@ -58,8 +71,8 @@ class ListItems extends Component {
               ? <GroupAvatar members={GroupMembers || []} />
               : <UserAvatar src={data.avatar} name={data.name} size="46" showLogo={!!data.github_id} />}
             {!!data.unread && (
-            <span className={data.to_group_id ? 'group-unread' : 'private-unread'}>
-              {data.unread}
+            <span className={classnames(unreadColor, unreadCircular)}>
+              {data.unread > 99 ? '99+' : data.unread}
             </span>
             )}
             <div className="content">

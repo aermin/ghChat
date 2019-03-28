@@ -1,8 +1,6 @@
 @import "../../assets/base.scss";
-.private-unread, .group-unread {
-    font-size: 12px;
+.privateUnread, .groupUnread {
     border-radius: 50%;
-    padding: 0 4px;
     color: #fff;
     z-index: 8;
     position: absolute;
@@ -35,11 +33,22 @@
                 position: relative;
             }
         }
-
-        .private-unread {
+        .twoDigitsUnread {
+            padding: 1px 2.8px 2px;
+            font-size: 10px;
+        }
+        .threeDigitsUnread  {
+            padding: 1.4px 2.8px;
+            font-size: 10px;
+        }
+        .oneDigitUnread {
+            padding: 0 4px;
+            font-size: 12px;
+        }
+        .privateUnread {
             background-color: red;
         }
-        .group-unread {
+        .groupUnread {
             background-color: #98d1f2;
         }
         .content {
