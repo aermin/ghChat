@@ -20,19 +20,46 @@ class HomePageList extends PureComponent {
       contactedItems: [],
       showSearchUser: true,
       showSearchGroup: true,
+      searchResultTitle: {
+        user: '您联系过的用户',
+        group: '您联系过的群组'
+      }
     };
     this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this._filedStr = null;
     this._chat = new Chat();
+    this._cleanedUnread = false;
   }
 
   componentWillMount() {
     this.props.subscribeSocket();
   }
 
+  componentDidUpdate() {
+    if (this._cleanedUnread) return;
+    this._cleanUnreadWhenReload();
+  }
+
+  _cleanUnreadWhenReload = () => {
+    const { homePageList } = this.props;
+    const chatFromId = window.location.pathname.split(/^\/\S+_chat\//)[1];
+    const goal = homePageList.filter(e => chatFromId === e.to_group_id || chatFromId == e.user_id)[0];
+    if (goal && goal.unread !== 0) {
+      this._chat.clearUnreadHandle({ homePageList, chatFromId });
+      this._cleanedUnread = true;
+    }
+  }
+
   searchFieldChange(field) {
     this._filedStr = field.toString();
-    this.setState({ showSearchUser: true, showSearchGroup: true });
+    this.setState({
+      showSearchUser: true,
+      showSearchGroup: true,
+      searchResultTitle: {
+        user: '您联系过的用户',
+        group: '您联系过的群组'
+      }
+    });
     if (this._filedStr.length > 0) {
       const { homePageList } = this.props;
       const homePageListCopy = [...List(homePageList)];
@@ -62,14 +89,20 @@ class HomePageList extends PureComponent {
   searchInDB({ searchUser }) {
     window.socket.emit('fuzzyMatch', { field: this._filedStr, searchUser }, (data) => {
       if (data.searchUser) {
-        this.setState({ showSearchUser: false });
+        this.setState(state => ({
+          showSearchUser: false,
+          searchResultTitle: { ...state.searchResultTitle, user: '所有用户' }
+        }));
         data.fuzzyMatchResult.forEach((element) => {
           element.user_id = element.id;
         });
       } else {
-        this.setState({ showSearchGroup: false });
+        this.setState(state => ({
+          showSearchGroup: false,
+          searchResultTitle: { ...state.searchResultTitle, group: '所有群组' }
+        }));
       }
-      this.setState({ contactedItems: data.fuzzyMatchResult });
+      this.setState(state => ({ contactedItems: [...state.contactedItems, ...data.fuzzyMatchResult] }));
     });
   }
 
@@ -87,7 +120,8 @@ class HomePageList extends PureComponent {
     homePageList.sort((a, b) => b.time - a.time);
     const {
       isSearching, contactedItems,
-      showSearchUser, showSearchGroup
+      showSearchUser, showSearchGroup,
+      searchResultTitle
     } = this.state;
     const contactedUsers = contactedItems.filter(e => (e.user_id && e.user_id !== this._userInfo.user_id));
     const contactedGroups = contactedItems.filter(e => e.to_group_id);
@@ -98,8 +132,8 @@ class HomePageList extends PureComponent {
           {/* TODO */}
           {/* {this.state.showSpinner && <Spinner /> } */}
           {isSearching ? (
-            <div className="search-result">
-              <p>您联系过的用户</p>
+            <div className="searchResult">
+              <p className="searchResultTitle">{searchResultTitle.user}</p>
               { contactedUsers.length
                 ? (
                   <ListItems
@@ -111,12 +145,12 @@ class HomePageList extends PureComponent {
                 : <p className="search-none">暂无</p>}
               { showSearchUser && (
               <p
-                className="click-to-search"
+                className="clickToSearch"
                 onClick={() => this.searchInDB({ searchUser: true })}>
                 网络查找相关的用户
               </p>
               )}
-              <p>您联系过的群组</p>
+              <p className="searchResultTitle">{searchResultTitle.group}</p>
               { contactedGroups.length
                 ? (
                   <ListItems
@@ -128,7 +162,7 @@ class HomePageList extends PureComponent {
                 : <p className="search-none">暂无</p>}
               { showSearchGroup && (
               <p
-                className="click-to-search"
+                className="clickToSearch"
                 onClick={() => this.searchInDB({ searchUser: false })}>
                 网络查找相关的群组
               </p>
