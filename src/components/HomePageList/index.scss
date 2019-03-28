@@ -3,13 +3,16 @@
     height: 100%;
     .home-page-list-content {
         overflow-y: auto;
-        .search-result {
+        .searchResult {
+            .searchResultTitle {
+                padding-left: 10px;
+            }
             p {
                 color: $m-title;        
                 font-size: 14px;
-                padding: 10px 10px;
+                padding: 10px 0;
             }
-            .click-to-search {
+            .clickToSearch {
                 text-align: right;
                 padding-right: 10px;
                 margin-bottom: 10px;

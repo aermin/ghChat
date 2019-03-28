@@ -46,7 +46,7 @@ class ListItems extends Component {
       const { params } = this.props.match;
       const unreadColor = data.to_group_id ? 'groupUnread' : 'privateUnread';
       let unreadCircular;
-      switch (data.unread.toString().length) {
+      switch (data.unread && (data.unread).toString().length) {
         case 2:
           unreadCircular = 'twoDigitsUnread';
           break;
