@@ -10,6 +10,7 @@ export default class BrowserNotification {
     if (!this.notification) {
       // eslint-disable-next-line no-alert
       notification('此浏览器不支持浏览器提示', 'warn', 3);
+      return;
     }
     if (this.hasPermission) {
       this._notificationEnable = true;

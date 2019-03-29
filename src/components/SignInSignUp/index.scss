@@ -34,7 +34,7 @@
     color: $blue;
   }
   form {
-    padding: 40px 10px;
+    padding: 40px 10px 60px;
     input[type=button],
     input[type=reset],
     input[type=submit] {
@@ -44,18 +44,15 @@
       padding: 10px 30px;
       text-align: center;
       text-decoration: none;
-      display: inline-block;
+      display: block;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      cursor: pointer;
       text-transform: uppercase;
       font-size: 14px;
-      -webkit-box-shadow: 0 6px 16px 0 rgba(95, 186, 233, 0.4);
       box-shadow: 0 6px 16px 0 rgba(95, 186, 233, 0.4);
-      -webkit-border-radius: 4px 4px 4px 4px;
       border-radius: 4px 4px 4px 4px;
-      -webkit-transition: all 0.3s ease-in-out;
-      -moz-transition: all 0.3s ease-in-out;
-      -ms-transition: all 0.3s ease-in-out;
-      -o-transition: all 0.3s ease-in-out;
-      transition: all 0.3s ease-in-out;
     }
 
     input[type=button]:hover,
