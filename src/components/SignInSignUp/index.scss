@@ -21,6 +21,9 @@
       height: 80px;
     }
   }
+  .UserAvatar {
+    margin: 10px 0 20px;
+  }
   .active, .inactive {
     text-align: center;
     font-size: 18px;
@@ -33,84 +36,86 @@
   .active {
     color: $blue;
   }
-  form {
-    padding: 40px 10px 60px;
-    input[type=button],
-    input[type=reset],
-    input[type=submit] {
-      background-color: $blue;
-      border: none;
-      color: white;
-      padding: 10px 30px;
-      text-align: center;
-      text-decoration: none;
-      display: block;
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      cursor: pointer;
-      text-transform: uppercase;
-      font-size: 14px;
-      box-shadow: 0 6px 16px 0 rgba(95, 186, 233, 0.4);
-      border-radius: 4px 4px 4px 4px;
-    }
-
-    input[type=button]:hover,
-    input[type=reset]:hover,
-    input[type=submit]:hover {
-      background-color: $blue;
-    }
-
-    input[type=button]:active,
-    input[type=reset]:active,
-    input[type=submit]:active {
-      -moz-transform: scale(0.95);
-      -webkit-transform: scale(0.95);
-      -o-transform: scale(0.95);
-      -ms-transform: scale(0.95);
-      transform: scale(0.95);
-    }
-
-    input[type=password],
-    input[type=text] {
-      background-color: #f6f6f6;
-      border: none;
-      color: #0d0d0d;
-      padding: 8px 18px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 14px;
-      margin-bottom: 30px;
-      width: 76%;
-      border: 1px solid #f6f6f6;
-      -webkit-transition: all 0.5s ease-in-out;
-      -moz-transition: all 0.5s ease-in-out;
-      -ms-transition: all 0.5s ease-in-out;
-      -o-transition: all 0.5s ease-in-out;
-      transition: all 0.5s ease-in-out;
-      -webkit-border-radius: 4px 4px 4px 4px;
-      border-radius: 4px 4px 4px 4px;
-    }
-
-    input[type=text]:focus {
-      background-color: #fff;
-      border-bottom: 1px solid #5fbae9;
-    }
-
-    input[type=password]:focus {
-      background-color: #fff;
-      border-bottom: 1px solid #5fbae9;
-    }
-
-    input[type=text]:placeholder {
-      color: #cccccc;
-    }
-
-    input[type=password]:placeholder {
-      color: #cccccc;
-    }
+  input[type=button],
+  input[type=reset],
+  input[type=submit] {
+    display: block;
+    background-color: $blue;
+    border: none;
+    color: white;
+    padding: 10px 30px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 14px;
+    box-shadow: 0 6px 16px 0 rgba(95, 186, 233, 0.4);
+    border-radius: 4px 4px 4px 4px;
   }
+
+  .button {
+    text-align: center;
+    input {
+      display: inline-block;
+    }
+    margin-bottom: 20px;
+  }
+
+  input[type=button]:hover,
+  input[type=reset]:hover,
+  input[type=submit]:hover {
+    background-color: $blue;
+  }
+
+  input[type=button]:active,
+  input[type=reset]:active,
+  input[type=submit]:active {
+    -moz-transform: scale(0.95);
+    -webkit-transform: scale(0.95);
+    -o-transform: scale(0.95);
+    -ms-transform: scale(0.95);
+    transform: scale(0.95);
+  }
+
+  input[type=password],
+  input[type=text] {
+    background-color: #f6f6f6;
+    border: none;
+    color: #0d0d0d;
+    padding: 8px 18px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 14px;
+    margin-bottom: 30px;
+    width: 76%;
+    border: 1px solid #f6f6f6;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+    -webkit-border-radius: 4px 4px 4px 4px;
+    border-radius: 4px 4px 4px 4px;
+  }
+
+  input[type=text]:focus {
+    background-color: #fff;
+    border-bottom: 1px solid #5fbae9;
+  }
+
+  input[type=password]:focus {
+    background-color: #fff;
+    border-bottom: 1px solid #5fbae9;
+  }
+
+  input[type=text]:placeholder {
+    color: #cccccc;
+  }
+
+  input[type=password]:placeholder {
+    color: #cccccc;
+  }
+
   .githubOAuth {
     text-decoration: none;
     font-size: 30px;

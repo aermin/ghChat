@@ -66,33 +66,32 @@ export default class SignInSignUp extends Component {
         <Link to={linkUrl}>
           <span className={registerClass}>注册</span>
         </Link>
-        <div className="fadeIn first">
+        <div className="UserAvatar">
           <UserAvatar name={name || 'Ÿ'} size="100" />
         </div>
-        <form>
-          <input
-            type="text"
-            className="fadeIn second"
-            name="name"
-            value={name}
-            onChange={this.handleChange}
-            placeholder="用户名"
+        <input
+          type="text"
+          name="name"
+          value={name}
+          onChange={this.handleChange}
+          placeholder="用户名"
               />
-          <input
-            type="password"
-            className="fadeIn third"
-            name="password"
-            value={password}
-            onChange={this.handleChange}
-            placeholder="密码"
+        <input
+          type="password"
+          name="password"
+          value={password}
+          onChange={this.handleChange}
+          placeholder="密码"
               />
+        <div className="button">
           <input
             type="button"
             onClick={this.handleClick}
-            className="fadeIn fourth"
+
             value={buttonName}
               />
-        </form>
+        </div>
+
         <a className="githubOAuth" href={OAuthHref}>
           <svg className="icon githubIcon" aria-hidden="true">
             <use xlinkHref="#icon-github" />
