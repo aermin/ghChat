@@ -13,13 +13,13 @@ export default class MainView extends Component {
     super(props);
     this.WEBSITE_ADDRESS = process.env.NODE_ENV === 'production' ? 'https://im.aermin.top' : 'http://localhost:3000';
     this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    this._browserNotification = new BrowserNotification();
-    this._chat = new Chat();
     this._hasCalledMe = false;
   }
 
   componentWillMount() {
     if (!this.props.initializedApp) {
+      this._browserNotification = new BrowserNotification();
+      this._chat = new Chat();
       this.init();
     }
   }
@@ -149,6 +149,7 @@ export default class MainView extends Component {
   async init() {
     if (this._userInfo) {
       this._initSocket();
+      this.subscribeSocket();
       this._initMessage();
       window.socket.on('error', (errorMessage) => {
         notification(errorMessage, 'error');
@@ -178,7 +179,7 @@ export default class MainView extends Component {
       <div className={(url === '/' || url === '/setting') ? 'layout-left' : 'layout-left-mobile'}>
         <Tabs />
         {url === '/setting' && <SettingPage />}
-        { shouldShowHomePage && <HomePageList subscribeSocket={() => this.subscribeSocket()} />}
+        { shouldShowHomePage && <HomePageList />}
       </div>
     );
   }

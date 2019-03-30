@@ -4,7 +4,7 @@
   border-radius: 12px 12px 12px 12px;
   background: #fff;
   padding: 32px;
-  width: 80%;
+  width: 100%;
   max-width: 330px;
   position: relative;
   padding: 10px 0 20px;
@@ -21,6 +21,10 @@
       height: 80px;
     }
   }
+  .center {
+    text-align: center;
+    margin-top: 30px;
+  }
   .UserAvatar {
     margin: 10px 0 20px;
   }
@@ -36,10 +40,8 @@
   .active {
     color: $blue;
   }
-  input[type=button],
-  input[type=reset],
-  input[type=submit] {
-    display: block;
+  input[type=button] {
+    display: inline-block;
     background-color: $blue;
     border: none;
     color: white;
@@ -53,30 +55,6 @@
     border-radius: 4px 4px 4px 4px;
   }
 
-  .button {
-    text-align: center;
-    input {
-      display: inline-block;
-    }
-    margin-bottom: 20px;
-  }
-
-  input[type=button]:hover,
-  input[type=reset]:hover,
-  input[type=submit]:hover {
-    background-color: $blue;
-  }
-
-  input[type=button]:active,
-  input[type=reset]:active,
-  input[type=submit]:active {
-    -moz-transform: scale(0.95);
-    -webkit-transform: scale(0.95);
-    -o-transform: scale(0.95);
-    -ms-transform: scale(0.95);
-    transform: scale(0.95);
-  }
-
   input[type=password],
   input[type=text] {
     background-color: #f6f6f6;
@@ -86,7 +64,6 @@
     text-align: center;
     text-decoration: none;
     font-size: 14px;
-    margin-bottom: 30px;
     width: 76%;
     border: 1px solid #f6f6f6;
     -webkit-transition: all 0.5s ease-in-out;

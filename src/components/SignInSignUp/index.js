@@ -69,21 +69,25 @@ export default class SignInSignUp extends Component {
         <div className="UserAvatar">
           <UserAvatar name={name || 'Ÿ'} size="100" />
         </div>
-        <input
-          type="text"
-          name="name"
-          value={name}
-          onChange={this.handleChange}
-          placeholder="用户名"
+        <div className="center">
+          <input
+            type="text"
+            name="name"
+            value={name}
+            onChange={this.handleChange}
+            placeholder="用户名"
               />
-        <input
-          type="password"
-          name="password"
-          value={password}
-          onChange={this.handleChange}
-          placeholder="密码"
+        </div>
+        <div className="center">
+          <input
+            type="password"
+            name="password"
+            value={password}
+            onChange={this.handleChange}
+            placeholder="密码"
               />
-        <div className="button">
+        </div>
+        <div className="center">
           <input
             type="button"
             onClick={this.handleClick}
@@ -91,12 +95,15 @@ export default class SignInSignUp extends Component {
             value={buttonName}
               />
         </div>
+        <div className="center">
+          <a className="githubOAuth" href={OAuthHref}>
+            <svg className="icon githubIcon" aria-hidden="true">
+              <use xlinkHref="#icon-github" />
+            </svg>
+          </a>
+        </div>
 
-        <a className="githubOAuth" href={OAuthHref}>
-          <svg className="icon githubIcon" aria-hidden="true">
-            <use xlinkHref="#icon-github" />
-          </svg>
-        </a>
+
       </div>
     );
   }

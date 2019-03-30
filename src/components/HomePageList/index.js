@@ -31,25 +31,21 @@ class HomePageList extends PureComponent {
     this._cleanedUnread = false;
   }
 
-  componentWillMount() {
-    this.props.subscribeSocket();
+  componentDidUpdate() {
+    if (this._cleanedUnread) return;
+    this._cleanUnreadWhenReload();
   }
 
-  // componentDidUpdate() {
-  //   if (this._cleanedUnread) return;
-  //   this._cleanUnreadWhenReload();
-  // }
-
-  // _cleanUnreadWhenReload = () => {
-  //   const { homePageList } = this.props;
-  //   const chatFromId = window.location.pathname.split(/^\/\S+_chat\//)[1];
-  //   const filter = homePageList.filter(e => chatFromId && (chatFromId === e.to_group_id || parseInt(chatFromId) === parseInt(e.user_id)));
-  //   const goal = filter[0];
-  //   if (goal && goal.unread !== 0) {
-  //     this._chat.clearUnreadHandle({ homePageList, chatFromId });
-  //     this._cleanedUnread = true;
-  //   }
-  // }
+  _cleanUnreadWhenReload = () => {
+    const { homePageList } = this.props;
+    const chatFromId = window.location.pathname.split(/^\/\S+_chat\//)[1];
+    const filter = homePageList.filter(e => chatFromId && (chatFromId === e.to_group_id || chatFromId === (e.user_id && (e.user_id).toString())));
+    const goal = filter[0];
+    if (goal && goal.unread !== 0) {
+      this._chat.clearUnreadHandle({ homePageList, chatFromId });
+      this._cleanedUnread = true;
+    }
+  }
 
   searchFieldChange(field) {
     this._filedStr = field.toString();
@@ -190,7 +186,6 @@ HomePageList.propTypes = {
   allGroupChats: PropTypes.instanceOf(Map),
   homePageList: PropTypes.array,
   showCallMeTip: PropTypes.func,
-  subscribeSocket: PropTypes.func,
 };
 
 
@@ -198,5 +193,4 @@ HomePageList.defaultProps = {
   allGroupChats: new Map(),
   homePageList: [],
   showCallMeTip() {},
-  subscribeSocket() {},
 };

@@ -6,8 +6,6 @@ import MainView from 'bundle-loader?lazy&name=MainView!../containers/MainView';
 import RightView from 'bundle-loader?lazy&name=RightView!../containers/RightView';
 import Bundle from './Bundle';
 
-const Loading = () => <div>Loading...</div>;
-
 const createComponent = component => (props) => {
   const { pathname } = props.location;
   if (pathname !== '/login' && pathname !== '/register' && !localStorage.getItem('userInfo')) {
@@ -15,7 +13,7 @@ const createComponent = component => (props) => {
   }
   return (
     <Bundle load={component}>
-      {Component => (Component ? <Component {...props} /> : <Loading />)}
+      {Component => (Component ? <Component {...props} /> : null)}
     </Bundle>
   );
 };
