@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/aermin/react-chat#readme",
   "devDependencies": {
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "autoprefixer": "^8.6.3",
     "babel-core": "^6.26.3",
     "babel-eslint": "^10.0.1",
@@ -36,7 +37,7 @@
     "compression-webpack-plugin": "v1.1.12",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.11",
-    "eslint": "^5.9.0",
+    "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.2",
@@ -44,7 +45,7 @@
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.11",
     "html-webpack-plugin": "^3.2.0",
-    "node-sass": "^4.9.0",
+    "node-sass": "^4.11.0",
     "postcss-loader": "^2.1.5",
     "react-hot-loader": "^4.0.0",
     "redux-devtools-extension": "^2.13.2",
@@ -57,6 +58,7 @@
     "webpack-merge": "^4.1.2"
   },
   "dependencies": {
+    "@loadable/component": "^5.7.0",
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
     "emoji-mart": "^2.9.2",
@@ -69,7 +71,7 @@
     "react-dom": "^16.3.2",
     "react-markdown": "^4.0.6",
     "react-redux": "^5.0.7",
-    "react-router-dom": "^4.2.2",
+    "react-router-dom": "^5.0.0",
     "react-viewer": "^2.8.0",
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",

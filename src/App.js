@@ -1,5 +1,5 @@
 import React from 'react';
-import getRouter from './router/router';
+import getRouter from './router';
 import './app.scss';
 
 export default function App() {

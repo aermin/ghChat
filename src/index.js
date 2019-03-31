@@ -9,7 +9,8 @@ import AxiosHandle from './utils/request';
 
 
 if (
-  (window.location.protocol === 'https:' || window.location.hostname === 'localhost')
+  // (window.location.protocol === 'https:' || window.location.hostname === 'localhost')
+  window.location.protocol === 'https:'
     && navigator.serviceWorker
 ) {
   window.addEventListener('load', () => {

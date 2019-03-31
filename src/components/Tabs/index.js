@@ -13,8 +13,8 @@ class Tabs extends Component {
   }
 
   render() {
-    const { match } = this.props;
-    const showMessageIcon = match.url === '/' || /\/group_chat|\/private_chat|\/robot_chat/.test(match.url);
+    const { pathname } = this.props.location;
+    const showMessageIcon = pathname === '/' || /\/group_chat|\/private_chat|\/robot_chat/.test(pathname);
     return (
       <div className="tabs-wrapper">
         <div className="tab">
@@ -27,7 +27,7 @@ class Tabs extends Component {
         <div className="tab">
           <Link to="/setting">
             <svg className="icon " aria-hidden="true">
-              <use xlinkHref={match.url === '/setting' ? '#icon-setting-copy' : '#icon-setting'} />
+              <use xlinkHref={pathname === '/setting' ? '#icon-setting-copy' : '#icon-setting'} />
             </svg>
           </Link>
         </div>
@@ -40,10 +40,10 @@ export default withRouter(Tabs);
 
 
 Tabs.propTypes = {
-  match: PropTypes.object,
+  location: PropTypes.object,
 };
 
 
 Tabs.defaultProps = {
-  match: { url: '/' }
+  location: { pathname: '/' }
 };

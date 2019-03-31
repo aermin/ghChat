@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import {
+  withRouter,
+} from 'react-router-dom';
 // import axios from 'axios';
 import UserAvatar from '../UserAvatar';
 import './styles.scss';
 import Button from '../Button';
 import Modal from '../Modal';
+import InitApp from '../../modules/InitApp';
 
-export default class Setting extends Component {
+class Setting extends Component {
   constructor(props) {
     super(props);
     this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -13,6 +18,14 @@ export default class Setting extends Component {
       visible: false,
       // githubStars: '--',
     };
+  }
+
+  componentWillMount() {
+    if (!this.props.initializedApp) {
+      this._InitApp = new InitApp({ history: this.props.history });
+      this._InitApp.init();
+      this.props.initApp(true);
+    }
   }
 
    _showModal = () => {
@@ -80,3 +93,17 @@ export default class Setting extends Component {
     );
   }
 }
+
+
+Setting.propTypes = {
+  initializedApp: PropTypes.bool,
+  initApp: PropTypes.func,
+};
+
+
+Setting.defaultProps = {
+  initializedApp: false,
+  initApp() {},
+};
+
+export default withRouter(Setting);

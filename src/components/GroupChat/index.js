@@ -25,6 +25,7 @@ class GroupChat extends Component {
       personalInfo: {},
       visible: false,
     };
+    this._didMount = false;
   }
 
   sendMessage = (inputMsg = '', attachments = []) => {
@@ -33,7 +34,7 @@ class GroupChat extends Component {
       user_id, avatar, name, github_id
     } = this._userInfo;
     const {
-      allGroupChats, chatId, homePageList,
+      allGroupChats, homePageList,
       updateHomePageList, addGroupMessages,
     } = this.props;
     const data = {
@@ -44,20 +45,20 @@ class GroupChat extends Component {
       groupName: this.groupName,
       message: inputMsg === '' ? attachments[0].type : `${name}: ${inputMsg}`, // 消息内容
       attachments, // 附件
-      to_group_id: chatId,
+      to_group_id: this.chatId,
       time: Date.parse(new Date()) / 1000 // 时间
     };
     this._sendByMe = true;
     window.socket.emit('sendGroupMsg', data);
-    addGroupMessages({ allGroupChats, message: data, groupId: chatId });
+    addGroupMessages({ allGroupChats, message: data, groupId: this.chatId });
     updateHomePageList({ data, homePageList, myUserId: user_id });
   }
 
   joinGroup = () => {
     const {
-      allGroupChats, chatId, homePageList, updateHomePageList, addGroupMessageAndInfo
+      allGroupChats, homePageList, updateHomePageList, addGroupMessageAndInfo
     } = this.props;
-    window.socket.emit('joinGroup', { userInfo: this._userInfo, toGroupId: chatId }, (data) => {
+    window.socket.emit('joinGroup', { userInfo: this._userInfo, toGroupId: this.chatId }, (data) => {
       const { messages, groupInfo } = data;
       const name = groupInfo && groupInfo.name;
       let lastContent;
@@ -71,7 +72,7 @@ class GroupChat extends Component {
         };
       }
       addGroupMessageAndInfo({
-        allGroupChats, messages, groupId: chatId, groupInfo
+        allGroupChats, messages, groupId: this.chatId, groupInfo
       });
       updateHomePageList({ data: lastContent, homePageList });
     }
@@ -85,11 +86,11 @@ class GroupChat extends Component {
   leaveGroup = () => {
     const { user_id } = this._userInfo;
     const {
-      chatId, homePageList, deleteHomePageList, allGroupChats, deleteGroupChat
+      homePageList, deleteHomePageList, allGroupChats, deleteGroupChat
     } = this.props;
-    window.socket.emit('leaveGroup', { user_id, toGroupId: chatId });
-    deleteHomePageList({ homePageList, chatId });
-    deleteGroupChat({ allGroupChats, groupId: chatId });
+    window.socket.emit('leaveGroup', { user_id, toGroupId: this.chatId });
+    deleteHomePageList({ homePageList, chatId: this.chatId });
+    deleteGroupChat({ allGroupChats, groupId: this.chatId });
     this.props.history.push('/');
   }
 
@@ -98,8 +99,8 @@ class GroupChat extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    const { relatedCurrentChat, chatId } = nextProps;
-    if (relatedCurrentChat || chatId !== this.props.chatId || this._sendByMe) {
+    const { relatedCurrentChat, match } = nextProps;
+    if (relatedCurrentChat || match.params.to_group_id !== this.chatId || this._sendByMe) {
       this._sendByMe = false;
       return true;
     }
@@ -118,8 +119,8 @@ class GroupChat extends Component {
   }
 
   _clickPersonAvatar = (user_id) => {
-    const { allGroupChats, chatId } = this.props;
-    const { members } = allGroupChats.get(chatId).groupInfo;
+    const { allGroupChats } = this.props;
+    const { members } = allGroupChats.get(this.chatId).groupInfo;
     const personalInfo = members.filter(member => member.user_id === user_id)[0];
     if (!personalInfo) {
       notification('此人已不在群中啦', 'warn', 1.5);
@@ -132,20 +133,26 @@ class GroupChat extends Component {
 
   componentDidMount() {
     const {
-      allGroupChats, chatId
+      allGroupChats
     } = this.props;
-    const chatItem = allGroupChats && allGroupChats.get(chatId);
+    const chatItem = allGroupChats && allGroupChats.get(this.chatId);
     // (产品设计) 当查找没加过的群，点击去没群内容，请求出群内容，避免不了解而加错群
     if (!chatItem) {
-      window.socket.emit('getOneGroupItem', { groupId: chatId, start: 1 }, (groupMsgAndInfo) => {
+      window.socket.emit('getOneGroupItem', { groupId: this.chatId, start: 1 }, (groupMsgAndInfo) => {
         this.setState({ groupMsgAndInfo });
       });
     }
+    this._didMount = true;
+  }
+
+  get chatId() {
+    // eslint-disable-next-line react/prop-types
+    return this.props.match.params.to_group_id;
   }
 
   render() {
     const {
-      chatId, allGroupChats,
+      allGroupChats,
       updateGroupTitleNotice,
       updateListGroupName,
       homePageList
@@ -156,7 +163,7 @@ class GroupChat extends Component {
       showPersonalInfo
     } = this.state;
     if (!allGroupChats && !allGroupChats.size) return null;
-    const chatItem = allGroupChats.get(chatId);
+    const chatItem = allGroupChats.get(this.chatId);
     const messages = chatItem ? chatItem.messages : groupMsgAndInfo.messages;
     const groupInfo = chatItem ? chatItem.groupInfo : groupMsgAndInfo.groupInfo;
     return (
@@ -183,7 +190,7 @@ class GroupChat extends Component {
           chats={allGroupChats}
           ChatContent={messages}
           shouldScrollToFetchData={!!chatItem}
-          chatId={chatId}
+          chatId={this.chatId}
           chatType="groupChat"
           clickAvatar={user_id => this._clickPersonAvatar(user_id)}
         />
@@ -197,10 +204,10 @@ class GroupChat extends Component {
           clickMember={user_id => this._clickPersonAvatar(user_id)}
           updateGroupTitleNotice={updateGroupTitleNotice}
           updateListGroupName={updateListGroupName}
-          chatId={chatId} />
+          chatId={this.chatId} />
         )}
         { chatItem ? <InputArea sendMessage={this.sendMessage} groupMembers={groupInfo.members} />
-          : (
+          : this._didMount && (
             <input
               type="button"
               onClick={this.joinGroup}
@@ -224,7 +231,6 @@ GroupChat.propTypes = {
   addGroupMessageAndInfo: PropTypes.func,
   deleteHomePageList: PropTypes.func,
   deleteGroupChat: PropTypes.func,
-  chatId: PropTypes.string,
   updateGroupTitleNotice: PropTypes.func,
   updateListGroupName: PropTypes.func,
 };
@@ -238,7 +244,6 @@ GroupChat.defaultProps = {
   addGroupMessageAndInfo() {},
   deleteHomePageList() {},
   deleteGroupChat() {},
-  chatId: undefined,
   updateGroupTitleNotice() {},
   updateListGroupName() {},
 };

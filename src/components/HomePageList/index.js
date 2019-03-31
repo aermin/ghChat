@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import {
   withRouter,
 } from 'react-router-dom';
@@ -9,10 +9,12 @@ import Header from '../../containers/Header';
 import './index.scss';
 import ListItems from '../ListItems';
 import Chat from '../../modules/Chat';
+import InitApp from '../../modules/InitApp';
+
 // import Spinner from '../Spinner';
 
 
-class HomePageList extends PureComponent {
+class HomePageList extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,6 +31,14 @@ class HomePageList extends PureComponent {
     this._filedStr = null;
     this._chat = new Chat();
     this._cleanedUnread = false;
+  }
+
+  componentWillMount() {
+    if (!this.props.initializedApp) {
+      this._InitApp = new InitApp({ history: this.props.history });
+      this._InitApp.init();
+      this.props.initApp(true);
+    }
   }
 
   componentDidUpdate() {
@@ -186,6 +196,8 @@ HomePageList.propTypes = {
   allGroupChats: PropTypes.instanceOf(Map),
   homePageList: PropTypes.array,
   showCallMeTip: PropTypes.func,
+  initializedApp: PropTypes.bool,
+  initApp: PropTypes.func,
 };
 
 
@@ -193,4 +205,6 @@ HomePageList.defaultProps = {
   allGroupChats: new Map(),
   homePageList: [],
   showCallMeTip() {},
+  initializedApp: false,
+  initApp() {},
 };

@@ -49,9 +49,8 @@ export default class PrivateChat extends Component {
     const {
       allPrivateChats, homePageList,
       updateHomePageList, addPrivateChatInfo,
-      chatId,
     } = this.props;
-    if (chatId === this._userInfo.user_id) {
+    if (this.chatId === this._userInfo.user_id) {
       notification('不能添加自己为联系人哦', 'error');
       return;
     }
@@ -72,9 +71,9 @@ export default class PrivateChat extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    const { relatedCurrentChat, chatId } = nextProps;
+    const { relatedCurrentChat, match } = nextProps;
     // console.log('shouldComponentUpdate', relatedCurrentChat, chatId, this.props.chatId, this._sendByMe);
-    if (relatedCurrentChat || chatId !== this.props.chatId || this._sendByMe) {
+    if (relatedCurrentChat || match.params.user_id !== this.chatId || this._sendByMe) {
       this._sendByMe = false;
       return true;
     }
@@ -86,10 +85,10 @@ export default class PrivateChat extends Component {
   }
 
   render() {
-    const { chatId, allPrivateChats, location } = this.props;
+    const { allPrivateChats, location } = this.props;
     const { showPersonalInfo } = this.state;
     if (!allPrivateChats && !allPrivateChats.size) return null;
-    const chatItem = allPrivateChats.get(chatId);
+    const chatItem = allPrivateChats.get(this.chatId);
     const messages = chatItem ? chatItem.messages : [];
     const userInfo = chatItem ? chatItem.userInfo : {};
     return (
@@ -101,7 +100,7 @@ export default class PrivateChat extends Component {
         <ChatContentList
           chats={allPrivateChats}
           ChatContent={messages}
-          chatId={chatId}
+          chatId={this.chatId}
           chatType="privateChat"
           clickAvatar={() => this._showPersonalInfo(true)} />
         <PersonalInfo
@@ -121,6 +120,10 @@ export default class PrivateChat extends Component {
     );
   }
 
+  get chatId() {
+    return parseInt(this.props.match.params.user_id);
+  }
+
   // question: writing as this is ok ?
   get friendId() {
     return parseInt(this.props.location.pathname.split('private_chat/')[1]);
@@ -133,7 +136,6 @@ PrivateChat.propTypes = {
   updateHomePageList: PropTypes.func,
   addPrivateChatMessages: PropTypes.func,
   addPrivateChatInfo: PropTypes.func,
-  chatId: PropTypes.number,
 };
 
 
@@ -143,5 +145,4 @@ PrivateChat.defaultProps = {
   updateHomePageList: undefined,
   addPrivateChatMessages: undefined,
   addPrivateChatInfo: undefined,
-  chatId: undefined,
 };

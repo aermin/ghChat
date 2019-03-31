@@ -3,7 +3,7 @@ import HomePageList from '../../components/HomePageList';
 import {
   showCallMeTipAction,
 } from './homePageListAction';
-
+import { initAppAction } from '../../redux/actions/initAppAction';
 
 const mapStateToProps = (state) => {
   const userInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -12,13 +12,17 @@ const mapStateToProps = (state) => {
     homePageList: homePageListStorage || state.homePageListState,
     allGroupChats: state.allGroupChatsState,
     allPrivateChats: state.allPrivateChatsState,
+    initializedApp: state.initAppState,
   });
 };
 
 const mapDispatchToProps = dispatch => ({
   showCallMeTip(arg = {}) {
     dispatch(showCallMeTipAction({ ...arg }));
-  }
+  },
+  initApp(arg) {
+    dispatch(initAppAction(arg));
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePageList);
