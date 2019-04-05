@@ -32,7 +32,7 @@ And get other technology please follow the package.json file.
   - [x] Log in
   - [x] Resister
   - [x] Log out
-  - [ ] multiple devices log in at the same time
+  - [ ] log in multiple devices at the same time
 
 - Integrate with github
 

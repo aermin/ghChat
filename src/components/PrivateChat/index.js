@@ -32,7 +32,7 @@ export default class PrivateChat extends Component {
       avatar, // 自己的头像
       name,
       github_id,
-      message: inputMsg === '' ? attachments[0].type : `${name}: ${inputMsg}`, // 消息内容
+      message: inputMsg === '' ? `${name}: [${attachments[0].type || 'file'}]` : `${name}: ${inputMsg}`, // 消息内容
       attachments, // 附件
       time: Date.parse(new Date()) / 1000 // 时间
     };

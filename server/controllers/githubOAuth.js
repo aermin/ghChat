@@ -12,7 +12,6 @@ async function getAccessToken(ctx) {
       client_secret: secret.client_secret,
       client_id: clientId
     };
-    console.log('oauth body', date);
     const options = {
       method: 'POST',
       uri: 'https://github.com/login/oauth/access_token',
@@ -59,7 +58,6 @@ module.exports = async (ctx, next) => {
     };
     const RowDataPacket = await userModel.findGithubUser(id); // judge if this github account exist
     let githubUser = JSON.parse(JSON.stringify(RowDataPacket));
-    console.log('githubUser', githubUser);
     if (githubUser.length > 0) {
       await userModel.updateGithubUser(data);
     } else {
@@ -68,7 +66,7 @@ module.exports = async (ctx, next) => {
       githubUser = JSON.parse(JSON.stringify(RowDataPacket));
     }
     data.user_id = githubUser[0].id;
-    console.log('oauth 2333 res', data);
+    console.log('github res && ctx.body', response, data);
     ctx.body = data;
   } catch (error) {
     throw new Error(error);

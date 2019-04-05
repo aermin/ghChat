@@ -43,7 +43,7 @@ class GroupChat extends Component {
       name,
       github_id,
       groupName: this.groupName,
-      message: inputMsg === '' ? attachments[0].type : `${name}: ${inputMsg}`, // 消息内容
+      message: inputMsg === '' ? `${name}: [${attachments[0].type || 'file'}]` : `${name}: ${inputMsg}`, // 消息内容
       attachments, // 附件
       to_group_id: this.chatId,
       time: Date.parse(new Date()) / 1000 // 时间

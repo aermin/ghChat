@@ -49,7 +49,6 @@ class InitApp {
 
 _listeningPrivateChatMsg = () => {
   window.socket.on('getPrivateMsg', (data) => {
-    console.log('getPrivateMsg', data);
     const { homePageListState, allPrivateChatsState } = store.getState();
     const { user_id } = this._userInfo;
     // eslint-disable-next-line radix
@@ -82,7 +81,6 @@ _listeningPrivateChatMsg = () => {
 
   _listeningGroupChatMsg = () => {
     window.socket.on('getGroupMsg', (data) => {
-      console.log('getGroupMsg', data);
       const { allGroupChatsState, homePageListState } = store.getState();
       // eslint-disable-next-line radix
       const chatId = window.location.pathname.split('/').slice(-1)[0];

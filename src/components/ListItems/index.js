@@ -29,13 +29,7 @@ class ListItems extends Component {
     );
 
     const listItems = this.props.dataList && this.props.dataList.map((data, index) => {
-      let message;
-      const attachments = (typeof data.attachments === 'string') && JSON.parse(data.attachments);
-      if (!data.message && attachments.length > 0) {
-        message = `[${attachments[0].type}]`;
-      } else {
-        message = data.message || '暂无消息';
-      }
+      const message = data.message || '暂无消息';
       const chatFromId = data.to_group_id || (data.user_id && data.user_id.toString());
       const isGroupChat = !!data.to_group_id;
       let GroupMembers;

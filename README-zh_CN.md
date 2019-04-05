@@ -5,7 +5,7 @@
 
 ## ghChat(react版)
 
-之所以叫ghChat，是想着以后做一些GitHub的集成，希望让这个即时通讯工具成为chat tool for github.
+之所以叫ghChat，是想着以后做一些GitHub的集成，希望让这个即时通讯工具成为chat tool for github。
 
 目前只支持github授权登录，和展示github用户公开的信息。
 
@@ -119,9 +119,52 @@ Tips: 如何在chrome浏览器中开启对PWA的支持?
 ![image](https://user-images.githubusercontent.com/24861316/54492876-3ab33d00-4905-11e9-8283-089f2af82399.png)
 ![image](https://user-images.githubusercontent.com/24861316/54493160-9e3e6a00-4907-11e9-8f26-427c6753e2a4.png)
 
+### 项目结构图
 
+```
+├── LICENSE
+├── README-zh_CN.md
+├── README.md
+├── build
+├── package-lock.json
+├── package.json
+├── postcss.config.js
+├── secret.js // 放一些非公开的secret
+├── server  // 后端代码
+│   ├── config.js
+│   ├── controllers
+│   ├── ecosystem.config.js // pm2加生产环境变量的配置文件
+│   ├── gulpfile.js
+│   ├── index.js
+│   ├── init  // 初始化mysql
+│   ├── middlewares
+│   ├── models
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── routes  // 后端路由，跟登录注册模块有关
+│   ├── socket  // 除了登录注册，其他都用socket 来通信
+│   ├── utils
+│   └── yarn.lock
+├── src  // 前端代码
+│   ├── App.js
+│   ├── app.scss
+│   ├── assets
+│   ├── components
+│   ├── containers
+│   ├── index.html
+│   ├── index.js
+│   ├── manifest.json // PWA需要
+│   ├── modules
+│   ├── redux
+│   ├── router
+│   ├── service-worker.js // PWA需要
+│   └── utils
+├── webpack.common.config.js  // 通用webpack设置
+├── webpack.config.js  //生产相关的webpack配置
+├── webpack.dev.config.js  //开发相关的webpack配置
+```
 
-### 本地跑项目
+### 本地开发
 
 1. 项目拉到本地
 ```
