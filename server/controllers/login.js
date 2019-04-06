@@ -19,7 +19,7 @@ module.exports = async (ctx, next) => {
     //   验证成功后，服务端会签发一个 Token，再把这个 Token 发送给客户端
     if (md5(password) === res[0].password) {
       const {
-        id, name, sex, website, github, intro, avatar, location, socketId
+        id, name, sex, website, github, intro, company, avatar, location, socketId
       } = res[0];
       const payload = { id };
       const token = jwt.sign(payload, secret, {
@@ -35,6 +35,7 @@ module.exports = async (ctx, next) => {
           website,
           github,
           intro,
+          company,
           avatar,
           location,
           socketId,

@@ -16,7 +16,7 @@ function userInfoRender(props) {
   const {
     name, location,
     website, github,
-    intro, avatar,
+    intro, avatar, company
   } = props && props.userInfo;
   return (
     <div className="userInfo">
@@ -24,6 +24,7 @@ function userInfoRender(props) {
       {name && <p className="name">{name}</p>}
       {intro && <p>{`介绍: ${intro}`}</p>}
       {location && <p>{`来自: ${location}`}</p>}
+      {company && <p>{`公司: ${company}`}</p>}
       {/* {status && <p>{status}</p>} */}
       {website && <p className="website" onClick={() => _openUrl(website)}>{`网站: ${website}`}</p>}
       {github && <p className="github" onClick={() => _openUrl(github)}>{`github: ${github}`}</p>}

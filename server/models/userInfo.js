@@ -18,10 +18,10 @@ const insertData = (value) => {
 
 // 添加github用户
 const insertGithubData = ({
-  name, github_id, avatar, location, website, github, intro
+  name, github_id, avatar, location, website, github, intro, company
 }) => {
-  const _sql = 'insert into user_info(name, github_id, avatar, location, website, github, intro) values(?,?,?,?,?,?,?);';
-  return query(_sql, [name, github_id, avatar, location, website, github, intro]);
+  const _sql = 'insert into user_info(name, github_id, avatar, location, website, github, intro, company) values(?,?,?,?,?,?,?,?);';
+  return query(_sql, [name, github_id, avatar, location, website, github, intro, company]);
 };
 
 // 通过github_id查找 github用户信息
@@ -32,10 +32,10 @@ const findGithubUser = (githubId) => {
 
 // 更新 github 用户信息
 const updateGithubUser = ({
-  name, avatar, location, website, github, intro, github_id
+  name, avatar, location, website, github, intro, github_id, company
 }) => {
-  const _sql = ' UPDATE  user_info SET name = ?,avatar = ?,location = ?,website = ?,github = ?,intro= ? WHERE github_id = ? ; ';
-  return query(_sql, [name, avatar, location, website, github, intro, github_id]);
+  const _sql = ' UPDATE  user_info SET name = ?,avatar = ?,location = ?,website = ?,github = ?,intro= ?, company = ? WHERE github_id = ? ; ';
+  return query(_sql, [name, avatar, location, website, github, intro, company, github_id]);
 };
 
 // 通过用户名查找非github用户信息 user_info
@@ -70,7 +70,7 @@ const updateUserStatus = (user_id, status) => {
 
 // 通过用户id查找用户信息 user_info 包括用户名，性别，头像，最后登录时间，状态等，不包括密码
 const getUserInfo = (user_id) => {
-  const _sql = 'SELECT id AS user_id, name, avatar, location, website, github, github_id, intro, status  FROM user_info   WHERE  user_info.id =? ';
+  const _sql = 'SELECT id AS user_id, name, avatar, location, website, github, github_id, intro, company, status  FROM user_info   WHERE  user_info.id =? ';
   return query(_sql, [user_id]);
 };
 
