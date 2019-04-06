@@ -3,15 +3,14 @@ import {
   withRouter,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import '../../assets/chat.scss';
 import ChatHeader from '../ChatHeader';
 import InputArea from '../InputArea';
 import ChatContentList from '../ChatContentList';
 import GroupChatInfo from '../GroupChatInfo';
 import Modal from '../Modal';
-import './style.scss';
 import PersonalInfo from '../PersonalInfo';
 import notification from '../Notification';
+import './styles.scss';
 
 class GroupChat extends Component {
   constructor(props) {
