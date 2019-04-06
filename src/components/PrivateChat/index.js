@@ -5,6 +5,7 @@ import InputArea from '../InputArea';
 import ChatContentList from '../ChatContentList';
 import PersonalInfo from '../PersonalInfo';
 import notification from '../Notification';
+import '../../assets/chat.scss';
 
 export default class PrivateChat extends Component {
   constructor() {

@@ -10,7 +10,6 @@ import {
   addPrivateChatInfoAction,
 } from './privateChatAction';
 import PrivateChat from '../../components/PrivateChat';
-import '../../assets/chat.scss';
 
 const mapStateToProps = state => ({
   allPrivateChats: state.allPrivateChatsState,
