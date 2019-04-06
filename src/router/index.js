@@ -6,6 +6,7 @@ import Tabs from '../components/Tabs';
 function MainView(props) {
   const { pathname } = props.location;
   if (pathname !== '/login' && pathname !== '/register' && !localStorage.getItem('userInfo')) {
+    sessionStorage.setItem('originalLink', window.location.href);
     props.history.push('/login');
   }
   let MainViewClassName;

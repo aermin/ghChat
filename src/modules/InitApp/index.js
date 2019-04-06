@@ -18,6 +18,7 @@ import {
 import notification from '../../components/Notification';
 import BrowserNotification from '../BrowserNotification';
 import Chat from '../Chat';
+import Socket from '../../utils/socket';
 
 class InitApp {
   constructor(props) {
@@ -27,6 +28,7 @@ class InitApp {
     this._browserNotification = new BrowserNotification();
     this._chat = new Chat();
     this._history = props.history;
+    this._socket = new Socket();
   }
 
  _browserNotificationHandle = (data) => {
@@ -120,38 +122,39 @@ _listeningPrivateChatMsg = () => {
   }
 
 
-  _initSocket = () => {
-    const { token, user_id } = this._userInfo;
-    window.socket = io(`${this.WEBSITE_ADDRESS}?token=${token}`);
-    window.socket.emit('initSocket', user_id, (data) => {
-      console.log(`${user_id} connect socket success.`, data, 'time=>', new Date().toLocaleString());
-    });
-    window.socket.emit('initGroupChat', user_id, (res) => {
-      console.log(res, 'time=>', new Date().toLocaleString());
-    });
-  };
+   _initSocket = async () => {
+     const { token, user_id } = this._userInfo;
+     window.socket = io(`${this.WEBSITE_ADDRESS}?token=${token}`);
+     const initSocketRes = await this._socket.emit('initSocket', user_id);
+     console.log(`${user_id} connect socket success.`, initSocketRes, 'time=>', new Date().toLocaleString());
+     const initGroupChatRes = await this._socket.emit('initGroupChat', user_id);
+     console.log(initGroupChatRes, 'time=>', new Date().toLocaleString());
+   };
 
 
-  _initMessage = () => {
+  _initMessage = async () => {
     const { user_id } = this._userInfo;
-    window.socket.emit('initMessage', {
+    const allMessage = await this._socket.emit('initMessage', {
       user_id,
       clientHomePageList: JSON.parse(localStorage.getItem(`homePageList-${user_id}`))
-    }, (allMessage) => {
-      const privateChat = new Map(allMessage.privateChat);
-      const groupChat = new Map(allMessage.groupChat);
-      store.dispatch(setHomePageListAction(allMessage.homePageList));
-      store.dispatch(setAllPrivateChatsAction({ data: privateChat }));
-      store.dispatch(setAllGroupChatsAction({ data: groupChat }));
     });
+    const privateChat = new Map(allMessage.privateChat);
+    const groupChat = new Map(allMessage.groupChat);
+    store.dispatch(setHomePageListAction(allMessage.homePageList));
+    store.dispatch(setAllPrivateChatsAction({ data: privateChat }));
+    store.dispatch(setAllGroupChatsAction({ data: groupChat }));
+  }
+
+  _init = async () => {
+    await this._initSocket();
+    this.subscribeSocket();
+    await this._initMessage();
   }
 
 
-  init() {
+  async init() {
     if (this._userInfo) {
-      this._initSocket();
-      this.subscribeSocket();
-      this._initMessage();
+      await this._init();
       console.log('init app success');
       window.socket.on('error', (errorMessage) => {
         notification(errorMessage, 'error');
@@ -161,9 +164,7 @@ _listeningPrivateChatMsg = () => {
       });
       window.socket.on('disconnect', (reason) => {
         console.log('disconnect in client, disconnect reason =>', reason, 'time=>', new Date().toLocaleString());
-        this._initSocket();
-        this.subscribeSocket();
-        this._initMessage();
+        this._init();
       });
       window.socket.on('reconnect_error', (error) => {
         console.log('reconnect_error. error =>', error, 'time=>', new Date().toLocaleString());

@@ -64,6 +64,12 @@ class LogIn extends Component {
       }
     });
     window.location.reload();
+    const originalLink = sessionStorage.getItem('originalLink');
+    if (originalLink) {
+      sessionStorage.removeItem('originalLink');
+      window.location.href = originalLink;
+      return;
+    }
     window.location.href = '/';
   };
 
