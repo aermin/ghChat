@@ -28,6 +28,12 @@ export default class SignInSignUp extends Component {
       const response = await Request.axios('post', '/api/v1/github_oauth', { code, clientId: this.clientId });
       localStorage.setItem('userInfo', JSON.stringify(response));
       window.location.reload();
+      const originalLink = sessionStorage.getItem('originalLink');
+      if (originalLink) {
+        sessionStorage.removeItem('originalLink');
+        window.location.href = originalLink;
+        return;
+      }
       window.location.href = '/';
     }
   }
