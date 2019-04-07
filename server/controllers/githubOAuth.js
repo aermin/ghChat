@@ -40,7 +40,7 @@ module.exports = async (ctx, next) => {
     };
     const response = await request(options);
     const {
-      avatar_url, html_url, bio, login, location, id, blog
+      avatar_url, html_url, bio, login, location, id, blog, company
     } = response;
     const payload = { id };
     const token = jwt.sign(payload, config.secret, {
@@ -55,6 +55,7 @@ module.exports = async (ctx, next) => {
       token,
       github_id: id,
       website: blog,
+      company,
     };
     const RowDataPacket = await userModel.findGithubUser(id); // judge if this github account exist
     let githubUser = JSON.parse(JSON.stringify(RowDataPacket));

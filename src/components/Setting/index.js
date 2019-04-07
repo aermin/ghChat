@@ -55,7 +55,7 @@ class Setting extends Component {
 
   render() {
     const {
-      name, avatar, github, intro, location, website
+      name, avatar, github, intro, location, website, company
     } = this._userInfo;
     const githubStarRender = (
       <div className="githubStarRender" onClick={this._openRepository}>
@@ -84,6 +84,7 @@ class Setting extends Component {
         <div className="userInfo">
           {intro && <p>{`介绍: ${intro}`}</p>}
           {location && <p>{`来自: ${location}`}</p>}
+          {company && <p>{`公司: ${company}`}</p>}
           {website && <p>{`网站: ${website}`}</p>}
           {github && <p>{`github: ${github}`}</p>}
         </div>

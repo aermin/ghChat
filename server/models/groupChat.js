@@ -19,7 +19,7 @@ const getGroupMsg = (groupId, start, count) => {
  * @return  group_member_id  群成员id
  */
 const getGroupMember = (groupId) => {
-  const _sql = 'SELECT g.user_id, u.name, u.status, u.avatar, u.github_id, u.github, u.intro, u.location, u.website FROM group_user_relation AS g inner join user_info AS u ON g.user_id = u.id WHERE to_group_id = ?';
+  const _sql = 'SELECT g.user_id, u.name, u.status, u.avatar, u.github_id, u.github, u.intro, u.company, u.location, u.website FROM group_user_relation AS g inner join user_info AS u ON g.user_id = u.id WHERE to_group_id = ?';
   return query(_sql, groupId);
 };
 /**

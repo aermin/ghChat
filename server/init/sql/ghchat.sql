@@ -105,6 +105,7 @@ CREATE TABLE `user_info` (
   `website` varchar(50) DEFAULT NULL,
   `github` varchar(50) DEFAULT NULL,
   `intro` varchar(100) DEFAULT NULL,
+  `company` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
