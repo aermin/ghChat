@@ -13,9 +13,8 @@ I hope that this project can be a chat tool for GitHub. So I will try to make it
 
 [Project online address，support logging in with GitHub authorization](https://im.aermin.top)
 
-Welcome to join this project's group which named 'ghChat'. You click the inviting button from the robot. And you can search to join it as well.
-
-![image](https://user-images.githubusercontent.com/24861316/53296199-6337a200-3845-11e9-8435-3f5480cca602.png)
+Welcome to [ click this link](https://im.aermin.top/group_chat/ddbffd80-3663-11e9-a580-d119b23ef62e?name=ghChat) to join this project's communication group which named 'ghChat'.
+Welcome to [ click this link](https://im.aermin.top/private_chat/1?name=aermin) to contact me.
 
 
 ### What technology do ghChat use?
@@ -101,23 +100,12 @@ And get other technology please follow the package.json file.
 
 ### Demo with photo：
 
-![image](https://user-images.githubusercontent.com/24861316/53351929-e1d33300-395c-11e9-84a9-0a9fd793b5a1.png)
+![image](https://user-images.githubusercontent.com/24861316/55677334-2f599d00-5918-11e9-8eb9-ab74a56572b1.png)
 
-![image](https://user-images.githubusercontent.com/24861316/53295822-b3f7cc80-383e-11e9-83b4-82a12bd4a24f.png)
+![image](https://user-images.githubusercontent.com/24861316/55677498-4221a100-591b-11e9-9e76-31c490d87c8a.png)
 
-![image](https://user-images.githubusercontent.com/24861316/53296063-eb687800-3842-11e9-9da3-ab1c312c673d.png)
 
-![image](https://user-images.githubusercontent.com/24861316/53296160-afcead80-3844-11e9-9827-4b03303fcd3d.png)
-
-![image](https://user-images.githubusercontent.com/24861316/53351432-4346d200-395c-11e9-936e-e08d887f1355.png)
-
-![image](https://user-images.githubusercontent.com/24861316/54492992-42271600-4906-11e9-8828-a79e018af1c8.png)
-
-Tips: How to turn on PWA in chrome?
-
-![image](https://user-images.githubusercontent.com/24861316/54492876-3ab33d00-4905-11e9-8283-089f2af82399.png)
-![image](https://user-images.githubusercontent.com/24861316/54493160-9e3e6a00-4907-11e9-8f26-427c6753e2a4.png)
-
+Tips: [How to turn on PWA in chrome?](https://github.com/aermin/blog/issues/63)
 
 ### Development
 

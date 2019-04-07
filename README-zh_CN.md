@@ -11,18 +11,16 @@
 
 ### 地址
 
-[github项目地址](https://github.com/aermin/react-chat)。***本项目长期迭代，给个star支持一下*** 😄
+[github项目地址](https://github.com/aermin/react-chat)。***富应用型的开发很耗时间精力，觉得还不错的麻烦给个star以兹鼓励下*** 
 
 
 [网站线上地址，支持直接github授权登录](https://im.aermin.top)。
 
-欢迎加入 "ghChat" 这个群交流呀，可搜索群名(不用全打)加入，也可点击机器人的邀请加入(如下图)
-
-![image](https://user-images.githubusercontent.com/24861316/53296199-6337a200-3845-11e9-8435-3f5480cca602.png)
+欢迎加入 "ghChat" 这个群交流呀，可[点击链接加入](https://im.aermin.top/group_chat/ddbffd80-3663-11e9-a580-d119b23ef62e?name=ghChat)，可搜索群名(不用全打)加入，也可点击机器人的邀请加入
 
 ### 技术栈
 
-前端React全家桶，后端node.js(koa2), 数据库MySQL, 双向通信SocKet.io, jwt鉴权等等。具体看package.json。有疑问的可以加ghChat群交流哦，我每天都在线，也可以私聊我，我的ghChat用户名是aermin(白色头像的那个)
+前端React全家桶，后端node.js(koa2), 数据库MySQL, 双向通信SocKet.io, jwt鉴权等等。具体看package.json。有疑问的可以加ghChat群交流哦，我每天都在线，也可以私聊我，[点击加我](https://im.aermin.top/private_chat/1?name=aermin)
 
 ### 目前进度
 
@@ -100,24 +98,14 @@
 
 ### 项目展示：
 
-github对gif图有限制，我就直接截图了，具体详情建议直接[线上体验](https://im.aermin.top)。
+github对gif图有限制，我就直接截一张图了，具体详情建议直接[线上体验](https://im.aermin.top)。
 
-![image](https://user-images.githubusercontent.com/24861316/53351929-e1d33300-395c-11e9-84a9-0a9fd793b5a1.png)
+![image](https://user-images.githubusercontent.com/24861316/55677334-2f599d00-5918-11e9-8eb9-ab74a56572b1.png)
 
-![image](https://user-images.githubusercontent.com/24861316/53295822-b3f7cc80-383e-11e9-83b4-82a12bd4a24f.png)
+![image](https://user-images.githubusercontent.com/24861316/55677498-4221a100-591b-11e9-9e76-31c490d87c8a.png)
 
-![image](https://user-images.githubusercontent.com/24861316/53296063-eb687800-3842-11e9-9da3-ab1c312c673d.png)
+Tips: [如何在chrome浏览器中开启对PWA的支持](https://github.com/aermin/blog/issues/63)
 
-![image](https://user-images.githubusercontent.com/24861316/53296160-afcead80-3844-11e9-9827-4b03303fcd3d.png)
-
-![image](https://user-images.githubusercontent.com/24861316/53351432-4346d200-395c-11e9-936e-e08d887f1355.png)
-
-![image](https://user-images.githubusercontent.com/24861316/54492992-42271600-4906-11e9-8828-a79e018af1c8.png)
-
-Tips: 如何在chrome浏览器中开启对PWA的支持?
-
-![image](https://user-images.githubusercontent.com/24861316/54492876-3ab33d00-4905-11e9-8283-089f2af82399.png)
-![image](https://user-images.githubusercontent.com/24861316/54493160-9e3e6a00-4907-11e9-8f26-427c6753e2a4.png)
 
 ### 项目结构图
 
