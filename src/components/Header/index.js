@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import GroupModal from '../GroupModal';
 import './style.scss';
-
+import SearchBox from '../SearchBox';
 
 export default class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modalVisible: false,
-      searchField: '',
     };
     this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
   }
@@ -50,13 +49,6 @@ export default class Header extends Component {
     });
   }
 
-  _searchFieldChange = (event) => {
-    const { name, value } = event.target;
-    this.setState({ [name]: value });
-    const { searchFieldChange } = this.props;
-    searchFieldChange(value);
-  }
-
   openModal = () => {
     this.setState({
       modalVisible: true
@@ -75,25 +67,18 @@ export default class Header extends Component {
 
   render() {
     const {
-      searchField, modalVisible
+      modalVisible
     } = this.state;
-    const { isSearching } = this.props;
+    const { isSearching, searchFieldChange } = this.props;
     return (
       <div className="header-wrapper">
         <svg onClick={this._openRepository} className="icon githubIcon" aria-hidden="true">
           <use xlinkHref="#icon-github" />
         </svg>
-        <div className="search-box">
-          <svg className="icon" aria-hidden="true">
-            <use xlinkHref="#icon-search1" />
-          </svg>
-          <input
-            type="text"
-            name="searchField"
-            value={isSearching ? searchField : ''}
-            placeholder="搜索用户/群"
-            onChange={this._searchFieldChange} />
-        </div>
+        <SearchBox
+          searchFieldChange={searchFieldChange}
+          isSearching={isSearching}
+        />
         <span className="add" onClick={this.openModal}>
           <svg className="icon" aria-hidden="true"><use xlinkHref="#icon-add" /></svg>
         </span>

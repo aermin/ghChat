@@ -20,36 +20,4 @@
         cursor: pointer;
     }
 
-    .search-box {
-        border-radius: 4px;
-        background-color: #fff;
-        display: flex;
-        justify-items: center;
-        .icon {
-            font-size: 26px;
-            position: absolute;
-        }
-        /*在IE10+浏览器中, 使用css即可隐藏input文本输入框右侧的叉号*/
-        ::-ms-reveal,input[type=text]::-ms-clear {
-            display: none;
-        }
-        ::-ms-reveal,input::-ms-clear {
-            display: none;
-        }
-        input {
-            /*去除点击出现轮廓颜色*/
-            border-radius: 4px;
-            outline: none;
-            border: 1px solid #fff;
-            background-color: $background-color;
-            padding-left: 35px;
-            height: 26px;
-            -webkit-appearance: none;
-            /*去除系统默认的样式，苹果手机上的阴影*/
-            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-            /*点击高亮的颜色*/
-            /*padding已在重置样式中去除，如果没有去除，记得有padding哦*/
-        }
-    }
-
 }
