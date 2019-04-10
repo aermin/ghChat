@@ -1,6 +1,7 @@
-import { join } from 'path';
-import { LoaderOptionsPlugin } from 'webpack';
-import nodeExternals from 'webpack-node-externals';
+const nodeExternals = require('webpack-node-externals');
+const webpack = require('webpack');
+const path = require('path');
+const fs = require('fs');
 
 // function srcPath(subdir) {
 //   return path.join(__dirname, subdir);
@@ -8,11 +9,11 @@ import nodeExternals from 'webpack-node-externals';
 
 const config = {
   mode: 'development',
-  entry: './src/index.ts',
+  entry: './src/app/index.ts',
   target: 'node',
   output: {
     // Puts the output at the root of the dist folder
-    path: join(__dirname, 'dist'),
+    path: path.join(__dirname, 'dist'),
     filename: 'index.js'
   },
   resolve: {
@@ -26,7 +27,7 @@ const config = {
     ]
   },
   plugins: [
-    new LoaderOptionsPlugin({
+    new webpack.LoaderOptionsPlugin({
       options: {
         test: /\.ts$/,
         ts: {
@@ -49,7 +50,11 @@ const config = {
   externals: [nodeExternals()]
 };
 
-export default (env, argv) => {
+module.exports = (env, argv) => {
+  // console.log(argv.prod);
+
+  // config.mode = argv.prod ? 'production' : 'development';
+
   if (!argv.prod) {
     config.devtool = 'source-map';
   }

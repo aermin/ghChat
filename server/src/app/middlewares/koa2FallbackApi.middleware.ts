@@ -1,6 +1,6 @@
 import * as url from 'url';
 
-export function koa2FallbackApiMiddleware(options?) {
+export function koa2FallbackApiMiddleware(options?: any) {
   options = options || {};
   const logger = (a, b, c, d) => {
     console.log(a, b, c, d);

@@ -1,40 +1,44 @@
 
-const socketIo = require('socket.io');
-const uuid = require('uuid/v1');
-const request = require('request-promise');
-const socketModel = require('../models/socket');
-const privateChatModel = require('../models/privateChat');
-const groupChatModel = require('../models/groupChat');
-const msgModel = require('../models/message');
-const userInfoModel = require('../models/userInfo');
-const groupInfoModel = require('../models/groupInfo');
-const { getAllMessage, getGroupItem } = require('./message');
-const verify = require('../middlewares/verify');
-const getUploadToken = require('../utils/qiniu');
+import * as socketIo from 'socket.io';
+import * as uuid from 'uuid/v1';
+import * as request from 'request-promise';
+import { authVerify } from 'app/middlewares/verify';
+import { ServicesContext } from 'app/context';
+import { getUploadToken } from 'app/utils/qiniu';
+import { getGroupItem, getAllMessage } from './message.socket';
 
-module.exports = (server) => {
+export const appSocket = (server) => {
+  const {
+    userService,
+    chatService,
+    groupChatService,
+    groupService
+  } = ServicesContext.getInstance();
+
   const io = socketIo(server);
+
   io.use((socket, next) => {
     const token = socket.handshake.query.token;
-    if (verify(token)) {
+    if (authVerify(token)) {
       return next();
     }
     return next(new Error(`Authentication error! time =>${new Date().toLocaleString()}`));
   });
+
   io.on('connection', (socket) => {
     const socketId = socket.id;
     let _userId;
     try {
       socket.on('initSocket', async (user_id, fn) => {
         _userId = user_id;
-        await socketModel.saveUserSocketId(user_id, socketId);
-        await userInfoModel.updateUserStatus(user_id, 1);
+        await userService.saveUserSocketId(user_id, socketId);
+        await userService.updateUserStatus(user_id, 1);
         fn('initSocket success');
       });
 
       // 初始化群聊
       socket.on('initGroupChat', async (user_id, fn) => {
-        const result = await msgModel.getGroupList(user_id);
+        const result = await userService.getGroupList(user_id);
         const groupList = JSON.parse(JSON.stringify(result));
         for (const item of groupList) {
           socket.join(item.to_group_id);
@@ -52,8 +56,8 @@ module.exports = (server) => {
       socket.on('sendPrivateMsg', async (data) => {
         if (!data) return;
         data.attachments = JSON.stringify(data.attachments);
-        await privateChatModel.savePrivateMsg({ ...data });
-        const arr = await socketModel.getUserSocketId(data.to_user);
+        await chatService.savePrivateMsg({ ...data });
+        const arr = await userService.getUserSocketId(data.to_user);
         const toUserSocketId = JSON.parse(JSON.stringify(arr[0])).socketid;
         io.to(toUserSocketId).emit('getPrivateMsg', data);
         // logs to debug;
@@ -64,7 +68,7 @@ module.exports = (server) => {
       socket.on('sendGroupMsg', async (data) => {
         if (!data) return;
         data.attachments = JSON.stringify(data.attachments);
-        await groupChatModel.saveGroupMsg({ ...data });
+        await groupChatService.saveGroupMsg({ ...data });
         socket.broadcast.to(data.to_group_id).emit('getGroupMsg', data);
         // logs to debug;
         console.log(`[userId:${_userId}, socketId:${socketId}] send group msg:${data} to to_group_id:${data.to_group_id}`);
@@ -74,7 +78,7 @@ module.exports = (server) => {
         const {
           user_id, toUser, start, count
         } = data;
-        const RowDataPacket = await privateChatModel.getPrivateDetail(user_id, toUser, start - 1, count);
+        const RowDataPacket = await chatService.getPrivateDetail(user_id, toUser, start - 1, count);
         const privateMessages = JSON.parse(JSON.stringify(RowDataPacket));
         console.log('getOnePrivateChatMessages: data, privateMessages', data, privateMessages);
         fn(privateMessages);
@@ -82,7 +86,7 @@ module.exports = (server) => {
 
       // get group messages in a group;
       socket.on('getOneGroupMessages', async (data, fn) => {
-        const RowDataPacket = await groupChatModel.getGroupMsg(data.groupId, data.start - 1, data.count);
+        const RowDataPacket = await groupChatService.getGroupMsg(data.groupId, data.start - 1, data.count);
         const groupMessages = JSON.parse(JSON.stringify(RowDataPacket));
         console.log('getOneGroupMessages: data, groupMessages', data, groupMessages);
         fn(groupMessages);
@@ -92,7 +96,7 @@ module.exports = (server) => {
       socket.on('getOneGroupItem', async (data, fn) => {
         const groupMsgAndInfo = await getGroupItem({
           groupId: data.groupId,
-          startLine: data.start || 1,
+          start: data.start || 1,
           count: 20
         });
         fn(groupMsgAndInfo);
@@ -105,22 +109,22 @@ module.exports = (server) => {
           name, group_notice, creator_id, create_time
         } = data;
         const arr = [to_group_id, name, group_notice, creator_id, create_time];
-        await groupInfoModel.createGroup(arr);
-        await groupInfoModel.joinGroup(creator_id, to_group_id);
+        await groupService.createGroup(arr);
+        await groupService.joinGroup(creator_id, to_group_id);
         socket.join(to_group_id);
         fn({ to_group_id, ...data });
       });
 
       // 修改群资料
       socket.on('updateGroupInfo', async (data, fn) => {
-        await groupInfoModel.updateGroupInfo(data);
+        await groupService.updateGroupInfo(data);
         fn('修改群资料成功');
       });
 
       // 加群
       socket.on('joinGroup', async (data, fn) => {
         const { userInfo, toGroupId } = data;
-        await groupInfoModel.joinGroup(userInfo.user_id, toGroupId);
+        await groupService.joinGroup(userInfo.user_id, toGroupId);
         socket.join(toGroupId);
         const groupItem = await getGroupItem({ groupId: toGroupId });
         fn(groupItem);
@@ -136,12 +140,12 @@ module.exports = (server) => {
       socket.on('leaveGroup', async (data) => {
         const { user_id, toGroupId } = data;
         socket.leave(toGroupId);
-        await groupInfoModel.leaveGroup(user_id, toGroupId);
+        await groupService.leaveGroup(user_id, toGroupId);
       });
 
       // 获取群成员信息
       socket.on('getGroupMember', async (groupId, fn) => {
-        const RowDataPacket = await groupChatModel.getGroupMember(groupId);
+        const RowDataPacket = await groupChatService.getGroupMember(groupId);
         const getGroupMember = JSON.parse(JSON.stringify(RowDataPacket));
         fn(getGroupMember);
       });
@@ -151,9 +155,9 @@ module.exports = (server) => {
         let fuzzyMatchResult;
         const field = `%${data.field}%`;
         if (data.searchUser) {
-          fuzzyMatchResult = await userInfoModel.fuzzyMatchUsers(field);
+          fuzzyMatchResult = await userService.fuzzyMatchUsers(field);
         } else {
-          fuzzyMatchResult = await groupInfoModel.fuzzyMatchGroups(field);
+          fuzzyMatchResult = await groupService.fuzzyMatchGroups(field);
         }
         fn({ fuzzyMatchResult, searchUser: data.searchUser });
       });
@@ -171,9 +175,9 @@ module.exports = (server) => {
      */
       socket.on('addAsTheContact', async (data, fn) => {
         const { user_id, from_user } = data;
-        const time = Date.parse(new Date()) / 1000;
-        await userInfoModel.addFriendEachOther(user_id, from_user, time);
-        const userInfo = await userInfoModel.getUserInfo(from_user);
+        const time = Date.now() / 1000;
+        await userService.addFriendEachOther(user_id, from_user, time);
+        const userInfo = await userService.getUserInfo(from_user);
         fn(userInfo[0]);
       });
 
@@ -197,7 +201,7 @@ module.exports = (server) => {
 
 
       socket.on('disconnect', async (reason) => {
-        await userInfoModel.updateUserStatus(_userId, 0);
+        await userService.updateUserStatus(_userId, 0);
         console.log('disconnect.=>reason', reason, 'user_id=>', _userId, 'socket.id=>', socket.id, 'time=>', new Date().toLocaleString());
       });
     } catch (error) {
