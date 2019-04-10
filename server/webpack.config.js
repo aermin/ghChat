@@ -1,7 +1,6 @@
 const nodeExternals = require('webpack-node-externals');
 const webpack = require('webpack');
 const path = require('path');
-const fs = require('fs');
 
 // function srcPath(subdir) {
 //   return path.join(__dirname, subdir);
@@ -17,9 +16,8 @@ const config = {
     filename: 'index.js'
   },
   resolve: {
-    // alias: {
-    //   'models': srcPath('src/models')
-    // },
+    alias: {
+    },
     extensions: ['.ts', '.js'],
     modules: [
       'node_modules',
@@ -58,5 +56,10 @@ module.exports = (env, argv) => {
   if (!argv.prod) {
     config.devtool = 'source-map';
   }
+
+  config.resolve.alias = {
+    '@env': path.join(__dirname,
+      `src/environments/environment${argv.prod ? '.prod' : ''}.ts`),
+  };
   return config;
 };
