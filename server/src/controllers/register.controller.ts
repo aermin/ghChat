@@ -1,7 +1,7 @@
-const md5 = require('md5');
-const userModel = require('../models/userInfo');
+import * as  md5 from 'md5';
+// import userModel from '../models/userInfo';
 
-module.exports = async (ctx, next) => {
+export const registerController = async (ctx, next) => {
   console.log('register');
   const { name, password } = ctx.request.body;
 

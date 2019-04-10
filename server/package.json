@@ -38,12 +38,21 @@
     "uuid": "^3.2.1"
   },
   "devDependencies": {
-    "@types/uuid": "^3.4.4",
+    "@types/jsonwebtoken": "^8.3.2",
+    "@types/koa-bodyparser": "^4.2.2",
+    "@types/koa-compress": "^2.0.9",
+    "@types/koa-router": "^7.0.40",
+    "@types/koa-static": "^4.0.1",
+    "@types/koa2-cors": "^2.0.1",
+    "@types/md5": "^2.1.33",
     "@types/node": "^10.12.18",
+    "@types/request-promise": "^4.1.42",
+    "@types/socket.io": "^2.1.2",
+    "@types/uuid": "^3.4.4",
+    "awesome-typescript-loader": "^5.2.1",
     "concurrently": "^4.1.0",
     "nodemon": "^1.18.9",
     "ts-loader": "^5.3.3",
-    "awesome-typescript-loader": "^5.2.1",
     "webpack": "^4.29.0",
     "webpack-cli": "^3.2.1",
     "webpack-node-externals": "^1.7.2"

@@ -1,5 +1,5 @@
-const request = require('request-promise');
-const jwt = require('jsonwebtoken');
+import * as request from 'request-promise'
+import * as jwt from 'jsonwebtoken'
 const secret = require('../../secret');
 const config = require('../config');
 const userModel = require('../models/userInfo');
@@ -25,7 +25,7 @@ async function getAccessToken(ctx) {
   }
 }
 
-module.exports = async (ctx, next) => {
+export const githubOAuthController = async (ctx, next) => {
   try {
     const accessToken = await getAccessToken(ctx);
     const options = {
@@ -56,6 +56,7 @@ module.exports = async (ctx, next) => {
       github_id: id,
       website: blog,
       company,
+      user_id: null
     };
     const RowDataPacket = await userModel.findGithubUser(id); // judge if this github account exist
     let githubUser = JSON.parse(JSON.stringify(RowDataPacket));

@@ -1,6 +1,6 @@
-const url = require('url');
+import * as url from 'url';
 
-function koa2FallbackApiMiddleware(options) {
+export function koa2FallbackApiMiddleware(options?) {
   options = options || {};
   const logger = (a, b, c, d) => {
     console.log(a, b, c, d);
@@ -52,12 +52,10 @@ function koa2FallbackApiMiddleware(options) {
 
     rewriteTarget = options.index || '/index.html';
 
-    logger('Rewriting', method, reqUrl, 'to', rewriteTarget);
+    logger('Rewriting', method, reqUrl, 'to');
 
     ctx.url = rewriteTarget;
 
     return next();
   };
 }
-
-module.exports = koa2FallbackApiMiddleware;

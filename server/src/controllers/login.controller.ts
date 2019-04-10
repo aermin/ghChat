@@ -1,10 +1,10 @@
-const jwt = require('jsonwebtoken');
-const md5 = require('md5');
+import * as jwt from 'jsonwebtoken';
+import * as md5 from 'md5';
 const secret = require('../config').secret;
 const userModel = require('../models/userInfo');
 
 // 用户名登录系统只涉及非github用户，也就是github用户只能走github授权来登录
-module.exports = async (ctx, next) => {
+export const loginController = async (ctx, next) => {
   const { name = '', password = '' } = ctx.request.body;
   if (name === '' || password === '') {
     ctx.body = {
