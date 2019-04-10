@@ -1,10 +1,11 @@
-import { githubOAuthController, loginController, registerController } from 'controllers';
 import * as router from 'koa-router';
 
-const baseApi = require('../config').baseApi;
+import { githubOAuthController, loginController, registerController } from '../controllers';
+import { environment } from '@env';
+
 
 export const appRoutes = new router()
-  .prefix(`/${baseApi}`)
+  .prefix(`/${environment.baseApi}`)
   .post('/register', registerController) // 注册
   .post('/login', loginController) // 登录
   .post('/github_oauth', githubOAuthController);

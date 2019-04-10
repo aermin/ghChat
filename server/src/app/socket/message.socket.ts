@@ -1,14 +1,16 @@
-const msgModel = require('../models/message');
-const privateChatModel = require('../models/privateChat');
-const userModel = require('../models/userInfo');
-const groupChatModel = require('../models/groupChat');
+import { ServicesContext } from 'app/context';
 
-
-const getPrivateMsg = async ({
+export const getPrivateMsg = async ({
   toUser, user_id, start = 1, count = 20
 }) => {
-  const RowDataPacket1 = await privateChatModel.getPrivateDetail(user_id, toUser, start - 1, count);
-  const RowDataPacket2 = await userModel.getUserInfo(toUser);
+
+  const {
+    userService,
+    chatService,
+  } = ServicesContext.getInstance();
+
+  const RowDataPacket1 = await chatService.getPrivateDetail(user_id, toUser, start - 1, count);
+  const RowDataPacket2 = await userService.getUserInfo(toUser);
   const messages = JSON.parse(JSON.stringify(RowDataPacket1));
   const userInfo = JSON.parse(JSON.stringify(RowDataPacket2));
   return {
@@ -17,10 +19,15 @@ const getPrivateMsg = async ({
   };
 };
 
-const getGroupItem = async ({ groupId, start = 1, count = 20 }) => {
-  const RowDataPacket1 = await groupChatModel.getGroupMsg(groupId, start - 1, count);
-  const RowDataPacket2 = await groupChatModel.getGroupInfo([groupId, null]);
-  const RowDataPacket3 = await groupChatModel.getGroupMember(groupId);
+export const getGroupItem = async ({ groupId, start = 1, count = 20 }: { groupId: string, start?: number, count?: number }) => {
+
+  const {
+    groupChatService,
+  } = ServicesContext.getInstance();
+
+  const RowDataPacket1 = await groupChatService.getGroupMsg(groupId, start - 1, count);
+  const RowDataPacket2 = await groupChatService.getGroupInfo([groupId, null]);
+  const RowDataPacket3 = await groupChatService.getGroupMember(groupId);
   const members = JSON.parse(JSON.stringify(RowDataPacket3));
   const messages = JSON.parse(JSON.stringify(RowDataPacket1));
   const groupInfo = JSON.parse(JSON.stringify(RowDataPacket2))[0];
@@ -30,11 +37,18 @@ const getGroupItem = async ({ groupId, start = 1, count = 20 }) => {
   };
 };
 
-const getAllMessage = async ({ user_id, clientHomePageList }) => {
+export const getAllMessage = async ({ user_id, clientHomePageList }) => {
   try {
-    const res1 = await msgModel.getPrivateList(user_id);
+
+    const {
+      userService,
+      chatService,
+      groupChatService,
+    } = ServicesContext.getInstance();
+
+    const res1 = await userService.getPrivateList(user_id);
     const privateList = JSON.parse(JSON.stringify(res1));
-    const res2 = await msgModel.getGroupList(user_id);
+    const res2 = await userService.getGroupList(user_id);
     const groupList = JSON.parse(JSON.stringify(res2));
     const homePageList = groupList.concat(privateList);
     const privateChat = new Map();
@@ -45,8 +59,8 @@ const getAllMessage = async ({ user_id, clientHomePageList }) => {
           const goal = clientHomePageList.find(e => (e.user_id ? e.user_id === item.user_id : e.to_group_id === item.to_group_id));
           if (goal) {
             const sortTime = goal.time;
-            const res = item.user_id ? await privateChatModel.getUnreadCount({ sortTime, from_user: user_id, to_user: item.user_id })
-              : await groupChatModel.getUnreadCount({ sortTime, to_group_id: item.to_group_id });
+            const res = item.user_id ? await chatService.getUnreadCount({ sortTime, from_user: user_id, to_user: item.user_id })
+              : await groupChatService.getUnreadCount({ sortTime, to_group_id: item.to_group_id });
             item.unread = goal.unread + JSON.parse(JSON.stringify(res))[0].unread;
           }
         }
@@ -69,11 +83,4 @@ const getAllMessage = async ({ user_id, clientHomePageList }) => {
     console.log(error);
     return null;
   }
-};
-
-
-module.exports = {
-  getAllMessage,
-  getPrivateMsg,
-  getGroupItem,
 };

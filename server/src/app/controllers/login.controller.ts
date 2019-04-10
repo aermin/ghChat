@@ -1,10 +1,12 @@
 import * as jwt from 'jsonwebtoken';
 import * as md5 from 'md5';
-const secret = require('../config').secret;
-const userModel = require('../models/userInfo');
+import { environment } from '@env';
+import { ServicesContext } from 'app/context';
 
 // 用户名登录系统只涉及非github用户，也就是github用户只能走github授权来登录
 export const loginController = async (ctx, next) => {
+  const { userService } = ServicesContext.getInstance();
+
   const { name = '', password = '' } = ctx.request.body;
   if (name === '' || password === '') {
     ctx.body = {
@@ -13,7 +15,7 @@ export const loginController = async (ctx, next) => {
     };
     return;
   }
-  const RowDataPacket = await userModel.findDataByName(name);
+  const RowDataPacket = await userService.findDataByName(name);
   const res = JSON.parse(JSON.stringify(RowDataPacket));
   if (res.length > 0) {
     //   验证成功后，服务端会签发一个 Token，再把这个 Token 发送给客户端
@@ -22,7 +24,7 @@ export const loginController = async (ctx, next) => {
         id, name, sex, website, github, intro, company, avatar, location, socketId
       } = res[0];
       const payload = { id };
-      const token = jwt.sign(payload, secret, {
+      const token = jwt.sign(payload, environment.jwt_secret, {
         expiresIn: Math.floor(Date.now() / 1000) + 24 * 60 * 60 * 7 // 一周
       });
       ctx.body = {

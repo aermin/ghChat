@@ -10,6 +10,11 @@
     "sourceMap": true,
     "outDir": "dist",
     "baseUrl": "src",
+    "paths": {
+      "@env": [
+        "environments/environment"
+      ]
+    },
     "lib": [
       "es2015",
       "es6",
@@ -17,6 +22,7 @@
       "dom"
     ]
   },
+
   "include": [
     "src/**/*"
   ],

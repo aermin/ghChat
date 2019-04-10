@@ -1,11 +1,13 @@
-import * as  md5 from 'md5';
-// import userModel from '../models/userInfo';
+import * as md5 from 'md5';
+import { ServicesContext } from 'app/context';
 
 export const registerController = async (ctx, next) => {
+  const { userService } = ServicesContext.getInstance();
+
   console.log('register');
   const { name, password } = ctx.request.body;
 
-  await userModel.findDataByName(name).then((result) => {
+  await userService.findDataByName(name).then((result) => {
     console.log(result);
     if (result.length) {
       ctx.body = {
@@ -18,7 +20,7 @@ export const registerController = async (ctx, next) => {
         message: '注册成功！'
       };
       console.log('注册成功');
-      userModel.insertData([name, md5(password)]);
+      userService.insertData([name, md5(password)]);
     }
   });
 };

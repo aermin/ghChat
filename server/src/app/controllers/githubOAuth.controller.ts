@@ -1,15 +1,14 @@
-import * as request from 'request-promise'
-import * as jwt from 'jsonwebtoken'
-const secret = require('../../secret');
-const config = require('../config');
-const userModel = require('../models/userInfo');
+import { environment } from '@env';
+import * as jwt from 'jsonwebtoken';
+import * as request from 'request-promise';
+import { ServicesContext } from 'app/context';
 
 async function getAccessToken(ctx) {
   try {
     const { code, clientId } = ctx.request.body;
     const date = {
       code,
-      client_secret: secret.client_secret,
+      client_secret: environment.secret.client_secret,
       client_id: clientId
     };
     const options = {
@@ -26,6 +25,9 @@ async function getAccessToken(ctx) {
 }
 
 export const githubOAuthController = async (ctx, next) => {
+
+  const { userService } = ServicesContext.getInstance();
+
   try {
     const accessToken = await getAccessToken(ctx);
     const options = {
@@ -43,7 +45,7 @@ export const githubOAuthController = async (ctx, next) => {
       avatar_url, html_url, bio, login, location, id, blog, company
     } = response;
     const payload = { id };
-    const token = jwt.sign(payload, config.secret, {
+    const token = jwt.sign(payload, environment.jwt_secret, {
       expiresIn: Math.floor(Date.now() / 1000) + 24 * 60 * 60 * 7 // 一周
     });
     const data = {
@@ -58,13 +60,13 @@ export const githubOAuthController = async (ctx, next) => {
       company,
       user_id: null
     };
-    const RowDataPacket = await userModel.findGithubUser(id); // judge if this github account exist
+    const RowDataPacket = await userService.findGithubUser(id); // judge if this github account exist
     let githubUser = JSON.parse(JSON.stringify(RowDataPacket));
     if (githubUser.length > 0) {
-      await userModel.updateGithubUser(data);
+      await userService.updateGithubUser(data);
     } else {
-      await userModel.insertGithubData(data);
-      const RowDataPacket = await userModel.findGithubUser(id);
+      await userService.insertGithubData(data);
+      const RowDataPacket = await userService.findGithubUser(id);
       githubUser = JSON.parse(JSON.stringify(RowDataPacket));
     }
     data.user_id = githubUser[0].id;
