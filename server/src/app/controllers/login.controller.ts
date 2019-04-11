@@ -1,7 +1,7 @@
 import * as jwt from 'jsonwebtoken';
 import * as md5 from 'md5';
 import { environment } from '@env';
-import { ServicesContext } from 'app/context';
+import { ServicesContext } from '../context';
 
 // 用户名登录系统只涉及非github用户，也就是github用户只能走github授权来登录
 export const loginController = async (ctx, next) => {
