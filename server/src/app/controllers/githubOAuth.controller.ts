@@ -1,7 +1,7 @@
 import { environment } from '@env';
 import * as jwt from 'jsonwebtoken';
 import * as request from 'request-promise';
-import { ServicesContext } from 'app/context';
+import { ServicesContext } from '../context';
 
 async function getAccessToken(ctx) {
   try {

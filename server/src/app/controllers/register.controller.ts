@@ -1,5 +1,5 @@
 import * as md5 from 'md5';
-import { ServicesContext } from 'app/context';
+import { ServicesContext } from '../context';
 
 export const registerController = async (ctx, next) => {
   const { userService } = ServicesContext.getInstance();

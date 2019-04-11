@@ -1,4 +1,4 @@
-import { ServicesContext } from 'app/context';
+import { ServicesContext } from '../context';
 
 export const getPrivateMsg = async ({
   toUser, user_id, start = 1, count = 20

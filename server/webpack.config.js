@@ -1,3 +1,4 @@
+
 const nodeExternals = require('webpack-node-externals');
 const webpack = require('webpack');
 const path = require('path');
@@ -58,8 +59,7 @@ module.exports = (env, argv) => {
   }
 
   config.resolve.alias = {
-    '@env': path.join(__dirname,
-      `src/environments/environment${argv.prod ? '.prod' : ''}.ts`),
+    '@env': path.join(__dirname, `src/environments/environment${argv.prod ? '.prod' : ''}.ts`),
   };
   return config;
 };

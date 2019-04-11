@@ -1,11 +1,12 @@
-
+import * as request from 'request-promise';
 import * as socketIo from 'socket.io';
 import * as uuid from 'uuid/v1';
-import * as request from 'request-promise';
-import { authVerify } from 'app/middlewares/verify';
-import { ServicesContext } from 'app/context';
-import { getUploadToken } from 'app/utils/qiniu';
-import { getGroupItem, getAllMessage } from './message.socket';
+
+import { ServicesContext } from '../context';
+import { authVerify } from '../middlewares/verify';
+import { getUploadToken } from '../utils/qiniu';
+import { getAllMessage, getGroupItem } from './message.socket';
+
 
 export const appSocket = (server) => {
   const {

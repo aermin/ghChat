@@ -9,10 +9,10 @@
     "noImplicitAny": false,
     "sourceMap": true,
     "outDir": "dist",
-    "baseUrl": "src",
+    "baseUrl": "./",
     "paths": {
       "@env": [
-        "environments/environment"
+        "src/environments/environment"
       ]
     },
     "lib": [
