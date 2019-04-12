@@ -61,6 +61,7 @@
     "@loadable/component": "^5.7.0",
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
+    "crypto-js": "^3.1.9-1",
     "emoji-mart": "^2.9.2",
     "fuse.js": "^3.3.0",
     "immutable": "^3.8.2",
@@ -74,7 +75,6 @@
     "react-router-dom": "^5.0.0",
     "react-viewer": "^2.8.0",
     "redux": "^4.0.0",
-    "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "socket.io-client": "^2.2.0",
     "text-emoji-parser": "^1.0.8"

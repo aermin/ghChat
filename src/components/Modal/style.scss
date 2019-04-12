@@ -1,3 +1,4 @@
+@import "../../assets/base.scss";
 .dialogRender {
     h3 {
         text-align: center;
@@ -38,7 +39,7 @@
         height:40px;
         p {
             background: transparent;
-            color: #1678E5;
+            color: $blue;
             font-size: 14px;
             height:40px;
             line-height:40px;
@@ -70,7 +71,7 @@
         height:40px;
         p {
             background: transparent;
-            color: #1678E5;
+            color: $blue;
             height:40px;
             font-size: 16px;
             line-height:40px;

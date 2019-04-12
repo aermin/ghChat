@@ -11,7 +11,7 @@
     .info {
       padding: 10px 16px;
       .noticeTitle {
-        color: $m-title;
+        color: $blue;
         padding-bottom: 10px;
         font-size: 14px;
         position: relative;
@@ -32,14 +32,25 @@
       .memberTitle {
         font-size: 14px;
         padding-top: 10px;
-        color: $m-title;
+        color: $blue;
+      }
+      .invite {
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        padding-top: 10px;
+        .inviteIcon {
+          font-size: 30px;
+          padding-right: 10px;
+        }
       }
     }
     .members{
       list-style: none;
       overflow-y: auto;
       font-size: 18px;
-      height: calc(100% - 190px);
+      height: calc(100% - 220px);
       .member {
         padding: 10px 10px 0;
         display: flex;

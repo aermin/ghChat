@@ -17,32 +17,53 @@ class ChatItem extends Component {
     this._chat = new Chat();
   }
 
-  clickToInvite({ groupUrl, inviter }) {
-    this.props.history.push(groupUrl);
+  clickToInvite({ redirectUrl, inviter }) {
+    this.props.history.push(redirectUrl);
   }
 
   _clickImage(imageUrl) {
     this.props.clickImage(imageUrl);
   }
 
-  invitingCard = (url) => {
+  inviteUrlHandle(url) {
     const splitArray = url.split(/&inviter=/);
-    const groupUrl = splitArray[0];
+    const redirectUrl = /\/\w+_chat\/\S+/.exec(splitArray[0])[0];
     const str = '?name=';
-    const num = groupUrl.indexOf(str);
-    const groupName = groupUrl.substring(num + str.length);
+    const num = redirectUrl.indexOf(str);
+    const name = redirectUrl.substring(num + str.length);
     const inviter = splitArray[1];
+    return { name, inviter, redirectUrl };
+  }
+
+  invitePersonalCard = (url) => {
+    const { name, inviter, redirectUrl } = this.inviteUrlHandle(url);
     return (
       <div
-        className="invitingCard"
+        className="inviteCard"
+        onClick={() => { this.clickToInvite({ redirectUrl, inviter }); }}
+        >
+        <p className="inviteTitle">
+          {` "${decodeURI(name)}"`}
+        </p>
+        <p className="inviteButton">点击加为联系人</p>
+      </div>
+    );
+  }
+
+  inviteGroupCard = (url) => {
+    const { name, inviter, redirectUrl } = this.inviteUrlHandle(url);
+    return (
+      <div
+        className="inviteCard"
+        onClick={() => { this.clickToInvite({ redirectUrl, inviter }); }}
         >
         <p>
-          {`${inviter} 邀请你加入`}
+          {`${inviter} 邀请你加入群`}
         </p>
-        <p>
-          {` "${groupName}"`}
+        <p className="inviteTitle">
+          {` "${decodeURI(name)}"`}
         </p>
-        <Button clickFn={() => { this.clickToInvite({ groupUrl, inviter }); }} value="点击加入" />
+        <p className="inviteButton">点击加入</p>
       </div>
     );
   }
@@ -60,8 +81,10 @@ class ChatItem extends Component {
   }
 
   textRender = (msg) => {
-    const isInvitingUrl = /^\/group_chat\/\S+\?name=\S.*&inviter=\S.*$/;
-    if (isInvitingUrl.test(msg)) return <div className="msg-render">{this.invitingCard(msg)}</div>;
+    const isInviteGroupUrl = /\/group_chat\/\S+\?name=\S.*&inviter=\S.*$/.test(msg);
+    const isInvitePrivateUrl = /\/private_chat\/\S+\?name=\S.*&inviter=\S.*$/.test(msg);
+    if (isInviteGroupUrl) return <div className="msg-render">{this.inviteGroupCard(msg)}</div>;
+    if (isInvitePrivateUrl) return <div className="msg-render">{this.invitePersonalCard(msg)}</div>;
     return (
       <div className="msg-render">
         {MultiLineParser(msg,

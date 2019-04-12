@@ -1,4 +1,4 @@
-import { GET_ROBOT_MSG, INSERT_MSG } from './robotAction';
+import { INSERT_MSG } from './robotAction';
 
 const GROUP_CHAT_ID = 'ddbffd80-3663-11e9-a580-d119b23ef62e';
 
