@@ -31,7 +31,28 @@ export default class InputArea extends Component {
 
   _sendMessage = ({ attachments = [] }) => {
     const { sendMessage } = this.props;
-    const { inputMsg } = this.state;
+    let { inputMsg } = this.state;
+    const regexp = new RegExp(`^${window.location.origin}\/`);
+    const router = inputMsg.split(regexp)[1];
+    if (router) {
+      const [type, chatId] = router.split('?inviter=')[0].split('/');
+      console.log('type, chatId', type, chatId);
+      if (type && chatId) {
+        if (type === 'group_chat') {
+          window.socket.emit('getOneChatInfo', chatId, (res) => {
+            console.log('res11', res);
+            const { name, group_notice } = res;
+            inputMsg = `${inputMsg}?name=${name}&group_notice=${group_notice}`;
+          });
+        } else if (type === 'private_chat') {
+          window.socket.emit('getOneUserInfo', chatId, (res) => {
+            console.log('res22', res);
+            const { name, avatar } = res;
+            inputMsg = `${inputMsg}?name=${name}&avatar=${avatar}`;
+          });
+        }
+      }
+    }
     sendMessage(inputMsg, attachments);
     this.state.inputMsg = '';
     this.nameInput.focus();

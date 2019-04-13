@@ -87,7 +87,7 @@ export default class GroupChatInfo extends Component {
   copyInviteLink = () => {
     const dummy = document.createElement('input');
     // const text = `${window.location.href}&inviter=${this._userInfo.name}`;
-    const text = `${window.location.origin}${window.location.pathname}`;
+    const text = `${window.location.origin}${window.location.pathname}?inviter=${this._userInfo.name}`;
     document.body.appendChild(dummy);
     dummy.value = text;
     dummy.select();

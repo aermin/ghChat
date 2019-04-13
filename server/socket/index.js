@@ -177,6 +177,16 @@ module.exports = (server) => {
         fn(userInfo[0]);
       });
 
+      socket.on('getOneChatInfo', async (groupId, fn) => {
+        const groupInfo = await groupChatModel.getGroupInfo([groupId, null]);
+        fn(groupInfo[0]);
+      });
+
+      socket.on('getOneUserInfo', async (groupId, fn) => {
+        const userInfo = await userInfoModel.getUserInfo([groupId, null]);
+        fn(userInfo[0]);
+      });
+
 
       // 机器人聊天
       socket.on('robotChat', async (data, fn) => {
