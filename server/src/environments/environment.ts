@@ -1,5 +1,6 @@
 export const environment = {
   production: false,
+  port: process.env.PORT || '3000',
   host: '127.0.0.1', // 数据库IP
   jwt_secret: 'chat-sec',
   dbConnection: {
@@ -9,5 +10,11 @@ export const environment = {
     password: '123456', // 数据库密码
   },
   baseApi: 'api/v1',
-  secret: 'chat-sec' as any
+  secret: 'chat-sec' as any,
+  logger: {
+    debug: 'app*',
+    console: {
+      level: 'error'
+    }
+  }
 };

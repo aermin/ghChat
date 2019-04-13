@@ -26,6 +26,8 @@
     "koa-bodyparser": "^4.2.0",
     "koa-compress": "^3.0.0",
     "koa-cors": "0.0.16",
+    "koa-helmet": "^4.1.0",
+    "koa-morgan": "^1.0.1",
     "koa-router": "^7.2.1",
     "koa-static": "^4.0.3",
     "koa2-cors": "^2.0.5",
@@ -36,7 +38,8 @@
     "request-promise": "^4.2.2",
     "socket.io": "^2.0.3",
     "typescript": "^3.4.3",
-    "uuid": "^3.2.1"
+    "uuid": "^3.2.1",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
@@ -44,6 +47,7 @@
     "@types/jsonwebtoken": "^8.3.2",
     "@types/koa-bodyparser": "^4.2.2",
     "@types/koa-compress": "^2.0.9",
+    "@types/koa-helmet": "^3.1.2",
     "@types/koa-router": "^7.0.40",
     "@types/koa-static": "^4.0.1",
     "@types/koa2-cors": "^2.0.1",
