@@ -50,10 +50,6 @@ const config = {
 };
 
 module.exports = (env, argv) => {
-  // console.log(argv.prod);
-
-  // config.mode = argv.prod ? 'production' : 'development';
-
   if (!argv.prod) {
     config.devtool = 'source-map';
   }
