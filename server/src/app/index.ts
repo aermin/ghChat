@@ -9,6 +9,7 @@ import { koa2FallbackApiMiddleware } from './middlewares/koa2FallbackApi.middlew
 import { appRoutes } from './routes';
 import { Server } from './server';
 import { ChatService, GroupChatService, GroupService, UserService } from './services';
+import { environment } from '@env';
 
 const app = Server.init();
 
@@ -37,9 +38,8 @@ ServicesContext.getInstance()
   .setgroupChatService(new GroupChatService());
 
 Server.createConnection().then(async () => {
-  console.log('DB connection  OK ');
 
 });
 
-Server.run(app, '3000');
+Server.run(app, environment.port);
 // console.log('服务器已启动,端口3000');
