@@ -1,5 +1,11 @@
+import * as path from 'path';
+
+const rootUrl = path.join(process.cwd(), 'dist');
+
 export const environment = {
   production: false,
+  rootUrl,
+  staticPath: path.join(rootUrl, './build'),
   port: process.env.PORT || '3000',
   host: '127.0.0.1', // 数据库IP
   jwt_secret: 'chat-sec',
