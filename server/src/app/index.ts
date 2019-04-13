@@ -1,3 +1,4 @@
+import { environment } from '@env';
 import * as bodyParser from 'koa-bodyparser';
 import * as compress from 'koa-compress';
 import * as statics from 'koa-static';
@@ -5,24 +6,21 @@ import * as cors from 'koa2-cors';
 import { join } from 'path';
 
 import { ServicesContext } from './context';
-import { koa2FallbackApiMiddleware } from './middlewares/koa2FallbackApi.middleware';
 import { appRoutes } from './routes';
 import { Server } from './server';
 import { ChatService, GroupChatService, GroupService, UserService } from './services';
-import { environment } from '@env';
+import { appSocket } from './socket/app.socket';
 
 const app = Server.init();
 
+appSocket(app);
 // 配置静态资源
 const staticPath = '../build';
-
-;
 
 app
   .use(compress())
   .use(cors())
   .use(bodyParser())
-  .use(koa2FallbackApiMiddleware())
   .use(statics(
     join(__dirname, staticPath)
   ))
@@ -30,6 +28,7 @@ app
   // .use(morgan('combined', winstonStream))
   .use(appRoutes.routes())
   .use(appRoutes.allowedMethods());
+
 
 ServicesContext.getInstance()
   .setuserService(new UserService())
