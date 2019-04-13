@@ -3,25 +3,46 @@ import * as Koa from 'koa';
 import { createServer } from 'http';
 
 import { Logger } from './utils/Logger';
+import { appSocket } from './socket/app.socket';
 
 const log = Logger('app:core:server');
 
 export class Server {
 
-  static init() {
-    return new Koa();
+  static app: Koa;
+  static server: http.Server;
+
+  static init(cb: (app: Koa) => any) {
+    if (!Server.app) {
+      Server.app = new Koa();
+
+      if (cb) { cb(Server.app); }
+    }
+    return Server;
   }
 
-  static run(app: Koa, port: string): http.Server {
-    const server = createServer(app.callback());
-    server.listen(this.normalizePort(port));
-    server.on('listening', () => this.onListening(server));
-    server.on('error', (error) => this.onError(server, error));
+  static createServer() {
+    Server.server = createServer(Server.app.callback());
+    return Server;
+  }
+
+  static run(port: string) {
+    appSocket(Server.server);
+
+    Server.server
+      .listen(this.normalizePort(port))
+      .on('listening', () => this.onListening(Server.server))
+      .on('error', (error) => this.onError(Server.server, error));
+
     log.debug('Server was started on environment %s', process.env.NODE_ENV);
-    return server;
+    return Server;
   }
 
-  static normalizePort(port: string): number | string | boolean {
+  static async createConnection() {
+    return Server;
+  }
+
+  private static normalizePort(port: string): number | string | boolean {
     const parsedPort = parseInt(port, 10);
     if (isNaN(parsedPort)) { // named pipe
       return port;
@@ -32,11 +53,11 @@ export class Server {
     return false;
   }
 
-  static onListening(server: http.Server): void {
+  private static onListening(server: http.Server): void {
     log.debug(`Listening on ${this.bind(server.address())}`);
   }
 
-  static onError(server: http.Server, error: Error): void {
+  private static onError(server: http.Server, error: Error): void {
     if (error['syscall'] !== 'listen') {
       throw error;
     }
@@ -54,20 +75,6 @@ export class Server {
       default:
         throw error;
     }
-  }
-
-  static async createConnection() {
-
-    // console.log(`------------------------------------------------------------------------------------------------------------------`);
-    // console.log(BdConfig);
-    // console.log(`------------------------------------------------------------------------------------------------------------------`);
-
-    // return await createConnection({ ...BdConfig })
-    //     .then(async connection => {
-    //         log.debug('Connected to DB', connection.isConnected);
-    //     })
-    //     .catch(error => console.log("TypeORM connection error: ", error));
-
   }
 
   private static bind(addr: string | any): string {

@@ -9,36 +9,30 @@ import { ServicesContext } from './context';
 import { appRoutes } from './routes';
 import { Server } from './server';
 import { ChatService, GroupChatService, GroupService, UserService } from './services';
-import { appSocket } from './socket/app.socket';
 
-const app = Server.init();
-
-appSocket(app);
 // 配置静态资源
 const staticPath = '../build';
 
-app
-  .use(compress())
-  .use(cors())
-  .use(bodyParser())
-  .use(statics(
-    join(__dirname, staticPath)
-  ))
-  // .use(morgan('dev', debugStream))
-  // .use(morgan('combined', winstonStream))
-  .use(appRoutes.routes())
-  .use(appRoutes.allowedMethods());
+Server
+  .init((app) => {
+    app.use(compress())
+      .use(cors())
+      .use(bodyParser())
+      .use(statics(
+        join(__dirname, staticPath)
+      ))
+      .use(appRoutes.routes())
+      .use(appRoutes.allowedMethods())
+  })
+  .createServer()
+  .createConnection()
+  .then(() => {
+    ServicesContext.getInstance()
+      .setuserService(new UserService())
+      .setGroupService(new GroupService())
+      .setChatService(new ChatService())
+      .setgroupChatService(new GroupChatService());
 
+    Server.run(environment.port);
+  });
 
-ServicesContext.getInstance()
-  .setuserService(new UserService())
-  .setGroupService(new GroupService())
-  .setChatService(new ChatService())
-  .setgroupChatService(new GroupChatService());
-
-Server.createConnection().then(async () => {
-
-});
-
-Server.run(app, environment.port);
-// console.log('服务器已启动,端口3000');
