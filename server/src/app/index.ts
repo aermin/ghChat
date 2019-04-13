@@ -8,12 +8,11 @@ import { appRoutes } from './routes';
 import { Server } from './server';
 import { ChatService, GroupChatService, GroupService, UserService } from './services';
 
-Server
+export const App = Server
   .init((app) => {
     app.use(compress())
       .use(cors())
       .use(bodyParser())
-      // .use(koa2FallbackApiMiddleware())
       .use(appRoutes.routes())
       .use(appRoutes.allowedMethods())
   })
@@ -28,4 +27,3 @@ Server
 
     Server.run(environment.port);
   });
-

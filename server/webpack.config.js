@@ -1,3 +1,4 @@
+// @ts-nocheck
 
 const nodeExternals = require('webpack-node-externals');
 const webpack = require('webpack');
@@ -9,7 +10,7 @@ const path = require('path');
 
 const config = {
   mode: 'development',
-  entry: './src/app/index.ts',
+  entry: './src/main.ts',
   target: 'node',
   output: {
     // Puts the output at the root of the dist folder
