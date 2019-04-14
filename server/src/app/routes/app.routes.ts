@@ -1,22 +1,10 @@
 import { environment } from '@env';
-import * as path from 'path';
+import * as fs from 'fs';
 import * as router from 'koa-router';
 import * as statics from 'koa-static';
+import * as path from 'path';
 
-import { githubOAuthController, loginController, registerController } from '../controllers';
-
-
-import * as fs from "fs";
 import { apiRoutes } from './api.routes';
-
-const LOAD_HTML = function () {
-  return new Promise(function (resolve, reject) {
-    fs.readFile(path.join(environment.staticPath, '/index.html'), { 'encoding': 'utf8' }, (err, data) => {
-      if (err) return reject(err);
-      resolve(data);
-    });
-  });
-};
 
 export const appRoutes = new router()
   .get('/alive', (ctx, next) => {
@@ -32,7 +20,8 @@ export const appRoutes = new router()
     apiRoutes.allowedMethods()
   )
   .get('*.*', statics(environment.staticPath))
-  .get('/*', async (ctx, next) => {
-    ctx.body = await LOAD_HTML();
+  .get('/*', (ctx, next) => {
+    ctx.type = 'html';
+    ctx.body = fs.createReadStream(path.join(environment.staticPath, '/index.html'));
     next();
   });
