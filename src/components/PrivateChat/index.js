@@ -98,7 +98,6 @@ export default class PrivateChat extends Component {
       allPrivateChats, location, inviteDate,
       homePageList, allGroupChats
     } = this.props;
-    console.log('inviteDate', inviteDate);
     const { showPersonalInfo, showInviteModal } = this.state;
     if (!allPrivateChats && !allPrivateChats.size) return null;
     const chatItem = allPrivateChats.get(this.chatId);
@@ -161,17 +160,21 @@ export default class PrivateChat extends Component {
 
 PrivateChat.propTypes = {
   allPrivateChats: PropTypes.instanceOf(Map),
+  allGroupChats: PropTypes.instanceOf(Map),
   homePageList: PropTypes.array,
   updateHomePageList: PropTypes.func,
   addPrivateChatMessages: PropTypes.func,
   addPrivateChatInfo: PropTypes.func,
+  inviteDate: PropTypes.object,
 };
 
 
 PrivateChat.defaultProps = {
   allPrivateChats: new Map(),
+  allGroupChats: new Map(),
   homePageList: [],
   updateHomePageList: undefined,
   addPrivateChatMessages: undefined,
   addPrivateChatInfo: undefined,
+  inviteDate: undefined,
 };

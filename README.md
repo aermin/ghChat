@@ -73,6 +73,7 @@ And get other technology please follow the package.json file.
   - [x] @somebody
   - [x] Full view photo
   - [x] Send photo from copy
+  - [x] share user/group in the internal or external
   - [ ] Search expression online
   - [ ] Markdown
   - [ ] Quote
