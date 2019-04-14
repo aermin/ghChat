@@ -6,6 +6,8 @@ import ChatContentList from '../ChatContentList';
 import PersonalInfo from '../PersonalInfo';
 import notification from '../Notification';
 import '../../assets/chat.scss';
+import InviteModal from '../InviteModal';
+import Chat from '../../modules/Chat';
 
 export default class PrivateChat extends Component {
   constructor() {
@@ -13,8 +15,10 @@ export default class PrivateChat extends Component {
     this._sendByMe = false;
     this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this._hasBeenFriend = false;
+    this._chat = new Chat();
     this.state = {
-      showPersonalInfo: false
+      showPersonalInfo: false,
+      showInviteModal: false,
     };
   }
 
@@ -85,20 +89,40 @@ export default class PrivateChat extends Component {
     return false;
   }
 
+  _showInviteModal = () => {
+    this.setState(state => ({ showInviteModal: !state.showInviteModal }));
+  }
+
   render() {
-    const { allPrivateChats, location } = this.props;
-    const { showPersonalInfo } = this.state;
+    const {
+      allPrivateChats, location, inviteDate,
+      homePageList, allGroupChats
+    } = this.props;
+    console.log('inviteDate', inviteDate);
+    const { showPersonalInfo, showInviteModal } = this.state;
     if (!allPrivateChats && !allPrivateChats.size) return null;
     const chatItem = allPrivateChats.get(this.chatId);
     const messages = chatItem ? chatItem.messages : [];
     const userInfo = chatItem ? chatItem.userInfo : {};
     return (
       <div className="chat-wrapper">
+        <InviteModal
+          title="分享此联系人给"
+          modalVisible={showInviteModal}
+          chatId={this.chatId}
+          showInviteModal={this._showInviteModal}
+          cancel={this._showInviteModal}
+          allGroupChats={allGroupChats}
+          homePageList={homePageList}
+          clickInviteModalItem={this._chat.clickInviteModalItem}
+         />
         <ChatHeader
           showPersonalInfo={() => this._showPersonalInfo(true)}
           title={location.search.split('=')[1]}
+          showInviteModal={this._showInviteModal}
           chatType="private" />
         <ChatContentList
+          chat={this._chat}
           chats={allPrivateChats}
           ChatContent={messages}
           chatId={this.chatId}
@@ -108,7 +132,11 @@ export default class PrivateChat extends Component {
           userInfo={userInfo}
           hide={() => this._showPersonalInfo(false)}
           modalVisible={chatItem && showPersonalInfo} />
-        { chatItem ? <InputArea sendMessage={this.sendMessage} />
+        { chatItem ? (
+          <InputArea
+            inviteDate={inviteDate}
+            sendMessage={this.sendMessage} />
+        )
           : (
             <input
               type="button"

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import UserAdapter from '../UserAvatar';
 import './styles.scss';
-import GroupModal from '../GroupModal';
+import CreateGroupModal from '../CreateGroupModal';
 import notification from '../Notification';
 
 export default class GroupChatInfo extends Component {
@@ -84,24 +84,12 @@ export default class GroupChatInfo extends Component {
     });
   }
 
-  copyInviteLink = () => {
-    const dummy = document.createElement('input');
-    // const text = `${window.location.href}&inviter=${this._userInfo.name}`;
-    const text = `${window.location.origin}${window.location.pathname}?inviter=${this._userInfo.name}`;
-    document.body.appendChild(dummy);
-    dummy.value = text;
-    dummy.select();
-    document.execCommand('copy');
-    document.body.removeChild(dummy);
-    notification('你已复制了邀请链接，请发给别人吧(发到ghChat内部外部都可以)', 'success');
-  }
-
   render() {
     const { groupMember, onlineNumber, modalVisible } = this.state;
     const { groupInfo, leaveGroup } = this.props;
     return (
       <div className="chatInformation">
-        <GroupModal
+        <CreateGroupModal
           title="修改群资料"
           modalVisible={modalVisible}
           confirm={args => this._confirm(args)}
@@ -117,10 +105,6 @@ export default class GroupChatInfo extends Component {
             {this._isCreator && <svg onClick={this._openEditorInfoModal} className="icon iconEditor" aria-hidden="true"><use xlinkHref="#icon-editor" /></svg>}
           </p>
           <p className="noticeContent">{groupInfo.group_notice}</p>
-          <p className="invite" onClick={this.copyInviteLink}>
-            <svg className="icon inviteIcon" aria-hidden="true"><use xlinkHref="#icon-share" /></svg>
-            邀请别人进群
-          </p>
           <p className="memberTitle">
             {`在线人数: ${onlineNumber}`}
           </p>

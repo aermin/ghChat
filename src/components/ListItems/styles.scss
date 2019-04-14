@@ -16,10 +16,15 @@
 .homePageList {
     background-color: #fff;
     list-style: none;
+    :hover  {
+        background-color: #f5f5f5;
+    }
     li {
         list-style-type: none;
         padding: 10px 0 10px 10px;
         position: relative;
+        display: flex;
+        align-items: center;
         .title{
             color: #000;
         }

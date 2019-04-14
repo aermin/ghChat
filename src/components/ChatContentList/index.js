@@ -4,15 +4,14 @@ import PropTypes from 'prop-types';
 import Viewer from 'react-viewer';
 import ChatItem from '../ChatItem';
 import { toNormalTime } from '../../utils/transformTime';
-import Chat from '../../modules/Chat';
 import './styles.scss';
 import sleep from '../../utils/sleep';
 import notification from '../Notification';
 
 export default class ChatContentList extends Component {
-  constructor() {
-    super();
-    this._chat = new Chat();
+  constructor(props) {
+    super(props);
+    this._chat = props.chat;
     this._scrollHeight = 0;
     this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this._loadingNewMessages = false;
@@ -37,7 +36,7 @@ export default class ChatContentList extends Component {
   componentDidUpdate(nextProps) {
     if (nextProps.chatId !== this.props.chatId) { // go to another chat
       this._loadingNewMessages = false;
-      this._chat = new Chat();
+      // this._chat = new Chat();
       this._chat.scrollToBottom();
     }
     if (this._scrollHeight && this._loadingNewMessages) {

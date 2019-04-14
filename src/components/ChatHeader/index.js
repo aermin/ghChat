@@ -10,7 +10,7 @@ class ChatHeader extends Component {
     this.props.history.push('/');
   }
 
-  clickChatInfo = () => {
+  _clickChatInfo = () => {
     const {
       showGroupChatInfo, showPersonalInfo, chatType, hasShowed
     } = this.props;
@@ -21,6 +21,10 @@ class ChatHeader extends Component {
     }
   }
 
+  _clickInvite = () => {
+    this.props.showInviteModal();
+  }
+
   render() {
     const { title, chatType, } = this.props;
     const icon = chatType === 'group' ? '#icon-group' : '#icon-people';
@@ -29,7 +33,8 @@ class ChatHeader extends Component {
       <div className="chat-header-wrapper">
         <svg onClick={this.clickToBack} className="icon back-icon" aria-hidden="true"><use xlinkHref="#icon-back1" /></svg>
         <div className="chat-title">{title}</div>
-        { !isRobotChat && <svg onClick={this.clickChatInfo} className="icon information-icon" aria-hidden="true"><use xlinkHref={icon} /></svg>}
+        <svg onClick={this._clickInvite} className="icon inviteIcon" aria-hidden="true"><use xlinkHref="#icon-share" /></svg>
+        { !isRobotChat && <svg onClick={this._clickChatInfo} className="icon information-icon" aria-hidden="true"><use xlinkHref={icon} /></svg>}
       </div>
     );
   }

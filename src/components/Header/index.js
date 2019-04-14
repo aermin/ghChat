@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import GroupModal from '../GroupModal';
+import CreateGroupModal from '../CreateGroupModal';
 import './style.scss';
 import SearchBox from '../SearchBox';
 
@@ -82,7 +82,7 @@ export default class Header extends Component {
         <span className="add" onClick={this.openModal}>
           <svg className="icon" aria-hidden="true"><use xlinkHref="#icon-add" /></svg>
         </span>
-        <GroupModal
+        <CreateGroupModal
           title="创建群组"
           modalVisible={modalVisible}
           confirm={args => this.confirm(args)}

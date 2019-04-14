@@ -17,11 +17,17 @@
         margin-left: 10px;
         display: none;
     }
-    .information-icon {
+    .icon {
         position: absolute;
+        cursor: pointer;
+        z-index: 99;
+    }
+    .information-icon {
         right: 20px;
         font-size: 24px;
-        z-index: 99;
-        cursor: pointer;
+    }
+    .inviteIcon {
+        right: 50px;
+        font-size: 28px;
     }
 }

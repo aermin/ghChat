@@ -14,7 +14,9 @@ import PrivateChat from '../../components/PrivateChat';
 const mapStateToProps = state => ({
   allPrivateChats: state.allPrivateChatsState,
   homePageList: state.homePageListState,
-  relatedCurrentChat: state.relatedCurrentChat
+  relatedCurrentChat: state.relatedCurrentChat,
+  inviteDate: state.inviteState,
+  allGroupChats: state.allGroupChatsState,
 });
 
 const mapDispatchToProps = dispatch => ({
