@@ -29,7 +29,7 @@ class InviteModal extends Component {
     dummy.select();
     document.execCommand('copy');
     document.body.removeChild(dummy);
-    notification('你已复制了邀请链接，请发给外部的人吧', 'success');
+    notification('你已复制了邀请链接，可以发给应用外的人啦', 'success');
   }
 
   searchFieldChange(field) {
