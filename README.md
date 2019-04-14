@@ -88,6 +88,8 @@ And get other technology please follow the package.json file.
 
   - [x] Open gzip to compress static resource
   - [x] Lazy load chat messages. Fetch twenty messages by one time in every chat.
+  - [x] lazy load components
+  - [ ] css files build separately
   - [ ] SQL optimization
 
 - Others
