@@ -16,7 +16,7 @@
 .homePageList {
     background-color: #fff;
     list-style: none;
-    :hover  {
+    &:hover  {
         background-color: #f5f5f5;
     }
     li {
