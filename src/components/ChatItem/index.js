@@ -7,7 +7,6 @@ import { Emoji } from 'emoji-mart';
 import { MultiLineParser } from 'text-emoji-parser';
 import UserAvatar from '../UserAvatar';
 import './style.scss';
-import Button from '../Button';
 import Chat from '../../modules/Chat';
 
 class ChatItem extends Component {

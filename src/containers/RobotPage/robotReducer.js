@@ -10,7 +10,7 @@ const initState = {
       user: '机器人小R'
     },
     {
-      message: `/group_chat/${GROUP_CHAT_ID}?name=ghChat&inviter=机器人小R`,
+      message: '::invite::{"name":"ghChat","to_group_id":"ddbffd80-3663-11e9-a580-d119b23ef62e"}',
       user: '机器人小R'
     }
   ]

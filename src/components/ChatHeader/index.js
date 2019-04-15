@@ -26,14 +26,16 @@ class ChatHeader extends Component {
   }
 
   render() {
-    const { title, chatType, } = this.props;
+    const { title, chatType, showShareIcon } = this.props;
     const icon = chatType === 'group' ? '#icon-group' : '#icon-people';
     const isRobotChat = chatType === 'robot';
     return (
       <div className="chat-header-wrapper">
         <svg onClick={this.clickToBack} className="icon back-icon" aria-hidden="true"><use xlinkHref="#icon-back1" /></svg>
         <div className="chat-title">{title}</div>
-        <svg onClick={this._clickInvite} className="icon inviteIcon" aria-hidden="true"><use xlinkHref="#icon-share" /></svg>
+        { showShareIcon
+        && <svg onClick={this._clickInvite} className="icon inviteIcon" aria-hidden="true"><use xlinkHref="#icon-share" /></svg>
+        }
         { !isRobotChat && <svg onClick={this._clickChatInfo} className="icon information-icon" aria-hidden="true"><use xlinkHref={icon} /></svg>}
       </div>
     );
@@ -49,6 +51,7 @@ ChatHeader.propTypes = {
   showGroupChatInfo: PropTypes.func,
   showPersonalInfo: PropTypes.func,
   hasShowed: PropTypes.bool,
+  showShareIcon: PropTypes.bool,
 };
 
 
@@ -57,5 +60,6 @@ ChatHeader.defaultProps = {
   history: undefined,
   showGroupChatInfo: undefined,
   showPersonalInfo: undefined,
-  hasShowed: false
+  hasShowed: false,
+  showShareIcon: false,
 };
