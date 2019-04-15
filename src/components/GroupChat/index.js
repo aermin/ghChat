@@ -183,6 +183,7 @@ class GroupChat extends Component {
           hasShowed={showGroupChatInfo}
           showInviteModal={this._showInviteModal}
           showGroupChatInfo={value => this._showGroupChatInfo(value)}
+          showShareIcon={!!chatItem}
         />
         <Modal
           title="确定退出此群？"

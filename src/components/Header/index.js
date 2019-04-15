@@ -45,7 +45,7 @@ export default class Header extends Component {
       addGroupMessageAndInfo({
         allGroupChats, message: { ...res, name }, groupId: res.to_group_id, groupInfo
       });
-      this.props.history.push(`/group_chat/${res.to_group_id}?name=${res.name}`);
+      this.props.history.push(`/group_chat/${res.to_group_id}`);
     });
   }
 

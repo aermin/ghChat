@@ -41,7 +41,7 @@ class PersonalInfo extends Component {
   goToChat = () => {
     const { user_id, name } = this.props.userInfo;
     // eslint-disable-next-line react/prop-types
-    this.props.history.push(`/private_chat/${user_id}?name=${name}`);
+    this.props.history.push(`/private_chat/${user_id}`);
     this.props.hide();
   }
 

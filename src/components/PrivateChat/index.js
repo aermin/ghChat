@@ -19,6 +19,7 @@ export default class PrivateChat extends Component {
     this.state = {
       showPersonalInfo: false,
       showInviteModal: false,
+      toUserInfo: {}
     };
   }
 
@@ -93,16 +94,29 @@ export default class PrivateChat extends Component {
     this.setState(state => ({ showInviteModal: !state.showInviteModal }));
   }
 
+  componentDidMount() {
+    const {
+      allPrivateChats,
+    } = this.props;
+    const chatItem = allPrivateChats && allPrivateChats.get(this.chatId);
+    if (!chatItem) {
+      window.socket.emit('getUserInfo', this.chatId, (toUserInfo) => {
+        this.setState({ toUserInfo });
+      });
+    }
+    this._didMount = true;
+  }
+
   render() {
     const {
       allPrivateChats, location, inviteData,
       homePageList, allGroupChats
     } = this.props;
-    const { showPersonalInfo, showInviteModal } = this.state;
+    const { showPersonalInfo, showInviteModal, toUserInfo } = this.state;
     if (!allPrivateChats && !allPrivateChats.size) return null;
     const chatItem = allPrivateChats.get(this.chatId);
     const messages = chatItem ? chatItem.messages : [];
-    const userInfo = chatItem ? chatItem.userInfo : {};
+    const userInfo = chatItem ? chatItem.userInfo : toUserInfo;
     return (
       <div className="chat-wrapper">
         <InviteModal
@@ -117,9 +131,11 @@ export default class PrivateChat extends Component {
          />
         <ChatHeader
           showPersonalInfo={() => this._showPersonalInfo(true)}
-          title={location.search.split('=')[1]}
+          title={userInfo && userInfo.name || '----'}
           showInviteModal={this._showInviteModal}
-          chatType="private" />
+          chatType="private"
+          showShareIcon={!!chatItem}
+        />
         <ChatContentList
           chat={this._chat}
           chats={allPrivateChats}
@@ -130,7 +146,7 @@ export default class PrivateChat extends Component {
         <PersonalInfo
           userInfo={userInfo}
           hide={() => this._showPersonalInfo(false)}
-          modalVisible={chatItem && showPersonalInfo} />
+          modalVisible={showPersonalInfo} />
         { chatItem ? (
           <InputArea
             inviteData={inviteData}

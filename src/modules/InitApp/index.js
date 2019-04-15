@@ -42,7 +42,7 @@ class InitApp {
      text: message,
      icon: avatar,
      onClick: () => {
-       this._history.push(`/${chatType}/${chatFromId}?name=${title}`);
+       this._history.push(`/${chatType}/${chatFromId}`);
        window.focus();
        this._chat.clearUnreadHandle({ homePageList: homePageListState, chatFromId });
      }
