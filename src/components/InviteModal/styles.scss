@@ -9,7 +9,7 @@
       height: calc(100% - 130px);
       overflow-y: auto;
       li{
-        :hover {
+        &:hover {
           background-color: #f5f5f5;
         }
         padding: 6px 0 6px 20px !important;

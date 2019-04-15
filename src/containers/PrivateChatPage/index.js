@@ -15,7 +15,7 @@ const mapStateToProps = state => ({
   allPrivateChats: state.allPrivateChatsState,
   homePageList: state.homePageListState,
   relatedCurrentChat: state.relatedCurrentChat,
-  inviteDate: state.inviteState,
+  inviteData: state.inviteState,
   allGroupChats: state.allGroupChatsState,
 });
 

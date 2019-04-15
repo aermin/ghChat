@@ -163,7 +163,7 @@ class GroupChat extends Component {
       updateGroupTitleNotice,
       updateListGroupName,
       homePageList,
-      inviteDate,
+      inviteData,
     } = this.props;
     const {
       groupMsgAndInfo, showGroupChatInfo,
@@ -229,7 +229,7 @@ class GroupChat extends Component {
         )}
         { chatItem ? (
           <InputArea
-            inviteDate={inviteDate}
+            inviteData={inviteData}
             sendMessage={this.sendMessage}
             groupMembers={groupInfo.members} />
         )
@@ -259,7 +259,7 @@ GroupChat.propTypes = {
   deleteGroupChat: PropTypes.func,
   updateGroupTitleNotice: PropTypes.func,
   updateListGroupName: PropTypes.func,
-  inviteDate: PropTypes.object,
+  inviteData: PropTypes.object,
 };
 
 
@@ -273,5 +273,5 @@ GroupChat.defaultProps = {
   deleteGroupChat() {},
   updateGroupTitleNotice() {},
   updateListGroupName() {},
-  inviteDate: undefined,
+  inviteData: undefined,
 };

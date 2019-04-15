@@ -75,8 +75,8 @@ export default class InputArea extends Component {
   }
 
   componentDidMount() {
-    if (this.props.inviteDate) {
-      this._sendMessage({ message: (`::invite::${JSON.stringify(this.props.inviteDate)}`) });
+    if (this.props.inviteData) {
+      this._sendMessage({ message: (`::invite::${JSON.stringify(this.props.inviteData)}`) });
       store.dispatch(inviteAction(null));
     }
     this.nameInput.focus();
@@ -225,12 +225,12 @@ export default class InputArea extends Component {
 InputArea.propTypes = {
   sendMessage: PropTypes.func,
   isRobotChat: PropTypes.bool,
-  inviteDate: PropTypes.object,
+  inviteData: PropTypes.object,
 };
 
 
 InputArea.defaultProps = {
   sendMessage: undefined,
   isRobotChat: false,
-  inviteDate: undefined,
+  inviteData: undefined,
 };

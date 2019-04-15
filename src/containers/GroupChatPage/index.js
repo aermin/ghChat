@@ -20,7 +20,7 @@ const mapStateToProps = state => ({
   allGroupChats: state.allGroupChatsState,
   homePageList: state.homePageListState,
   relatedCurrentChat: state.relatedCurrentChat,
-  inviteDate: state.inviteState,
+  inviteData: state.inviteState,
 });
 
 const mapDispatchToProps = dispatch => ({

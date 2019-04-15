@@ -95,7 +95,7 @@ export default class PrivateChat extends Component {
 
   render() {
     const {
-      allPrivateChats, location, inviteDate,
+      allPrivateChats, location, inviteData,
       homePageList, allGroupChats
     } = this.props;
     const { showPersonalInfo, showInviteModal } = this.state;
@@ -133,7 +133,7 @@ export default class PrivateChat extends Component {
           modalVisible={chatItem && showPersonalInfo} />
         { chatItem ? (
           <InputArea
-            inviteDate={inviteDate}
+            inviteData={inviteData}
             sendMessage={this.sendMessage} />
         )
           : (
@@ -165,7 +165,7 @@ PrivateChat.propTypes = {
   updateHomePageList: PropTypes.func,
   addPrivateChatMessages: PropTypes.func,
   addPrivateChatInfo: PropTypes.func,
-  inviteDate: PropTypes.object,
+  inviteData: PropTypes.object,
 };
 
 
@@ -176,5 +176,5 @@ PrivateChat.defaultProps = {
   updateHomePageList: undefined,
   addPrivateChatMessages: undefined,
   addPrivateChatInfo: undefined,
-  inviteDate: undefined,
+  inviteData: undefined,
 };
