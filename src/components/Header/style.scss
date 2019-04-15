@@ -19,5 +19,16 @@
         line-height: 50px;
         cursor: pointer;
     }
+    .dialogRender {
+        /*在IE10+浏览器中, 使用css即可隐藏input文本输入框右侧的叉号*/
+        ::-ms-reveal,
+        input[type=text]::-ms-clear {
+            display: none;
+        }
+        ::-ms-reveal,
+        input::-ms-clear {
+            display: none;
+        }
+    }
 
 }

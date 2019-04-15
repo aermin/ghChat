@@ -6,6 +6,8 @@ import upload from '../../utils/qiniu';
 import './style.scss';
 import notification from '../Notification';
 import debounce from '../../utils/debounce';
+import { inviteAction } from '../../redux/actions/inviteAction';
+import store from '../../redux/store';
 
 export default class InputArea extends Component {
   constructor(props) {
@@ -29,10 +31,10 @@ export default class InputArea extends Component {
     }
   }
 
-  _sendMessage = ({ attachments = [] }) => {
+  _sendMessage = ({ attachments = [], message }) => {
     const { sendMessage } = this.props;
     const { inputMsg } = this.state;
-    sendMessage(inputMsg, attachments);
+    sendMessage(message || inputMsg, attachments);
     this.state.inputMsg = '';
     this.nameInput.focus();
   }
@@ -73,6 +75,10 @@ export default class InputArea extends Component {
   }
 
   componentDidMount() {
+    if (this.props.inviteData) {
+      this._sendMessage({ message: (`::invite::${JSON.stringify(this.props.inviteData)}`) });
+      store.dispatch(inviteAction(null));
+    }
     this.nameInput.focus();
   }
 
@@ -219,10 +225,12 @@ export default class InputArea extends Component {
 InputArea.propTypes = {
   sendMessage: PropTypes.func,
   isRobotChat: PropTypes.bool,
+  inviteData: PropTypes.object,
 };
 
 
 InputArea.defaultProps = {
   sendMessage: undefined,
   isRobotChat: false,
+  inviteData: undefined,
 };

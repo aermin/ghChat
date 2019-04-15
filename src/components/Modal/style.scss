@@ -1,3 +1,4 @@
+@import "../../assets/base.scss";
 .dialogRender {
     h3 {
         text-align: center;
@@ -10,35 +11,12 @@
         color: rgba(0, 0, 0, 0.808);
         margin-bottom: 10px;
     }
-    /*在IE10+浏览器中, 使用css即可隐藏input文本输入框右侧的叉号*/
-    ::-ms-reveal,
-    input[type=text]::-ms-clear {
-        display: none;
-    }
-    ::-ms-reveal,
-    input::-ms-clear {
-        display: none;
-    }
-    input {
-        // display: inline-block;
-        /*去除点击出现轮廓颜色*/
-        width: 60%;
-        outline: none;
-        border: 1px solid #fff;
-        border-bottom: 1px solid #999;
-        padding: 6px 0 10px 10px;
-        font-size: 28px;
-        -webkit-appearance: none;
-        /*去除系统默认的样式，苹果手机上的阴影*/
-        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-        /*点击高亮的颜色*/
-        /*padding已在重置样式中去除，如果没有去除，记得有padding哦*/
-    }
+
     .twoButton {
         height:40px;
         p {
             background: transparent;
-            color: #1678E5;
+            color: $blue;
             font-size: 14px;
             height:40px;
             line-height:40px;
@@ -70,7 +48,7 @@
         height:40px;
         p {
             background: transparent;
-            color: #1678E5;
+            color: $blue;
             height:40px;
             font-size: 16px;
             line-height:40px;

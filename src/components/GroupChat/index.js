@@ -8,8 +8,10 @@ import InputArea from '../InputArea';
 import ChatContentList from '../ChatContentList';
 import GroupChatInfo from '../GroupChatInfo';
 import Modal from '../Modal';
+import InviteModal from '../InviteModal';
 import PersonalInfo from '../PersonalInfo';
 import notification from '../Notification';
+import Chat from '../../modules/Chat';
 import './styles.scss';
 
 class GroupChat extends Component {
@@ -22,8 +24,10 @@ class GroupChat extends Component {
       showGroupChatInfo: false,
       showPersonalInfo: false,
       personalInfo: {},
-      visible: false,
+      showLeaveGroupModal: false,
+      showInviteModal: false
     };
+    this._chat = new Chat();
     this._didMount = false;
   }
 
@@ -79,7 +83,7 @@ class GroupChat extends Component {
   }
 
   _showLeaveModal = () => {
-    this.setState(state => ({ visible: !state.visible }));
+    this.setState(state => ({ showLeaveGroupModal: !state.showLeaveGroupModal }));
   }
 
   leaveGroup = () => {
@@ -104,10 +108,10 @@ class GroupChat extends Component {
       return true;
     }
 
-    const { showGroupChatInfo, showPersonalInfo, visible } = nextState;
+    const { showGroupChatInfo, showPersonalInfo, showLeaveGroupModal } = nextState;
     if (showGroupChatInfo !== this.state.showGroupChatInfo
        || showPersonalInfo !== this.state.showPersonalInfo
-       || visible !== this.state.visible
+       || showLeaveGroupModal !== this.state.showLeaveGroupModal
     ) return true;
 
     return false;
@@ -132,7 +136,7 @@ class GroupChat extends Component {
 
   componentDidMount() {
     const {
-      allGroupChats
+      allGroupChats,
     } = this.props;
     const chatItem = allGroupChats && allGroupChats.get(this.chatId);
     // (产品设计) 当查找没加过的群，点击去没群内容，请求出群内容，避免不了解而加错群
@@ -149,17 +153,23 @@ class GroupChat extends Component {
     return this.props.match.params.to_group_id;
   }
 
+  _showInviteModal = () => {
+    this.setState(state => ({ showInviteModal: !state.showInviteModal }));
+  }
+
   render() {
     const {
       allGroupChats,
       updateGroupTitleNotice,
       updateListGroupName,
-      homePageList
+      homePageList,
+      inviteData,
     } = this.props;
     const {
       groupMsgAndInfo, showGroupChatInfo,
-      visible, personalInfo,
-      showPersonalInfo
+      showLeaveGroupModal, personalInfo,
+      showPersonalInfo,
+      showInviteModal
     } = this.state;
     if (!allGroupChats && !allGroupChats.size) return null;
     const chatItem = allGroupChats.get(this.chatId);
@@ -171,21 +181,33 @@ class GroupChat extends Component {
           title={groupInfo && groupInfo.name || '----'}
           chatType="group"
           hasShowed={showGroupChatInfo}
+          showInviteModal={this._showInviteModal}
           showGroupChatInfo={value => this._showGroupChatInfo(value)}
         />
         <Modal
           title="确定退出此群？"
-          visible={visible}
+          visible={showLeaveGroupModal}
           confirm={this.leaveGroup}
           hasCancel
           hasConfirm
           cancel={this._showLeaveModal}
+         />
+        <InviteModal
+          title="分享此群给"
+          modalVisible={showInviteModal}
+          chatId={this.chatId}
+          showInviteModal={this._showInviteModal}
+          cancel={this._showInviteModal}
+          allGroupChats={allGroupChats}
+          homePageList={homePageList}
+          clickInviteModalItem={this._chat.clickInviteModalItem}
          />
         <PersonalInfo
           userInfo={personalInfo}
           hide={() => this._showPersonalInfo(false)}
           modalVisible={chatItem && showPersonalInfo} />
         <ChatContentList
+          chat={this._chat}
           chats={allGroupChats}
           ChatContent={messages}
           shouldScrollToFetchData={!!chatItem}
@@ -205,7 +227,12 @@ class GroupChat extends Component {
           updateListGroupName={updateListGroupName}
           chatId={this.chatId} />
         )}
-        { chatItem ? <InputArea sendMessage={this.sendMessage} groupMembers={groupInfo.members} />
+        { chatItem ? (
+          <InputArea
+            inviteData={inviteData}
+            sendMessage={this.sendMessage}
+            groupMembers={groupInfo.members} />
+        )
           : this._didMount && (
             <input
               type="button"
@@ -232,6 +259,7 @@ GroupChat.propTypes = {
   deleteGroupChat: PropTypes.func,
   updateGroupTitleNotice: PropTypes.func,
   updateListGroupName: PropTypes.func,
+  inviteData: PropTypes.object,
 };
 
 
@@ -245,4 +273,5 @@ GroupChat.defaultProps = {
   deleteGroupChat() {},
   updateGroupTitleNotice() {},
   updateListGroupName() {},
+  inviteData: undefined,
 };

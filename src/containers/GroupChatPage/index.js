@@ -19,7 +19,8 @@ import GroupChat from '../../components/GroupChat';
 const mapStateToProps = state => ({
   allGroupChats: state.allGroupChatsState,
   homePageList: state.homePageListState,
-  relatedCurrentChat: state.relatedCurrentChat
+  relatedCurrentChat: state.relatedCurrentChat,
+  inviteData: state.inviteState,
 });
 
 const mapDispatchToProps = dispatch => ({

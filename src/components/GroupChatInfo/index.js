@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import UserAdapter from '../UserAvatar';
 import './styles.scss';
-import GroupModal from '../GroupModal';
+import CreateGroupModal from '../CreateGroupModal';
 import notification from '../Notification';
 
 export default class GroupChatInfo extends Component {
@@ -89,7 +89,7 @@ export default class GroupChatInfo extends Component {
     const { groupInfo, leaveGroup } = this.props;
     return (
       <div className="chatInformation">
-        <GroupModal
+        <CreateGroupModal
           title="修改群资料"
           modalVisible={modalVisible}
           confirm={args => this._confirm(args)}

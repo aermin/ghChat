@@ -24,7 +24,7 @@ const getGroupMember = (groupId) => {
 };
 /**
  * 获取群资料
- * @param   arr 包括 groupId  goupName 至少一个
+ * @param   arr 包括 groupId  groupName 至少一个
  * @return
  */
 const getGroupInfo = (arr) => {

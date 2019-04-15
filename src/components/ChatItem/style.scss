@@ -25,13 +25,16 @@
     .msg-render {
         font-size: 14px;
         word-wrap:break-word;
-        .invitingCard {
-            padding: 10px 0;
+        .inviteCard {
+            cursor: pointer;
             text-align: center;
-            input {
-                margin: 10px 0 0;
-                padding: 4px 20px;
-            }
+          .inviteTitle {
+              border-bottom: 1px solid #fff;
+              padding-bottom: 10px;
+          }
+          .inviteButton {
+              padding-top: 10px;
+          }
         }
     }
     .UserAvatar {
