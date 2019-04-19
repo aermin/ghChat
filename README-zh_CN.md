@@ -22,6 +22,16 @@
 
 前端React全家桶，后端node.js(koa2), 数据库MySQL, 双向通信SocKet.io, jwt鉴权等等。具体看package.json。有疑问的可以加ghChat群交流哦，我每天都在线，也可以私聊我，[点击加我](https://im.aermin.top/private_chat/1?name=aermin)
 
+### 项目展示：
+
+之前某个时间的大部分功能的截图，其他功能和新功能直接[线上体验](https://im.aermin.top)。
+
+![image](https://user-images.githubusercontent.com/24861316/55677334-2f599d00-5918-11e9-8eb9-ab74a56572b1.png)
+
+![image](https://user-images.githubusercontent.com/24861316/55677498-4221a100-591b-11e9-9e76-31c490d87c8a.png)
+
+Tips: [如何在chrome浏览器中开启对PWA的支持](https://github.com/aermin/blog/issues/63)
+
 ### 目前进度
 
 - 账户
@@ -29,7 +39,7 @@
   - [x] 登录
   - [x] 注册
   - [x] 退出登录
-  - [ ] 同时多设备登录
+  - [x] 多设备同时登录
 
 - 对github的集成
 
@@ -98,17 +108,6 @@
   - [ ] 国际化
   - [ ] 后端用TS重写，封装成sdk
   - [ ] CI/CD
-
-### 项目展示：
-
-github对gif图有限制，我就直接截一张图了，具体详情建议直接[线上体验](https://im.aermin.top)。
-
-![image](https://user-images.githubusercontent.com/24861316/55677334-2f599d00-5918-11e9-8eb9-ab74a56572b1.png)
-
-![image](https://user-images.githubusercontent.com/24861316/55677498-4221a100-591b-11e9-9e76-31c490d87c8a.png)
-
-Tips: [如何在chrome浏览器中开启对PWA的支持](https://github.com/aermin/blog/issues/63)
-
 
 ### 项目结构图
 

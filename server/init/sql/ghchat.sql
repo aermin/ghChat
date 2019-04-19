@@ -101,7 +101,7 @@ CREATE TABLE `user_info` (
   `avatar` varchar(250) DEFAULT '',
   `location` varchar(50) DEFAULT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0',
-  `socketid` varchar(20) NOT NULL DEFAULT '',
+  `socketid` char(255) DEFAULT NULL,
   `website` varchar(50) DEFAULT NULL,
   `github` varchar(50) DEFAULT NULL,
   `intro` varchar(100) DEFAULT NULL,

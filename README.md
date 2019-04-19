@@ -24,6 +24,16 @@ Back-end: node(koa2)+mysql+JWT(Json web token);
 use socket.io to send messages with each other. 
 And get other technology please follow the package.json file.
 
+### Demo with photo：
+
+Just some functions
+
+![image](https://user-images.githubusercontent.com/24861316/55677334-2f599d00-5918-11e9-8eb9-ab74a56572b1.png)
+
+![image](https://user-images.githubusercontent.com/24861316/55677498-4221a100-591b-11e9-9e76-31c490d87c8a.png)
+
+Tips: [How to turn on PWA in chrome?](https://github.com/aermin/blog/issues/63)
+
 ### Features && Progress
 
 - Account system
@@ -31,7 +41,7 @@ And get other technology please follow the package.json file.
   - [x] Log in
   - [x] Resister
   - [x] Log out
-  - [ ] log in multiple devices at the same time
+  - [x] log in multiple devices at the same time
 
 - Integrate with github
 
@@ -100,15 +110,6 @@ And get other technology please follow the package.json file.
   - [ ] Multilingual solution with I18
   - [ ] Rewrite back end code with TS，encapsulated as sdk.
   - [ ] CI/CD
-
-### Demo with photo：
-
-![image](https://user-images.githubusercontent.com/24861316/55677334-2f599d00-5918-11e9-8eb9-ab74a56572b1.png)
-
-![image](https://user-images.githubusercontent.com/24861316/55677498-4221a100-591b-11e9-9e76-31c490d87c8a.png)
-
-
-Tips: [How to turn on PWA in chrome?](https://github.com/aermin/blog/issues/63)
 
 ### Development
 
