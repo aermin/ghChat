@@ -58,14 +58,20 @@ module.exports = (server) => {
       // 私聊发信息
       socket.on('sendPrivateMsg', async (data) => {
         if (!data) return;
-        data.attachments = JSON.stringify(data.attachments);
-        await privateChatModel.savePrivateMsg({ ...data });
-        const arr = await socketModel.getUserSocketId(data.to_user);
-        const toUserSocketIdStr = getSocketIdHandle(arr);
-        const toUserSocketIds = toUserSocketIdStr.split(',');
-        toUserSocketIds.forEach(e => {
-          io.to(e).emit('getPrivateMsg', data);
-        })
+        
+        await Promise.all([
+          privateChatModel.savePrivateMsg({ 
+            ...data,
+            attachments: JSON.stringify(data.attachments)
+          }),
+          socketModel.getUserSocketId(data.to_user).then(arr=>{
+            const toUserSocketIds = getSocketIdHandle(arr).split(',');
+
+            toUserSocketIds.forEach(e => {
+              io.to(e).emit('getPrivateMsg', data);
+            });
+          })
+        ]);
       });
 
       // 群聊发信息
@@ -211,15 +217,20 @@ module.exports = (server) => {
 
       socket.on('disconnect', async (reason) => {
         const arr = await socketModel.getUserSocketId(_userId);
-        const toUserSocketIdStr = getSocketIdHandle(arr);
-        const toUserSocketIds = toUserSocketIdStr.split(',');
+        
+        const toUserSocketIds = getSocketIdHandle(arr).split(',');
+        
         const index = toUserSocketIds.indexOf(socketId);
         if (index > -1) {
           toUserSocketIds.splice(index, 1);
         }
-        const newSocketIdStr = toUserSocketIds.join(',');
-        await socketModel.saveUserSocketId(_userId, newSocketIdStr);
-        await userInfoModel.updateUserStatus(_userId, 0);
+        
+        
+        await Promise.all([
+         socketModel.saveUserSocketId(_userId, toUserSocketIds.join(',')),
+         userInfoModel.updateUserStatus(_userId, 0)
+        ]);
+        
         console.log('disconnect.=>reason', reason, 'user_id=>', _userId, 'socket.id=>', socket.id, 'time=>', new Date().toLocaleString());
       });
     } catch (error) {
