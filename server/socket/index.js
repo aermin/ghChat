@@ -32,10 +32,18 @@ module.exports = (server) => {
       socket.on('initSocket', async (user_id, fn) => {
         _userId = user_id;
         const arr = await socketModel.getUserSocketId(_userId);
-        const userSocketId = getSocketIdHandle(arr);
-        const newSocketIdStr = userSocketId ? `${userSocketId},${socketId}`: socketId;
-        await socketModel.saveUserSocketId(_userId, newSocketIdStr);
-        await userInfoModel.updateUserStatus(_userId, 1);
+        const existSocketIdStr = getSocketIdHandle(arr);
+        const newSocketIdStr = existSocketIdStr ? `${existSocketIdStr},${socketId}`: socketId;
+
+        if (existSocketIdStr) {
+          await socketModel.saveUserSocketId(_userId, newSocketIdStr);
+        } else {
+          await Promise.all[
+            socketModel.saveUserSocketId(_userId, newSocketIdStr),
+            userInfoModel.updateUserStatus(_userId, 1)
+          ];
+        }
+
         fn('initSocket success');
       });
 
@@ -65,7 +73,8 @@ module.exports = (server) => {
             attachments: JSON.stringify(data.attachments)
           }),
           socketModel.getUserSocketId(data.to_user).then(arr=>{
-            const toUserSocketIds = getSocketIdHandle(arr).split(',');
+            const existSocketIdStr = getSocketIdHandle(arr);
+            const toUserSocketIds = existSocketIdStr && existSocketIdStr.split(',') || [];
 
             toUserSocketIds.forEach(e => {
               io.to(e).emit('getPrivateMsg', data);
@@ -217,19 +226,22 @@ module.exports = (server) => {
 
       socket.on('disconnect', async (reason) => {
         const arr = await socketModel.getUserSocketId(_userId);
-        
-        const toUserSocketIds = getSocketIdHandle(arr).split(',');
-        
+        const existSocketIdStr = getSocketIdHandle(arr);
+        const toUserSocketIds = existSocketIdStr && existSocketIdStr.split(',') || [];
         const index = toUserSocketIds.indexOf(socketId);
+
         if (index > -1) {
           toUserSocketIds.splice(index, 1);
         }
         
-        
-        await Promise.all([
-         socketModel.saveUserSocketId(_userId, toUserSocketIds.join(',')),
-         userInfoModel.updateUserStatus(_userId, 0)
-        ]);
+        if (toUserSocketIds.length) {
+          await socketModel.saveUserSocketId(_userId, toUserSocketIds.join(','));
+        } else {
+          await Promise.all([
+            socketModel.saveUserSocketId(_userId, toUserSocketIds.join(',')),
+            userInfoModel.updateUserStatus(_userId, 0)
+          ]);
+        }
         
         console.log('disconnect.=>reason', reason, 'user_id=>', _userId, 'socket.id=>', socket.id, 'time=>', new Date().toLocaleString());
       });
