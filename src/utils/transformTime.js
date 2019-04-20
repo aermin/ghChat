@@ -27,16 +27,20 @@ export const toNormalTime = (timestamp) => {
     date.getDate(), new Date(new Date().setDate(new Date().getDate() - 1)).getDate(),
     date.getMonth(), date.getFullYear()
   ];
+
   const isToday = thisYear === yearOfArg && thisMonth === monthOfArg && today === dayOfArg;
   if (isToday) {
     return `${addZero(hourOfArg)}: ${addZero(minuteOfArg)}`;
   }
+
   const isYesterday = thisYear === yearOfArg && thisMonth === monthOfArg && yesterday === dayOfArg;
   if (isYesterday) {
     return `昨天 ${addZero(hourOfArg)}: ${addZero(minuteOfArg)}`;
   }
+
   if (yearOfArg === thisYear) {
     return `${monthHandle(monthOfArg)}/${addZero(dayOfArg)}`;
   }
+
   return `${yearOfArg}/${monthHandle(monthOfArg)}/${addZero(dayOfArg)}`;
 };
