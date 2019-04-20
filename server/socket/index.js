@@ -12,6 +12,10 @@ const { getAllMessage, getGroupItem } = require('./message');
 const verify = require('../middlewares/verify');
 const getUploadToken = require('../utils/qiniu');
 
+function getSocketIdHandle(arr) {
+  return arr[0] ? JSON.parse(JSON.stringify(arr[0])).socketid : '';
+}
+
 module.exports = (server) => {
   const io = socketIo(server);
   io.use((socket, next) => {
@@ -27,8 +31,19 @@ module.exports = (server) => {
     try {
       socket.on('initSocket', async (user_id, fn) => {
         _userId = user_id;
-        await socketModel.saveUserSocketId(user_id, socketId);
-        await userInfoModel.updateUserStatus(user_id, 1);
+        const arr = await socketModel.getUserSocketId(_userId);
+        const existSocketIdStr = getSocketIdHandle(arr);
+        const newSocketIdStr = existSocketIdStr ? `${existSocketIdStr},${socketId}`: socketId;
+
+        if (existSocketIdStr) {
+          await socketModel.saveUserSocketId(_userId, newSocketIdStr);
+        } else {
+          await Promise.all[
+            socketModel.saveUserSocketId(_userId, newSocketIdStr),
+            userInfoModel.updateUserStatus(_userId, 1)
+          ];
+        }
+
         fn('initSocket success');
       });
 
@@ -51,13 +66,21 @@ module.exports = (server) => {
       // 私聊发信息
       socket.on('sendPrivateMsg', async (data) => {
         if (!data) return;
-        data.attachments = JSON.stringify(data.attachments);
-        await privateChatModel.savePrivateMsg({ ...data });
-        const arr = await socketModel.getUserSocketId(data.to_user);
-        const toUserSocketId = JSON.parse(JSON.stringify(arr[0])).socketid;
-        io.to(toUserSocketId).emit('getPrivateMsg', data);
-        // logs to debug;
-        console.log(`[userId:${_userId}, socketId:${socketId}] send private msg to [userId:${data.to_user}, socketId:${toUserSocketId}]`);
+        
+        await Promise.all([
+          privateChatModel.savePrivateMsg({ 
+            ...data,
+            attachments: JSON.stringify(data.attachments)
+          }),
+          socketModel.getUserSocketId(data.to_user).then(arr=>{
+            const existSocketIdStr = getSocketIdHandle(arr);
+            const toUserSocketIds = existSocketIdStr && existSocketIdStr.split(',') || [];
+
+            toUserSocketIds.forEach(e => {
+              io.to(e).emit('getPrivateMsg', data);
+            });
+          })
+        ]);
       });
 
       // 群聊发信息
@@ -202,7 +225,24 @@ module.exports = (server) => {
 
 
       socket.on('disconnect', async (reason) => {
-        await userInfoModel.updateUserStatus(_userId, 0);
+        const arr = await socketModel.getUserSocketId(_userId);
+        const existSocketIdStr = getSocketIdHandle(arr);
+        const toUserSocketIds = existSocketIdStr && existSocketIdStr.split(',') || [];
+        const index = toUserSocketIds.indexOf(socketId);
+
+        if (index > -1) {
+          toUserSocketIds.splice(index, 1);
+        }
+        
+        if (toUserSocketIds.length) {
+          await socketModel.saveUserSocketId(_userId, toUserSocketIds.join(','));
+        } else {
+          await Promise.all([
+            socketModel.saveUserSocketId(_userId, toUserSocketIds.join(',')),
+            userInfoModel.updateUserStatus(_userId, 0)
+          ]);
+        }
+        
         console.log('disconnect.=>reason', reason, 'user_id=>', _userId, 'socket.id=>', socket.id, 'time=>', new Date().toLocaleString());
       });
     } catch (error) {
