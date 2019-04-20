@@ -12,6 +12,10 @@ const { getAllMessage, getGroupItem } = require('./message');
 const verify = require('../middlewares/verify');
 const getUploadToken = require('../utils/qiniu');
 
+function getSocketIdHandle(arr) {
+  return arr[0] ? JSON.parse(JSON.stringify(arr[0])).socketid : '';
+}
+
 module.exports = (server) => {
   const io = socketIo(server);
   io.use((socket, next) => {
@@ -27,8 +31,12 @@ module.exports = (server) => {
     try {
       socket.on('initSocket', async (user_id, fn) => {
         _userId = user_id;
-        await socketModel.saveUserSocketId(user_id, socketId);
-        await userInfoModel.updateUserStatus(user_id, 1);
+        // 增加新上线的那个，然后更新数据库的socketId
+        const arr = await socketModel.getUserSocketId(_userId);
+        const userSocketId = getSocketIdHandle(arr);
+        const newSocketIdStr = userSocketId ? `${userSocketId},${socketId}`: socketId;
+        await socketModel.saveUserSocketId(_userId, newSocketIdStr);
+        await userInfoModel.updateUserStatus(_userId, 1);
         fn('initSocket success');
       });
 
@@ -54,10 +62,11 @@ module.exports = (server) => {
         data.attachments = JSON.stringify(data.attachments);
         await privateChatModel.savePrivateMsg({ ...data });
         const arr = await socketModel.getUserSocketId(data.to_user);
-        const toUserSocketId = JSON.parse(JSON.stringify(arr[0])).socketid;
-        io.to(toUserSocketId).emit('getPrivateMsg', data);
-        // logs to debug;
-        console.log(`[userId:${_userId}, socketId:${socketId}] send private msg to [userId:${data.to_user}, socketId:${toUserSocketId}]`);
+        const toUserSocketIdStr = getSocketIdHandle(arr);
+        const toUserSocketIds = toUserSocketIdStr.split(',');
+        toUserSocketIds.forEach(e => {
+          io.to(e).emit('getPrivateMsg', data);
+        })
       });
 
       // 群聊发信息
@@ -202,6 +211,15 @@ module.exports = (server) => {
 
 
       socket.on('disconnect', async (reason) => {
+        const arr = await socketModel.getUserSocketId(_userId);
+        const toUserSocketIdStr = getSocketIdHandle(arr);
+        const toUserSocketIds = toUserSocketIdStr.split(',');
+        const index = toUserSocketIds.indexOf(socketId);
+        if (index > -1) {
+          toUserSocketIds.splice(index, 1);
+        }
+        const newSocketIdStr = toUserSocketIds.join(',');
+        await socketModel.saveUserSocketId(_userId, newSocketIdStr);
         await userInfoModel.updateUserStatus(_userId, 0);
         console.log('disconnect.=>reason', reason, 'user_id=>', _userId, 'socket.id=>', socket.id, 'time=>', new Date().toLocaleString());
       });
