@@ -31,7 +31,6 @@ module.exports = (server) => {
     try {
       socket.on('initSocket', async (user_id, fn) => {
         _userId = user_id;
-        // 增加新上线的那个，然后更新数据库的socketId
         const arr = await socketModel.getUserSocketId(_userId);
         const userSocketId = getSocketIdHandle(arr);
         const newSocketIdStr = userSocketId ? `${userSocketId},${socketId}`: socketId;
