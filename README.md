@@ -181,3 +181,9 @@ cd ..
 ```
 npm run start
 ```
+
+### License
+
+[MIT](https://opensource.org/licenses/MIT)
+
+***Please indicate the source if you use the code of this project***

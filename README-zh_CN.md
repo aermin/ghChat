@@ -48,7 +48,7 @@ Tips: [如何在chrome浏览器中开启对PWA的支持](https://github.com/aerm
 
 - UI
     - [x] 弹窗，提示等基础组件
-    - [x] 响应式布局, 适配桌面端和移动端。以前vue-chat的实现只是移动端的布局。
+    - [x] 响应式布局, 适配桌面端和移动端。
 
 - 私聊
 
@@ -228,3 +228,10 @@ ps: 本地发图片和发文件和github登录无法使用，需要自己去gith
 ### 文档
 
 这边开坑了一篇[ghChat开发历程](https://github.com/aermin/blog/issues/60) ，将不断地更新总结做这个全栈项目时会遇到的问题，知识点，和坑。
+
+
+### License
+
+[MIT](https://opensource.org/licenses/MIT)
+
+***码代码不易，引用借鉴请注明出处***
