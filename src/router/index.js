@@ -5,7 +5,7 @@ import {
 import loadable from '@loadable/component';
 
 const FUNCTION_ROUTERS = ['/', '/robot_chat', '/group_chat/:to_group_id', '/private_chat/:user_id', '/setting'];
-const AUTH_ROUTERS = ['/login', 'register'];
+const AUTH_ROUTERS = ['/login', '/register'];
 
 function MainView(props) {
   const { pathname } = props.location;
