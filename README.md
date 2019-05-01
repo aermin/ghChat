@@ -5,7 +5,9 @@ English | [简体中文](./README-zh_CN.md)
 
 ## ghChat(react version)
 
-I hope that this project can be a chat tool for GitHub. So I will try to make it do some integration with GitHub. At present，it just support logging in with GitHub authorization and look GitHub user public information in ghChat. If you have anything idea about integration, welcome to create issues about feature suggestion, bug feedback or send pull requests.
+I hope that this project can be a chat tool for GitHub. So I will try to make it do some integration with GitHub. At present，it just support logging in with GitHub authorization and look GitHub user public information in ghChat. You can create group in ghChat for your github project and post the group link in the readme to convenient for the users' communication.
+
+If you have anything idea about integration, welcome to create issues about feature suggestion, bug feedback or send pull requests.
 
 ### Address
 
@@ -99,6 +101,7 @@ Tips: [How to turn on PWA in chrome?](https://github.com/aermin/blog/issues/63)
   - [x] Open gzip to compress static resource
   - [x] Lazy load chat messages. Fetch twenty messages by one time in every chat.
   - [x] lazy load components
+  - [x] API request frequency limit
   - [ ] css files build separately
   - [ ] SQL optimization
 

@@ -156,8 +156,10 @@ _listeningPrivateChatMsg = () => {
     if (this._userInfo) {
       await this._init();
       console.log('init app success');
-      window.socket.on('error', (errorMessage) => {
-        notification(errorMessage, 'error');
+      window.socket.on('error', (error) => {
+        const { message } = error;
+        console.log('error', message);
+        notification(message, 'error');
       });
       window.socket.on('reconnect', (attemptNumber) => {
         console.log('reconnect successfully. attemptNumber =>', attemptNumber, 'time=>', new Date().toLocaleString());
