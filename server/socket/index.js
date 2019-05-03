@@ -11,7 +11,7 @@ const groupInfoModel = require('../models/groupInfo');
 const { getAllMessage, getGroupItem } = require('./message');
 const verify = require('../middlewares/verify');
 const getUploadToken = require('../utils/qiniu');
-const requestFrequency = require('../utils/requestFrequency');
+const requestFrequency = require('../middlewares/requestFrequency');
 
 function getSocketIdHandle(arr) {
   return arr[0] ? JSON.parse(JSON.stringify(arr[0])).socketid : '';
@@ -29,12 +29,13 @@ module.exports = (server) => {
 
   io.on('connection', (socket) => {
     const socketId = socket.id;
-    let timeStamp = Date.parse(new Date());
-    let limitCount = {};
     let _userId;
+    socket.use((packet, next) => {
+      if (!requestFrequency(socketId)) return next();
+      next(new Error('Access interface frequently, please try again in a minute!'));
+    });
     socket.on('initSocket', async (user_id, fn) => {
       try {
-        if (requestFrequency(limitCount, timeStamp, socketId, io)) return;
         _userId = user_id;
         const arr = await socketModel.getUserSocketId(_userId);
         const existSocketIdStr = getSocketIdHandle(arr);
@@ -59,7 +60,6 @@ module.exports = (server) => {
     // 初始化群聊
     socket.on('initGroupChat', async (user_id, fn) => {
       try {
-        if (requestFrequency(limitCount, timeStamp, socketId, io)) return;
         const result = await msgModel.getGroupList(user_id);
         const groupList = JSON.parse(JSON.stringify(result));
         for (const item of groupList) {
@@ -75,7 +75,6 @@ module.exports = (server) => {
     // 初始化， 获取群聊和私聊的数据
     socket.on('initMessage', async ({ user_id, clientHomePageList }, fn) => {
       try {
-        if (requestFrequency(limitCount, timeStamp, socketId, io)) return;
         const data = await getAllMessage({ user_id, clientHomePageList });
         fn(data);
       } catch(error) {
@@ -87,7 +86,6 @@ module.exports = (server) => {
       // 私聊发信息
     socket.on('sendPrivateMsg', async (data) => {
       try {
-        if (requestFrequency(limitCount, timeStamp, socketId, io)) return;
         if (!data) return;
         await Promise.all([
           privateChatModel.savePrivateMsg({ 
@@ -112,7 +110,6 @@ module.exports = (server) => {
       // 群聊发信息
     socket.on('sendGroupMsg', async (data) => {
       try {
-        if (requestFrequency(limitCount, timeStamp, socketId, io)) return;
         if (!data) return;
         data.attachments = JSON.stringify(data.attachments);
         await groupChatModel.saveGroupMsg({ ...data });
@@ -125,7 +122,6 @@ module.exports = (server) => {
 
     socket.on('getOnePrivateChatMessages', async (data, fn) => {
       try {
-        if (requestFrequency(limitCount, timeStamp, socketId, io)) return;
         const {
           user_id, toUser, start, count
         } = data;
@@ -141,7 +137,6 @@ module.exports = (server) => {
     // get group messages in a group;
     socket.on('getOneGroupMessages', async (data, fn) => {
       try {
-        if (requestFrequency(limitCount, timeStamp, socketId, io)) return;
         const RowDataPacket = await groupChatModel.getGroupMsg(data.groupId, data.start - 1, data.count);
         const groupMessages = JSON.parse(JSON.stringify(RowDataPacket));
         fn(groupMessages);
@@ -154,7 +149,6 @@ module.exports = (server) => {
     // get group item including messages and group info.
     socket.on('getOneGroupItem', async (data, fn) => {
       try {
-        if (requestFrequency(limitCount, timeStamp, socketId, io)) return;
         const groupMsgAndInfo = await getGroupItem({
           groupId: data.groupId,
           startLine: data.start || 1,
@@ -170,7 +164,6 @@ module.exports = (server) => {
     // 建群
     socket.on('createGroup', async (data, fn) => {
       try {
-        if (requestFrequency(limitCount, timeStamp, socketId, io)) return;
         const to_group_id = uuid();
         const {
           name, group_notice, creator_id, create_time
@@ -189,7 +182,6 @@ module.exports = (server) => {
     // 修改群资料
     socket.on('updateGroupInfo', async (data, fn) => {
       try {
-        if (requestFrequency(limitCount, timeStamp, socketId, io)) return;
         await groupInfoModel.updateGroupInfo(data);
         fn('修改群资料成功');
       } catch(error) {
@@ -201,7 +193,6 @@ module.exports = (server) => {
     // 加群
     socket.on('joinGroup', async (data, fn) => {
       try {
-        if (requestFrequency(limitCount, timeStamp, socketId, io)) return;
         const { userInfo, toGroupId } = data;
         await groupInfoModel.joinGroup(userInfo.user_id, toGroupId);
         socket.join(toGroupId);
@@ -222,7 +213,6 @@ module.exports = (server) => {
     // 退群
     socket.on('leaveGroup', async (data) => {
       try {
-        if (requestFrequency(limitCount, timeStamp, socketId, io)) return;
         const { user_id, toGroupId } = data;
         socket.leave(toGroupId);
         await groupInfoModel.leaveGroup(user_id, toGroupId);
@@ -235,7 +225,6 @@ module.exports = (server) => {
     // 获取群成员信息
     socket.on('getGroupMember', async (groupId, fn) => {
       try {
-        if (requestFrequency(limitCount, timeStamp, socketId, io)) return;
         const RowDataPacket = await groupChatModel.getGroupMember(groupId);
         const getGroupMember = JSON.parse(JSON.stringify(RowDataPacket));
         fn(getGroupMember);
@@ -248,7 +237,6 @@ module.exports = (server) => {
     //  模糊匹配用户或者群组
     socket.on('fuzzyMatch', async (data, fn) => {
       try {
-        if (requestFrequency(limitCount, timeStamp, socketId, io)) return;
         let fuzzyMatchResult;
         const field = `%${data.field}%`;
         if (data.searchUser) {
@@ -266,7 +254,6 @@ module.exports = (server) => {
     // qiniu token
     socket.on('getQiniuToken', async (fn) => {
       try {
-        if (requestFrequency(limitCount, timeStamp, socketId, io)) return;
         const uploadToken = await getUploadToken();
         return fn(uploadToken);
       } catch(error) {
@@ -282,7 +269,6 @@ module.exports = (server) => {
    */
     socket.on('addAsTheContact', async (data, fn) => {
       try {
-        if (requestFrequency(limitCount, timeStamp, socketId, io)) return;
         const { user_id, from_user } = data;
         const time = Date.parse(new Date()) / 1000;
         await userInfoModel.addFriendEachOther(user_id, from_user, time);
@@ -296,7 +282,6 @@ module.exports = (server) => {
 
     socket.on('getUserInfo', async(user_id, fn) => {
       try {
-        if (requestFrequency(limitCount, timeStamp, socketId, io)) return;
         const userInfo = await userInfoModel.getUserInfo(user_id);
         fn(userInfo[0]);
       } catch(error) {
@@ -309,7 +294,6 @@ module.exports = (server) => {
     // 机器人聊天
     socket.on('robotChat', async (data, fn) => {
       try {
-        if (requestFrequency(limitCount, timeStamp, socketId, io)) return;
         const date = {
           key: '92febb91673740c2814911a6c16dbcc5',
           info: data.message,
@@ -332,7 +316,6 @@ module.exports = (server) => {
 
     socket.on('disconnect', async (reason) => {
       try {
-        if (requestFrequency(limitCount, timeStamp, socketId, io)) return;
         const arr = await socketModel.getUserSocketId(_userId);
         const existSocketIdStr = getSocketIdHandle(arr);
         const toUserSocketIds = existSocketIdStr && existSocketIdStr.split(',') || [];
