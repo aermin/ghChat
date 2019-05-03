@@ -8,7 +8,7 @@ module.exports = function requestFrequency(socketId) {
     timeStamp = nowTimeStamp;
     return false;
   } // less than 60 seconds
-  if (limitCount[socketId] > 6) {
+  if (limitCount[socketId] > 45) {
     return true;
   }
   limitCount[socketId] = (limitCount[socketId] || 0) + 1;
