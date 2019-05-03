@@ -7,7 +7,7 @@
 
 之所以叫ghChat，是想着以后做一些GitHub的集成，希望让这个即时通讯工具成为chat tool for github。
 
-目前只支持github授权登录，和展示github用户公开的信息。
+目前只支持github授权登录，和展示github用户公开的信息，然后可以方便地在ghChat中为自己的github项目建个项目群，然后贴群链接到readme中，方便项目即时交流。
 
 ### 地址
 
@@ -97,6 +97,7 @@ Tips: [如何在chrome浏览器中开启对PWA的支持](https://github.com/aerm
   - [x] gzip 压缩
   - [x] 聊天内容懒加载，每次获取20条数据
   - [x] 路由按需加载
+  - [x] 接口请求频率限制 
   - [ ] css文件单独打包  
   - [ ] sql优化
 

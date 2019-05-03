@@ -1,4 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import Request from '../../utils/request';
 import Modal from '../../components/Modal';
