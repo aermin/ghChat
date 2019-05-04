@@ -1,5 +1,7 @@
+@import "../../assets/base.scss";
+
 .userInfo {
-  padding: 10px 20px;
+  padding: 20px 20px;
   p {
     font-size: 12px;
     padding: 10px 0px;
@@ -16,5 +18,12 @@
   }
   .website, .github {
     cursor: pointer;
+  }
+  .personalInfoBtn {
+    margin: 20px 10px 0px;
+    padding: 8px 30px !important;
+  }
+  .deleteBtn {
+    background-color: $warn-red;
   }
 }

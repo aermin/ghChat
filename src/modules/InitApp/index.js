@@ -4,6 +4,7 @@ import {
   updateHomePageListAction,
   relatedCurrentChatAction,
   setHomePageListAction,
+  deleteHomePageListAction,
 } from '../../containers/HomePageList/homePageListAction';
 import {
   addGroupMessagesAction,
@@ -14,6 +15,7 @@ import {
   addPrivateChatMessagesAction,
   addPrivateChatMessageAndInfoAction,
   setAllPrivateChatsAction,
+  deletePrivateChatAction,
 } from '../../containers/PrivateChatPage/privateChatAction';
 import notification from '../../components/Notification';
 import BrowserNotification from '../BrowserNotification';
@@ -113,11 +115,22 @@ _listeningPrivateChatMsg = () => {
     });
   }
 
+  _listeningBeDelete = () => {
+    window.socket.on('beDeleted', (from_user) => {
+      const homePageList = store.getState().homePageListState;
+      const allPrivateChats = store.getState().allPrivateChats;
+      store.dispatch(deleteHomePageListAction({ homePageList, chatId: from_user }));
+      store.dispatch(deletePrivateChatAction({ allPrivateChats, chatId: from_user }));
+    })
+  }
+
   subscribeSocket() {
     window.socket.removeAllListeners('getPrivateMsg');
     window.socket.removeAllListeners('getGroupMsg');
+    window.socket.removeAllListeners('beDeleted');
     this._listeningPrivateChatMsg();
     this._listeningGroupChatMsg();
+    this._listeningBeDelete();
     console.log('subscribeSocket success');
   }
 

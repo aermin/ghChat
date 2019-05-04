@@ -2,6 +2,7 @@ const SET_ALL_PRIVATE_CHATS = 'SET_ALL_PRIVATE_CHATS';
 const ADD_PRIVATE_CHAT_MESSAGES = 'ADD_PRIVATE_CHAT_MESSAGES';
 const ADD_PRIVATE_INFO = 'ADD_PRIVATE_INFO';
 const ADD_PRIVATE_CHAT_MESSAGE_AND_INFO = 'ADD_PRIVATE_CHAT_MESSAGE_AND_INFO';
+const DELETE_PRIVATE_CHAT = 'DELETE_PRIVATE_CHAT';
 
 const setAllPrivateChatsAction = ({ data = new Map() }) => ({
   type: SET_ALL_PRIVATE_CHATS,
@@ -51,13 +52,26 @@ const addPrivateChatMessageAndInfoAction = ({
 };
 
 
+const deletePrivateChatAction = ({
+  allPrivateChats, chatId
+}) => {
+  const allPrivateChatsCopy = new Map(allPrivateChats);
+  const goalPrivateChat = allPrivateChatsCopy.get(chatId);
+  if (goalPrivateChat) {
+    allPrivateChatsCopy.delete(chatId);
+  }
+  return { type: DELETE_PRIVATE_CHAT, data: allPrivateChatsCopy };
+};
+
 export {
   SET_ALL_PRIVATE_CHATS,
   ADD_PRIVATE_CHAT_MESSAGES,
   ADD_PRIVATE_INFO,
   ADD_PRIVATE_CHAT_MESSAGE_AND_INFO,
+  DELETE_PRIVATE_CHAT,
   setAllPrivateChatsAction,
   addPrivateChatMessagesAction,
   addPrivateChatInfoAction,
   addPrivateChatMessageAndInfoAction,
+  deletePrivateChatAction,
 };

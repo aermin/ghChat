@@ -92,10 +92,10 @@ const addFriendEachOther = (user_id, from_user, time) => {
   return query(_sql, [user_id, from_user, time, from_user, user_id, time]);
 };
 
-// 删除好友
-const delFriend = (user_id, from_user) => {
-  const _sql = 'DELETE FROM  user_user_relation WHERE user_id = ? AND from_user = ?';
-  return query(_sql, [user_id, from_user]);
+// 删除联系人
+const deleteContact = (user_id, from_user) => {
+  const _sql = 'DELETE FROM  user_user_relation WHERE (user_id = ? AND from_user = ?) or (user_id = ? AND from_user = ?)';
+  return query(_sql, [user_id, from_user, from_user, user_id]);
 };
 
 // 屏蔽好友
@@ -119,7 +119,7 @@ module.exports = {
   getUserInfo,
   isFriend,
   addFriendEachOther,
-  delFriend,
+  deleteContact,
   updateGithubUser,
   findGithubUser,
   insertGithubData,
