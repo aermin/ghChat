@@ -72,7 +72,7 @@ class PersonalInfo extends Component {
         deleteHomePageList({ homePageList, chatId: userInfo.user_id });
         deletePrivateChat({ allPrivateChats, chatId: userInfo.user_id });
         this.props.hide();
-        notification('删除联系人成功', 'success');
+        notification('删除联系人成功', 'success', 2);
       }
     });
   }
