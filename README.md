@@ -13,10 +13,9 @@ If you have anything idea about integration, welcome to create issues about feat
 
 [GitHub address](https://github.com/aermin/react-chat)
 
-[Project online address，support logging in with GitHub authorization](https://im.aermin.top)
+[Project online address(also this project's group address)，support logging in with GitHub authorization](https://im.aermin.top/group_chat/ddbffd80-3663-11e9-a580-d119b23ef62e)
 
-Welcome to [ click this link](https://im.aermin.top/group_chat/ddbffd80-3663-11e9-a580-d119b23ef62e?name=ghChat) to join this project's communication group which named 'ghChat'.
-Welcome to [ click this link](https://im.aermin.top/private_chat/1?name=aermin) to contact me.
+Welcome to [ click this link](https://im.aermin.top/private_chat/1) to contact me.
 
 
 ### What technology do ghChat use?
@@ -32,9 +31,11 @@ Just some functions
 
 ![image](https://user-images.githubusercontent.com/24861316/55677334-2f599d00-5918-11e9-8eb9-ab74a56572b1.png)
 
-![image](https://user-images.githubusercontent.com/24861316/55677498-4221a100-591b-11e9-9e76-31c490d87c8a.png)
+![image](https://user-images.githubusercontent.com/24861316/57189039-caf02480-6f3b-11e9-85b0-59f107b9b26f.png)
 
-Tips: [How to turn on PWA in chrome?](https://github.com/aermin/blog/issues/63)
+![image](https://user-images.githubusercontent.com/24861316/57188951-5e285a80-6f3a-11e9-8def-ef932c4abc8b.png)
+
+### Suggest to open PWA: [How to turn on PWA in chrome?](https://github.com/aermin/blog/issues/63)
 
 ### Features && Progress
 
@@ -69,6 +70,7 @@ Tips: [How to turn on PWA in chrome?](https://github.com/aermin/blog/issues/63)
   - [x] Group information view, include group members, group notice, group name...
   - [x] Quit the group
   - [x] Editor group information
+  - [x] Prompt when some one join group
 
 - Search
 

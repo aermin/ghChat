@@ -5,22 +5,18 @@
 
 ## ghChat(react版)
 
-之所以叫ghChat，是想着以后做一些GitHub的集成，希望让这个即时通讯工具成为chat tool for github。
-
-目前只支持github授权登录，和展示github用户公开的信息，然后可以方便地在ghChat中为自己的github项目建个项目群，然后贴群链接到readme中，方便项目即时交流。
+之所以叫ghChat，是想着以后做一些GitHub的集成，希望让这个即时通讯工具成为chat tool for github。目前只支持github授权登录，和展示github用户公开的信息，然后可以方便地在ghChat中为自己的github项目建个项目群，然后贴群链接到readme中，方便项目即时交流。
 
 ### 地址
 
-[github项目地址](https://github.com/aermin/react-chat)。***富应用型的开发很耗时间精力，觉得还不错的麻烦给个star以兹鼓励下*** 
+[github项目地址](https://github.com/aermin/react-chat)。***富应用型的开发很耗时间精力，觉得还不错的麻烦给个star鼓励下ʘᴗʘ*** 
 
 
-[网站线上地址，支持直接github授权登录](https://im.aermin.top)。
-
-欢迎加入 "ghChat" 这个群交流呀，可[点击链接加入](https://im.aermin.top/group_chat/ddbffd80-3663-11e9-a580-d119b23ef62e?name=ghChat)，可搜索群名(不用全打)加入，也可点击机器人的邀请加入
+[应用线上地址(也是项目的群链接)，支持直接github授权登录](https://im.aermin.top/group_chat/ddbffd80-3663-11e9-a580-d119b23ef62e)
 
 ### 技术栈
 
-前端React全家桶，后端node.js(koa2), 数据库MySQL, 双向通信SocKet.io, jwt鉴权等等。具体看package.json。有疑问的可以加ghChat群交流哦，我每天都在线，也可以私聊我，[点击加我](https://im.aermin.top/private_chat/1?name=aermin)
+前端React全家桶，后端node.js(koa2), 数据库MySQL, 双向通信SocKet.io, jwt鉴权等等。具体看package.json。有疑问的可以加ghChat群交流哦，我每天都在线，也可以私聊我，[点击加我](https://im.aermin.top/private_chat/1)
 
 ### 项目展示：
 
@@ -28,9 +24,11 @@
 
 ![image](https://user-images.githubusercontent.com/24861316/55677334-2f599d00-5918-11e9-8eb9-ab74a56572b1.png)
 
-![image](https://user-images.githubusercontent.com/24861316/55677498-4221a100-591b-11e9-9e76-31c490d87c8a.png)
+![image](https://user-images.githubusercontent.com/24861316/57189039-caf02480-6f3b-11e9-85b0-59f107b9b26f.png)
 
-Tips: [如何在chrome浏览器中开启对PWA的支持](https://github.com/aermin/blog/issues/63)
+![image](https://user-images.githubusercontent.com/24861316/57188951-5e285a80-6f3a-11e9-8def-ef932c4abc8b.png)
+
+### 建议开启PWA: [如何在chrome浏览器中开启对PWA的支持](https://github.com/aermin/blog/issues/63)
 
 ### 目前进度
 
@@ -52,19 +50,20 @@ Tips: [如何在chrome浏览器中开启对PWA的支持](https://github.com/aerm
 
 - 私聊
 
-  - [x] 私聊（外加重要的重构）：始化时请求聊天列表所有聊天对象的聊天记录（~~后期限制为每个聊天项只初始化20条最新聊天内容~~已实现，避免初始化数据量过大，时间过长），接着根据点击列表导致chatId(取自url params)的改变，重新渲染新的聊天内容。以前vue-chat的实现方式是点击进入每个聊天页面都会发1至多次请求然后渲染页面，性能较差
-  - [x] 添加联系人: 搜索到该用户并发送信息后即记录为好友(关系存DB)，会展示在双方的聊天列表
+  - [x] 私聊
+  - [x] 添加联系人
   - [x] 好友资料展示
   - [x] 删除联系人
 
 - 群聊
 
-  - [x] 群聊 && 重构： 本来是根据消息列表上的群和好友去遍历发HTTP请求拿数据，现在直接在后端整合好一次性用websocket发过来，减少请求次数且websocket在此情况性能更优一些； 完成群聊功能
+  - [x] 群聊
   - [x] 建群
-  - [x] 加群：搜索到该群并点击，会看到当前时间前的聊天记录，点加入按钮后即成功加入群(关系存DB)，开始受到群消息的广播，并且群会展示在聊天列表
+  - [x] 加群
   - [x] 群资料展示
-  - [x] 退群：退群后聊天列表不再展示该群(DB中删除该关系)
+  - [x] 退群
   - [x] 编辑群资料
+  - [x] 有人加入群时会有提示
 
 - 查询
 
@@ -72,7 +71,7 @@ Tips: [如何在chrome浏览器中开启对PWA的支持](https://github.com/aerm
 
 - 丰富聊天方式
 
-  - [x] 聊天页表： 实时按时间降序展示联系过的人和加入的群
+  - [x] 聊天页表：实时按时间降序展示联系过的人和加入的群
   - [x] 发图
   - [x] 发表情
   - [x] 发文件
@@ -80,7 +79,7 @@ Tips: [如何在chrome浏览器中开启对PWA的支持](https://github.com/aerm
   - [x] Enter快捷键发送信息,发送按钮灰亮
   - [x] @某人
   - [x] 图片放大查看
-  - [x] 发送copy的图片(如qq截图后粘贴可直接发图)
+  - [x] 发送copy的图片(如截图后粘贴可直接发图)
   - [x] 分享群|联系人给其他的人|群（应用内|外都支持）
   - [ ] 提供在线表情库
   - [ ] 支持Markdown
