@@ -11,9 +11,6 @@ import ListItems from '../ListItems';
 import Chat from '../../modules/Chat';
 import InitApp from '../../modules/InitApp';
 
-// import Spinner from '../Spinner';
-
-
 class HomePageList extends Component {
   constructor(props) {
     super(props);

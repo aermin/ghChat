@@ -4,10 +4,12 @@ import {
 } from 'react-router-dom';
 import {
   updateHomePageListAction,
+  deleteHomePageListAction
 } from '../HomePageList/homePageListAction';
 import {
   addPrivateChatMessagesAction,
   addPrivateChatInfoAction,
+  deletePrivateChatAction,
 } from './privateChatAction';
 import PrivateChat from '../../components/PrivateChat';
 
@@ -29,6 +31,12 @@ const mapDispatchToProps = dispatch => ({
   updateHomePageList(arg = {}) {
     dispatch(updateHomePageListAction({ ...arg }));
   },
+  deleteHomePageList(arg = {}) {
+    dispatch(deleteHomePageListAction({ ...arg }));
+  },
+  deletePrivateChat(arg = {}) {
+    dispatch(deletePrivateChatAction({ ...arg }));
+  }
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PrivateChat));

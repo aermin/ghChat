@@ -59,7 +59,7 @@ Tips: [How to turn on PWA in chrome?](https://github.com/aermin/blog/issues/63)
   - [x] Chat with my contacts
   - [x] Add contact
   - [x] Contact information card
-  - [ ] Delete contact
+  - [x] Delete contact
 
 - Group chat
 

@@ -1,5 +1,5 @@
 // 感谢 https://www.npmjs.com/package/react-user-avatar
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import './style.scss';
 
@@ -23,73 +23,69 @@ function sumChars(str) {
 }
 
 // eslint-disable-next-line react/prefer-stateless-function
-export default class UserAvatar extends Component {
-  render() {
-    const {
-      src,
-      name,
-      isGray,
-      color,
-      colors = defaultColors,
-      clickAvatar,
-      size,
-      borderRadius,
-      showLogo,
-    } = this.props;
+export default function UserAvatar(props) {
+  const {
+    src,
+    name,
+    isGray,
+    color,
+    colors = defaultColors,
+    clickAvatar,
+    size,
+    borderRadius,
+    showLogo,
+  } = props;
 
-    if (!name) throw new Error('UserAvatar requires a name');
+  const innerStyle = {
+    textAlign: 'center',
+    width: `${size}px`,
+    height: `${size}px`,
+    borderRadius,
+    lineHeight: `${size}px`,
+    color: 'white',
+    display: 'inline-block',
+  };
 
-    const innerStyle = {
-      textAlign: 'center',
-      width: `${size}px`,
-      height: `${size}px`,
-      borderRadius,
-      lineHeight: `${size}px`,
-      color: 'white',
-      display: 'inline-block',
-    };
+  const imgStyle = {
+    width: `${size}px`,
+    height: `${size}px`,
+    borderRadius,
+  };
 
-    const imgStyle = {
-      width: `${size}px`,
-      height: `${size}px`,
-      borderRadius,
-    };
-
-    let inner;
-    if (src) {
-      inner = <img style={imgStyle} src={src} alt={name} />;
+  let inner;
+  if (src) {
+    inner = <img style={imgStyle} src={src} alt={name} />;
+  } else {
+    let background;
+    if (color) {
+      background = color;
     } else {
-      let background;
-      if (color) {
-        background = color;
-      } else {
-        // pick a deterministic color from the list
-        const i = sumChars(name) % colors.length;
-        background = colors[i];
-      }
-
-      innerStyle.backgroundColor = background;
-
-      inner = <span>{name.charAt(0)}</span>;
+      // pick a deterministic color from the list
+      const i = sumChars(name) % colors.length;
+      background = colors[i];
     }
 
-    const avatarClassName = isGray ? 'UserAvatar gray' : 'UserAvatar';
-    return (
-      <div className={avatarClassName} style={innerStyle} onClick={clickAvatar}>
-        {showLogo && (
-        <svg className="icon viaGithub" aria-hidden="true">
-          <use xlinkHref="#icon-github" />
-        </svg>
-        )}
-        {inner}
-      </div>
-    );
+    innerStyle.backgroundColor = background;
+
+    inner = <span>{name.charAt(0)}</span>;
   }
+
+  const avatarClassName = isGray ? 'UserAvatar gray' : 'UserAvatar';
+  return (
+    <div className={avatarClassName} style={innerStyle} onClick={clickAvatar}>
+      {showLogo && (
+      <svg className="icon viaGithub" aria-hidden="true">
+        <use xlinkHref="#icon-github" />
+      </svg>
+      )}
+      {inner}
+    </div>
+  );
 }
 
 UserAvatar.propTypes = {
   src: PropTypes.string,
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   isGray: PropTypes.bool,
   color: PropTypes.string,
   colors: PropTypes.array,
@@ -102,6 +98,7 @@ UserAvatar.propTypes = {
 
 UserAvatar.defaultProps = {
   src: undefined,
+  name: '?',
   isGray: false,
   color: undefined,
   colors: defaultColors,

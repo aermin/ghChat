@@ -57,7 +57,7 @@ export default class PrivateChat extends Component {
       updateHomePageList, addPrivateChatInfo,
     } = this.props;
     if (this.chatId === this._userInfo.user_id) {
-      notification('不能添加自己为联系人哦', 'error');
+      notification('不能添加自己为联系人哦', 'error', 2);
       return;
     }
     window.socket.emit('addAsTheContact', { user_id: this._userInfo.user_id, from_user: this.friendId }, (data) => {
@@ -94,6 +94,16 @@ export default class PrivateChat extends Component {
     this.setState(state => ({ showInviteModal: !state.showInviteModal }));
   }
 
+  _deletePrivateChat = () => {
+    const { deletePrivateChat, allPrivateChats } = this.props;
+    deletePrivateChat({ allPrivateChats, chatId: this.chatId })
+  }
+  
+  _deleteHomePageList = () => {
+    const { deleteHomePageList, homePageList } = this.props;
+    deleteHomePageList({ homePageList, chatId: this.chatId });
+  }
+
   componentDidMount() {
     const {
       allPrivateChats,
@@ -110,7 +120,8 @@ export default class PrivateChat extends Component {
   render() {
     const {
       allPrivateChats, location, inviteData,
-      homePageList, allGroupChats
+      homePageList, allGroupChats, deleteHomePageList,
+      deletePrivateChat
     } = this.props;
     const { showPersonalInfo, showInviteModal, toUserInfo } = this.state;
     if (!allPrivateChats && !allPrivateChats.size) return null;
@@ -146,7 +157,12 @@ export default class PrivateChat extends Component {
         <PersonalInfo
           userInfo={userInfo}
           hide={() => this._showPersonalInfo(false)}
-          modalVisible={showPersonalInfo} />
+          modalVisible={showPersonalInfo} 
+          homePageList={homePageList}
+          allPrivateChats={allPrivateChats}
+          deleteHomePageList={deleteHomePageList}
+          deletePrivateChat={deletePrivateChat}
+        />
         { chatItem ? (
           <InputArea
             inviteData={inviteData}
@@ -182,6 +198,8 @@ PrivateChat.propTypes = {
   addPrivateChatMessages: PropTypes.func,
   addPrivateChatInfo: PropTypes.func,
   inviteData: PropTypes.object,
+  deleteHomePageList: PropTypes.func,
+  deletePrivateChat: PropTypes.func,
 };
 
 
@@ -193,4 +211,6 @@ PrivateChat.defaultProps = {
   addPrivateChatMessages: undefined,
   addPrivateChatInfo: undefined,
   inviteData: undefined,
+  deleteHomePageList() {},
+  deletePrivateChat() {},
 };

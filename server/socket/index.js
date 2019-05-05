@@ -313,6 +313,22 @@ module.exports = (server) => {
       }
     });
 
+    socket.on('deleteContact', async({from_user, to_user}, fn) => {
+      try {
+        await userInfoModel.deleteContact(from_user, to_user);
+        const sockets = await socketModel.getUserSocketId(to_user);
+        const existSocketIdStr = getSocketIdHandle(sockets);
+        const toUserSocketIds = existSocketIdStr && existSocketIdStr.split(',') || [];
+        toUserSocketIds.forEach(e => {
+            io.to(e).emit('beDeleted', from_user);
+        });
+        fn({code: 200, data: 'delete contact successfully'});
+      } catch(error) {
+        console.log('error', error.message);
+        io.to(socketId).emit('error', { code: 500, message: error.message});
+      }
+    })
+
 
     socket.on('disconnect', async (reason) => {
       try {

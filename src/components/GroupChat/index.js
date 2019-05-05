@@ -159,17 +159,15 @@ class GroupChat extends Component {
 
   render() {
     const {
-      allGroupChats,
-      updateGroupTitleNotice,
-      updateListGroupName,
-      homePageList,
-      inviteData,
+      allGroupChats, updateGroupTitleNotice,
+      updateListGroupName, homePageList,
+      inviteData, deleteHomePageList,
+      allPrivateChats, deletePrivateChat,
     } = this.props;
     const {
       groupMsgAndInfo, showGroupChatInfo,
       showLeaveGroupModal, personalInfo,
-      showPersonalInfo,
-      showInviteModal
+      showPersonalInfo, showInviteModal
     } = this.state;
     if (!allGroupChats && !allGroupChats.size) return null;
     const chatItem = allGroupChats.get(this.chatId);
@@ -206,7 +204,12 @@ class GroupChat extends Component {
         <PersonalInfo
           userInfo={personalInfo}
           hide={() => this._showPersonalInfo(false)}
-          modalVisible={chatItem && showPersonalInfo} />
+          homePageList={homePageList}
+          allPrivateChats={allPrivateChats}
+          deleteHomePageList={deleteHomePageList}
+          deletePrivateChat={deletePrivateChat}
+          modalVisible={chatItem && showPersonalInfo} 
+        />
         <ChatContentList
           chat={this._chat}
           chats={allGroupChats}
@@ -252,6 +255,7 @@ export default withRouter(GroupChat);
 
 GroupChat.propTypes = {
   allGroupChats: PropTypes.instanceOf(Map),
+  allPrivateChats: PropTypes.instanceOf(Map),
   homePageList: PropTypes.array,
   updateHomePageList: PropTypes.func,
   addGroupMessages: PropTypes.func,
@@ -261,11 +265,13 @@ GroupChat.propTypes = {
   updateGroupTitleNotice: PropTypes.func,
   updateListGroupName: PropTypes.func,
   inviteData: PropTypes.object,
+  deletePrivateChat: PropTypes.func,
 };
 
 
 GroupChat.defaultProps = {
   allGroupChats: new Map(),
+  allPrivateChats: new Map(),
   homePageList: [],
   updateHomePageList() {},
   addGroupMessages() {},
@@ -275,4 +281,5 @@ GroupChat.defaultProps = {
   updateGroupTitleNotice() {},
   updateListGroupName() {},
   inviteData: undefined,
+  deletePrivateChat() {},
 };

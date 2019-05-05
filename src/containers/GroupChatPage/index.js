@@ -14,10 +14,14 @@ import {
   addGroupMessageAndInfoAction,
   updateGroupTitleNoticeAction,
 } from './groupChatAction';
+import {
+  deletePrivateChatAction,
+} from '../PrivateChatPage/privateChatAction';
 import GroupChat from '../../components/GroupChat';
 
 const mapStateToProps = state => ({
   allGroupChats: state.allGroupChatsState,
+  allPrivateChats: state.allPrivateChatsState,
   homePageList: state.homePageListState,
   relatedCurrentChat: state.relatedCurrentChat,
   inviteData: state.inviteState,
@@ -48,6 +52,9 @@ const mapDispatchToProps = dispatch => ({
   updateListGroupName(arg = {}) {
     dispatch(updateListGroupNameAction({ ...arg }));
   },
+  deletePrivateChat(arg = {}) {
+    dispatch(deletePrivateChatAction({ ...arg }));
+  }
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(GroupChat));
