@@ -44,10 +44,10 @@ export default class BrowserNotification {
 
   _onPlay(src) {
     let div = document.getElementById("playercnt");
-    if(div==null)
+    if(div == null)
     {
-        div=document.createElement("div");
-        div.id="playercnt";
+        div = document.createElement("div");
+        div.id = "playercnt";
         div.setAttribute("style","display:none");
         document.body.appendChild(div);
     }
