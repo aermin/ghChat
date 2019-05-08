@@ -44,14 +44,14 @@ export default class BrowserNotification {
 
   _onPlay(src) {
     let div = document.getElementById("playercnt");
-    if(div == null)
+    if (div == null)
     {
         div = document.createElement("div");
         div.id = "playercnt";
         div.setAttribute("style","display:none");
         document.body.appendChild(div);
     }
-    if(document.createElement('audio').play == null)
+    if (document.createElement('audio').play == null)
     {
         //ie
         div.innerHTML = `<EMBED id='player' src='${src}' hidden='true'  loop='false' autostart='true'>`;
