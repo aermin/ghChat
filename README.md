@@ -192,3 +192,10 @@ npm run start
 [MIT](https://opensource.org/licenses/MIT)
 
 ***Please indicate the source if you use the code of this project***
+
+### Team Members
+
+<a href="https://github.com/AbbyJL"><img src="https://user-images.githubusercontent.com/24861316/57424661-08f68c80-724b-11e9-8f0e-51ea988ec967.png" width="60" height="60" /></a>
+<a href="https://github.com/ZouYouShun"><img src="https://user-images.githubusercontent.com/24861316/57424628-e6fd0a00-724a-11e9-8343-07b5c8c513ca.png" width="60" height="60" /></a>
+<a href="https://github.com/aermin"><img src="https://avatars2.githubusercontent.com/u/24861316?s=460&v=4" width="60" height="60" /></a>
+
