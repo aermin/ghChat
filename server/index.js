@@ -3,7 +3,6 @@ const bodyParser = require('koa-bodyparser');
 const cors = require('koa2-cors');
 const compress = require('koa-compress');
 const http = require('http');
-const statics = require('koa-static');
 const path = require('path');
 const socketHandle = require('./socket');
 const router = require('./routes/index');
@@ -25,12 +24,6 @@ console.log('server node env', process.env.NODE_ENV);
 app.use(router.routes()).use(router.allowedMethods());
 
 global.query = query;
-
-// 配置静态资源
-const staticPath = '../build';
-app.use(statics(
-  path.join(__dirname, staticPath)
-));
 
 server.listen(3000);
 

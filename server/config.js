@@ -1,7 +1,12 @@
+const path = require('path');
 const secrets = require('../secret');
 
 this._isProduction = process.env.NODE_ENV === 'production';
 
+// 配置静态资源
+const staticPath = '../build';
+
+const staticDirPath = path.join(__dirname, staticPath);
 
 const db = this._isProduction ? secrets.db : {
   host: '127.0.0.1', // 数据库IP
@@ -17,5 +22,6 @@ const secret = this._isProduction ? (secrets && secrets.secretValue) : 'chat-sec
 module.exports = {
   db,
   baseApi,
-  secret
+  secret,
+  staticDirPath
 };
