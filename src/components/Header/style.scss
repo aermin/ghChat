@@ -4,20 +4,19 @@
     background-color: #fff;
     border-bottom: 1px solid $border;
     display: flex;
+    justify-content: space-between;
     height: 50px;
     align-items: center;
-    .githubIcon {
-        font-size: 26px;
-        margin: 0 10px;
+    .myUserInfo {
+        margin-left: 10px;
         cursor: pointer;
     }
     .add {
         font-size: 22px;
-        position: absolute;
-        right: 10px;
         height: 50px;
         line-height: 50px;
         cursor: pointer;
+        margin-right: 10px;
     }
     .dialogRender {
         /*在IE10+浏览器中, 使用css即可隐藏input文本输入框右侧的叉号*/

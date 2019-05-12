@@ -10,18 +10,19 @@ import notification from '../Notification';
 import Modal from '../Modal';
 import SearchBox from '../SearchBox';
 import ListItems from '../ListItems';
+import Chat from '../../modules/Chat';
 
-
-class InviteModal extends Component {
+class ShareModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isSearching: false,
       contactedItems: [],
     };
+    this._chat = new Chat();
   }
 
-  _copyInviteLink = () => {
+  _copyShareLink = () => {
     const dummy = document.createElement('input');
     const text = `${window.location.origin}${window.location.pathname}`;
     document.body.appendChild(dummy);
@@ -61,8 +62,8 @@ class InviteModal extends Component {
   }
 
   _clickItemHandle = () => {
-    const { clickInviteModalItem, homePageList, chatId } = this.props;
-    clickInviteModalItem({ chatId, homePageList });
+    const { homePageList, chatId, userInfo } = this.props;
+    this._chat.clickItemToShare({ chatId, homePageList, userInfo });
   }
 
   render() {
@@ -75,7 +76,7 @@ class InviteModal extends Component {
         title={title}
         visible={modalVisible}
         cancel={cancel}
-        modalWrapperClassName="inviteModalWrapper"
+        modalWrapperClassName="shareModalWrapper"
         >
         <SearchBox
           searchFieldChange={value => this.searchFieldChange(value)}
@@ -85,9 +86,9 @@ class InviteModal extends Component {
           dataList={isSearching ? contactedItems : homePageList}
           allGroupChats={allGroupChats}
           showAsContacts
-          clickItem={chatFromId => this._clickItemHandle(chatFromId)}
+          clickItem={this._clickItemHandle}
         />
-        <div className="shareInviteLink" onClick={this._copyInviteLink}>
+        <div className="shareShareLink" onClick={this._copyShareLink}>
           <svg className="icon shareIcon" aria-hidden="true"><use xlinkHref="#icon-share1" /></svg>
           复制链接分享给应用外的人
         </div>
@@ -96,23 +97,25 @@ class InviteModal extends Component {
   }
 }
 
-export default withRouter(InviteModal);
+export default withRouter(ShareModal);
 
-InviteModal.propTypes = {
-  clickInviteModalItem: PropTypes.func,
+ShareModal.propTypes = {
+  title: PropTypes.string,
   homePageList: PropTypes.array,
   allGroupChats: PropTypes.instanceOf(Map),
   modalVisible: PropTypes.bool,
   cancel: PropTypes.func,
   chatId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  userInfo: PropTypes.object,
 };
 
 
-InviteModal.defaultProps = {
-  clickInviteModalItem() {},
+ShareModal.defaultProps = {
+  title: '',
   homePageList: [],
   allGroupChats: new Map(),
   modalVisible: false,
   cancel() {},
   chatId: null,
+  userInfo: undefined,
 };

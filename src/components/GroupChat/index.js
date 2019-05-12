@@ -8,7 +8,7 @@ import InputArea from '../InputArea';
 import ChatContentList from '../ChatContentList';
 import GroupChatInfo from '../GroupChatInfo';
 import Modal from '../Modal';
-import InviteModal from '../InviteModal';
+import ShareModal from '../ShareModal';
 import PersonalInfo from '../PersonalInfo';
 import notification from '../Notification';
 import Chat from '../../modules/Chat';
@@ -25,7 +25,7 @@ class GroupChat extends Component {
       showPersonalInfo: false,
       personalInfo: {},
       showLeaveGroupModal: false,
-      showInviteModal: false
+      showShareModal: false
     };
     this._chat = new Chat();
   }
@@ -151,22 +151,22 @@ class GroupChat extends Component {
     return this.props.match.params.to_group_id;
   }
 
-  _showInviteModal = () => {
-    this.setState(state => ({ showInviteModal: !state.showInviteModal }));
+  _showShareModal = () => {
+    this.setState(state => ({ showShareModal: !state.showShareModal }));
   }
 
   render() {
     const {
       allGroupChats, updateGroupTitleNotice,
       updateListGroupName, homePageList,
-      inviteData, deleteHomePageList,
+      shareData, deleteHomePageList,
       allPrivateChats, deletePrivateChat,
       initApp,
     } = this.props;
     const {
       groupMsgAndInfo, showGroupChatInfo,
       showLeaveGroupModal, personalInfo,
-      showPersonalInfo, showInviteModal
+      showPersonalInfo, showShareModal
     } = this.state;
     if (!allGroupChats && !allGroupChats.size) return null;
     const chatItem = allGroupChats.get(this.chatId);
@@ -178,7 +178,7 @@ class GroupChat extends Component {
           title={groupInfo && groupInfo.name || '----'}
           chatType="group"
           hasShowed={showGroupChatInfo}
-          showInviteModal={this._showInviteModal}
+          showShareModal={this._showShareModal}
           showGroupChatInfo={value => this._showGroupChatInfo(value)}
           showShareIcon={!!chatItem}
         />
@@ -190,15 +190,14 @@ class GroupChat extends Component {
           hasConfirm
           cancel={this._showLeaveModal}
          />
-        <InviteModal
+        <ShareModal
           title="分享此群给"
-          modalVisible={showInviteModal}
+          modalVisible={showShareModal}
           chatId={this.chatId}
-          showInviteModal={this._showInviteModal}
-          cancel={this._showInviteModal}
+          showShareModal={this._showShareModal}
+          cancel={this._showShareModal}
           allGroupChats={allGroupChats}
           homePageList={homePageList}
-          clickInviteModalItem={this._chat.clickInviteModalItem}
          />
         <PersonalInfo
           userInfo={personalInfo}
@@ -232,7 +231,7 @@ class GroupChat extends Component {
         )}
         { chatItem ? (
           <InputArea
-            inviteData={inviteData}
+            shareData={shareData}
             sendMessage={this.sendMessage}
             groupMembers={groupInfo.members} />
         )
@@ -263,7 +262,7 @@ GroupChat.propTypes = {
   deleteGroupChat: PropTypes.func,
   updateGroupTitleNotice: PropTypes.func,
   updateListGroupName: PropTypes.func,
-  inviteData: PropTypes.object,
+  shareData: PropTypes.object,
   deletePrivateChat: PropTypes.func,
   initApp: PropTypes.bool,
 };
@@ -280,7 +279,7 @@ GroupChat.defaultProps = {
   deleteGroupChat() {},
   updateGroupTitleNotice() {},
   updateListGroupName() {},
-  inviteData: undefined,
+  shareData: undefined,
   deletePrivateChat() {},
   initApp: false,
 };

@@ -6,7 +6,7 @@ import upload from '../../utils/qiniu';
 import './style.scss';
 import notification from '../Notification';
 import debounce from '../../utils/debounce';
-import { inviteAction } from '../../redux/actions/inviteAction';
+import { shareAction } from '../../redux/actions/shareAction';
 import store from '../../redux/store';
 
 export default class InputArea extends Component {
@@ -75,9 +75,9 @@ export default class InputArea extends Component {
   }
 
   componentDidMount() {
-    if (this.props.inviteData) {
-      this._sendMessage({ message: (`::invite::${JSON.stringify(this.props.inviteData)}`) });
-      store.dispatch(inviteAction(null));
+    if (this.props.shareData) {
+      this._sendMessage({ message: (`::share::${JSON.stringify(this.props.shareData)}`) });
+      store.dispatch(shareAction(null));
     }
     this.nameInput.focus();
   }
@@ -225,12 +225,12 @@ export default class InputArea extends Component {
 InputArea.propTypes = {
   sendMessage: PropTypes.func,
   isRobotChat: PropTypes.bool,
-  inviteData: PropTypes.object,
+  shareData: PropTypes.object,
 };
 
 
 InputArea.defaultProps = {
   sendMessage: undefined,
   isRobotChat: false,
-  inviteData: undefined,
+  shareData: undefined,
 };

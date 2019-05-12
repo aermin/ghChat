@@ -9,7 +9,10 @@ import './style.scss';
 class Tabs extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      showPersonalInfo: false,
+    };
+    this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
   }
 
   render() {

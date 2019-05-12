@@ -3,19 +3,25 @@ import PropTypes from 'prop-types';
 import CreateGroupModal from '../CreateGroupModal';
 import './style.scss';
 import SearchBox from '../SearchBox';
+import UserAvatar from '../UserAvatar';
+import PersonalInfo from '../PersonalInfo';
+import ShareModal from '../ShareModal';
+import store from '../../redux/store';
 
 export default class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalVisible: false,
+      showGroupModal: false,
+      showShareModal: false,
+      showPersonalInfo: false,
     };
     this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
   }
 
   confirm = ({ groupName, groupNotice }) => {
     this.setState({
-      modalVisible: false
+      showGroupModal: false
     });
     this.createGroup({ groupName, groupNotice });
   };
@@ -51,13 +57,13 @@ export default class Header extends Component {
 
   openModal = () => {
     this.setState({
-      modalVisible: true
+      showGroupModal: true
     });
   }
 
   cancel = () => {
     this.setState({
-      modalVisible: false
+      showGroupModal: false
     });
   }
 
@@ -65,16 +71,37 @@ export default class Header extends Component {
     window.open('https://github.com/aermin/react-chat');
   }
 
+  _showPersonalInfo = () => {
+    this.setState(state => ({ showPersonalInfo: !state.showPersonalInfo }));
+  }
+
+  _showShareModal = () => {
+    this.setState(state => ({ showShareModal: !state.showShareModal, showPersonalInfo: false }));
+  }
+
+  _closeShareModal = () => {
+    this.setState({ showShareModal: false });
+  }
+
   render() {
     const {
-      modalVisible
+      showGroupModal, showPersonalInfo
     } = this.state;
     const { isSearching, searchFieldChange } = this.props;
+    const {
+      name, img, github_id, user_id
+    } = this._userInfo;
+    const { allGroupChatsState, homePageListState } = store.getState();
     return (
       <div className="header-wrapper">
-        <svg onClick={this._openRepository} className="icon githubIcon" aria-hidden="true">
-          <use xlinkHref="#icon-github" />
-        </svg>
+        <UserAvatar className="myUserInfo" name={name} src={img} size="36" clickAvatar={this._showPersonalInfo} showLogo={!!github_id} />
+        <PersonalInfo
+          userInfo={this._userInfo}
+          hide={this._showPersonalInfo}
+          modalVisible={showPersonalInfo}
+          showContactButton={false}
+          showShareModal={this._showShareModal}
+        />
         <SearchBox
           searchFieldChange={searchFieldChange}
           isSearching={isSearching}
@@ -84,12 +111,21 @@ export default class Header extends Component {
         </span>
         <CreateGroupModal
           title="创建群组"
-          modalVisible={modalVisible}
+          modalVisible={showGroupModal}
           confirm={args => this.confirm(args)}
           hasCancel
           hasConfirm
           cancel={this.cancel}
          />
+        <ShareModal
+          title="分享此联系人给"
+          modalVisible={this.state.showShareModal}
+          chatId={user_id}
+          cancel={this._closeShareModal}
+          allGroupChats={allGroupChatsState}
+          homePageList={homePageListState}
+          userInfo={this._userInfo}
+      />
       </div>
     );
   }
