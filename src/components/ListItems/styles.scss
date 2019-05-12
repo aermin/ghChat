@@ -9,14 +9,18 @@
 
 }
 
-.robotTitle {
-    font-size: 16px !important;
+.robotItem {
+    width: 100%;
+    .robotTitle {
+        font-size: 16px !important;
+    }
 }
  
 .homePageList {
     background-color: #fff;
     list-style: none;
     li {
+        cursor: pointer;
         &:hover  {
             background-color: #f5f5f5;
         }
