@@ -21,7 +21,7 @@ class ListItems extends Component {
         key="-1"
         style={this.props.match.path === '/robot_chat' ? { backgroundColor: '#f5f5f5' } : {}}
       >
-        <Link to="/robot_chat">
+        <Link to="/robot_chat" className="robotItem">
           <UserAvatar
             name="机器人小R"
             size="46" />
