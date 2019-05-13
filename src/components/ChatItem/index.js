@@ -8,7 +8,7 @@ import { MultiLineParser } from 'text-emoji-parser';
 import UserAvatar from '../UserAvatar';
 import './style.scss';
 import Chat from '../../modules/Chat';
-import { hrefToAnchor } from '../../utils/hrefToAnchor';
+import { isUrlExp } from '../../utils/hrefToAnchor';
 
 class ChatItem extends Component {
   constructor(props) {
@@ -73,7 +73,13 @@ class ChatItem extends Component {
   }
 
   textRender = (msg) => {
-    msg = hrefToAnchor(msg);
+    if (isUrlExp(msg)) {
+      return (
+        <div className="msg-render">
+          <a target="_blank" href={msg}>{msg}</a>
+        </div>
+      );
+    }
     const isInviteUrl = /^::invite::{"/.test(msg);
     if (isInviteUrl) {
       const inviteObj = JSON.parse(msg.replace(/::invite::/, ''));

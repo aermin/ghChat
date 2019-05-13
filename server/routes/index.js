@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const router = require('koa-router')();
 const statics = require('koa-static');
-const { baseApi, staticDirPath } = require('../config');
+const { staticDirPath } = require('../config');
 const register = require('../controllers/register');
 const login = require('../controllers/login');
 const githubOAuth = require('../controllers/githubOAuth');
@@ -15,7 +15,7 @@ const apiRoutes = router
 
 router
   .use(
-    path.join('/', baseApi),
+    '/api/v1',
     apiRoutes.routes(),
     apiRoutes.allowedMethods()
   )
