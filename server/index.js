@@ -3,7 +3,6 @@ const bodyParser = require('koa-bodyparser');
 const cors = require('koa2-cors');
 const compress = require('koa-compress');
 const http = require('http');
-const path = require('path');
 const socketHandle = require('./socket');
 const router = require('./routes/index');
 const { query } = require('./utils/db');

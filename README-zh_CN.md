@@ -205,7 +205,7 @@ npm i
 5. 初始化数据库
 ```
 //需要先在本地建一个名为ghchat的mysql数据库
-配置如下看react-chat/server/config.js
+数据库配置参考react-chat/server/config.js
 
 npm run init_sql    //然后查看下数据库是否init成功
 ```
