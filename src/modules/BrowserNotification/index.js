@@ -29,7 +29,7 @@ export default class BrowserNotification {
   }
 
   notify({
-    title, text, icon, onClick
+    title, text, icon, onClick, audio
   }) {
     if (!this._notificationEnable) {
       return;
@@ -39,7 +39,14 @@ export default class BrowserNotification {
       onClick();
       n.close();
     };
+    this._onPlay(audio);
   }
+
+  _onPlay(src) {
+    let audio = document.createElement("audio");
+    audio.setAttribute('src', src);
+    audio.play();
+ }
 
   get permission() {
     return this.notification.permission;
