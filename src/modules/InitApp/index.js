@@ -39,7 +39,7 @@ class InitApp {
    const chatType = data.to_group_id ? 'group_chat' : 'private_chat';
    const chatFromId = data.to_group_id ? data.to_group_id : data.from_user;
    const title = data.to_group_id && data.groupName ? data.groupName : name;
-   const audio = "http://cdnringuc.shoujiduoduo.com/ringres/user/a48/304/18687304.aac";
+   const audio = "https://cdn.aermin.top/audio.aac";
    this._browserNotification.notify({
     title,
     text: message,
