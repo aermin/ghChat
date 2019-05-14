@@ -5,10 +5,10 @@ import {
 import PropTypes from 'prop-types';
 import { Emoji } from 'emoji-mart';
 import { MultiLineParser } from 'text-emoji-parser';
+import Linkify from 'react-linkify';
 import UserAvatar from '../UserAvatar';
 import './style.scss';
 import Chat from '../../modules/Chat';
-import { isUrlExp } from '../../utils/hrefToAnchor';
 
 class ChatItem extends Component {
   constructor(props) {
@@ -73,13 +73,6 @@ class ChatItem extends Component {
   }
 
   textRender = (msg) => {
-    if (isUrlExp(msg)) {
-      return (
-        <div className="msg-render">
-          <a target="_blank" href={msg}>{msg}</a>
-        </div>
-      );
-    }
     const isInviteUrl = /^::invite::{"/.test(msg);
     if (isInviteUrl) {
       const inviteObj = JSON.parse(msg.replace(/::invite::/, ''));
@@ -89,22 +82,25 @@ class ChatItem extends Component {
         return <div className="msg-render">{this.invitePersonalCard(inviteObj)}</div>;
       }
     }
+
     return (
       <div className="msg-render">
-        {MultiLineParser(msg,
-          {
-            SplitLinesTag: 'p',
-            Rule: /(?:\:[^\:]+\:(?:\:skin-tone-(?:\d)\:)?)/gi
-          },
-          (Rule, ruleNumber) => (
-            <Emoji
-              className="msg-render"
-              emoji={Rule}
-              backgroundImageFn={() => 'https://cdn.aermin.top/emojione.png'}
-              size={26}
-              fallback={(emoji, props) => (emoji ? `:${emoji.short_names[0]}:` : props.emoji)} />
-          ))
-    }
+        <Linkify>
+          {MultiLineParser(msg,
+            {
+              SplitLinesTag: 'p',
+              Rule: /(?:\:[^\:]+\:(?:\:skin-tone-(?:\d)\:)?)/gi
+            },
+            (Rule, ruleNumber) => (
+              <Emoji
+                className="msg-render"
+                emoji={Rule}
+                backgroundImageFn={() => 'https://cdn.aermin.top/emojione.png'}
+                size={26}
+                fallback={(emoji, props) => (emoji ? `:${emoji.short_names[0]}:` : props.emoji)} />
+            ))
+          }
+        </Linkify>
       </div>
     );
   };
