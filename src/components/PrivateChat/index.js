@@ -114,14 +114,13 @@ export default class PrivateChat extends Component {
         this.setState({ toUserInfo });
       });
     }
-    this._didMount = true;
   }
 
   render() {
     const {
       allPrivateChats, location, inviteData,
       homePageList, allGroupChats, deleteHomePageList,
-      deletePrivateChat
+      deletePrivateChat, initApp
     } = this.props;
     const { showPersonalInfo, showInviteModal, toUserInfo } = this.state;
     if (!allPrivateChats && !allPrivateChats.size) return null;
@@ -168,7 +167,7 @@ export default class PrivateChat extends Component {
             inviteData={inviteData}
             sendMessage={this.sendMessage} />
         )
-          : (
+          : initApp && (
             <input
               type="button"
               onClick={this.addAsTheContact}
@@ -200,6 +199,7 @@ PrivateChat.propTypes = {
   inviteData: PropTypes.object,
   deleteHomePageList: PropTypes.func,
   deletePrivateChat: PropTypes.func,
+  initApp: PropTypes.bool,
 };
 
 
@@ -213,4 +213,5 @@ PrivateChat.defaultProps = {
   inviteData: undefined,
   deleteHomePageList() {},
   deletePrivateChat() {},
+  initApp: false,
 };

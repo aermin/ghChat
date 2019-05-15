@@ -19,6 +19,7 @@ const mapStateToProps = state => ({
   relatedCurrentChat: state.relatedCurrentChat,
   inviteData: state.inviteState,
   allGroupChats: state.allGroupChatsState,
+  initApp: state.initAppState,
 });
 
 const mapDispatchToProps = dispatch => ({
