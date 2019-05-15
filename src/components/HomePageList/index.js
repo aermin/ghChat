@@ -33,8 +33,9 @@ class HomePageList extends Component {
   componentWillMount() {
     if (!this.props.initializedApp) {
       this._InitApp = new InitApp({ history: this.props.history });
-      this._InitApp.init();
-      this.props.initApp(true);
+      this._InitApp.init().then(() => {
+        this.props.initApp(true);
+      });
     }
   }
 

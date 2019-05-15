@@ -28,7 +28,6 @@ class GroupChat extends Component {
       showInviteModal: false
     };
     this._chat = new Chat();
-    this._didMount = false;
   }
 
   sendMessage = (inputMsg = '', attachments = []) => {
@@ -145,7 +144,6 @@ class GroupChat extends Component {
         this.setState({ groupMsgAndInfo });
       });
     }
-    this._didMount = true;
   }
 
   get chatId() {
@@ -163,6 +161,7 @@ class GroupChat extends Component {
       updateListGroupName, homePageList,
       inviteData, deleteHomePageList,
       allPrivateChats, deletePrivateChat,
+      initApp,
     } = this.props;
     const {
       groupMsgAndInfo, showGroupChatInfo,
@@ -237,7 +236,7 @@ class GroupChat extends Component {
             sendMessage={this.sendMessage}
             groupMembers={groupInfo.members} />
         )
-          : this._didMount && (
+          : initApp && (
             <input
               type="button"
               onClick={this.joinGroup}
@@ -266,6 +265,7 @@ GroupChat.propTypes = {
   updateListGroupName: PropTypes.func,
   inviteData: PropTypes.object,
   deletePrivateChat: PropTypes.func,
+  initApp: PropTypes.bool,
 };
 
 
@@ -282,4 +282,5 @@ GroupChat.defaultProps = {
   updateListGroupName() {},
   inviteData: undefined,
   deletePrivateChat() {},
+  initApp: false,
 };
