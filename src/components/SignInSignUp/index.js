@@ -72,7 +72,7 @@ export default class SignInSignUp extends Component {
         <Link to={linkUrl}>
           <span className={registerClass}>注册</span>
         </Link>
-        <div className="UserAvatar">
+        <div className="userAvatarWrapper">
           <UserAvatar name={name || 'Ÿ'} size="100" />
         </div>
         <div className="center">

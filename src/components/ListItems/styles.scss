@@ -25,7 +25,7 @@
             background-color: #f5f5f5;
         }
         list-style-type: none;
-        padding: 10px 0 10px 10px;
+        padding: 10px;
         position: relative;
         display: flex;
         align-items: center;
@@ -38,7 +38,7 @@
             display: flex;
             align-items: center;
             text-decoration : none;
-            .UserAvatar {
+            .userAvatar {
                 position: relative;
             }
         }

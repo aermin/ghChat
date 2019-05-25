@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './style.scss';
+import MyInfo from '../MyInfo';
 
 class Tabs extends Component {
   constructor(props) {
@@ -20,6 +21,7 @@ class Tabs extends Component {
     const showMessageIcon = pathname === '/' || /\/group_chat|\/private_chat|\/robot_chat/.test(pathname);
     return (
       <div className="tabs-wrapper">
+        <MyInfo />
         <div className="tab">
           <Link to="/">
             <svg className="icon " aria-hidden="true">

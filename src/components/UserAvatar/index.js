@@ -74,7 +74,7 @@ export default function UserAvatar(props) {
   }
 
   return (
-    <div className={classnames(className, isGray ? 'UserAvatar gray' : 'UserAvatar')} style={innerStyle} onClick={clickAvatar}>
+    <div className={classnames(className, isGray ? 'userAvatar gray' : 'userAvatar')} style={innerStyle} onClick={clickAvatar}>
       {showLogo && (
       <svg className="icon viaGithub" aria-hidden="true">
         <use xlinkHref="#icon-github" />

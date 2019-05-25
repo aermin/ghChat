@@ -4,7 +4,6 @@ import {
   withRouter,
 } from 'react-router-dom';
 // import axios from 'axios';
-import UserAvatar from '../UserAvatar';
 import './styles.scss';
 import Button from '../Button';
 import Modal from '../Modal';
@@ -13,7 +12,6 @@ import InitApp from '../../modules/InitApp';
 class Setting extends Component {
   constructor(props) {
     super(props);
-    this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this.state = {
       visible: false,
       // githubStars: '--',
@@ -55,9 +53,6 @@ class Setting extends Component {
   }
 
   render() {
-    const {
-      name, avatar, github, intro, location, website, company
-    } = this._userInfo;
     const githubStarRender = (
       <div className="githubStarRender" onClick={this._openRepository}>
         <svg className="icon githubIcon" aria-hidden="true">
@@ -80,16 +75,6 @@ class Setting extends Component {
           cancel={this._hideModal}
          />
         {githubStarRender}
-        <UserAvatar name={name} src={avatar} size="60" />
-        <p className="name">{name}</p>
-        <div className="userInfo">
-          {intro && <p>{`介绍: ${intro}`}</p>}
-          {location && <p>{`来自: ${location}`}</p>}
-          {company && <p>{`公司: ${company}`}</p>}
-          {website && <p>{`网站: ${website}`}</p>}
-          {github && <p>{`github: ${github}`}</p>}
-        </div>
-
         <Button clickFn={this._showModal} value="退出登录" />
       </div>
     );

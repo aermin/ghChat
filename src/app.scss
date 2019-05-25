@@ -3,7 +3,6 @@
     display: flex;
     height: 100vh;
     .layout-left, .layout-left-mobile{
-        border-right: 1px solid $border;
         width: 30%;
         height: 100%;
         position: relative;
@@ -35,6 +34,12 @@
             .home-page-list-wrapper{
                 width: 100%;
                 height: calc(100% - 46px);
+                .header-wrapper  {
+                    padding-left: 14px !important;
+                    .myInfo {
+                        display: inline-block;
+                    }
+                }
                 .home-page-list-content {
                     height: calc(100% - 46px);
                 }
@@ -63,12 +68,19 @@
             display: flex;
             flex-wrap: nowrap;
             .tabs-wrapper{
-                padding-top: 120px;
+                padding: 26px 4px 0;
                 height: 100%;
                 border-right: 1px solid $border;
+                .myInfo {
+                    display: inline-block;
+                    margin-bottom: 50px;
+                }
                 .tab{
                     padding-bottom: 30px;
                 }
+            }
+            .home-page-list-wrapper, .setting {
+                border-right: 1px solid $border;
             }
             .home-page-list-wrapper{
                 width: 100%;
