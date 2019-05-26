@@ -10,3 +10,9 @@
   display: inline-block;
   cursor: pointer;
 }
+
+.disable {
+  background-color: $background-color;
+  color: $gray;
+  cursor: not-allowed;
+}

@@ -20,7 +20,7 @@ import {
 import notification from '../../components/Notification';
 import BrowserNotification from '../BrowserNotification';
 import Chat from '../Chat';
-import Socket from '../../utils/socket';
+import request from '../../utils/request';
 
 class InitApp {
   constructor(props) {
@@ -30,7 +30,6 @@ class InitApp {
     this._browserNotification = new BrowserNotification();
     this._chat = new Chat();
     this._history = props.history;
-    this._socket = new Socket();
   }
 
  _browserNotificationHandle = (data) => {
@@ -140,16 +139,16 @@ _listeningPrivateChatMsg = () => {
    _initSocket = async () => {
      const { token, user_id } = this._userInfo;
      window.socket = io(`${this.WEBSITE_ADDRESS}?token=${token}`);
-     const initSocketRes = await this._socket.emit('initSocket', user_id);
+     const initSocketRes = await request.socketEmit('initSocket', user_id);
      console.log(`${user_id} connect socket success.`, initSocketRes, 'time=>', new Date().toLocaleString());
-     const initGroupChatRes = await this._socket.emit('initGroupChat', user_id);
+     const initGroupChatRes = await request.socketEmit('initGroupChat', user_id);
      console.log(initGroupChatRes, 'time=>', new Date().toLocaleString());
    };
 
 
   _initMessage = async () => {
     const { user_id } = this._userInfo;
-    const allMessage = await this._socket.emit('initMessage', {
+    const allMessage = await request.socketEmit('initMessage', {
       user_id,
       clientHomePageList: JSON.parse(localStorage.getItem(`homePageList-${user_id}`))
     });

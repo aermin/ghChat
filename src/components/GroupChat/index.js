@@ -12,7 +12,10 @@ import ShareModal from '../ShareModal';
 import PersonalInfo from '../PersonalInfo';
 import notification from '../Notification';
 import Chat from '../../modules/Chat';
+import Button from '../Button';
+import request from '../../utils/request';
 import './styles.scss';
+import debounce from '../../utils/debounce';
 
 class GroupChat extends Component {
   constructor(props) {
@@ -25,12 +28,13 @@ class GroupChat extends Component {
       showPersonalInfo: false,
       personalInfo: {},
       showLeaveGroupModal: false,
-      showShareModal: false
+      showShareModal: false,
+      disableJoinButton: false,
     };
     this._chat = new Chat();
   }
 
-  sendMessage = (inputMsg = '', attachments = []) => {
+  sendMessage = async (inputMsg = '', attachments = []) => {
     if (inputMsg.trim() === '' && attachments.length === 0) return;
     const {
       user_id, avatar, name, github_id
@@ -51,34 +55,38 @@ class GroupChat extends Component {
       time: Date.parse(new Date()) / 1000 // 时间
     };
     this._sendByMe = true;
-    window.socket.emit('sendGroupMsg', data);
+    await request.socketEmit('sendGroupMsg', data);
     addGroupMessages({ allGroupChats, message: data, groupId: this.chatId });
     updateHomePageList({ data, homePageList, myUserId: user_id });
   }
 
-  joinGroup = () => {
+  joinGroup = async () => {
+    if (this.state.disableJoinButton) return;
+    this.setState({ disableJoinButton: true });
     const {
       allGroupChats, homePageList, updateHomePageList, addGroupMessageAndInfo
     } = this.props;
-    window.socket.emit('joinGroup', { userInfo: this._userInfo, toGroupId: this.chatId }, (data) => {
-      const { messages, groupInfo } = data;
-      const name = groupInfo && groupInfo.name;
-      let lastContent;
-      if (messages.length > 1) {
-        lastContent = { ...messages[messages.length - 1], name };
-      } else {
-        lastContent = {
-          ...data.groupInfo,
-          message: '加入群成功，开始聊天吧:)',
-          time: Date.parse(new Date()) / 1000
-        };
-      }
-      addGroupMessageAndInfo({
-        allGroupChats, messages, groupId: this.chatId, groupInfo
-      });
-      updateHomePageList({ data: lastContent, homePageList });
+    const response = await request.socketEmit('joinGroup', { userInfo: this._userInfo, toGroupId: this.chatId },
+    () => {
+      notification('加群失败！', 'warn', 1.5);
+      this.setState({ disableJoinButton: false });
+    });
+    const { messages, groupInfo } = response;
+    const name = groupInfo && groupInfo.name;
+    let lastContent;
+    if (messages.length > 1) {
+      lastContent = { ...messages[messages.length - 1], name };
+    } else {
+      lastContent = {
+        ...data.groupInfo,
+        message: '加入群成功，开始聊天吧:)',
+        time: Date.parse(new Date()) / 1000
+      };
     }
-    );
+    addGroupMessageAndInfo({
+      allGroupChats, messages, groupId: this.chatId, groupInfo
+    });
+    updateHomePageList({ data: lastContent, homePageList });
   }
 
   _showLeaveModal = () => {
@@ -166,7 +174,8 @@ class GroupChat extends Component {
     const {
       groupMsgAndInfo, showGroupChatInfo,
       showLeaveGroupModal, personalInfo,
-      showPersonalInfo, showShareModal
+      showPersonalInfo, showShareModal,
+      disableJoinButton
     } = this.state;
     if (!allGroupChats && !allGroupChats.size) return null;
     const chatItem = allGroupChats.get(this.chatId);
@@ -236,12 +245,12 @@ class GroupChat extends Component {
             groupMembers={groupInfo.members} />
         )
           : initApp && (
-            <input
-              type="button"
-              onClick={this.joinGroup}
-              className="button"
+            <Button
+              clickFn={debounce(this.joinGroup, 2000, true)}
               value="加入群聊"
-              />
+              disable={disableJoinButton}
+              className="button"
+            />
           )}
       </div>
     );

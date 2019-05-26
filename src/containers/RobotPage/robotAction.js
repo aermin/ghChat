@@ -1,4 +1,4 @@
-import Socket from '../../utils/socket';
+import request from '../../utils/request';
 
 export const GET_ROBOT_MSG = 'robot/GET_ROBOT_MSG';
 export const INSERT_MSG = 'robot/INSERT_MSG';
@@ -8,11 +8,9 @@ export const insertMsgAction = data => ({
   data
 });
 
-const socket = new Socket();
-
 export const getRobotMsgAction = async (data) => {
   let finalData = {};
-  const response = await socket.emit('robotChat', data);
+  const response = await request.socketEmit('robotChat', data);
   const { text, code, url } = response;
   if (code === 100000) {
     finalData = {

@@ -8,6 +8,9 @@ import notification from '../Notification';
 import '../../assets/chat.scss';
 import ShareModal from '../ShareModal';
 import Chat from '../../modules/Chat';
+import request from '../../utils/request';
+import debounce from '../../utils/debounce';
+import Button from '../Button';
 
 export default class PrivateChat extends Component {
   constructor() {
@@ -19,11 +22,12 @@ export default class PrivateChat extends Component {
     this.state = {
       showPersonalInfo: false,
       showShareModal: false,
-      toUserInfo: {}
+      toUserInfo: {},
+      disableJoinButton: false,
     };
   }
 
-  sendMessage = (inputMsg = '', attachments = []) => {
+  sendMessage = async (inputMsg = '', attachments = []) => {
     if (inputMsg.trim() === '' && attachments.length === 0) return;
     const {
       user_id, avatar, name, github_id
@@ -43,7 +47,7 @@ export default class PrivateChat extends Component {
       time: Date.parse(new Date()) / 1000 // 时间
     };
     this._sendByMe = true;
-    window.socket.emit('sendPrivateMsg', data);
+    await request.socketEmit('sendPrivateMsg', data);
     addPrivateChatMessages({
       allPrivateChats, message: data, chatId: this.friendId
     });
@@ -51,7 +55,9 @@ export default class PrivateChat extends Component {
     updateHomePageList({ data: dataForHomePage, homePageList, myUserId: user_id });
   }
 
-  addAsTheContact =() => {
+  addAsTheContact = async() => {
+    if (this.state.disableJoinButton) return;
+    this.setState({ disableJoinButton: true });
     const {
       allPrivateChats, homePageList,
       updateHomePageList, addPrivateChatInfo,
@@ -60,16 +66,19 @@ export default class PrivateChat extends Component {
       notification('不能添加自己为联系人哦', 'error', 2);
       return;
     }
-    window.socket.emit('addAsTheContact', { user_id: this._userInfo.user_id, from_user: this.friendId }, (data) => {
-      addPrivateChatInfo({ allPrivateChats, chatId: this.friendId, userInfo: data });
-      const dataInHomePageList = {
-        ...data,
-        to_user: data.user_id,
-        message: '添加联系人成功，给我发消息吧:)',
-        time: Date.parse(new Date()) / 1000
-      };
-      updateHomePageList({ data: dataInHomePageList, homePageList });
+    const data = await request.socketEmit('addAsTheContact', { user_id: this._userInfo.user_id, from_user: this.friendId },
+      () => {
+      notification('添加失败！', 'warn', 1.5);
+      this.setState({ disableJoinButton: false });
     });
+    addPrivateChatInfo({ allPrivateChats, chatId: this.friendId, userInfo: data });
+    const dataInHomePageList = {
+      ...data,
+      to_user: data.user_id,
+      message: '添加联系人成功，给我发消息吧:)',
+      time: Date.parse(new Date()) / 1000
+    };
+    updateHomePageList({ data: dataInHomePageList, homePageList });
   }
 
   _showPersonalInfo(value) {
@@ -122,7 +131,10 @@ export default class PrivateChat extends Component {
       homePageList, allGroupChats, deleteHomePageList,
       deletePrivateChat, initApp
     } = this.props;
-    const { showPersonalInfo, showShareModal, toUserInfo } = this.state;
+    const { 
+      showPersonalInfo, showShareModal, 
+      toUserInfo, disableJoinButton
+    } = this.state;
     if (!allPrivateChats && !allPrivateChats.size) return null;
     const chatItem = allPrivateChats.get(this.chatId);
     const messages = chatItem ? chatItem.messages : [];
@@ -167,12 +179,12 @@ export default class PrivateChat extends Component {
             sendMessage={this.sendMessage} />
         )
           : initApp && (
-            <input
-              type="button"
-              onClick={this.addAsTheContact}
-              className="button"
+            <Button
+              clickFn={debounce(this.addAsTheContact, 2000, true)}
               value="加为联系人"
-              />
+              disable={disableJoinButton}
+              className="button"
+            />
           )}
       </div>
     );
