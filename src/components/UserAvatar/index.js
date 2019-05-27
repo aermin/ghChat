@@ -1,7 +1,9 @@
 // 感谢 https://www.npmjs.com/package/react-user-avatar
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import './style.scss';
+
 
 const defaultColors = [
   '#2ecc71', // emerald
@@ -34,6 +36,7 @@ export default function UserAvatar(props) {
     size,
     borderRadius,
     showLogo,
+    className
   } = props;
 
   const innerStyle = {
@@ -70,9 +73,8 @@ export default function UserAvatar(props) {
     inner = <span>{name.charAt(0)}</span>;
   }
 
-  const avatarClassName = isGray ? 'UserAvatar gray' : 'UserAvatar';
   return (
-    <div className={avatarClassName} style={innerStyle} onClick={clickAvatar}>
+    <div className={classnames(className, isGray ? 'userAvatar gray' : 'userAvatar')} style={innerStyle} onClick={clickAvatar}>
       {showLogo && (
       <svg className="icon viaGithub" aria-hidden="true">
         <use xlinkHref="#icon-github" />
@@ -93,6 +95,7 @@ UserAvatar.propTypes = {
   size: PropTypes.string,
   borderRadius: PropTypes.string,
   showLogo: PropTypes.bool,
+  className: PropTypes.string,
 };
 
 
@@ -106,4 +109,5 @@ UserAvatar.defaultProps = {
   size: '40',
   borderRadius: '50%',
   showLogo: false,
+  className: undefined,
 };

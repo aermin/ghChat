@@ -6,7 +6,7 @@ import ChatContentList from '../ChatContentList';
 import PersonalInfo from '../PersonalInfo';
 import notification from '../Notification';
 import '../../assets/chat.scss';
-import InviteModal from '../InviteModal';
+import ShareModal from '../ShareModal';
 import Chat from '../../modules/Chat';
 
 export default class PrivateChat extends Component {
@@ -18,7 +18,7 @@ export default class PrivateChat extends Component {
     this._chat = new Chat();
     this.state = {
       showPersonalInfo: false,
-      showInviteModal: false,
+      showShareModal: false,
       toUserInfo: {}
     };
   }
@@ -90,8 +90,8 @@ export default class PrivateChat extends Component {
     return false;
   }
 
-  _showInviteModal = () => {
-    this.setState(state => ({ showInviteModal: !state.showInviteModal }));
+  _showShareModal = () => {
+    this.setState(state => ({ showShareModal: !state.showShareModal }));
   }
 
   _deletePrivateChat = () => {
@@ -118,31 +118,30 @@ export default class PrivateChat extends Component {
 
   render() {
     const {
-      allPrivateChats, location, inviteData,
+      allPrivateChats, location, shareData,
       homePageList, allGroupChats, deleteHomePageList,
       deletePrivateChat, initApp
     } = this.props;
-    const { showPersonalInfo, showInviteModal, toUserInfo } = this.state;
+    const { showPersonalInfo, showShareModal, toUserInfo } = this.state;
     if (!allPrivateChats && !allPrivateChats.size) return null;
     const chatItem = allPrivateChats.get(this.chatId);
     const messages = chatItem ? chatItem.messages : [];
     const userInfo = chatItem ? chatItem.userInfo : toUserInfo;
     return (
       <div className="chat-wrapper">
-        <InviteModal
+        <ShareModal
           title="分享此联系人给"
-          modalVisible={showInviteModal}
+          modalVisible={showShareModal}
           chatId={this.chatId}
-          showInviteModal={this._showInviteModal}
-          cancel={this._showInviteModal}
+          showShareModal={this._showShareModal}
+          cancel={this._showShareModal}
           allGroupChats={allGroupChats}
           homePageList={homePageList}
-          clickInviteModalItem={this._chat.clickInviteModalItem}
          />
         <ChatHeader
           showPersonalInfo={() => this._showPersonalInfo(true)}
           title={userInfo && userInfo.name || '----'}
-          showInviteModal={this._showInviteModal}
+          showShareModal={this._showShareModal}
           chatType="private"
           showShareIcon={!!chatItem}
         />
@@ -164,7 +163,7 @@ export default class PrivateChat extends Component {
         />
         { chatItem ? (
           <InputArea
-            inviteData={inviteData}
+            shareData={shareData}
             sendMessage={this.sendMessage} />
         )
           : initApp && (
@@ -196,7 +195,7 @@ PrivateChat.propTypes = {
   updateHomePageList: PropTypes.func,
   addPrivateChatMessages: PropTypes.func,
   addPrivateChatInfo: PropTypes.func,
-  inviteData: PropTypes.object,
+  shareData: PropTypes.object,
   deleteHomePageList: PropTypes.func,
   deletePrivateChat: PropTypes.func,
   initApp: PropTypes.bool,
@@ -210,7 +209,7 @@ PrivateChat.defaultProps = {
   updateHomePageList: undefined,
   addPrivateChatMessages: undefined,
   addPrivateChatInfo: undefined,
-  inviteData: undefined,
+  shareData: undefined,
   deleteHomePageList() {},
   deletePrivateChat() {},
   initApp: false,

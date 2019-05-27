@@ -21,8 +21,8 @@ class ChatHeader extends Component {
     }
   }
 
-  _clickInvite = () => {
-    this.props.showInviteModal();
+  _showShareModal = () => {
+    this.props.showShareModal();
   }
 
   render() {
@@ -34,7 +34,7 @@ class ChatHeader extends Component {
         <svg onClick={this.clickToBack} className="icon back-icon" aria-hidden="true"><use xlinkHref="#icon-back1" /></svg>
         <div className="chat-title">{title}</div>
         { showShareIcon
-        && <svg onClick={this._clickInvite} className="icon inviteIcon" aria-hidden="true"><use xlinkHref="#icon-share" /></svg>
+        && <svg onClick={this._showShareModal} className="icon shareIcon" aria-hidden="true"><use xlinkHref="#icon-share" /></svg>
         }
         { !isRobotChat && <svg onClick={this._clickChatInfo} className="icon information-icon" aria-hidden="true"><use xlinkHref={icon} /></svg>}
       </div>

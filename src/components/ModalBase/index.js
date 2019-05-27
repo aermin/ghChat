@@ -6,16 +6,12 @@ function ModalBase(Comp) {
   return (props) => {
     const { visible = false, cancel, modalWrapperClassName } = props;
     return (
-      <div>
-        {visible && (
-        <div className="modal">
-          <div onClick={cancel} className="mask" />
-          <div className={classnames('modalWrapper', modalWrapperClassName)}>
-            {cancel && <span onClick={cancel} className="xIcon">x</span>}
-            <Comp {...props} />
-          </div>
+      <div className={classnames('modal', visible ? 'showModalBase' : 'hideModalBase')}>
+        <div onClick={cancel} className="mask" />
+        <div className={classnames('modalWrapper', modalWrapperClassName)}>
+          {cancel && <span onClick={cancel} className="xIcon">x</span>}
+          <Comp {...props} />
         </div>
-        )}
       </div>
     );
   };

@@ -1,7 +1,7 @@
 import { clearUnreadAction } from '../../containers/HomePageList/homePageListAction';
 import { addGroupMessagesAction } from '../../containers/GroupChatPage/groupChatAction';
 import { addPrivateChatMessagesAction } from '../../containers/PrivateChatPage/privateChatAction';
-import { inviteAction } from '../../redux/actions/inviteAction';
+import { shareAction } from '../../redux/actions/shareAction';
 import store from '../../redux/store';
 import notification from '../../components/Notification';
 
@@ -10,15 +10,15 @@ export default class Chat {
     this._hasLoadAllMessages = false;
   }
 
-  clickInviteModalItem = ({ homePageList, chatId }) => {
+  clickItemToShare = ({ homePageList, chatId, userInfo }) => {
     const data = homePageList.filter(e => e.user_id === chatId || e.to_group_id === chatId);
     if (!data) {
       throw Error("can't find the date of this item");
     }
     const {
       name, avatar, user_id, to_group_id
-    } = data[0];
-    store.dispatch(inviteAction({
+    } = userInfo || data[0];
+    store.dispatch(shareAction({
       name, avatar, user_id, to_group_id
     }));
   }

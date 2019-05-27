@@ -15,38 +15,53 @@ function _openUrl(url) {
   window.open(formatUrl);
 }
 
-function userInfoRender({
-  userInfo, goToChat, isContact, deleteContact
-}) {
-  const {
-    name, location,
-    website, github,
-    intro, avatar, company,
-  } = userInfo;
-  return (
-    <div className="userInfo">
-      <UserAvatar name={name} src={avatar} size="50" />
-      {name && <p className="name">{name}</p>}
-      {intro && <p>{`介绍: ${intro}`}</p>}
-      {location && <p>{`来自: ${location}`}</p>}
-      {company && <p>{`公司: ${company}`}</p>}
-      {/* {status && <p>{status}</p>} */}
-      {website && <p className="website" onClick={() => _openUrl(website)}>{`网站: ${website}`}</p>}
-      {github && <p className="github" onClick={() => _openUrl(github)}>{`github: ${github}`}</p>}
-      <Button
-        className={classnames('personalInfoBtn', 'chatBtn')}
-        clickFn={goToChat}
-        value="私聊此人"
-      />
-      { isContact && (
-      <Button
-        className={classnames('personalInfoBtn', 'deleteBtn')}
-        clickFn={deleteContact}
-        value="删除此人"
-      />
-      )}
-    </div>
-  );
+class userInfoRender extends Component {
+  render(){
+    const {  
+      userInfo, goToChat, isContact,
+      deleteContact, showContactButton,
+      showShareIcon, showShareModal
+    } = this.props;
+    const {
+      name, location,
+      website, github,
+      intro, avatar, company,
+    } = userInfo;
+    return (
+      <div className="userInfo">
+        <UserAvatar name={name} src={avatar} size="50" />
+        {name && <p className="name">{name}</p>}
+        {intro && <p>{`介绍: ${intro}`}</p>}
+        {location && <p>{`来自: ${location}`}</p>}
+        {company && <p>{`公司: ${company}`}</p>}
+        {/* {status && <p>{status}</p>} */}
+        {website && <p className="website" onClick={() => _openUrl(website)}>{`网站: ${website}`}</p>}
+        {github && <p className="github" onClick={() => _openUrl(github)}>{`github: ${github}`}</p>}
+        { showContactButton && (
+        <Button
+          className={classnames('personalInfoBtn', 'chatBtn')}
+          clickFn={goToChat}
+          value="私聊此人"
+        />
+        )}
+        { isContact && (
+        <Button
+          className={classnames('personalInfoBtn', 'deleteBtn')}
+          clickFn={deleteContact}
+          value="删除此人"
+        />
+        )}
+        { showShareIcon && (
+        <svg
+          onClick={showShareModal}
+          className="icon shareIcon"
+          aria-hidden="true">
+          <use xlinkHref="#icon-share" />
+        </svg>
+        )}
+      </div>
+      )
+  }
 }
 
 const ModalRender = ModalBase(userInfoRender);
@@ -78,13 +93,15 @@ class PersonalInfo extends Component {
   }
 
   get isContact() {
-    return this.props.homePageList.find(e => e.user_id === this.props.userInfo.user_id);
+    return this.props.homePageList
+    && this.props.homePageList.find(e => e.user_id === this.props.userInfo.user_id);
   }
 
   render() {
     const {
       userInfo, modalVisible,
-      hide
+      hide, showContactButton,
+      showShareIcon,showShareModal
     } = this.props;
     return (
       <ModalRender
@@ -94,6 +111,10 @@ class PersonalInfo extends Component {
         isContact={this.isContact}
         deleteContact={this.deleteContact}
         goToChat={this.goToChat}
+        showContactButton={showContactButton}
+        showShareIcon={showShareIcon}
+        chatId={userInfo.user_id}
+        showShareModal={showShareModal}
       />
     );
   }
@@ -103,19 +124,26 @@ PersonalInfo.propTypes = {
   userInfo: PropTypes.object,
   hide: PropTypes.func,
   modalVisible: PropTypes.bool,
-  homePageList: PropTypes.array.isRequired,
+  homePageList: PropTypes.array,
   deleteHomePageList: PropTypes.func,
   deletePrivateChat: PropTypes.func,
   allPrivateChats: PropTypes.instanceOf(Map),
+  showContactButton: PropTypes.bool,
+  showShareIcon: PropTypes.bool,
+  showShareModal: PropTypes.func,
 };
 
 PersonalInfo.defaultProps = {
   userInfo: {},
-  hide: undefined,
+  hide() {},
   modalVisible: false,
+  homePageList: undefined,
   deleteHomePageList() {},
   deletePrivateChat() {},
   allPrivateChats: new Map(),
+  showContactButton: true,
+  showShareIcon: true,
+  showShareModal() {},
 };
 
 

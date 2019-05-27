@@ -3,19 +3,19 @@ import PropTypes from 'prop-types';
 import CreateGroupModal from '../CreateGroupModal';
 import './style.scss';
 import SearchBox from '../SearchBox';
+import MyInfo from '../MyInfo';
 
 export default class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalVisible: false,
+      showGroupModal: false,
     };
-    this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
   }
 
   confirm = ({ groupName, groupNotice }) => {
     this.setState({
-      modalVisible: false
+      showGroupModal: false
     });
     this.createGroup({ groupName, groupNotice });
   };
@@ -51,30 +51,21 @@ export default class Header extends Component {
 
   openModal = () => {
     this.setState({
-      modalVisible: true
+      showGroupModal: true
     });
   }
 
   cancel = () => {
     this.setState({
-      modalVisible: false
+      showGroupModal: false
     });
   }
 
-  _openRepository = () => {
-    window.open('https://github.com/aermin/react-chat');
-  }
-
   render() {
-    const {
-      modalVisible
-    } = this.state;
     const { isSearching, searchFieldChange } = this.props;
     return (
       <div className="header-wrapper">
-        <svg onClick={this._openRepository} className="icon githubIcon" aria-hidden="true">
-          <use xlinkHref="#icon-github" />
-        </svg>
+        <MyInfo />
         <SearchBox
           searchFieldChange={searchFieldChange}
           isSearching={isSearching}
@@ -84,7 +75,7 @@ export default class Header extends Component {
         </span>
         <CreateGroupModal
           title="创建群组"
-          modalVisible={modalVisible}
+          modalVisible={this.state.showGroupModal}
           confirm={args => this.confirm(args)}
           hasCancel
           hasConfirm

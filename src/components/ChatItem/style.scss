@@ -25,19 +25,19 @@
     .msg-render {
         font-size: 14px;
         word-wrap:break-word;
-        .inviteCard {
+        .shareCard {
             cursor: pointer;
             text-align: center;
-          .inviteTitle {
+          .shareTitle {
               border-bottom: 1px solid #fff;
               padding-bottom: 10px;
           }
-          .inviteButton {
+          .shareButton {
               padding-top: 10px;
           }
         }
     }
-    .UserAvatar {
+    .userAvatar {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
@@ -45,7 +45,7 @@
     .otherchat {
         width: 100%;
         position: relative;
-        .UserAvatar {
+        .userAvatar {
             left: 10px;
             cursor: pointer;
         }
@@ -76,7 +76,7 @@
     .mychat {
         width: 100%;
         position: relative;
-        .UserAvatar {
+        .userAvatar {
             right: 10px;
         }
         .nt {

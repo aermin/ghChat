@@ -24,8 +24,8 @@ const mapStateToProps = state => ({
   allPrivateChats: state.allPrivateChatsState,
   homePageList: state.homePageListState,
   relatedCurrentChat: state.relatedCurrentChat,
-  inviteData: state.inviteState,
   initApp: state.initAppState,
+  shareData: state.shareState,
 });
 
 const mapDispatchToProps = dispatch => ({

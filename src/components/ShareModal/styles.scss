@@ -1,4 +1,4 @@
-.inviteModalWrapper {
+.shareModalWrapper {
   height: 50%;
   .dialogRender {
     height: 100%;
@@ -19,13 +19,13 @@
         .groupAvatar {
           width: 28px;
           height: 28px;
-          .UserAvatar{
+          .userAvatar{
             width: 14px !important;
             height: 14px !important;
             line-height: 14px !important;
           }
         }
-        .UserAvatar {
+        .userAvatar {
           width: 28px !important;
           height: 28px !important;
           line-height: 28px !important;
@@ -36,12 +36,12 @@
         }
       }
     }
-    .shareInviteLink {
+    .shareShareLink {
       font-size: 14px;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding-top: 10px;
+      padding: 10px;
       cursor: pointer;
       .shareIcon {
         font-size: 24px;

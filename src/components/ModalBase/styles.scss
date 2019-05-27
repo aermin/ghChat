@@ -1,4 +1,5 @@
-.mask {
+.modal {
+  .mask {
     position: fixed;
     width: 100%;
     height: 100%;
@@ -7,9 +8,9 @@
     background-color: #000;
     opacity: 0.3;
     z-index: 998;
-}
+  }
 
-.modalWrapper {
+  .modalWrapper {
     position: fixed;
     min-width: 30%;
     top: 50%;
@@ -34,4 +35,13 @@
       position: absolute;
       right: 0px;
     }
+  }
+}
+
+.showModalBase {
+  position: absolute;
+}
+
+.hideModalBase {
+  display: none;
 }
