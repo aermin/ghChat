@@ -34,7 +34,7 @@ class GroupChat extends Component {
     this._chat = new Chat();
   }
 
-  sendMessage = async (inputMsg = '', attachments = []) => {
+  sendMessage = (inputMsg = '', attachments = []) => {
     if (inputMsg.trim() === '' && attachments.length === 0) return;
     const {
       user_id, avatar, name, github_id
@@ -55,7 +55,9 @@ class GroupChat extends Component {
       time: Date.parse(new Date()) / 1000 // 时间
     };
     this._sendByMe = true;
-    await request.socketEmit('sendGroupMsg', data);
+    request.socketEmit('sendGroupMsg', data, (error) => {
+      notification('信息发送失败', 'error', 2);
+    });
     addGroupMessages({ allGroupChats, message: data, groupId: this.chatId });
     updateHomePageList({ data, homePageList, myUserId: user_id });
   }
@@ -66,9 +68,9 @@ class GroupChat extends Component {
     const {
       allGroupChats, homePageList, updateHomePageList, addGroupMessageAndInfo
     } = this.props;
-    const response = await request.socketEmit('joinGroup', { userInfo: this._userInfo, toGroupId: this.chatId },
-    () => {
-      notification('加群失败！', 'warn', 1.5);
+    const response = await request.socketEmitAndGetResponse('joinGroup', { userInfo: this._userInfo, toGroupId: this.chatId },
+    (error) => {
+      notification('加群失败', 'error', 1.5);
       this.setState({ disableJoinButton: false });
     });
     const { messages, groupInfo } = response;

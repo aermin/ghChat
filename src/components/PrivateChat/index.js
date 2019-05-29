@@ -27,7 +27,7 @@ export default class PrivateChat extends Component {
     };
   }
 
-  sendMessage = async (inputMsg = '', attachments = []) => {
+  sendMessage = (inputMsg = '', attachments = []) => {
     if (inputMsg.trim() === '' && attachments.length === 0) return;
     const {
       user_id, avatar, name, github_id
@@ -47,7 +47,9 @@ export default class PrivateChat extends Component {
       time: Date.parse(new Date()) / 1000 // 时间
     };
     this._sendByMe = true;
-    await request.socketEmit('sendPrivateMsg', data);
+    request.socketEmit('sendPrivateMsg', data, (error)=> {
+      notification('消息发送失败', 'error', 2);
+    });
     addPrivateChatMessages({
       allPrivateChats, message: data, chatId: this.friendId
     });
@@ -67,8 +69,8 @@ export default class PrivateChat extends Component {
       return;
     }
     const data = await request.socketEmit('addAsTheContact', { user_id: this._userInfo.user_id, from_user: this.friendId },
-      () => {
-      notification('添加失败！', 'warn', 1.5);
+      (error) => {
+      notification('添加失败！', 'error', 1.5);
       this.setState({ disableJoinButton: false });
     });
     addPrivateChatInfo({ allPrivateChats, chatId: this.friendId, userInfo: data });

@@ -1,4 +1,5 @@
 import request from '../../utils/request';
+import notification from '../../components/Notification';
 
 export const GET_ROBOT_MSG = 'robot/GET_ROBOT_MSG';
 export const INSERT_MSG = 'robot/INSERT_MSG';
@@ -10,7 +11,9 @@ export const insertMsgAction = data => ({
 
 export const getRobotMsgAction = async (data) => {
   let finalData = {};
-  const response = await request.socketEmit('robotChat', data);
+  const response = await request.socketEmitAndGetResponse('robotChat', data, (error) => {
+    notification('消息发送失败', 'error', 2);
+  });
   const { text, code, url } = response;
   if (code === 100000) {
     finalData = {

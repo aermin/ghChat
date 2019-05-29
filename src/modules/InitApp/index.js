@@ -32,57 +32,57 @@ class InitApp {
     this._history = props.history;
   }
 
- _browserNotificationHandle = (data) => {
-   const { homePageListState } = store.getState();
-   const { name, message, avatar } = data;
-   const chatType = data.to_group_id ? 'group_chat' : 'private_chat';
-   const chatFromId = data.to_group_id ? data.to_group_id : data.from_user;
-   const title = data.to_group_id && data.groupName ? data.groupName : name;
-   const audio = "https://cdn.aermin.top/audio.aac";
-   this._browserNotification.notify({
-    title,
-    text: message,
-    icon: avatar,
-    audio,
-    onClick: () => {
-      this._history.push(`/${chatType}/${chatFromId}`);
-      window.focus();
-      this._chat.clearUnreadHandle({ homePageList: homePageListState, chatFromId });
-    }
-  });
- }
+  _browserNotificationHandle = (data) => {
+    const { homePageListState } = store.getState();
+    const { name, message, avatar } = data;
+    const chatType = data.to_group_id ? 'group_chat' : 'private_chat';
+    const chatFromId = data.to_group_id ? data.to_group_id : data.from_user;
+    const title = data.to_group_id && data.groupName ? data.groupName : name;
+    const audio = "https://cdn.aermin.top/audio.aac";
+    this._browserNotification.notify({
+      title,
+      text: message,
+      icon: avatar,
+      audio,
+      onClick: () => {
+        this._history.push(`/${chatType}/${chatFromId}`);
+        window.focus();
+        this._chat.clearUnreadHandle({ homePageList: homePageListState, chatFromId });
+      }
+    });
+  }
 
-_listeningPrivateChatMsg = () => {
-  window.socket.on('getPrivateMsg', (data) => {
-    const { homePageListState, allPrivateChatsState } = store.getState();
-    const { user_id } = this._userInfo;
-    // eslint-disable-next-line radix
-    const chatId = parseInt(window.location.pathname.split('/').slice(-1)[0]);
-    const isRelatedCurrentChat = (data.from_user === chatId || data.to_user === chatId);
-    const increaseUnread = isRelatedCurrentChat ? 0 : 1;
-    store.dispatch(relatedCurrentChatAction(isRelatedCurrentChat));
-    if (!allPrivateChatsState.get(data.from_user) || !allPrivateChatsState.get(data.from_user).userInfo) {
-      const userInfo = {
-        ...data,
-        user_id: data.from_user
-      };
-      store.dispatch(addPrivateChatMessageAndInfoAction({
-        allPrivateChats: allPrivateChatsState, message: data, chatId: data.from_user, userInfo,
+  _listeningPrivateChatMsg = () => {
+    window.socket.on('getPrivateMsg', (data) => {
+      const { homePageListState, allPrivateChatsState } = store.getState();
+      const { user_id } = this._userInfo;
+      // eslint-disable-next-line radix
+      const chatId = parseInt(window.location.pathname.split('/').slice(-1)[0]);
+      const isRelatedCurrentChat = (data.from_user === chatId || data.to_user === chatId);
+      const increaseUnread = isRelatedCurrentChat ? 0 : 1;
+      store.dispatch(relatedCurrentChatAction(isRelatedCurrentChat));
+      if (!allPrivateChatsState.get(data.from_user) || !allPrivateChatsState.get(data.from_user).userInfo) {
+        const userInfo = {
+          ...data,
+          user_id: data.from_user
+        };
+        store.dispatch(addPrivateChatMessageAndInfoAction({
+          allPrivateChats: allPrivateChatsState, message: data, chatId: data.from_user, userInfo,
+        }));
+      } else {
+        store.dispatch(addPrivateChatMessagesAction({
+          allPrivateChats: allPrivateChatsState,
+          message: data,
+          chatId: data.from_user,
+        }));
+      }
+      store.dispatch(updateHomePageListAction({
+        data, homePageList: homePageListState, myUserId: user_id, increaseUnread
       }));
-    } else {
-      store.dispatch(addPrivateChatMessagesAction({
-        allPrivateChats: allPrivateChatsState,
-        message: data,
-        chatId: data.from_user,
-      }));
-    }
-    store.dispatch(updateHomePageListAction({
-      data, homePageList: homePageListState, myUserId: user_id, increaseUnread
-    }));
-    this._browserNotificationHandle(data);
-    // TODO: mute notifications switch
-  });
-}
+      this._browserNotificationHandle(data);
+      // TODO: mute notifications switch
+    });
+  }
 
   _listeningGroupChatMsg = () => {
     window.socket.on('getGroupMsg', (data) => {
@@ -135,20 +135,18 @@ _listeningPrivateChatMsg = () => {
     console.log('subscribeSocket success');
   }
 
-
-   _initSocket = async () => {
-     const { token, user_id } = this._userInfo;
-     window.socket = io(`${this.WEBSITE_ADDRESS}?token=${token}`);
-     const initSocketRes = await request.socketEmit('initSocket', user_id);
-     console.log(`${user_id} connect socket success.`, initSocketRes, 'time=>', new Date().toLocaleString());
-     const initGroupChatRes = await request.socketEmit('initGroupChat', user_id);
-     console.log(initGroupChatRes, 'time=>', new Date().toLocaleString());
-   };
-
+  _initSocket = async () => {
+    const { token, user_id } = this._userInfo;
+    window.socket = io(`${this.WEBSITE_ADDRESS}?token=${token}`);
+    const initSocketRes = await request.socketEmitAndGetResponse('initSocket', user_id);
+    console.log(`${user_id} connect socket success.`, initSocketRes, 'time=>', new Date().toLocaleString());
+    const initGroupChatRes = await request.socketEmitAndGetResponse('initGroupChat', user_id);
+    console.log(initGroupChatRes, 'time=>', new Date().toLocaleString());
+  };
 
   _initMessage = async () => {
     const { user_id } = this._userInfo;
-    const allMessage = await request.socketEmit('initMessage', {
+    const allMessage = await request.socketEmitAndGetResponse('initMessage', {
       user_id,
       clientHomePageList: JSON.parse(localStorage.getItem(`homePageList-${user_id}`))
     });

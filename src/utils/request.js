@@ -24,7 +24,17 @@ export default class Request {
     });
   }
 
-  static socketEmit(emitName, data) {
+  static socketEmit(emitName, data, onError) {
+    try {
+      window.socket.emit(emitName, data);
+    } catch (error) {
+      if (onError) {
+        onError(error);
+      }
+    }
+  }
+
+  static socketEmitAndGetResponse(emitName, data) {
     return new Promise((resolve, reject, onError) => {
       try {
         window.socket.emit(emitName, data, (response) => {
