@@ -127,11 +127,11 @@ _listeningPrivateChatMsg = () => {
   }
 
   subscribeSocket() {
-    window.socket.removeAllListeners('getPrivateMsg');
-    window.socket.removeAllListeners('getGroupMsg');
-    window.socket.removeAllListeners('beDeleted');
+    window.socket.removeListener('getPrivateMsg');
     this._listeningPrivateChatMsg();
+    window.socket.removeListener('getGroupMsg');
     this._listeningGroupChatMsg();
+    window.socket.removeListener('beDeleted');
     this._listeningBeDelete();
     console.log('subscribeSocket success');
   }
