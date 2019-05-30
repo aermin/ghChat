@@ -13,7 +13,7 @@
     margin-left: 20px;
     position: absolute;
     right: 20px;
-    top: 20px;
+    top: 40px;
     cursor: pointer;
     .githubIcon {
       height: 30px;
@@ -39,10 +39,17 @@
     font-size: 18px;
     padding-top: 20px;
   }
-  .logoutButton {
+  .baseButton {
     position: relative;
+    font-size: 12px;
+    margin-top: 80px;
   }
-  input {
-    margin-top: 40px;
+  .contact, .contact a {
+    color: $gray;
+    text-decoration:none; 
+    margin: 40px 0;
+    font-size: 14px;
+    cursor: pointer;
+    display: block;
   }
 }
