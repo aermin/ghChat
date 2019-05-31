@@ -29,14 +29,14 @@ class MyInfo extends Component {
 
   render() {
     const {
-      name, img, github_id, user_id
+      name, avatar, github_id, user_id
     } = this._userInfo;
     const { allGroupChatsState, homePageListState } = store.getState();
     return (
       <div className="myInfo">
         <UserAvatar
           name={name}
-          src={img}
+          src={avatar}
           size="36"
           clickAvatar={this._showPersonalInfo}
           showLogo={!!github_id} />
