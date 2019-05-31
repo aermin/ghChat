@@ -46,6 +46,7 @@ class MyInfo extends Component {
           modalVisible={this.state.showPersonalInfo}
           showContactButton={false}
           showShareModal={this._showShareModal}
+          showShareIcon
         />
         <ShareModal
           title="分享此联系人给"

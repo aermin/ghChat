@@ -142,7 +142,7 @@ PersonalInfo.defaultProps = {
   deletePrivateChat() {},
   allPrivateChats: new Map(),
   showContactButton: true,
-  showShareIcon: true,
+  showShareIcon: false,
   showShareModal() {},
 };
 
