@@ -30,12 +30,12 @@ export const toNormalTime = (timestamp) => {
 
   const isToday = thisYear === yearOfArg && thisMonth === monthOfArg && today === dayOfArg;
   if (isToday) {
-    return `${addZero(hourOfArg)}: ${addZero(minuteOfArg)}`;
+    return `${addZero(hourOfArg)}:${addZero(minuteOfArg)}`;
   }
 
   const isYesterday = thisYear === yearOfArg && thisMonth === monthOfArg && yesterday === dayOfArg;
   if (isYesterday) {
-    return `昨天 ${addZero(hourOfArg)}: ${addZero(minuteOfArg)}`;
+    return `昨天 ${addZero(hourOfArg)}:${addZero(minuteOfArg)}`;
   }
 
   if (yearOfArg === thisYear) {
