@@ -1,23 +1,25 @@
  .groupModalContent {
         font-size: 22px;
         margin-top: 20px;
-        p{
+        text-align: center;
+        div {
+            text-align: left;
             input, textarea  {
                 font-size: 14px;
                 outline: none;
                 resize: none;
-                padding-left: 0;
+                padding-left: 10px;
                 border: 1px solid #fff;
                 color: #999; 
-            }
-            input {
-                margin-left: -26px
+                width: 70%;
             }
             span {
+                left: 10px;
+                text-align: right;
                 float: left;
                 font-size: 14px;
                 margin-top: 4px;  
-                width: 20%;
+                width: 30%;
             }
             textarea {
                 padding-top: 6px;

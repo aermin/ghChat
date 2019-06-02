@@ -46,7 +46,7 @@ export default class GroupModal extends Component {
           cancel={cancel}
         >
           <div className="groupModalContent">
-            <p>
+            <div>
               <span>群名:</span>
               <input
                 name="groupName"
@@ -55,8 +55,8 @@ export default class GroupModal extends Component {
                 type="text"
                 placeholder="不超过12个字哦"
                 maxLength="12" />
-            </p>
-            <p>
+            </div>
+            <div>
               <span>群公告:</span>
               <textarea
                 name="groupNotice"
@@ -66,7 +66,7 @@ export default class GroupModal extends Component {
                 type="text"
                 placeholder="不超过60个字哦"
                 maxLength="60" />
-            </p>
+            </div>
           </div>
         </Modal>
       );

@@ -5,7 +5,7 @@ import {
 import PropTypes from 'prop-types';
 import { Emoji } from 'emoji-mart';
 import { MultiLineParser } from 'text-emoji-parser';
-import Linkify from 'react-linkify';
+import Linkify from '../Linkify';
 import UserAvatar from '../UserAvatar';
 import './style.scss';
 import Chat from '../../modules/Chat';

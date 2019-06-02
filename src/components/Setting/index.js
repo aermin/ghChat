@@ -83,12 +83,12 @@ class Setting extends Component {
         <div className="contact" onClick={() => this._openUrl('https://github.com/aermin/blog/issues/63')}>开启PWA(将ghChat安装到桌面)</div>
         {this.isProduction ? (
           <div>
-            <Link className="contact" to="/private_chat/1">联系作者</Link>
+            {/* <Link className="contact" to="/private_chat/1">联系作者</Link> */}
             <Link className="contact" to="/group_chat/ddbffd80-3663-11e9-a580-d119b23ef62e">项目交流群</Link>
           </div>
         ) : (
           <div>
-            <div className="contact" onClick={() => this._openUrl('https://im.aermin.top/private_chat/1')}>联系作者</div>
+            {/* <div className="contact" onClick={() => this._openUrl('https://im.aermin.top/private_chat/1')}>联系作者</div> */}
             <div className="contact" onClick={() => this._openUrl('https://im.aermin.top/group_chat/ddbffd80-3663-11e9-a580-d119b23ef62e')}>项目交流群</div>
           </div>
         )}
