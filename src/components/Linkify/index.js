@@ -27,7 +27,6 @@ class LinkifyWithTargetBlank extends React.Component {
     const elements = [];
     let lastIndex = 0;
     matches.forEach((match, i) => {
-      console.log('match, i', match, i);
       // Push preceding text if there is any
       if (match.index > lastIndex) {
         elements.push(string.substring(lastIndex, match.index));
