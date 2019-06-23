@@ -1,5 +1,7 @@
 ![ghChat](https://user-images.githubusercontent.com/24861316/54087066-55783580-438a-11e9-9a5d-14288e84a3f9.png)
 
+Node version: 8.12.0  
+Npm version: 6.4.1
 
 English | [简体中文](./README-zh_CN.md)
 
@@ -124,7 +126,7 @@ git clone https://github.com/aermin/react-chat.git
 ```
 
 
-2.  create an empty file which names 'secret.js' in the root directory of this project.
+2.  create an empty file that names 'secret.js' in the root directory of this project.
 
 But if you want to log in with GitHub authorization, use third part cdn to send files in chat, or separate configuration for DB, jwt secret, you should add content as follows in secret.js. So without this authorization, you just can't use features about send files and log in with GitHub.
 
@@ -157,7 +159,7 @@ cd react-chat
 npm i
 ```
 
-4. download npm module for back end
+4. download npm module for the back end
 ```
 cd cd react-chat/server 
 ```
@@ -168,7 +170,7 @@ npm i
 
 5. init DB
 ```
-// You should create a MySQL DB which name ghcaht in local
+// You should create a MySQL DB which name ghchat in local
 DB configuration follows 'react-chat/server/config.js'
 
 npm run init_sql

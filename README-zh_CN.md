@@ -1,5 +1,7 @@
 ![ghChat](https://user-images.githubusercontent.com/24861316/54087066-55783580-438a-11e9-9a5d-14288e84a3f9.png)
 
+Node 版本: 8.12.0  
+Npm 版本: 6.4.1
 
 [English](./README.md) | 简体中文
 
