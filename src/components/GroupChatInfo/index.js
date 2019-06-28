@@ -53,7 +53,7 @@ export default class GroupChatInfo extends Component {
     this._updateGroupInfo({ groupName, groupNotice });
   }
 
-  _closeModal= () => {
+  _closeModal = () => {
     this.setState({
       modalVisible: false
     });
@@ -98,7 +98,7 @@ export default class GroupChatInfo extends Component {
           cancel={this._closeModal}
           defaultGroupName={groupInfo.name}
           defaultGroupNotice={groupInfo.group_notice}
-         />
+        />
         <div className="info">
           <p className="noticeTitle">
             群公告
@@ -134,8 +134,8 @@ GroupChatInfo.propTypes = {
 
 GroupChatInfo.defaultProps = {
   groupInfo: {},
-  updateGroupTitleNotice() {},
-  updateListGroupName() {},
+  updateGroupTitleNotice() { },
+  updateListGroupName() { },
   allGroupChats: new Map(),
   homePageList: [],
 };

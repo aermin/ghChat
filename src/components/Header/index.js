@@ -11,6 +11,7 @@ export default class Header extends Component {
     this.state = {
       showGroupModal: false,
     };
+    this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
   }
 
   confirm = ({ groupName, groupNotice }) => {
@@ -80,7 +81,7 @@ export default class Header extends Component {
           hasCancel
           hasConfirm
           cancel={this.cancel}
-         />
+        />
       </div>
     );
   }
@@ -102,5 +103,5 @@ Header.defaultProps = {
   allGroupChats: new Map(),
   searchFieldChange: undefined,
   isSearching: false,
-  addGroupMessageAndInfo() {}
+  addGroupMessageAndInfo() { }
 };
