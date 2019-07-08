@@ -39,7 +39,7 @@ module.exports = (server) => {
         _userId = user_id;
         const arr = await socketModel.getUserSocketId(_userId);
         const existSocketIdStr = getSocketIdHandle(arr);
-        const newSocketIdStr = existSocketIdStr ? `${existSocketIdStr},${socketId}`: socketId;
+        const newSocketIdStr = existSocketIdStr ? `${existSocketIdStr},${socketId}` : socketId;
 
         if (existSocketIdStr) {
           await socketModel.saveUserSocketId(_userId, newSocketIdStr);
@@ -51,9 +51,9 @@ module.exports = (server) => {
         }
 
         fn('initSocket success');
-      } catch(error) {
+      } catch (error) {
         console.log('error', error.message);
-        io.to(socketId).emit('error', { code: 500, message: error.message});
+        io.to(socketId).emit('error', { code: 500, message: error.message });
       }
     });
 
@@ -66,9 +66,9 @@ module.exports = (server) => {
           socket.join(item.to_group_id);
         }
         fn('init group chat success');
-      } catch(error) {
+      } catch (error) {
         console.log('error', error.message);
-        io.to(socketId).emit('error', { code: 500, message: error.message});
+        io.to(socketId).emit('error', { code: 500, message: error.message });
       }
     });
 
@@ -77,22 +77,22 @@ module.exports = (server) => {
       try {
         const data = await getAllMessage({ user_id, clientHomePageList });
         fn(data);
-      } catch(error) {
+      } catch (error) {
         console.log('error', error.message);
-        io.to(socketId).emit('error', { code: 500, message: error.message});
+        io.to(socketId).emit('error', { code: 500, message: error.message });
       }
     });
 
-      // 私聊发信息
+    // 私聊发信息
     socket.on('sendPrivateMsg', async (data) => {
       try {
         if (!data) return;
         await Promise.all([
-          privateChatModel.savePrivateMsg({ 
+          privateChatModel.savePrivateMsg({
             ...data,
             attachments: JSON.stringify(data.attachments)
           }),
-          socketModel.getUserSocketId(data.to_user).then(arr=>{
+          socketModel.getUserSocketId(data.to_user).then(arr => {
             const existSocketIdStr = getSocketIdHandle(arr);
             const toUserSocketIds = existSocketIdStr && existSocketIdStr.split(',') || [];
 
@@ -101,22 +101,22 @@ module.exports = (server) => {
             });
           })
         ]);
-      } catch(error) {
+      } catch (error) {
         console.log('error', error.message);
-        io.to(socketId).emit('error', { code: 500, message: error.message});
+        io.to(socketId).emit('error', { code: 500, message: error.message });
       }
     });
 
-      // 群聊发信息
+    // 群聊发信息
     socket.on('sendGroupMsg', async (data) => {
       try {
         if (!data) return;
         data.attachments = JSON.stringify(data.attachments);
         await groupChatModel.saveGroupMsg({ ...data });
         socket.broadcast.to(data.to_group_id).emit('getGroupMsg', data);
-      } catch(error) {
+      } catch (error) {
         console.log('error', error.message);
-        io.to(socketId).emit('error', { code: 500, message: error.message});
+        io.to(socketId).emit('error', { code: 500, message: error.message });
       }
     });
 
@@ -128,9 +128,9 @@ module.exports = (server) => {
         const RowDataPacket = await privateChatModel.getPrivateDetail(user_id, toUser, start - 1, count);
         const privateMessages = JSON.parse(JSON.stringify(RowDataPacket));
         fn(privateMessages);
-      } catch(error) {
+      } catch (error) {
         console.log('error', error.message);
-        io.to(socketId).emit('error', { code: 500, message: error.message});
+        io.to(socketId).emit('error', { code: 500, message: error.message });
       }
     });
 
@@ -140,9 +140,9 @@ module.exports = (server) => {
         const RowDataPacket = await groupChatModel.getGroupMsg(data.groupId, data.start - 1, data.count);
         const groupMessages = JSON.parse(JSON.stringify(RowDataPacket));
         fn(groupMessages);
-      } catch(error) {
+      } catch (error) {
         console.log('error', error.message);
-        io.to(socketId).emit('error', { code: 500, message: error.message});
+        io.to(socketId).emit('error', { code: 500, message: error.message });
       }
     });
 
@@ -155,9 +155,9 @@ module.exports = (server) => {
           count: 20
         });
         fn(groupMsgAndInfo);
-      } catch(error) {
+      } catch (error) {
         console.log('error', error.message);
-        io.to(socketId).emit('error', { code: 500, message: error.message});
+        io.to(socketId).emit('error', { code: 500, message: error.message });
       }
     });
 
@@ -173,9 +173,9 @@ module.exports = (server) => {
         await groupInfoModel.joinGroup(creator_id, to_group_id);
         socket.join(to_group_id);
         fn({ to_group_id, ...data });
-      } catch(error) {
+      } catch (error) {
         console.log('error', error.message);
-        io.to(socketId).emit('error', { code: 500, message: error.message});
+        io.to(socketId).emit('error', { code: 500, message: error.message });
       }
     });
 
@@ -184,9 +184,9 @@ module.exports = (server) => {
       try {
         await groupInfoModel.updateGroupInfo(data);
         fn('修改群资料成功');
-      } catch(error) {
+      } catch (error) {
         console.log('error', error.message);
-        io.to(socketId).emit('error', { code: 500, message: error.message});
+        io.to(socketId).emit('error', { code: 500, message: error.message });
       }
     });
 
@@ -204,9 +204,9 @@ module.exports = (server) => {
           to_group_id: toGroupId,
           tip: 'joinGroup'
         });
-      } catch(error) {
+      } catch (error) {
         console.log('error', error.message);
-        io.to(socketId).emit('error', { code: 500, message: error.message});
+        io.to(socketId).emit('error', { code: 500, message: error.message });
       }
     });
 
@@ -216,10 +216,10 @@ module.exports = (server) => {
         const { user_id, toGroupId } = data;
         socket.leave(toGroupId);
         await groupInfoModel.leaveGroup(user_id, toGroupId);
-      } catch(error) {
+      } catch (error) {
         console.log('error', error.message);
-        io.to(socketId).emit('error', { code: 500, message: error.message});
-       }
+        io.to(socketId).emit('error', { code: 500, message: error.message });
+      }
     });
 
     // 获取群成员信息
@@ -228,9 +228,9 @@ module.exports = (server) => {
         const RowDataPacket = await groupChatModel.getGroupMember(groupId);
         const getGroupMember = JSON.parse(JSON.stringify(RowDataPacket));
         fn(getGroupMember);
-      } catch(error) {
+      } catch (error) {
         console.log('error', error.message);
-        io.to(socketId).emit('error', { code: 500, message: error.message});
+        io.to(socketId).emit('error', { code: 500, message: error.message });
       }
     });
 
@@ -245,9 +245,9 @@ module.exports = (server) => {
           fuzzyMatchResult = await groupInfoModel.fuzzyMatchGroups(field);
         }
         fn({ fuzzyMatchResult, searchUser: data.searchUser });
-      } catch(error) {
+      } catch (error) {
         console.log('error', error.message);
-        io.to(socketId).emit('error', { code: 500, message: error.message});
+        io.to(socketId).emit('error', { code: 500, message: error.message });
       }
     });
 
@@ -256,9 +256,9 @@ module.exports = (server) => {
       try {
         const uploadToken = await getUploadToken();
         return fn(uploadToken);
-      } catch(error) {
+      } catch (error) {
         console.log('error', error.message);
-        io.to(socketId).emit('error', { code: 500, message: error.message});
+        io.to(socketId).emit('error', { code: 500, message: error.message });
       }
     });
 
@@ -274,19 +274,19 @@ module.exports = (server) => {
         await userInfoModel.addFriendEachOther(user_id, from_user, time);
         const userInfo = await userInfoModel.getUserInfo(from_user);
         fn(userInfo[0]);
-      } catch(error) {
+      } catch (error) {
         console.log('error', error.message);
-        io.to(socketId).emit('error', { code: 500, message: error.message});
+        io.to(socketId).emit('error', { code: 500, message: error.message });
       }
     });
 
-    socket.on('getUserInfo', async(user_id, fn) => {
+    socket.on('getUserInfo', async (user_id, fn) => {
       try {
         const userInfo = await userInfoModel.getUserInfo(user_id);
         fn(userInfo[0]);
-      } catch(error) {
+      } catch (error) {
         console.log('error', error.message);
-        io.to(socketId).emit('error', { code: 500, message: error.message});
+        io.to(socketId).emit('error', { code: 500, message: error.message });
       }
     })
 
@@ -307,25 +307,25 @@ module.exports = (server) => {
         };
         const response = await request(options);
         fn(response);
-      } catch(error) {
+      } catch (error) {
         console.log('error', error.message);
-        io.to(socketId).emit('error', { code: 500, message: error.message});
+        io.to(socketId).emit('error', { code: 500, message: error.message });
       }
     });
 
-    socket.on('deleteContact', async({from_user, to_user}, fn) => {
+    socket.on('deleteContact', async ({ from_user, to_user }, fn) => {
       try {
         await userInfoModel.deleteContact(from_user, to_user);
         const sockets = await socketModel.getUserSocketId(to_user);
         const existSocketIdStr = getSocketIdHandle(sockets);
         const toUserSocketIds = existSocketIdStr && existSocketIdStr.split(',') || [];
         toUserSocketIds.forEach(e => {
-            io.to(e).emit('beDeleted', from_user);
+          io.to(e).emit('beDeleted', from_user);
         });
-        fn({code: 200, data: 'delete contact successfully'});
-      } catch(error) {
+        fn({ code: 200, data: 'delete contact successfully' });
+      } catch (error) {
         console.log('error', error.message);
-        io.to(socketId).emit('error', { code: 500, message: error.message});
+        io.to(socketId).emit('error', { code: 500, message: error.message });
       }
     })
 
@@ -340,7 +340,7 @@ module.exports = (server) => {
         if (index > -1) {
           toUserSocketIds.splice(index, 1);
         }
-        
+
         if (toUserSocketIds.length) {
           await socketModel.saveUserSocketId(_userId, toUserSocketIds.join(','));
         } else {
@@ -349,11 +349,11 @@ module.exports = (server) => {
             userInfoModel.updateUserStatus(_userId, 0)
           ]);
         }
-        
+
         console.log('disconnect.=>reason', reason, 'user_id=>', _userId, 'socket.id=>', socket.id, 'time=>', new Date().toLocaleString());
-      } catch(error) {
+      } catch (error) {
         console.log('error', error.message);
-        io.to(socketId).emit('error', { code: 500, message: error.message});
+        io.to(socketId).emit('error', { code: 500, message: error.message });
       }
     });
   });
