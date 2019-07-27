@@ -18,7 +18,7 @@
 }
 
 
-@media screen and (max-width: 648px) {
+@media screen and (max-width: 647px) {
     .layout-wrapper{
         min-width: 100%;
         .layout-left{
@@ -53,7 +53,7 @@
             width: 100%;
             .back-icon {
                 display: inline-block !important;
-            }        
+            }
         }
         .layout-right-mobile {
             display: none;
@@ -61,7 +61,7 @@
     }
 }
 
-@media screen and (min-width: 648px) {
+@media screen and (min-width: 647px) {
     .layout-wrapper{
         min-width: 100%;
         .layout-left,.layout-left-mobile{
@@ -84,7 +84,7 @@
                 border-right: 1px solid $border;
             }
             .home-page-list-wrapper{
-                width: 100%;
+                width: calc(100% - 53px);
                 .home-page-list-content{
                     height: calc(100% - 50px);
                 }

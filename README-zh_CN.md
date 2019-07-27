@@ -1,7 +1,8 @@
 ![ghChat](https://user-images.githubusercontent.com/24861316/54087066-55783580-438a-11e9-9a5d-14288e84a3f9.png)
 
-Node 版本: 8.12.0  
+Node 版本: 8.12.0
 Npm 版本: 6.4.1
+MySQL 版本: 5.7.22
 
 [English](./README.md) | 简体中文
 
@@ -11,7 +12,7 @@ Npm 版本: 6.4.1
 
 ### 地址
 
-[github项目地址](https://github.com/aermin/react-chat)。***富应用型的开发很耗时间精力，觉得还不错的麻烦给个star鼓励下ʘᴗʘ*** 
+[github项目地址](https://github.com/aermin/ghChat)。***富应用型的开发很耗时间精力，觉得还不错的麻烦给个star鼓励下ʘᴗʘ*** 
 
 
 [应用线上地址(也是项目的群链接)，支持直接github授权登录](https://im.aermin.top/group_chat/ddbffd80-3663-11e9-a580-d119b23ef62e)

@@ -1,7 +1,8 @@
 ![ghChat](https://user-images.githubusercontent.com/24861316/54087066-55783580-438a-11e9-9a5d-14288e84a3f9.png)
 
-Node version: 8.12.0  
+Node version: 8.12.0
 Npm version: 6.4.1
+MySQL version: 5.7.22
 
 English | [简体中文](./README-zh_CN.md)
 
@@ -13,7 +14,7 @@ If you have anything idea about integration, welcome to create issues about feat
 
 ### Address
 
-[GitHub address](https://github.com/aermin/react-chat)
+[GitHub address](https://github.com/aermin/ghChat)
 
 [Project online address(also this project's group address)，support logging in with GitHub authorization](https://im.aermin.top/group_chat/ddbffd80-3663-11e9-a580-d119b23ef62e)
 
@@ -182,7 +183,7 @@ npm run start
 ```
 
 ```
-cd ..  
+cd ..
 ```
 
 ```
