@@ -51,10 +51,10 @@ const findDataByName = (name) => {
 // };
 
 // 更新登录状态
-const updateUserStatus = (user_id, status) => {
-  const _sql = 'UPDATE user_info SET status = ? WHERE id= ? limit 1;';
-  return query(_sql, [status, user_id]);
-};
+// const updateUserStatus = (user_id, status) => {
+//   const _sql = 'UPDATE user_info SET status = ? WHERE id= ? limit 1;';
+//   return query(_sql, [status, user_id]);
+// };
 
 // 修改我的信息
 // const editorInfo = (data) => {
@@ -70,7 +70,7 @@ const updateUserStatus = (user_id, status) => {
 
 // 通过用户id查找用户信息 user_info 包括用户名，性别，头像，最后登录时间，状态等，不包括密码
 const getUserInfo = (user_id) => {
-  const _sql = 'SELECT id AS user_id, name, avatar, location, website, github, github_id, intro, company, status  FROM user_info   WHERE  user_info.id =? ';
+  const _sql = 'SELECT id AS user_id, name, avatar, location, website, github, github_id, intro, company  FROM user_info   WHERE  user_info.id =? ';
   return query(_sql, [user_id]);
 };
 
@@ -123,5 +123,5 @@ module.exports = {
   updateGithubUser,
   findGithubUser,
   insertGithubData,
-  updateUserStatus,
+  // updateUserStatus,
 };

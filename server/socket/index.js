@@ -41,14 +41,14 @@ module.exports = (server) => {
         const existSocketIdStr = getSocketIdHandle(arr);
         const newSocketIdStr = existSocketIdStr ? `${existSocketIdStr},${socketId}` : socketId;
 
-        if (existSocketIdStr) {
-          await socketModel.saveUserSocketId(_userId, newSocketIdStr);
-        } else {
-          await Promise.all[
-            socketModel.saveUserSocketId(_userId, newSocketIdStr),
-            userInfoModel.updateUserStatus(_userId, 1)
-          ];
-        }
+        // if (existSocketIdStr) {
+        await socketModel.saveUserSocketId(_userId, newSocketIdStr);
+        // } else {
+        //   await Promise.all[
+        //     socketModel.saveUserSocketId(_userId, newSocketIdStr),
+        //     userInfoModel.updateUserStatus(_userId, 1)
+        //   ];
+        // }
 
         fn('initSocket success');
       } catch (error) {
@@ -226,8 +226,26 @@ module.exports = (server) => {
     socket.on('getGroupMember', async (groupId, fn) => {
       try {
         const RowDataPacket = await groupChatModel.getGroupMember(groupId);
-        const getGroupMember = JSON.parse(JSON.stringify(RowDataPacket));
-        fn(getGroupMember);
+        const userInfos = JSON.parse(JSON.stringify(RowDataPacket));
+        io.in(groupId).clients((err, onlineSockets) => {
+          if (err) {
+            throw err;
+          }
+          userInfos.forEach(userInfo => {
+            userInfo.status = 0;
+            if (userInfo.socketid) {
+              const socketIds = userInfo.socketid.split(',');
+              for (const onlineSocket of onlineSockets) {
+                const socketExist = socketIds.some(socketId => socketId === onlineSocket);
+                if (socketExist) {
+                  userInfo.status = 1;
+                }
+              }
+            }
+            delete userInfo.socketid;
+          });
+          fn(userInfos);
+        });
       } catch (error) {
         console.log('error', error.message);
         io.to(socketId).emit('error', { code: 500, message: error.message });
@@ -341,14 +359,16 @@ module.exports = (server) => {
           toUserSocketIds.splice(index, 1);
         }
 
-        if (toUserSocketIds.length) {
-          await socketModel.saveUserSocketId(_userId, toUserSocketIds.join(','));
-        } else {
-          await Promise.all([
-            socketModel.saveUserSocketId(_userId, toUserSocketIds.join(',')),
-            userInfoModel.updateUserStatus(_userId, 0)
-          ]);
-        }
+        await socketModel.saveUserSocketId(_userId, toUserSocketIds.join(','));
+
+        // if (toUserSocketIds.length) {
+        //   await socketModel.saveUserSocketId(_userId, toUserSocketIds.join(','));
+        // } else {
+        //   await Promise.all([
+        //     socketModel.saveUserSocketId(_userId, toUserSocketIds.join(',')),
+        //     userInfoModel.updateUserStatus(_userId, 0)
+        //   ]);
+        // }
 
         console.log('disconnect.=>reason', reason, 'user_id=>', _userId, 'socket.id=>', socket.id, 'time=>', new Date().toLocaleString());
       } catch (error) {

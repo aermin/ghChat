@@ -69,10 +69,10 @@ class GroupChat extends Component {
       allGroupChats, homePageList, updateHomePageList, addGroupMessageAndInfo
     } = this.props;
     const response = await request.socketEmitAndGetResponse('joinGroup', { userInfo: this._userInfo, toGroupId: this.chatId },
-    (error) => {
-      notification('加群失败', 'error', 1.5);
-      this.setState({ disableJoinButton: false });
-    });
+      (error) => {
+        notification('加群失败', 'error', 1.5);
+        this.setState({ disableJoinButton: false });
+      });
     const { messages, groupInfo } = response;
     const name = groupInfo && groupInfo.name;
     let lastContent;
@@ -119,8 +119,8 @@ class GroupChat extends Component {
 
     const { showGroupChatInfo, showPersonalInfo, showLeaveGroupModal } = nextState;
     if (showGroupChatInfo !== this.state.showGroupChatInfo
-       || showPersonalInfo !== this.state.showPersonalInfo
-       || showLeaveGroupModal !== this.state.showLeaveGroupModal
+      || showPersonalInfo !== this.state.showPersonalInfo
+      || showLeaveGroupModal !== this.state.showLeaveGroupModal
     ) return true;
 
     return false;
@@ -200,7 +200,7 @@ class GroupChat extends Component {
           hasCancel
           hasConfirm
           cancel={this._showLeaveModal}
-         />
+        />
         <ShareModal
           title="分享此群给"
           modalVisible={showShareModal}
@@ -209,7 +209,7 @@ class GroupChat extends Component {
           cancel={this._showShareModal}
           allGroupChats={allGroupChats}
           homePageList={homePageList}
-         />
+        />
         <PersonalInfo
           userInfo={personalInfo}
           hide={() => this._showPersonalInfo(false)}
@@ -217,7 +217,7 @@ class GroupChat extends Component {
           allPrivateChats={allPrivateChats}
           deleteHomePageList={deleteHomePageList}
           deletePrivateChat={deletePrivateChat}
-          modalVisible={chatItem && showPersonalInfo} 
+          modalVisible={chatItem && showPersonalInfo}
         />
         <ChatContentList
           chat={this._chat}
@@ -228,19 +228,19 @@ class GroupChat extends Component {
           chatType="groupChat"
           clickAvatar={user_id => this._clickPersonAvatar(user_id)}
         />
-        { showGroupChatInfo && <div onClick={() => this._showGroupChatInfo(false)} className="groupChatInfoMask" />}
-        { showGroupChatInfo && (
-        <GroupChatInfo
-          groupInfo={groupInfo}
-          allGroupChats={allGroupChats}
-          homePageList={homePageList}
-          leaveGroup={this._showLeaveModal}
-          clickMember={user_id => this._clickPersonAvatar(user_id)}
-          updateGroupTitleNotice={updateGroupTitleNotice}
-          updateListGroupName={updateListGroupName}
-          chatId={this.chatId} />
+        {showGroupChatInfo && <div onClick={() => this._showGroupChatInfo(false)} className="groupChatInfoMask" />}
+        {showGroupChatInfo && (
+          <GroupChatInfo
+            groupInfo={groupInfo}
+            allGroupChats={allGroupChats}
+            homePageList={homePageList}
+            leaveGroup={this._showLeaveModal}
+            clickMember={user_id => this._clickPersonAvatar(user_id)}
+            updateGroupTitleNotice={updateGroupTitleNotice}
+            updateListGroupName={updateListGroupName}
+            chatId={this.chatId} />
         )}
-        { chatItem ? (
+        {chatItem ? (
           <InputArea
             shareData={shareData}
             sendMessage={this.sendMessage}
@@ -283,14 +283,14 @@ GroupChat.defaultProps = {
   allGroupChats: new Map(),
   allPrivateChats: new Map(),
   homePageList: [],
-  updateHomePageList() {},
-  addGroupMessages() {},
-  addGroupMessageAndInfo() {},
-  deleteHomePageList() {},
-  deleteGroupChat() {},
-  updateGroupTitleNotice() {},
-  updateListGroupName() {},
+  updateHomePageList() { },
+  addGroupMessages() { },
+  addGroupMessageAndInfo() { },
+  deleteHomePageList() { },
+  deleteGroupChat() { },
+  updateGroupTitleNotice() { },
+  updateListGroupName() { },
   shareData: undefined,
-  deletePrivateChat() {},
+  deletePrivateChat() { },
   initApp: false,
 };

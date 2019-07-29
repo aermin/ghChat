@@ -7,7 +7,7 @@
 #
 # Host: localhost (MySQL 5.7.22)
 # Database: ghchat
-# Generation Time: 2019-02-24 04:02:07 +0000
+# Generation Time: 2019-07-29 03:01:21 +0000
 # ************************************************************
 
 
@@ -100,7 +100,6 @@ CREATE TABLE `user_info` (
   `password` varchar(40) DEFAULT NULL,
   `avatar` varchar(250) DEFAULT '',
   `location` varchar(50) DEFAULT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '0',
   `socketid` char(255) DEFAULT NULL,
   `website` varchar(50) DEFAULT NULL,
   `github` varchar(50) DEFAULT NULL,
