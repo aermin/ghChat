@@ -25,68 +25,68 @@ export default class Robot extends Component {
     }, time);
   }
 
-    sendMessage = async (value) => {
-      this.setState({
-        inputMsg: value
-      }, async () => {
-        const { insertMsg, getRobotMsg } = this.props;
-        const { inputMsg } = this.state;
-        insertMsg(
-          { message: inputMsg }
-        );
-        this.scrollToBottom();
-        await getRobotMsg(
-          {
-            message: inputMsg,
-            user_id: this._userInfo.user_id
-          }
-        );
-        this.scrollToBottom();
-      });
-    }
+  sendMessage = async (value) => {
+    this.setState({
+      inputMsg: value
+    }, async () => {
+      const { insertMsg, getRobotMsg } = this.props;
+      const { inputMsg } = this.state;
+      insertMsg(
+        { message: inputMsg }
+      );
+      this.scrollToBottom();
+      await getRobotMsg(
+        {
+          message: inputMsg,
+          user_id: this._userInfo.user_id
+        }
+      );
+      this.scrollToBottom();
+    });
+  }
 
-    componentDidMount() {
-      this.scrollToBottom(200);
-    }
+  componentDidMount() {
+    this.scrollToBottom(200);
+  }
 
-    shouldComponentUpdate(nextProps) {
-      const { robotState } = this.props;
-      if (nextProps.robotState === robotState) {
-        return false;
-      }
-      return true;
+  shouldComponentUpdate(nextProps) {
+    const { robotState } = this.props;
+    if (nextProps.robotState === robotState) {
+      return false;
     }
+    return true;
+  }
 
-    render() {
-      const { robotState } = this.props;
-      const listItems = robotState.map((msg, index) => (
-        <li key={index}>
-          {msg.user && (
+  render() {
+    const { robotState } = this.props;
+    const listItems = robotState.map((msg, index) => (
+      <li key={index}>
+        {msg.user && (
           <ChatItem
             msg={msg.message}
             name={msg.user}
             time={toNormalTime(Date.parse(new Date()) / 1000)} />
-          )}
-          {!msg.user && (
+        )}
+        {!msg.user && (
           <ChatItem
             me
             img={this._userInfo.avatar}
             msg={msg.message}
             name={this._userInfo.name}
             time={toNormalTime(Date.parse(new Date()) / 1000)} />
-          )}
-        </li>
-      ));
-      return (
-        <div className="chat-wrapper">
-          <ChatHeader title="机器人聊天" chatType="robot" />
-          <ul className="chat-content-list">
-            {listItems}
-          </ul>
-          <InputArea sendMessage={this.sendMessage} isRobotChat />
-        </div>
-      );
-    }
+        )}
+      </li>
+    ));
+    return (
+      <div className="chat-wrapper">
+        <ChatHeader title="机器人聊天" chatType="robot" />
+        <ul className="chat-content-list">
+          {listItems}
+        </ul>
+        <InputArea sendMessage={this.sendMessage} isRobotChat />
+      </div>
+    );
+  }
 }
 
 Robot.propTypes = {

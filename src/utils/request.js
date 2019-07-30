@@ -34,8 +34,8 @@ export default class Request {
     }
   }
 
-  static socketEmitAndGetResponse(emitName, data) {
-    return new Promise((resolve, reject, onError) => {
+  static socketEmitAndGetResponse(emitName, data, onError) {
+    return new Promise((resolve, reject) => {
       try {
         window.socket.emit(emitName, data, (response) => {
           resolve(response);

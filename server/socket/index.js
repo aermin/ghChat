@@ -84,9 +84,10 @@ module.exports = (server) => {
     });
 
     // 私聊发信息
-    socket.on('sendPrivateMsg', async (data) => {
+    socket.on('sendPrivateMsg', async (data, cbFn) => {
       try {
         if (!data) return;
+        data.time = Date.parse(new Date()) / 1000;
         await Promise.all([
           privateChatModel.savePrivateMsg({
             ...data,
@@ -101,6 +102,7 @@ module.exports = (server) => {
             });
           })
         ]);
+        cbFn(data);
       } catch (error) {
         console.log('error', error.message);
         io.to(socketId).emit('error', { code: 500, message: error.message });
@@ -108,12 +110,14 @@ module.exports = (server) => {
     });
 
     // 群聊发信息
-    socket.on('sendGroupMsg', async (data) => {
+    socket.on('sendGroupMsg', async (data, cbFn) => {
       try {
         if (!data) return;
         data.attachments = JSON.stringify(data.attachments);
+        data.time = Date.parse(new Date()) / 1000;
         await groupChatModel.saveGroupMsg({ ...data });
         socket.broadcast.to(data.to_group_id).emit('getGroupMsg', data);
+        cbFn(data);
       } catch (error) {
         console.log('error', error.message);
         io.to(socketId).emit('error', { code: 500, message: error.message });
@@ -165,6 +169,7 @@ module.exports = (server) => {
     socket.on('createGroup', async (data, fn) => {
       try {
         const to_group_id = uuid();
+        data.create_time = Date.parse(new Date()) / 1000;
         const {
           name, group_notice, creator_id, create_time
         } = data;

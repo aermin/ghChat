@@ -27,7 +27,7 @@ export default class PrivateChat extends Component {
     };
   }
 
-  sendMessage = (inputMsg = '', attachments = []) => {
+  sendMessage = async (inputMsg = '', attachments = []) => {
     if (inputMsg.trim() === '' && attachments.length === 0) return;
     const {
       user_id, avatar, name, github_id
@@ -44,16 +44,16 @@ export default class PrivateChat extends Component {
       github_id,
       message: inputMsg === '' ? `${name}: [${attachments[0].type || 'file'}]` : `${name}: ${inputMsg}`, // 消息内容
       attachments, // 附件
-      time: Date.parse(new Date()) / 1000 // 时间
+      // time: Date.parse(new Date()) / 1000 // 时间
     };
     this._sendByMe = true;
-    request.socketEmit('sendPrivateMsg', data, (error) => {
+    const response = await request.socketEmitAndGetResponse('sendPrivateMsg', data, (error) => {
       notification('消息发送失败', 'error', 2);
     });
     addPrivateChatMessages({
-      allPrivateChats, message: data, chatId: this.friendId
+      allPrivateChats, message: response, chatId: this.friendId
     });
-    const dataForHomePage = { ...data, name: location.search.split('=')[1] };
+    const dataForHomePage = { ...response, name: location.search.split('=')[1] };
     updateHomePageList({ data: dataForHomePage, homePageList, myUserId: user_id });
   }
 

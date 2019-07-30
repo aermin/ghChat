@@ -34,7 +34,7 @@ class GroupChat extends Component {
     this._chat = new Chat();
   }
 
-  sendMessage = (inputMsg = '', attachments = []) => {
+  sendMessage = async (inputMsg = '', attachments = []) => {
     if (inputMsg.trim() === '' && attachments.length === 0) return;
     const {
       user_id, avatar, name, github_id
@@ -52,14 +52,14 @@ class GroupChat extends Component {
       message: inputMsg === '' ? `${name}: [${attachments[0].type || 'file'}]` : `${name}: ${inputMsg}`, // 消息内容
       attachments, // 附件
       to_group_id: this.chatId,
-      time: Date.parse(new Date()) / 1000 // 时间
+      // time: Date.parse(new Date()) / 1000 // 时间
     };
     this._sendByMe = true;
-    request.socketEmit('sendGroupMsg', data, (error) => {
+    const response = await request.socketEmitAndGetResponse('sendGroupMsg', data, (error) => {
       notification('信息发送失败', 'error', 2);
     });
-    addGroupMessages({ allGroupChats, message: data, groupId: this.chatId });
-    updateHomePageList({ data, homePageList, myUserId: user_id });
+    addGroupMessages({ allGroupChats, message: response, groupId: this.chatId });
+    updateHomePageList({ data: response, homePageList, myUserId: user_id });
   }
 
   joinGroup = async () => {
@@ -80,7 +80,7 @@ class GroupChat extends Component {
       lastContent = { ...messages[messages.length - 1], name };
     } else {
       lastContent = {
-        ...data.groupInfo,
+        ...groupInfo,
         message: '加入群成功，开始聊天吧:)',
         time: Date.parse(new Date()) / 1000
       };
