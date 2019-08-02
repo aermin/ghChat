@@ -199,16 +199,19 @@ module.exports = (server) => {
     socket.on('joinGroup', async (data, fn) => {
       try {
         const { userInfo, toGroupId } = data;
-        await groupInfoModel.joinGroup(userInfo.user_id, toGroupId);
+        const joinedThisGroup = (await groupInfoModel.isInGroup(userInfo.user_id, toGroupId)).length;
+        if (!joinedThisGroup) {
+          await groupInfoModel.joinGroup(userInfo.user_id, toGroupId);
+          socket.broadcast.to(toGroupId).emit('getGroupMsg', {
+            ...userInfo,
+            message: `${userInfo.name}加入了群聊`,
+            to_group_id: toGroupId,
+            tip: 'joinGroup'
+          });
+        }
         socket.join(toGroupId);
         const groupItem = await getGroupItem({ groupId: toGroupId });
         fn(groupItem);
-        socket.broadcast.to(toGroupId).emit('getGroupMsg', {
-          ...userInfo,
-          message: `${userInfo.name}加入了群聊`,
-          to_group_id: toGroupId,
-          tip: 'joinGroup'
-        });
       } catch (error) {
         console.log('error', error.message);
         io.to(socketId).emit('error', { code: 500, message: error.message });

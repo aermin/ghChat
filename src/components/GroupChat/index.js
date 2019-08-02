@@ -72,7 +72,8 @@ class GroupChat extends Component {
       (error) => {
         notification('加群失败', 'error', 1.5);
         this.setState({ disableJoinButton: false });
-      });
+      }
+    );
     const { messages, groupInfo } = response;
     const name = groupInfo && groupInfo.name;
     let lastContent;

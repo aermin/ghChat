@@ -17,10 +17,10 @@ const joinGroup = (user_id, to_group_id) => {
 };
 
 // 查看某个用户是否在某个群中
-// const isInGroup = (user_id, to_group_id) => {
-//   const _sql = 'SELECT * FROM group_user_relation WHERE user_id = ? AND to_group_id = ?;';
-//   return query(_sql, [user_id, to_group_id]);
-// };
+const isInGroup = (user_id, to_group_id) => {
+  const _sql = 'SELECT * FROM group_user_relation WHERE user_id = ? AND to_group_id = ?;';
+  return query(_sql, [user_id, to_group_id]);
+};
 
 // 建群
 const createGroup = (arr) => {
@@ -45,7 +45,7 @@ const leaveGroup = (user_id, to_group_id) => {
 module.exports = {
   fuzzyMatchGroups,
   joinGroup,
-  // isInGroup,
+  isInGroup,
   createGroup,
   leaveGroup,
   updateGroupInfo,
