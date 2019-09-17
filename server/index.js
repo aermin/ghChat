@@ -1,6 +1,6 @@
 const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
-const cors = require('koa2-cors');
+const cors = require("@koa/cors");
 const compress = require('koa-compress');
 const http = require('http');
 const socketHandle = require('./socket');

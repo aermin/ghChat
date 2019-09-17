@@ -12,7 +12,7 @@ export default class Register extends Component {
       name: '',
       password: '',
       modal: {
-        visible: false,
+        visible: false
       }
     };
   }
@@ -28,12 +28,15 @@ export default class Register extends Component {
       return;
     }
     try {
-      const res = await Request.axios('post', '/api/v1/register', { name, password });
+      const res = await Request.axios('post', '/api/v1/register', {
+        name,
+        password
+      });
       if (res && res.success) {
         // 弹窗
         this.setState({
           modal: {
-            visible: true,
+            visible: true
           }
         });
       } else {
@@ -46,13 +49,16 @@ export default class Register extends Component {
 
   setValue = (value) => {
     const { name, password } = value;
-    this.setState({
-      name,
-      password
-    }, async () => {
-      await this.register();
-    });
-  }
+    this.setState(
+      {
+        name,
+        password
+      },
+      async () => {
+        await this.register();
+      }
+    );
+  };
 
   confirm = () => {
     this.setState({
@@ -75,9 +81,7 @@ export default class Register extends Component {
           confirm={this.confirm}
           hasCancel={false}
         >
-          <p className="content">
-            {'您已注册成功'}
-          </p>
+          <p className="content">您已注册成功</p>
         </Modal>
         {/* <Message isShow = {this.state.message.isShow}  type = {this.state.message.type}  content = {this.state.message.content} /> */}
         <SignInSignUp setValue={this.setValue} isLogin={false} />
