@@ -19,12 +19,12 @@ export class GroupChatService {
    * @return  group_member_id  群成员id
    */
   getGroupMember(groupId) {
-    const _sql = 'SELECT g.user_id, u.name, u.status, u.avatar, u.github_id, u.github, u.intro, u.company, u.location, u.website FROM group_user_relation AS g inner join user_info AS u ON g.user_id = u.id WHERE to_group_id = ?';
+    const _sql = 'SELECT g.user_id, u.socketid, u.name, u.avatar, u.github_id, u.github, u.intro, u.company, u.location, u.website FROM group_user_relation AS g inner join user_info AS u ON g.user_id = u.id WHERE to_group_id = ?';
     return query(_sql, groupId);
   };
   /**
    * 获取群资料
-   * @param   arr 包括 groupId  goupName 至少一个
+   * @param   arr 包括 groupId  groupName 至少一个
    * @return
    */
   getGroupInfo(arr) {

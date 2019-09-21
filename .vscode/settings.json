@@ -1,9 +1,7 @@
 // Place your settings in this file to overwrite default and user settings.
 {
   "javascript.validate.enable": false,
-  "editor.rulers": [
-    100
-  ],
+  "editor.rulers": [100],
   "editor.tabSize": 2,
   "search.exclude": {
     "**/.git": true,
@@ -13,6 +11,6 @@
     "**/.DS_Store": true,
     "build/**": true
   },
-  "eslint.autoFixOnSave": true,
+  "eslint.autoFixOnSave": false,
   "files.eol": "\n"
 }

@@ -1,15 +1,15 @@
-import * as mysql from 'mysql';
+import { createPool } from 'mysql';
 import { environment } from '@env';
 
-const pool = mysql.createPool(environment.dbConnection);
+const pool = createPool(environment.dbConnection);
 
-export const query = (sql, values): Promise<any[]> => new Promise((resolve, reject) => {
+export const query = (sql, values?): Promise<any> => new Promise((resolve, reject) => {
   pool.getConnection((err, connection) => {
     if (err) {
-      console.log('connection error!');
+      console.log('query connec error!', err);
       // resolve(err);
     } else {
-      connection.query(sql, values, (err, rows: any[]) => {
+      connection.query(sql, values, (err, rows) => {
         if (err) {
           reject(err);
         } else {

@@ -5,7 +5,6 @@ import { ServicesContext } from '../context';
 
 // 用户名登录系统只涉及非github用户，也就是github用户只能走github授权来登录
 export const loginController = async (ctx, next) => {
-  console.log('ctx, next', ctx, next);
   const { userService } = ServicesContext.getInstance();
 
   const { name = '', password = '' } = ctx.request.body;

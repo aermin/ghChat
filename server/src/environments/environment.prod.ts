@@ -1,6 +1,6 @@
-// export const environment = {
-//   production: true,
-//   db: secrets.db,
-//   baseApi: 'api/v1',
-//   secret: (secrets && secrets.secretValue)
-// };
+export const environment = {
+  production: true,
+  dbConnection: secrets.db,
+  baseApi: 'api/v1',
+  secret: (secrets && secrets.secretValue)
+};
