@@ -8,13 +8,13 @@
     "clean": "rimraf package-lock.json node_modules",
     "cleanAndUpdate": "npm run clean && ncu -a &&  ncu -d -a && npm install",
     "start": "npm run watch",
-    "watch": "concurrently -k -p \"[{name}]\" -n \"Node,TypeScript\" -c \"green.bold,cyan.bold,green.bold\" \"nodemon\" ",
+    "watch": "concurrently -k -p \"[{name}]\" -n \"Node,TypeScript\" -c \"green.bold,cyan.bold,green.bold\" \"nodemon\" \"npm run watch-build\"",
     "serve": "nodemon",
     "clean-dist": "rimraf dist",
     "build": "npm run clean-dist && webpack --config webpack.config.js --progress --colors",
     "watch-build": "npm run clean-dist && webpack --config webpack.config.js --progress --colors -w",
     "build:prod": "npm run clean-dist && webpack --config webpack.config.js --progress --colors --prod",
-    "init_sql": "node ./init/index.js",
+    "init_sql": "ts-node-dev --respawn --transpileOnly ./init/index.ts ",
     "dev": "node --inspect ../server",
     "pm2-pod": "pm2 start ecosystem.config.js --env production"
   },
@@ -39,6 +39,7 @@
     "request-promise": "^4.2.2",
     "socket.io": "^2.0.3",
     "typescript": "^3.4.3",
+    "ts-node-dev": "^1.0.0-pre.43",
     "uuid": "^3.2.1",
     "winston": "^3.2.1"
   },

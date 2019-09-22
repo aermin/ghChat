@@ -1,6 +1,6 @@
 /* eslint-disable guard-for-in */
 import { getSqlContentMap } from './util/getSQLConentMap';
-import { query } from '../src/app/utils/db';
+import { query } from './db';
 
 // 打印脚本执行日志
 const eventLog = (err, sqlFile, index) => {

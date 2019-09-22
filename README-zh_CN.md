@@ -99,8 +99,8 @@ MySQL 版本: 5.7.22
   - [x] gzip 压缩
   - [x] 聊天内容懒加载，每次获取20条数据
   - [x] 路由按需加载
-  - [x] 接口请求频率限制 
-  - [ ] css文件单独打包  
+  - [x] 接口请求频率限制
+  - [ ] css文件单独打包
   - [ ] sql优化
 
 - 其他
@@ -164,30 +164,7 @@ MySQL 版本: 5.7.22
 git clone https://github.com/aermin/react-chat.git
 ```
 
-
-2. 在react-chat文件夹下创建一个secret.js的空白文件。
-
-如果要使用github授权登录，使用七牛云cdn，生产环境数据库和jwt的secret的单独配置，就要填充相应的配置了。
-```
-module.exports = {
-  client_secret: '', // github授权登录需要的  github-> settings ->  Developer settings 那边生成获取
-  db: {
-    host: '', // 数据库IP
-    port: , // 数据库端口
-    database: '', // 数据库名称
-    user: '', // 数据库用户名
-    password: '', // 数据库密码
-  },
-  secretValue: '', // json web token 的 secret
-  qiniu: { // 七牛云配置
-    accessKey: '',
-    secretKey: '',
-    bucket: ''
-  }
-};
-```
-
-3. 下载前端的npm包
+2. 下载前端的npm包
 ```
 cd react-chat
 ```
@@ -196,24 +173,53 @@ cd react-chat
 npm i
 ```
 
-4. 下载后端的npm包
+3. 下载后端的npm包
 ```
-cd cd react-chat/server 
+cd cd react-chat/server
 ```
 
 ```
 npm i
 ```
 
-5. 初始化数据库
+4. 初始化数据库
+
 ```
 //需要先在本地建一个名为ghchat的mysql数据库
-数据库配置参考react-chat/server/config.js
+数据库配置参考如下(ghChat/server/src/configs/configs.dev.ts) 的dbConnection
 
 npm run init_sql    //然后查看下数据库是否init成功
 ```
 
-6. 跑起前端和后端的代码
+ps: 如果要使用github授权登录，发图片和发文件(使用七牛云cdn)，就要在如下(ghChat/server/src/configs/configs.dev.ts)填充相应的配置了，否则默认无法使用
+
+***开发环境的配置：***
+
+```
+import commonConfigs from './configs.common';
+
+export default {
+  production: false,
+  ...commonConfigs,
+  port: '3000',
+  dbConnection: {
+    host: '127.0.0.1', // 数据库IP
+    port: 3306, // 数据库端口
+    database: 'ghchat', // 数据库名称
+    user: 'root', // 数据库用户名
+    password: '123456', // 数据库密码
+  },
+  client_secret: '', // github授权登录需要的  github-> settings ->  Developer settings 那边生成获取
+  jwt_secret: 'chat-sec', // json web token 的 secret
+  qiniu: { // 七牛云配置，发图片和发文件功能需要的
+    accessKey: '',
+    secretKey: '',
+    bucket: ''
+  },
+};
+```
+
+5. 跑起前端和后端的代码
 ```
 npm run start
 ```
@@ -225,8 +231,6 @@ cd ..      // 返回到react-chat/目录
 ```
 npm run start
 ```
-
-ps: 本地发图片和发文件和github登录无法使用，需要自己去github和七牛云申请一些东西
 
 ### 文档
 
