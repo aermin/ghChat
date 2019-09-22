@@ -1,4 +1,3 @@
-import { environment } from '@env';
 import * as router from 'koa-router';
 
 import { githubOAuthController, loginController, registerController } from '../controllers';

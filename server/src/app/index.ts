@@ -1,4 +1,4 @@
-import { environment } from '@env';
+import configs from '@configs';
 import * as bodyParser from 'koa-bodyparser';
 import * as compress from 'koa-compress';
 import * as cors from '@koa/cors';
@@ -25,5 +25,5 @@ export const App = Server
       .setChatService(new ChatService())
       .setgroupChatService(new GroupChatService());
 
-    Server.run(environment.port);
+    Server.run(configs.port);
   });

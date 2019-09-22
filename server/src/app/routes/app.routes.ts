@@ -1,4 +1,4 @@
-import { environment } from '@env';
+import configs from '@configs';
 import * as fs from 'fs';
 import * as router from 'koa-router';
 import * as statics from 'koa-static';
@@ -19,9 +19,9 @@ export const appRoutes = new router()
     apiRoutes.routes(),
     apiRoutes.allowedMethods()
   )
-  .get('*.*', statics(environment.staticPath))
+  .get('*.*', statics(configs.staticPath))
   .get('/*', (ctx, next) => {
     ctx.type = 'html';
-    ctx.body = fs.createReadStream(path.join(environment.staticPath, '/index.html'));
+    ctx.body = fs.createReadStream(path.join(configs.staticPath, '/index.html'));
     next();
   });

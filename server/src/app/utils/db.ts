@@ -1,7 +1,7 @@
 import { createPool } from 'mysql';
-import { environment } from '@env';
+import configs from '@configs';
 
-const pool = createPool(environment.dbConnection);
+const pool = createPool(configs.dbConnection);
 
 export const query = (sql, values?): Promise<any> => new Promise((resolve, reject) => {
   pool.getConnection((err, connection) => {

@@ -40,12 +40,14 @@ export const appSocket = (server) => {
       next(new Error('Access interface frequently, please try again in a minute!'));
     });
     socket.on('initSocket', async (user_id, fn) => {
+      debugger;
+      console.log('initSocket1222', user_id);
       try {
         _userId = user_id;
         const arr = await userService.getUserSocketId(_userId);
         const existSocketIdStr = getSocketIdHandle(arr);
         const newSocketIdStr = existSocketIdStr ? `${existSocketIdStr},${socketId}` : socketId;
-
+        console.log('initSocket in server', _userId, newSocketIdStr);
         // if (existSocketIdStr) {
         await userService.saveUserSocketId(_userId, newSocketIdStr);
         // } else {

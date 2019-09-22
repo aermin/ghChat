@@ -1,4 +1,4 @@
-import { environment } from '@env';
+import configs from '@configs';
 import * as jwt from 'jsonwebtoken';
 import * as request from 'request-promise';
 import { ServicesContext } from '../context';
@@ -8,7 +8,7 @@ async function getAccessToken(ctx) {
     const { code, clientId } = ctx.request.body;
     const date = {
       code,
-      client_secret: environment.secret.client_secret,
+      client_secret: configs.client_secret,
       client_id: clientId
     };
     const options = {
@@ -45,7 +45,7 @@ export const githubOAuthController = async (ctx, next) => {
       avatar_url, html_url, bio, login, location, id, blog, company
     } = response;
     const payload = { id };
-    const token = jwt.sign(payload, environment.jwt_secret, {
+    const token = jwt.sign(payload, configs.jwt_secret, {
       expiresIn: Math.floor(Date.now() / 1000) + 24 * 60 * 60 * 7 // 一周
     });
     const data = {

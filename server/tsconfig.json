@@ -11,8 +11,8 @@
     "outDir": "dist",
     "baseUrl": "./",
     "paths": {
-      "@env": [
-        "src/environments/environment"
+      "@configs": [
+        "src/configs/configs.dev"
       ]
     },
     "lib": [

@@ -1,5 +1,5 @@
 import * as winston from 'winston';
-import { environment } from '@env';
+import configs from '@configs';
 
 // Imports the Google Cloud client library for Winston
 // const { LoggingWinston } = require('@google-cloud/logging-winston');
@@ -34,7 +34,7 @@ const write = (writeFunction) => ({
 export const winstonStream = stream(write(logger.info));
 
 // Configure the debug module
-process.env.DEBUG = environment.logger.debug;
+process.env.DEBUG = configs.logger.debug;
 // imports debug moduel
 import * as Debug from 'debug';
 const debug = Debug('app:response');
@@ -55,7 +55,7 @@ export const Logger = (scope: string) => {
     const scopeDebug = Debug(scope);
     return {
         debug: (message: string, ...args: any[]) => {
-            if (environment.production) {
+            if (configs.production) {
                 logger.debug(format(scope, message), parse(args));
             }
             scopeDebug(message, parse(args));

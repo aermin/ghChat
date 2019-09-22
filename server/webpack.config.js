@@ -54,9 +54,8 @@ module.exports = (env, argv) => {
   if (!argv.prod) {
     config.devtool = 'source-map';
   }
-
   config.resolve.alias = {
-    '@env': path.join(__dirname, `src/environments/environment${argv.prod ? '.prod' : ''}.ts`),
+    '@configs': path.join(__dirname, `src/configs/configs.${argv.prod ? 'prod' : 'dev'}.ts`),
   };
   return config;
 };
