@@ -1,26 +1,26 @@
 {
-  "name": "react-chat",
+  "name": "ghChat",
   "version": "1.0.0",
-  "description": "a chat tool by react ",
+  "description": "a chat tool for GitHub ",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev-build": "webpack --config webpack.dev.config.js",
-    "build": "webpack --config webpack.config.js",
     "start": "webpack-dev-server --config webpack.dev.config.js --color  --hot",
+    "build": "webpack --config webpack.dev.config.js",
+    "build:prod": "webpack --config webpack.config.js",
     "lint": "eslint src",
     "lint:create": "eslint --init"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aermin/react-chat.git"
+    "url": "git+https://github.com/aermin/ghChat.git"
   },
   "author": "aermin",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/aermin/react-chat/issues"
+    "url": "https://github.com/aermin/ghChat/issues"
   },
-  "homepage": "https://github.com/aermin/react-chat#readme",
+  "homepage": "https://github.com/aermin/ghChat#readme",
   "devDependencies": {
     "autoprefixer": "^8.6.3",
     "babel-core": "^6.26.3",

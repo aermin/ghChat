@@ -1,0 +1,6 @@
+{
+  "watch": ["dist"],
+  "ext": "js",
+  "ignore": ["dist/**/*.spec.ts"],
+  "exec": "node --inspect -r dotenv/config dist/index.js"
+}

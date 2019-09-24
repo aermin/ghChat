@@ -1,0 +1,50 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "esModuleInterop": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es6",
+    "noImplicitAny": false,
+    "sourceMap": true,
+    "outDir": "dist",
+    "baseUrl": "./",
+    "paths": {
+      "@configs": [
+        "src/configs/configs.dev"
+      ]
+    },
+    "lib": [
+      "es2015",
+      "es6",
+      "esnext.asynciterable",
+      "dom"
+    ]
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "awesomeTypescriptLoaderOptions": {
+    "forceIsolatedModules": true,
+    "useBabel": true,
+    // "babelOptions": {
+    //     "babelrc": false,
+    //     /* Important line */
+    //     "presets": [
+    //         ["@babel/preset-env", {
+    //             "targets": "last 2 versions, ie 11",
+    //             "modules": false
+    //         }]
+    //     ]
+    // },
+    "babelCore": "@babel/core",
+    "useCache": true,
+    "reportFiles": [
+      "src/**/*.{ts,tsx}"
+    ]
+  }
+}

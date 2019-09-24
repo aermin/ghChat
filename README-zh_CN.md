@@ -99,8 +99,8 @@ MySQL 版本: 5.7.22
   - [x] gzip 压缩
   - [x] 聊天内容懒加载，每次获取20条数据
   - [x] 路由按需加载
-  - [x] 接口请求频率限制 
-  - [ ] css文件单独打包  
+  - [x] 接口请求频率限制
+  - [ ] css文件单独打包
   - [ ] sql优化
 
 - 其他
@@ -108,8 +108,9 @@ MySQL 版本: 5.7.22
   - [x] 机器人智能聊天回复
   - [x] 部署SSL证书
   - [x] 支持PWA
+  - [x] 后端用TS重写
+  - [ ] 后端封装成sdk
   - [ ] 国际化
-  - [ ] 后端用TS重写，封装成sdk
   - [ ] CI/CD
 
 ### 项目结构图
@@ -161,33 +162,10 @@ MySQL 版本: 5.7.22
 
 1. 项目拉到本地
 ```
-git clone https://github.com/aermin/react-chat.git
+git clone https://github.com/aermin/ghChat.git
 ```
 
-
-2. 在react-chat文件夹下创建一个secret.js的空白文件。
-
-如果要使用github授权登录，使用七牛云cdn，生产环境数据库和jwt的secret的单独配置，就要填充相应的配置了。
-```
-module.exports = {
-  client_secret: '', // github授权登录需要的  github-> settings ->  Developer settings 那边生成获取
-  db: {
-    host: '', // 数据库IP
-    port: , // 数据库端口
-    database: '', // 数据库名称
-    user: '', // 数据库用户名
-    password: '', // 数据库密码
-  },
-  secretValue: '', // json web token 的 secret
-  qiniu: { // 七牛云配置
-    accessKey: '',
-    secretKey: '',
-    bucket: ''
-  }
-};
-```
-
-3. 下载前端的npm包
+2. 下载前端的npm包
 ```
 cd react-chat
 ```
@@ -196,24 +174,28 @@ cd react-chat
 npm i
 ```
 
-4. 下载后端的npm包
+3. 下载后端的npm包
 ```
-cd cd react-chat/server 
+cd cd react-chat/server
 ```
 
 ```
 npm i
 ```
 
-5. 初始化数据库
+4. 初始化数据库
+
 ```
 //需要先在本地建一个名为ghchat的mysql数据库
-数据库配置参考react-chat/server/config.js
+数据库配置参考如下(ghChat/server/src/configs/configs.dev.ts) 的dbConnection
 
 npm run init_sql    //然后查看下数据库是否init成功
 ```
 
-6. 跑起前端和后端的代码
+ps: 如果要使用github授权登录，发图片和发文件(使用七牛云cdn)，就要在文件(ghChat/server/src/configs/configs.dev.ts)填充相应的配置了，否则默认无法使用
+
+
+5. 跑起前端和后端的代码
 ```
 npm run start
 ```
@@ -226,7 +208,44 @@ cd ..      // 返回到react-chat/目录
 npm run start
 ```
 
-ps: 本地发图片和发文件和github登录无法使用，需要自己去github和七牛云申请一些东西
+### 生产环境使用
+
+前提：创建secrets.ts文件
+```
+export default {
+  port: '3000', // server 端口
+  dbConnection: {
+    host: '', // 数据库IP
+    port: 3306, // 数据库端口
+    database: 'ghchat', // 数据库名称
+    user: '', // 数据库用户名
+    password: '', // 数据库密码
+  },
+  client_secret: '', // github的client_secret
+  jwt_secret: '', // jwt的secret
+  qiniu: { // 七牛云cdn配置
+    accessKey: '',
+    secretKey: '',
+    bucket: ''
+  }
+};
+```
+
+1.build前端代码
+
+```
+cd src
+npm run build:prod
+```
+
+2.build后端代码
+
+```
+cd sever
+npm run build:prod
+```
+3. 把步骤1，2产生的文件夹(build, dist)放到你的服务器上, 把dist/index.js文件跑起来
+(可以把ghChat/package.json，ghChat/server/ecosystem.config.js 两个文件一并拷到到你的服务器上，然后执行`npm start:prod`)
 
 ### 文档
 

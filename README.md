@@ -115,42 +115,19 @@ Just some functions
   - [x] Robot smart reply (just support Chinese)
   - [x] Add SSL for website
   - [x] PWA
+  - [x] Rewrite back end code with TS
   - [ ] Multilingual solution with I18
-  - [ ] Rewrite back end code with TS，encapsulated as sdk.
+  - [ ] encapsulate back end code as sdk.
   - [ ] CI/CD
 
 ### Development
 
 1. clone project code
 ```
-git clone https://github.com/aermin/react-chat.git
+git clone https://github.com/aermin/ghChat.git
 ```
 
-
-2.  create an empty file that names 'secret.js' in the root directory of this project.
-
-But if you want to log in with GitHub authorization, use third part cdn to send files in chat, or separate configuration for DB, jwt secret, you should add content as follows in secret.js. So without this authorization, you just can't use features about send files and log in with GitHub.
-
-```
-module.exports = {
-  client_secret: '', // client_secret of github authorization:  github-> settings ->  Developer settings to get 
-  db: {
-    host: '', 
-    port: ,
-    database: '',
-    user: '',
-    password: '',
-  },
-  secretValue: '', // secret of json web token
-  qiniu: { // qiniu cdn configuration
-    accessKey: '',
-    secretKey: '',
-    bucket: ''
-  }
-};
-```
-
-3. download npm module for front end
+2. download npm module for front end
 
 ```
 cd react-chat
@@ -160,7 +137,7 @@ cd react-chat
 npm i
 ```
 
-4. download npm module for the back end
+3. download npm module for the back end
 ```
 cd cd react-chat/server 
 ```
@@ -169,15 +146,17 @@ cd cd react-chat/server
 npm i
 ```
 
-5. init DB
+4. init DB
 ```
 // You should create a MySQL DB which name ghchat in local
-DB configuration follows 'react-chat/server/config.js'
+DB configuration follows 'ghChat/server/src/configs/configs.dev.ts'
 
-npm run init_sql
+npm run init_sql // then check if it inits successfully
 ```
+ps: if you want to use github authorization to log in and use qiniu cdn which provides storage to send photo and file, you should follow the file(ghChat/server/src/configs/configs.dev.ts) to configure. The default won't be able to use.
 
-6. run front end and back end code
+
+5. run front end and back end code
 ```
 npm run start
 ```
@@ -189,6 +168,47 @@ cd ..
 ```
 npm run start
 ```
+
+### use in production
+
+Premise: pls create secrets.ts file to do configuration
+
+```
+export default {
+  port: '3000', // server port
+  dbConnection: {
+    host: '', // 数据库IP
+    port: 3306, // 数据库端口
+    database: 'ghchat', // 数据库名称
+    user: '', // 数据库用户名
+    password: '', // 数据库密码
+  },
+  client_secret: '', // client_secret of github authorization:  github-> settings ->  Developer settings to get
+  jwt_secret: '', // secret of json web token
+  qiniu: { // qiniu cdn configuration
+    accessKey: '',
+    secretKey: '',
+    bucket: ''
+  }
+};
+```
+
+1.build front end code
+
+```
+cd src
+npm run build:prod
+```
+
+2.build server code
+
+```
+cd sever
+npm run build:prod
+```
+
+3. put the folders(build, dist) which built from step1, step2 into you server, and run dist/index.js file
+(here you can copy ghChat/package.json，ghChat/server/ecosystem.config.js two files to your sever as well，and run command `npm start:prod`)
 
 ### License
 
