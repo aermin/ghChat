@@ -108,8 +108,9 @@ MySQL 版本: 5.7.22
   - [x] 机器人智能聊天回复
   - [x] 部署SSL证书
   - [x] 支持PWA
+  - [x] 后端用TS重写
+  - [ ] 后端封装成sdk
   - [ ] 国际化
-  - [ ] 后端用TS重写，封装成sdk
   - [ ] CI/CD
 
 ### 项目结构图
@@ -161,7 +162,7 @@ MySQL 版本: 5.7.22
 
 1. 项目拉到本地
 ```
-git clone https://github.com/aermin/react-chat.git
+git clone https://github.com/aermin/ghChat.git
 ```
 
 2. 下载前端的npm包
@@ -191,33 +192,8 @@ npm i
 npm run init_sql    //然后查看下数据库是否init成功
 ```
 
-ps: 如果要使用github授权登录，发图片和发文件(使用七牛云cdn)，就要在如下(ghChat/server/src/configs/configs.dev.ts)填充相应的配置了，否则默认无法使用
+ps: 如果要使用github授权登录，发图片和发文件(使用七牛云cdn)，就要在文件(ghChat/server/src/configs/configs.dev.ts)填充相应的配置了，否则默认无法使用
 
-***开发环境的配置：***
-
-```
-import commonConfigs from './configs.common';
-
-export default {
-  production: false,
-  ...commonConfigs,
-  port: '3000',
-  dbConnection: {
-    host: '127.0.0.1', // 数据库IP
-    port: 3306, // 数据库端口
-    database: 'ghchat', // 数据库名称
-    user: 'root', // 数据库用户名
-    password: '123456', // 数据库密码
-  },
-  client_secret: '', // github授权登录需要的  github-> settings ->  Developer settings 那边生成获取
-  jwt_secret: 'chat-sec', // json web token 的 secret
-  qiniu: { // 七牛云配置，发图片和发文件功能需要的
-    accessKey: '',
-    secretKey: '',
-    bucket: ''
-  },
-};
-```
 
 5. 跑起前端和后端的代码
 ```
@@ -231,6 +207,45 @@ cd ..      // 返回到react-chat/目录
 ```
 npm run start
 ```
+
+### 生产环境使用
+
+前提：创建secrets.ts文件
+```
+export default {
+  port: '3000', // server 端口
+  dbConnection: {
+    host: '', // 数据库IP
+    port: 3306, // 数据库端口
+    database: 'ghchat', // 数据库名称
+    user: '', // 数据库用户名
+    password: '', // 数据库密码
+  },
+  client_secret: '', // github的client_secret
+  jwt_secret: '', // jwt的secret
+  qiniu: { // 七牛云cdn配置
+    accessKey: '',
+    secretKey: '',
+    bucket: ''
+  }
+};
+```
+
+1.build前端代码
+
+```
+cd src
+npm run build:prod
+```
+
+2.build后端代码
+
+```
+cd sever
+npm run build:prod
+```
+3. 把步骤1，2产生的文件夹(build, dist)放到你的服务器上, 把dist/index.js文件跑起来
+(可以把ghChat/package.json，ghChat/server/ecosystem.config.js 两个文件一并拷到到你的服务器上，然后执行`npm start:prod`)
 
 ### 文档
 

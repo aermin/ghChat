@@ -13,10 +13,11 @@
     "clean-dist": "rimraf dist",
     "build": "npm run clean-dist && webpack --config webpack.config.js --progress --colors",
     "watch-build": "npm run clean-dist && webpack --config webpack.config.js --progress --colors -w",
-    "build:prod": "npm run clean-dist && webpack --config webpack.config.js --progress --colors --prod",
     "init_sql": "ts-node-dev --respawn --transpileOnly ./init/index.ts ",
     "dev": "node --inspect ../server",
-    "pm2-pod": "pm2 start ecosystem.config.js --env production"
+    "build:prod": "npm run clean-dist && webpack --config webpack.config.js --progress --colors --prod",
+    "start:prod": "pm2 start ecosystem.config.js --env production",
+    "stop:prod": "pm2 stop ecosystem.config.js --env production"
   },
   "engines": {
     "node": ">= 0.10.0"
