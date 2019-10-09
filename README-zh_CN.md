@@ -19,7 +19,7 @@ MySQL 版本: 5.7.22
 
 ### 技术栈
 
-前端React全家桶，后端node.js(koa2), 数据库MySQL, 双向通信SocKet.io, jwt鉴权等等。具体看package.json。有疑问的可以加ghChat群交流哦，我每天都在线，也可以私聊我，[点击加我](https://im.aermin.top/private_chat/1)
+前端React全家桶，后端node.js(koa2)和写了些TS, 数据库MySQL, 双向通信SocKet.io, jwt鉴权等等。具体看package.json。有疑问的可以加ghChat群交流哦，我每天都在线，也可以私聊我，[点击加我](https://im.aermin.top/private_chat/1)
 
 ### 项目展示：
 
@@ -119,43 +119,52 @@ MySQL 版本: 5.7.22
 ├── LICENSE
 ├── README-zh_CN.md
 ├── README.md
-├── build
 ├── package-lock.json
 ├── package.json
 ├── postcss.config.js
-├── secret.js // 放一些非公开的secret
-├── server  // 后端代码
-│   ├── config.js
-│   ├── controllers
-│   ├── ecosystem.config.js // pm2加生产环境变量的配置文件
-│   ├── gulpfile.js
-│   ├── index.js
-│   ├── init  // 初始化mysql
-│   ├── middlewares
-│   ├── models
-│   ├── package-lock.json
-│   ├── package.json
-│   ├── routes  // 后端路由，跟登录注册模块有关
-│   ├── socket  // 除了登录注册，其他都用socket 来通信
-│   ├── utils
-│   └── yarn.lock
-├── src  // 前端代码
-│   ├── App.js
-│   ├── app.scss
-│   ├── assets
-│   ├── components
-│   ├── containers
-│   ├── index.html
-│   ├── index.js
-│   ├── manifest.json // PWA需要
-│   ├── modules
-│   ├── redux
-│   ├── router
-│   ├── service-worker.js // PWA需要
-│   └── utils
+├── server // 后端代码
+│   ├── ecosystem.config.js
+│   ├── init // 初始化mysql数据库的脚本
+│   ├── nodemon.json
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── secrets.ts // 放一些非公开的secret
+│   ├── src
+│     ├── app
+│     ├── context
+|     ├── controllers
+|     ├── index.ts
+|     ├── middlewares
+|     ├── routes // 后端路由，跟登录注册模块有关
+|     ├── server.ts
+|     ├── services
+|     ├── socket // 除了登录注册，其他都用socket 来通信
+|     └── utils
+|     ├── configs
+|       ├── configs.common.ts // 后端通用配置
+|       ├── configs.dev.ts // 后端开发配置
+|       └── configs.prod.ts // 后端生产配置
+    └── main.ts
+│   ├── tsconfig.json
+│   ├── tslint.json
+│   └── webpack.config.js
+├── src // 前端代码
+│   ├── App.js
+│   ├── app.scss
+│   ├── assets
+│   ├── components
+│   ├── containers
+│   ├── index.html
+│   ├── index.js
+│   ├── manifest.json // PWA需要
+│   ├── modules
+│   ├── redux
+│   ├── router
+│   ├── service-worker.js // PWA需要
+│   └── utils
 ├── webpack.common.config.js  // 通用webpack设置
-├── webpack.config.js  //生产相关的webpack配置
-├── webpack.dev.config.js  //开发相关的webpack配置
+├── webpack.config.js //生产相关的webpack配置
+└── webpack.dev.config.js //开发相关的webpack配置
 ```
 
 ### 本地开发
@@ -167,7 +176,7 @@ git clone https://github.com/aermin/ghChat.git
 
 2. 下载前端的npm包
 ```
-cd react-chat
+cd ghChat
 ```
 
 ```
@@ -176,7 +185,7 @@ npm i
 
 3. 下载后端的npm包
 ```
-cd cd react-chat/server
+cd ghChat/server
 ```
 
 ```
@@ -201,7 +210,7 @@ npm run start
 ```
 
 ```
-cd ..      // 返回到react-chat/目录
+cd ..      // 返回到ghChat/目录
 ```
 
 ```
@@ -245,7 +254,7 @@ cd sever
 npm run build:prod
 ```
 3. 把步骤1，2产生的文件夹(build, dist)放到你的服务器上, 把dist/index.js文件跑起来
-(可以把ghChat/package.json，ghChat/server/ecosystem.config.js 两个文件一并拷到到你的服务器上，然后执行`npm start:prod`)
+(可以把ghChat/package.json，ghChat/server/ecosystem.config.js 两个文件一并拷到到你的服务器上，然后执行`npm run start:prod`)
 
 ### 文档
 

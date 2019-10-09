@@ -24,8 +24,8 @@ Welcome to [ click this link](https://im.aermin.top/private_chat/1) to contact m
 ### What technology do ghChat use?
 
 Front-End : React+Redux+React-router+axios+scss；
-Back-end: node(koa2)+mysql+JWT(Json web token); 
-use socket.io to send messages with each other. 
+Back-end: node(koa2)+mysql+JWT(Json web token);
+use socket.io to send messages with each other.
 And get other technology please follow the package.json file.
 
 ### Demo with photo：
@@ -130,7 +130,7 @@ git clone https://github.com/aermin/ghChat.git
 2. download npm module for front end
 
 ```
-cd react-chat
+cd ghChat
 ```
 
 ```
@@ -139,7 +139,7 @@ npm i
 
 3. download npm module for the back end
 ```
-cd cd react-chat/server 
+cd ghChat/server
 ```
 
 ```
@@ -208,7 +208,7 @@ npm run build:prod
 ```
 
 3. put the folders(build, dist) which built from step1, step2 into you server, and run dist/index.js file
-(here you can copy ghChat/package.json，ghChat/server/ecosystem.config.js two files to your sever as well，and run command `npm start:prod`)
+(here you can copy ghChat/package.json，ghChat/server/ecosystem.config.js two files to your sever as well，and run command `npm run start:prod`)
 
 ### License
 

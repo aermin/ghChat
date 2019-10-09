@@ -59,7 +59,7 @@ class Setting extends Component {
 
   render() {
     const githubStarRender = (
-      <div className="githubStarRender" onClick={() => this._openUrl('https://github.com/aermin/react-chat')}>
+      <div className="githubStarRender" onClick={() => this._openUrl('https://github.com/aermin/ghChat')}>
         <svg className="icon githubIcon" aria-hidden="true">
           <use xlinkHref="#icon-github-copy" />
         </svg>
