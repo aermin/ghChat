@@ -22,10 +22,15 @@ commonConfig = {
   /* cacheDirectory是用来缓存编译结果，下次编译加速 */
   module: {
     rules: [{
-      test: /\.js$/,
+      test: /\.(js|jsx)$/,
       use: ['babel-loader?cacheDirectory=true'],
       include: path.join(__dirname, 'src')
     }, {
+      test: /\.(js|jsx)$/,
+      use: 'react-hot-loader/webpack',
+      include: /node_modules/
+    },
+    {
       test: /\.(png|jpg|gif|svg)$/,
       use: [{
         loader: 'url-loader',

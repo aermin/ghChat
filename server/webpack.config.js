@@ -19,6 +19,7 @@ const config = {
   },
   resolve: {
     alias: {
+      'react-dom': '@hot-loader/react-dom'
     },
     extensions: ['.ts', '.js'],
     modules: [

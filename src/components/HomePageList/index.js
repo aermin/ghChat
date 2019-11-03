@@ -30,13 +30,14 @@ class HomePageList extends Component {
     this._cleanedUnread = false;
   }
 
-  componentWillMount() {
-    if (!this.props.initializedApp) {
-      this._InitApp = new InitApp({ history: this.props.history });
-      this._InitApp.init().then(() => {
-        this.props.initApp(true);
+  static getDerivedStateFromProps(props) {
+    if (!props.initializedApp) {
+      const initAppInstance = new InitApp({ history: props.history });
+      initAppInstance.init().then(() => {
+        props.initApp(true);
       });
     }
+    return null;
   }
 
   componentDidUpdate() {

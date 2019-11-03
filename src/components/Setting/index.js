@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   withRouter,
+  Link
 } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 // import axios from 'axios';
 import './styles.scss';
 import Button from '../Button';
@@ -19,13 +19,14 @@ class Setting extends Component {
     };
   }
 
-  componentWillMount() {
-    if (!this.props.initializedApp) {
-      this._InitApp = new InitApp({ history: this.props.history });
-      this._InitApp.init().then(() => {
-        this.props.initApp(true);
+  static getDerivedStateFromProps(props) {
+    if (!props.initializedApp) {
+      const initAppInstance = new InitApp({ history: props.history });
+      initAppInstance.init().then(() => {
+        props.initApp(true);
       });
     }
+    return null;
   }
 
    _showModal = () => {

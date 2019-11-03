@@ -40,7 +40,6 @@ export const appSocket = (server) => {
       next(new Error('Access interface frequently, please try again in a minute!'));
     });
     socket.on('initSocket', async (user_id, fn) => {
-      debugger;
       console.log('initSocket1222', user_id);
       try {
         _userId = user_id;
@@ -285,7 +284,7 @@ export const appSocket = (server) => {
     });
 
     // qiniu token
-    socket.on('getQiniuToken', async (fn) => {
+    socket.on('getQiniuToken', async (data, fn) => {
       try {
         const uploadToken = await getUploadToken();
         return fn(uploadToken);

@@ -3,11 +3,24 @@ import PropTypes from 'prop-types';
 import { Picker } from 'emoji-mart';
 import Fuse from 'fuse.js';
 import upload from '../../utils/qiniu';
+import request from '../../utils/request';
 import './style.scss';
 import notification from '../Notification';
 import debounce from '../../utils/debounce';
 import { shareAction } from '../../redux/actions/shareAction';
 import store from '../../redux/store';
+
+
+function getPlaceholder(isRobotChat) {
+  switch(true) {
+    case (/group_chat/.test(window.location.href)):
+      return '支持Enter发信息/粘贴发图/@别人哦';
+    case isRobotChat:
+      return '支持Enter发信息哦';
+    default:
+     return '支持Enter发信息/粘贴发图哦';
+  }
+};
 
 export default class InputArea extends Component {
   constructor(props) {
@@ -17,18 +30,9 @@ export default class InputArea extends Component {
       showEmojiPicker: false,
       relatedMembers: [],
     };
-    this._placeholder = null;
+    this._uploadToken = null;
     this._onPaste = props.isRobotChat ? () => {} : debounce(this._paste, 2000, true);
-  }
-
-  componentWillMount() {
-    if (/group_chat/.test(window.location.href)) {
-      this._placeholder = '支持Enter发信息/粘贴发图/@别人哦';
-    } else if (this.props.isRobotChat) {
-      this._placeholder = '支持Enter发信息哦';
-    } else { // private chat
-      this._placeholder = '支持Enter发信息/粘贴发图哦';
-    }
+    this._placeHolder = getPlaceholder(props.isRobotChat);
   }
 
   _sendMessage = ({ attachments = [], message }) => {
@@ -163,7 +167,11 @@ export default class InputArea extends Component {
     );
   }
 
-  _paste = (e) => {
+  async uploadTokenHandle() {
+    this._uploadToken = await request.socketEmitAndGetResponse('getQiniuToken');
+  }
+
+  _paste = async(e) => {
     const clipboardData = (e.clipboardData || e.originalEvent.clipboardData);
     const items = clipboardData && clipboardData.items;
     if (!items) return;
@@ -180,7 +188,10 @@ export default class InputArea extends Component {
           notification('发的文件不能超过2MB哦!', 'warn', 2);
           return;
         }
-        upload(file, (fileUrl) => {
+        if (!this._uploadToken) {
+          this._uploadToken = await request.socketEmitAndGetResponse('getQiniuToken');
+        }
+        upload(file, this._uploadToken, (fileUrl) => {
           const type = file.type.split('/')[0];
           const attachments = [{ fileUrl, type, name: file.name }];
           this._sendMessage({ attachments });
@@ -211,7 +222,7 @@ export default class InputArea extends Component {
           ref={(input) => { this.nameInput = input; }}
           value={inputMsg}
           onChange={this._inputMsgChange}
-          placeholder={this._placeholder}
+          placeholder={this._placeHolder}
           onPaste={this._onPaste}
           onKeyPressCapture={this._keyPress} />
         {/* <pre id="textarea" /> */}

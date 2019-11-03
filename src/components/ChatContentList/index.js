@@ -7,11 +7,12 @@ import { toNormalTime } from '../../utils/transformTime';
 import './styles.scss';
 import sleep from '../../utils/sleep';
 import notification from '../Notification';
+import Chat from '../../modules/Chat';
 
 export default class ChatContentList extends Component {
   constructor(props) {
     super(props);
-    this._chat = props.chat;
+    this._chat = new Chat();
     this._scrollHeight = 0;
     this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this._loadingNewMessages = false;
@@ -26,23 +27,15 @@ export default class ChatContentList extends Component {
     this._chat.scrollToBottom();
   }
 
-  componentWillUpdate() {
-    // If It is the bottom of scroll just now, keep it in the bottom.
-    if (this._chat.isScrollInBottom) {
-      this._chat.scrollToBottom();
-    }
-  }
-
   componentDidUpdate(nextProps) {
     if (nextProps.chatId !== this.props.chatId) { // go to another chat
       this._loadingNewMessages = false;
-      // this._chat = new Chat();
-      this._chat.scrollToBottom();
     }
     if (this._scrollHeight && this._loadingNewMessages) {
       this._ulRef.scrollTop = this._ulRef.scrollHeight - this._scrollHeight;
       this._loadingNewMessages = false;
     }
+    this._chat.scrollToBottom();
   }
 
   _lazyLoadMessage = () => {

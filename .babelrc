@@ -9,4 +9,4 @@
       "transform-runtime",  //将babel辅助函数“搬”到一个单独的模块 babel-runtime 中，这样做能减小项目文件的大小。
       "syntax-dynamic-import"
     ]
-  }
+}

@@ -40,7 +40,6 @@
     "request-promise": "^4.2.2",
     "socket.io": "^2.0.3",
     "typescript": "^3.4.3",
-    "ts-node-dev": "^1.0.0-pre.43",
     "uuid": "^3.2.1",
     "winston": "^3.2.1"
   },
@@ -64,8 +63,9 @@
     "awesome-typescript-loader": "^5.2.1",
     "concurrently": "^4.1.0",
     "dotenv": "^7.0.0",
-    "nodemon": "^1.18.9",
+    "nodemon": "^1.19.0",
     "ts-loader": "^5.3.3",
+    "ts-node-dev": "^1.0.0-pre.43",
     "webpack": "^4.29.0",
     "webpack-cli": "^3.2.1",
     "webpack-node-externals": "^1.7.2"
