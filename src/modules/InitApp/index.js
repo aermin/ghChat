@@ -174,9 +174,10 @@ class InitApp {
       window.socket.on('reconnect', (attemptNumber) => {
         console.log('reconnect successfully. attemptNumber =>', attemptNumber, 'time=>', new Date().toLocaleString());
       });
-      window.socket.on('disconnect', (reason) => {
+      window.socket.on('disconnect', async (reason) => {
         console.log('disconnect in client, disconnect reason =>', reason, 'time=>', new Date().toLocaleString());
-        this._init();
+        await this._initSocket();
+        await this._initMessage();
       });
       window.socket.on('reconnect_error', (error) => {
         console.log('reconnect_error. error =>', error, 'time=>', new Date().toLocaleString());
