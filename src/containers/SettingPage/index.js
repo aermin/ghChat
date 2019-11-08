@@ -5,9 +5,7 @@ import { connect } from 'react-redux';
 import Setting from '../../components/Setting';
 import { initAppAction } from '../../redux/actions/initAppAction';
 
-const mapStateToProps = state => ({
-  initializedApp: state.initAppState,
-});
+const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
   initApp(arg) {

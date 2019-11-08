@@ -23,7 +23,7 @@ function MainView(props) {
 
   return (
     <div className={MainViewClassName}>
-      <Route component={loadable(() => import('../components/Tabs'))} />
+      <Route component={loadable(() => import('../containers/Tabs'))} />
       <Route
         path={['/', '/robot_chat', '/group_chat/:to_group_id', '/private_chat/:user_id']}
         exact

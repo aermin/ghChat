@@ -8,7 +8,6 @@ import {
 import './styles.scss';
 import Button from '../Button';
 import Modal from '../Modal';
-import InitApp from '../../modules/InitApp';
 
 class Setting extends Component {
   constructor(props) {
@@ -17,16 +16,6 @@ class Setting extends Component {
       visible: false,
       // githubStars: '--',
     };
-  }
-
-  static getDerivedStateFromProps(props) {
-    if (!props.initializedApp) {
-      const initAppInstance = new InitApp({ history: props.history });
-      initAppInstance.init().then(() => {
-        props.initApp(true);
-      });
-    }
-    return null;
   }
 
    _showModal = () => {
@@ -101,13 +90,11 @@ class Setting extends Component {
 
 
 Setting.propTypes = {
-  initializedApp: PropTypes.bool,
   initApp: PropTypes.func,
 };
 
 
 Setting.defaultProps = {
-  initializedApp: false,
   initApp() {},
 };
 

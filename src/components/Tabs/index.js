@@ -6,6 +6,7 @@ import {
 import PropTypes from 'prop-types';
 import './style.scss';
 import MyInfo from '../MyInfo';
+import { initAppOnce } from './help';
 
 class Tabs extends Component {
   constructor(props) {
@@ -14,6 +15,7 @@ class Tabs extends Component {
       showPersonalInfo: false,
     };
     this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    initAppOnce(props);
   }
 
   render() {
@@ -46,9 +48,13 @@ export default withRouter(Tabs);
 
 Tabs.propTypes = {
   location: PropTypes.object,
+  initializedApp: PropTypes.bool,
+  initApp: PropTypes.func,
 };
 
 
 Tabs.defaultProps = {
-  location: { pathname: '/' }
+  location: { pathname: '/' },
+  initializedApp: false,
+  initApp() {},
 };

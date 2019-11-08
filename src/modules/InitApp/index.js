@@ -164,7 +164,7 @@ class InitApp {
   }
 
 
-  async init() {
+  init = async () => {
     if (this._userInfo) {
       await this._init();
       console.log('init app success');

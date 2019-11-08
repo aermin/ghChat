@@ -9,7 +9,6 @@ import Header from '../../containers/Header';
 import './index.scss';
 import ListItems from '../ListItems';
 import Chat from '../../modules/Chat';
-import InitApp from '../../modules/InitApp';
 
 class HomePageList extends Component {
   constructor(props) {
@@ -28,16 +27,6 @@ class HomePageList extends Component {
     this._filedStr = null;
     this._chat = new Chat();
     this._cleanedUnread = false;
-  }
-
-  static getDerivedStateFromProps(props) {
-    if (!props.initializedApp) {
-      const initAppInstance = new InitApp({ history: props.history });
-      initAppInstance.init().then(() => {
-        props.initApp(true);
-      });
-    }
-    return null;
   }
 
   componentDidUpdate() {
@@ -196,7 +185,6 @@ HomePageList.propTypes = {
   homePageList: PropTypes.array,
   showCallMeTip: PropTypes.func,
   initializedApp: PropTypes.bool,
-  initApp: PropTypes.func,
 };
 
 
@@ -205,5 +193,4 @@ HomePageList.defaultProps = {
   homePageList: [],
   showCallMeTip() {},
   initializedApp: false,
-  initApp() {},
 };

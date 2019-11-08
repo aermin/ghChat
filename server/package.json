@@ -7,7 +7,7 @@
   "scripts": {
     "clean": "rimraf package-lock.json node_modules",
     "cleanAndUpdate": "npm run clean && ncu -a &&  ncu -d -a && npm install",
-    "start": "npm run watch",
+    "start": "npm run build && npm run watch",
     "watch": "concurrently -k -p \"[{name}]\" -n \"Node,TypeScript\" -c \"green.bold,cyan.bold,green.bold\" \"nodemon\" \"npm run watch-build\"",
     "serve": "nodemon",
     "clean-dist": "rimraf dist",
