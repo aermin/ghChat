@@ -137,6 +137,10 @@ class InitApp {
 
   _initSocket = async () => {
     const { token, user_id } = this._userInfo;
+    if(window.socket && window.socket.connected) {
+      console.log('socket connected!');
+      return;
+    }
     window.socket = io(`${this.WEBSITE_ADDRESS}?token=${token}`);
     const initSocketRes = await request.socketEmitAndGetResponse('initSocket', user_id);
     console.log(`${user_id} connect socket success.`, initSocketRes, 'time=>', new Date().toLocaleString());
