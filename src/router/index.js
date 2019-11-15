@@ -2,10 +2,18 @@ import React from 'react';
 import {
   BrowserRouter as Router, Route, Switch
 } from 'react-router-dom';
-import loadable from '@loadable/component';
+
+import Loadable from 'react-loadable';
+// import NotFound from '../components/NotFound';
 
 const FUNCTION_ROUTERS = ['/', '/robot_chat', '/group_chat/:to_group_id', '/private_chat/:user_id', '/setting'];
 const AUTH_ROUTERS = ['/login', '/register'];
+
+
+const LoadablNotFoundeComponent = Loadable({
+  loader: () => import('../components/NotFound'),
+  loading: () => <div>...</div>,
+});
 
 function MainView(props) {
   const { pathname } = props.location;
@@ -64,13 +72,14 @@ export default function getRouter() {
     <Router>
       <div className="layout-wrapper">
         <Switch>
-          <Route path="/register" exact component={loadable(() => import('../containers/RegisterPage'))} />
-          <Route path="/login" exact component={loadable(() => import('../containers/LogInPage'))} />
+          {/* <Route path="/register" exact component={loadable(() => import('../containers/RegisterPage'))} />
+          <Route path="/login" exact component={loadable(() => import('../containers/LogInPage'))} /> */}
           <Route exact path={FUNCTION_ROUTERS}>
             <Route path={FUNCTION_ROUTERS} exact component={MainView} />
             <Route path={FUNCTION_ROUTERS} exact component={RightView} />
           </Route>
-          <Route component={loadable(() => import('../components/NotFound'))} />
+          {/* <Route component={loadable(() => import('../components/NotFound'))} /> */}
+          <Route component={LoadablNotFoundeComponent} />
         </Switch>
       </div>
     </Router>

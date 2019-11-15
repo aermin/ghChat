@@ -25,18 +25,18 @@ class Tabs extends Component {
       <div className="tabs-wrapper">
         <MyInfo />
         <div className="tab">
-          <Link to="/">
+          {/* <Link to="/"> */}
             <svg className="icon " aria-hidden="true">
               <use xlinkHref={showMessageIcon ? '#icon-message-copy' : '#icon-message'} />
             </svg>
-          </Link>
+          {/* </Link> */}
         </div>
         <div className="tab">
-          <Link to="/setting">
+          {/* <Link to="/setting"> */}
             <svg className="icon " aria-hidden="true">
               <use xlinkHref={pathname === '/setting' ? '#icon-setting-copy' : '#icon-setting'} />
             </svg>
-          </Link>
+          {/* </Link> */}
         </div>
       </div>
     );

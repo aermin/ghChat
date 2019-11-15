@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 
-commonConfig = {
+const commonConfig = {
   /* 入口 */
   entry: {
     app: [
@@ -34,9 +34,6 @@ commonConfig = {
       test: /\.(png|jpg|gif|svg)$/,
       use: [{
         loader: 'url-loader',
-        options: {
-          limit: 8192 // 小于等于8K的图片会被转成base64编码，直接插入HTML中，减少HTTP请求。
-        }
       }]
     }]
   },
@@ -46,13 +43,12 @@ commonConfig = {
       template: path.join(__dirname, 'src/index.html')
     }),
     new webpack.HashedModuleIdsPlugin(),
-    new webpack.optimize.CommonsChunkPlugin({ // 提取并缓存公共库
-      name: 'vendor'
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'runtime'
-    })
-  ]
+  ],
+  optimization: {
+    runtimeChunk: {
+      name: entrypoint => `runtime~${entrypoint.name}`
+    }
+  }
 };
 
 module.exports = commonConfig;

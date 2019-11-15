@@ -66,12 +66,12 @@ export default class SignInSignUp extends Component {
         <div className="ghChatLogo">
           <img src="https://cdn.aermin.top/ghChatIcon.png" alt="ghChatLogo" />
         </div>
-        <Link to={linkUrl}>
+        {/* <Link to={linkUrl}> */}
           <span className={loginClass}>登录</span>
-        </Link>
-        <Link to={linkUrl}>
+        {/* </Link> */}
+        {/* <Link to={linkUrl}> */}
           <span className={registerClass}>注册</span>
-        </Link>
+        {/* </Link> */}
         <div className="userAvatarWrapper">
           <UserAvatar name={name || 'Ÿ'} size="100" />
         </div>

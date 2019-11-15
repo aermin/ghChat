@@ -142,6 +142,10 @@ class InitApp {
       return;
     }
     window.socket = io(`${this.WEBSITE_ADDRESS}?token=${token}`);
+    if (window.socket.connected) {
+      console.log('socket connected~~');
+      return;
+    }
     const initSocketRes = await request.socketEmitAndGetResponse('initSocket', user_id);
     console.log(`${user_id} connect socket success.`, initSocketRes, 'time=>', new Date().toLocaleString());
     const initGroupChatRes = await request.socketEmitAndGetResponse('initGroupChat', user_id);

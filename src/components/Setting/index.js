@@ -74,7 +74,7 @@ class Setting extends Component {
         {this.isProduction ? (
           <div>
             {/* <Link className="contact" to="/private_chat/1">联系作者</Link> */}
-            <Link className="contact" to="/group_chat/ddbffd80-3663-11e9-a580-d119b23ef62e">项目交流群</Link>
+            {/* <Link className="contact" to="/group_chat/ddbffd80-3663-11e9-a580-d119b23ef62e">项目交流群</Link> */}
           </div>
         ) : (
           <div>
