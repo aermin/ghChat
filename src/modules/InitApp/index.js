@@ -126,17 +126,19 @@ class InitApp {
   }
 
   subscribeSocket() {
-    window.socket.removeListener('getPrivateMsg');
     this._listeningPrivateChatMsg();
-    window.socket.removeListener('getGroupMsg');
     this._listeningGroupChatMsg();
-    window.socket.removeListener('beDeleted');
     this._listeningBeDelete();
     console.log('subscribeSocket success');
   }
 
   _initSocket = async () => {
     const { token, user_id } = this._userInfo;
+    if(window.socket) {
+      window.socket.disconnect();
+      window.socket.removeAllListeners();
+      console.log('disconnect and  removeAllListeners.', 'time=>', new Date().toLocaleString());
+    }
     window.socket = io(`${this.WEBSITE_ADDRESS}?token=${token}`);
     const initSocketRes = await request.socketEmitAndGetResponse('initSocket', user_id);
     console.log(`${user_id} connect socket success.`, initSocketRes, 'time=>', new Date().toLocaleString());
@@ -176,8 +178,7 @@ class InitApp {
       });
       window.socket.on('disconnect', async (reason) => {
         console.log('disconnect in client, disconnect reason =>', reason, 'time=>', new Date().toLocaleString());
-        await this._initSocket();
-        await this._initMessage();
+        await this._init()
       });
       window.socket.on('reconnect_error', (error) => {
         console.log('reconnect_error. error =>', error, 'time=>', new Date().toLocaleString());
