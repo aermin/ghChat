@@ -34,7 +34,7 @@ class Setting extends Component {
    }
 
    //  componentDidMount() {
-   //    axios.get('https://api.github.com/repos/aermin/react-chat').then((res) => {
+   //    axios.get('https://api.github.com/repos/aermin/ghChat').then((res) => {
    //      this.setState({ githubStars: res.data.stargazers_count });
    //    });
    //  }

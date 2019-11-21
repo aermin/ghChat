@@ -1,7 +1,7 @@
 {
-  "name": "react-chat",
+  "name": "ghChat",
   "version": "1.0.0",
-  "description": "server of react-chat",
+  "description": "server of ghChat",
   "author": "aermin <aermin@qq.com>",
   "private": true,
   "scripts": {

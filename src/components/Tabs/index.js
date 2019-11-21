@@ -11,9 +11,6 @@ import { initAppOnce } from './help';
 class Tabs extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      showPersonalInfo: false,
-    };
     this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
     initAppOnce(props);
   }

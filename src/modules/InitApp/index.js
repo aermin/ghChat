@@ -30,6 +30,7 @@ class InitApp {
     this._browserNotification = new BrowserNotification();
     this._chat = new Chat();
     this._history = props.history;
+    this.initialized = false;
   }
 
   _browserNotificationHandle = (data) => {
@@ -167,9 +168,10 @@ class InitApp {
 
 
   init = async () => {
-    if (this._userInfo) {
+    if (this._userInfo && !this.initialized) {
       await this._init();
       console.log('init app success');
+      this.initialized = true;
       window.socket.on('error', (error) => {
         notification(error, 'error');
       });
