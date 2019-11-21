@@ -127,6 +127,7 @@ class InitApp {
   }
 
   subscribeSocket() {
+    window.socket.removeAllListeners();
     this._listeningPrivateChatMsg();
     this._listeningGroupChatMsg();
     this._listeningBeDelete();
@@ -137,8 +138,7 @@ class InitApp {
     const { token, user_id } = this._userInfo;
     if(window.socket) {
       window.socket.disconnect();
-      window.socket.removeAllListeners();
-      console.log('disconnect and  removeAllListeners.', 'time=>', new Date().toLocaleString());
+      console.log('disconnect manually before init Socket.', 'time=>', new Date().toLocaleString());
     }
     window.socket = io(`${this.WEBSITE_ADDRESS}?token=${token}`);
     const initSocketRes = await request.socketEmitAndGetResponse('initSocket', user_id);
