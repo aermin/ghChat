@@ -34,19 +34,18 @@ export const appSocket = (server) => {
 
   io.on('connection', (socket) => {
     const socketId = socket.id;
+    console.log('connection socketId=>', socketId, 'time=>', new Date().toLocaleString());
     let _userId;
     socket.use((packet, next) => {
       if (!requestFrequency(socketId)) return next();
       next(new Error('Access interface frequently, please try again in a minute!'));
     });
     socket.on('initSocket', async (user_id, fn) => {
-      console.log('initSocket1222', user_id);
       try {
         _userId = user_id;
         const arr = await userService.getUserSocketId(_userId);
         const existSocketIdStr = getSocketIdHandle(arr);
         const newSocketIdStr = existSocketIdStr ? `${existSocketIdStr},${socketId}` : socketId;
-        console.log('initSocket in server', _userId, newSocketIdStr);
         // if (existSocketIdStr) {
         await userService.saveUserSocketId(_userId, newSocketIdStr);
         // } else {
@@ -55,7 +54,7 @@ export const appSocket = (server) => {
         //     userService.updateUserStatus(_userId, 1)
         //   ];
         // }
-
+        console.log('initSocket user_id=>', user_id, 'time=>', new Date().toLocaleString());
         fn('initSocket success');
       } catch (error) {
         console.log('error', error.message);
@@ -71,6 +70,7 @@ export const appSocket = (server) => {
         for (const item of groupList) {
           socket.join(item.to_group_id);
         }
+        console.log('initGroupChat user_id=>', user_id, 'time=>', new Date().toLocaleString());
         fn('init group chat success');
       } catch (error) {
         console.log('error', error.message);
@@ -82,6 +82,7 @@ export const appSocket = (server) => {
     socket.on('initMessage', async ({ user_id, clientHomePageList }, fn) => {
       try {
         const data = await getAllMessage({ user_id, clientHomePageList });
+        console.log('initMessage user_id=>', user_id, 'time=>', new Date().toLocaleString());
         fn(data);
       } catch (error) {
         console.log('error', error.message);
@@ -108,6 +109,7 @@ export const appSocket = (server) => {
             });
           })
         ]);
+        console.log('sendPrivateMsg data=>', data, 'time=>', new Date().toLocaleString());
         cbFn(data);
       } catch (error) {
         console.log('error', error.message);
@@ -123,6 +125,7 @@ export const appSocket = (server) => {
         data.time = Date.parse(new Date().toString()) / 1000;
         await groupChatService.saveGroupMsg({ ...data });
         socket.broadcast.to(data.to_group_id).emit('getGroupMsg', data);
+        console.log('sendGroupMsg data=>', data, 'time=>', new Date().toLocaleString());
         cbFn(data);
       } catch (error) {
         console.log('error', error.message);
@@ -137,6 +140,7 @@ export const appSocket = (server) => {
         } = data;
         const RowDataPacket = await chatService.getPrivateDetail(user_id, toUser, start - 1, count);
         const privateMessages = JSON.parse(JSON.stringify(RowDataPacket));
+        console.log('getOnePrivateChatMessages data=>', data, 'time=>', new Date().toLocaleString());
         fn(privateMessages);
       } catch (error) {
         console.log('error', error.message);
@@ -149,6 +153,7 @@ export const appSocket = (server) => {
       try {
         const RowDataPacket = await groupChatService.getGroupMsg(data.groupId, data.start - 1, data.count);
         const groupMessages = JSON.parse(JSON.stringify(RowDataPacket));
+        console.log('getOneGroupMessages data=>', data, 'time=>', new Date().toLocaleString());
         fn(groupMessages);
       } catch (error) {
         console.log('error', error.message);
@@ -164,6 +169,7 @@ export const appSocket = (server) => {
           start: data.start || 1,
           count: 20
         });
+        console.log('getOneGroupItem data=>', data, 'time=>', new Date().toLocaleString());
         fn(groupMsgAndInfo);
       } catch (error) {
         console.log('error', error.message);
@@ -183,6 +189,7 @@ export const appSocket = (server) => {
         await groupService.createGroup(arr);
         await groupService.joinGroup(creator_id, to_group_id);
         socket.join(to_group_id);
+        console.log('createGroup data=>', data, 'time=>', new Date().toLocaleString());
         fn({ to_group_id, ...data });
       } catch (error) {
         console.log('error', error.message);
@@ -194,6 +201,7 @@ export const appSocket = (server) => {
     socket.on('updateGroupInfo', async (data, fn) => {
       try {
         await groupService.updateGroupInfo(data);
+        console.log('updateGroupInfo data=>', data, 'time=>', new Date().toLocaleString());
         fn('修改群资料成功');
       } catch (error) {
         console.log('error', error.message);
@@ -217,6 +225,7 @@ export const appSocket = (server) => {
         }
         socket.join(toGroupId);
         const groupItem = await getGroupItem({ groupId: toGroupId });
+        console.log('joinGroup data=>', data, 'time=>', new Date().toLocaleString());
         fn(groupItem);
       } catch (error) {
         console.log('error', error.message);
@@ -230,6 +239,7 @@ export const appSocket = (server) => {
         const { user_id, toGroupId } = data;
         socket.leave(toGroupId);
         await groupService.leaveGroup(user_id, toGroupId);
+        console.log('leaveGroup data=>', data, 'time=>', new Date().toLocaleString());
       } catch (error) {
         console.log('error', error.message);
         io.to(socketId).emit('error', { code: 500, message: error.message });
@@ -258,6 +268,7 @@ export const appSocket = (server) => {
             }
             delete userInfo.socketid;
           });
+          console.log('getGroupMember data=>', groupId, 'time=>', new Date().toLocaleString());
           fn(userInfos);
         });
       } catch (error) {
@@ -287,6 +298,7 @@ export const appSocket = (server) => {
     socket.on('getQiniuToken', async (data, fn) => {
       try {
         const uploadToken = await getUploadToken();
+        console.log('getQiniuToken data=>', data, 'time=>', new Date().toLocaleString());
         return fn(uploadToken);
       } catch (error) {
         console.log('error', error.message);
@@ -305,6 +317,7 @@ export const appSocket = (server) => {
         const time = Date.now() / 1000;
         await userService.addFriendEachOther(user_id, from_user, time);
         const userInfo = await userService.getUserInfo(from_user);
+        console.log('addAsTheContact data=>', data, 'time=>', new Date().toLocaleString());
         fn(userInfo[0]);
       } catch (error) {
         console.log('error', error.message);
@@ -315,6 +328,7 @@ export const appSocket = (server) => {
     socket.on('getUserInfo', async (user_id, fn) => {
       try {
         const userInfo = await userService.getUserInfo(user_id);
+        console.log('getUserInfo user_id=>', user_id, 'time=>', new Date().toLocaleString());
         fn(userInfo[0]);
       } catch (error) {
         console.log('error', error.message);
@@ -338,6 +352,7 @@ export const appSocket = (server) => {
           json: true // Automatically stringifies the body to JSON
         };
         const response = await request(options);
+        console.log('robotChat data=>', data, 'time=>', new Date().toLocaleString());
         fn(response);
       } catch (error) {
         console.log('error', error.message);
@@ -354,6 +369,7 @@ export const appSocket = (server) => {
         toUserSocketIds.forEach(e => {
           io.to(e).emit('beDeleted', from_user);
         });
+        console.log('deleteContact user_id && to_user =>', from_user, to_user, 'time=>', new Date().toLocaleString());
         fn({ code: 200, data: 'delete contact successfully' });
       } catch (error) {
         console.log('error', error.message);

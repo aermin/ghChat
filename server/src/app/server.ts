@@ -31,10 +31,10 @@ export class Server {
 
     Server.server
       .listen(this.normalizePort(port))
-      .on('listening', () => this.onListening(Server.server))
-      .on('error', (error) => this.onError(Server.server, error));
+    //   .on('listening', () => this.onListening(Server.server))
+    //   .on('error', (error) => this.onError(Server.server, error));
 
-    log.debug('Server was started on environment %s', process.env.NODE_ENV);
+    // log.debug('Server was started on environment %s', process.env.NODE_ENV);
     return Server;
   }
 

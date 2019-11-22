@@ -56,7 +56,6 @@ class InitApp {
   _listeningPrivateChatMsg = () => {
     window.socket.on('getPrivateMsg', (data) => {
       const { homePageListState, allPrivateChatsState } = store.getState();
-      const { user_id } = this._userInfo;
       // eslint-disable-next-line radix
       const chatId = parseInt(window.location.pathname.split('/').slice(-1)[0]);
       const isRelatedCurrentChat = (data.from_user === chatId || data.to_user === chatId);
@@ -78,7 +77,7 @@ class InitApp {
         }));
       }
       store.dispatch(updateHomePageListAction({
-        data, homePageList: homePageListState, myUserId: user_id, increaseUnread
+        data, homePageList: homePageListState, myUserId: this.user_id, increaseUnread
       }));
       this._browserNotificationHandle(data);
       // TODO: mute notifications switch
@@ -126,52 +125,51 @@ class InitApp {
     })
   }
 
+  _initSocket = async () => {
+    const initSocketRes = await request.socketEmitAndGetResponse('initSocket', this.user_id);
+    const initGroupChatRes = await request.socketEmitAndGetResponse('initGroupChat', this.user_id);
+    console.log('handle private and group socket success on server side. ', 'time=>', new Date().toLocaleString());
+  }
+
   subscribeSocket() {
     window.socket.removeAllListeners();
     this._listeningPrivateChatMsg();
     this._listeningGroupChatMsg();
     this._listeningBeDelete();
-    console.log('subscribeSocket success');
+    console.log('subscribeSocket success. ', 'time=>', new Date().toLocaleString());
   }
 
-  _initSocket = async () => {
-    const { token, user_id } = this._userInfo;
-    if(window.socket) {
-      window.socket.disconnect();
-      console.log('disconnect manually before init Socket.', 'time=>', new Date().toLocaleString());
-    }
-    window.socket = io(`${this.WEBSITE_ADDRESS}?token=${token}`);
-    const initSocketRes = await request.socketEmitAndGetResponse('initSocket', user_id);
-    console.log(`${user_id} connect socket success.`, initSocketRes, 'time=>', new Date().toLocaleString());
-    const initGroupChatRes = await request.socketEmitAndGetResponse('initGroupChat', user_id);
-    console.log(initGroupChatRes, 'time=>', new Date().toLocaleString());
-  };
-
   _initMessage = async () => {
-    const { user_id } = this._userInfo;
     const allMessage = await request.socketEmitAndGetResponse('initMessage', {
-      user_id,
-      clientHomePageList: JSON.parse(localStorage.getItem(`homePageList-${user_id}`))
+      user_id: this.user_id,
+      clientHomePageList: JSON.parse(localStorage.getItem(`homePageList-${this.user_id}`))
     });
     const privateChat = new Map(allMessage.privateChat);
     const groupChat = new Map(allMessage.groupChat);
     store.dispatch(setHomePageListAction(allMessage.homePageList));
     store.dispatch(setAllPrivateChatsAction({ data: privateChat }));
     store.dispatch(setAllGroupChatsAction({ data: groupChat }));
+    console.log('initMessage success. ', 'time=>', new Date().toLocaleString());
+  }
+
+  _connectSocket () {
+    window.socket = io(`${this.WEBSITE_ADDRESS}?token=${this._userInfo.token}`);
   }
 
   _init = async () => {
+    this._connectSocket();
     await this._initSocket();
     this.subscribeSocket();
     await this._initMessage();
+    console.log('init app success. ',  'time=>', new Date().toLocaleString());
   }
 
 
   init = async () => {
     if (this._userInfo && !this.initialized) {
       await this._init();
-      console.log('init app success');
       this.initialized = true;
+      console.log('initialized');
       window.socket.on('error', (error) => {
         notification(error, 'error');
       });
@@ -180,12 +178,16 @@ class InitApp {
       });
       window.socket.on('disconnect', async (reason) => {
         console.log('disconnect in client, disconnect reason =>', reason, 'time=>', new Date().toLocaleString());
-        await this._init()
+        await this._init();
       });
       window.socket.on('reconnect_error', (error) => {
         console.log('reconnect_error. error =>', error, 'time=>', new Date().toLocaleString());
       });
     }
+  }
+
+  get user_id () {
+    return this._userInfo && this._userInfo.user_id || null;
   }
 }
 
