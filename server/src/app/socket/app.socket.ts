@@ -13,6 +13,20 @@ function getSocketIdHandle(arr) {
   return arr[0] ? JSON.parse(JSON.stringify(arr[0])).socketid : '';
 }
 
+function emitAsync(socket, emitName, data, callback) {
+  return new Promise((resolve, reject) => {
+    if(!socket || !socket.emit) {
+      reject('pls input socket');
+    }
+    socket.emit(emitName, data, (...args) => {
+      let response;
+      if (typeof callback === 'function') {
+          response = callback(...args);
+      }
+      resolve(response);
+    })
+  })
+}
 
 export const appSocket = (server) => {
   const {
@@ -27,68 +41,46 @@ export const appSocket = (server) => {
   io.use((socket, next) => {
     const token = socket.handshake.query.token;
     if (authVerify(token)) {
+      console.log('veryfy socket token success', token);
       return next();
     }
     return next(new Error(`Authentication error! time =>${new Date().toLocaleString()}`));
   });
 
-  io.on('connection', (socket) => {
+  io.on('connection', async (socket) => {
     const socketId = socket.id;
+    let user_id, clientHomePageList;
     console.log('connection socketId=>', socketId, 'time=>', new Date().toLocaleString());
-    let _userId;
+
+    // 获取群聊和私聊的数据
+    await emitAsync(socket, 'initSocket', socketId, (userId, homePageList) => {
+      console.log('userId, clientHomePageLis111t', userId)
+      user_id = userId;
+      clientHomePageList = homePageList;
+    });
+    const allMessage = await getAllMessage({ user_id, clientHomePageList });
+    socket.emit('initSocketSuccess', allMessage);
+    console.log('initSocketSuccess user_id=>', user_id, 'time=>', new Date().toLocaleString());
+
     socket.use((packet, next) => {
       if (!requestFrequency(socketId)) return next();
       next(new Error('Access interface frequently, please try again in a minute!'));
     });
-    socket.on('initSocket', async (user_id, fn) => {
-      try {
-        _userId = user_id;
-        const arr = await userService.getUserSocketId(_userId);
-        const existSocketIdStr = getSocketIdHandle(arr);
-        const newSocketIdStr = existSocketIdStr ? `${existSocketIdStr},${socketId}` : socketId;
-        // if (existSocketIdStr) {
-        await userService.saveUserSocketId(_userId, newSocketIdStr);
-        // } else {
-        //   await Promise.all[
-        //     userService.saveUserSocketId(_userId, newSocketIdStr),
-        //     userService.updateUserStatus(_userId, 1)
-        //   ];
-        // }
-        console.log('initSocket user_id=>', user_id, 'time=>', new Date().toLocaleString());
-        fn('initSocket success');
-      } catch (error) {
-        console.log('error', error.message);
-        io.to(socketId).emit('error', { code: 500, message: error.message });
-      }
-    });
 
-    // 初始化群聊
-    socket.on('initGroupChat', async (user_id, fn) => {
-      try {
-        const result = await userService.getGroupList(user_id);
-        const groupList = JSON.parse(JSON.stringify(result));
-        for (const item of groupList) {
-          socket.join(item.to_group_id);
-        }
-        console.log('initGroupChat user_id=>', user_id, 'time=>', new Date().toLocaleString());
-        fn('init group chat success');
-      } catch (error) {
-        console.log('error', error.message);
-        io.to(socketId).emit('error', { code: 500, message: error.message });
-      }
-    });
+    // init socket
+    const arr = await userService.getUserSocketId(user_id);
+    const existSocketIdStr = getSocketIdHandle(arr);
+    const newSocketIdStr = existSocketIdStr ? `${existSocketIdStr},${socketId}` : socketId;
+    await userService.saveUserSocketId(user_id, newSocketIdStr);
+    console.log('initSocket user_id=>', user_id, 'time=>', new Date().toLocaleString());
 
-    // 初始化， 获取群聊和私聊的数据
-    socket.on('initMessage', async ({ user_id, clientHomePageList }, fn) => {
-      try {
-        const data = await getAllMessage({ user_id, clientHomePageList });
-        console.log('initMessage user_id=>', user_id, 'time=>', new Date().toLocaleString());
-        fn(data);
-      } catch (error) {
-        console.log('error', error.message);
-        io.to(socketId).emit('error', { code: 500, message: error.message });
-      }
-    });
+    // init GroupChat
+    const result = await userService.getGroupList(user_id);
+    const groupList = JSON.parse(JSON.stringify(result));
+    for (const item of groupList) {
+      socket.join(item.to_group_id);
+    }
+    console.log('initGroupChat user_id=>', user_id, 'time=>', new Date().toLocaleString());
 
     // 私聊发信息
     socket.on('sendPrivateMsg', async (data, cbFn) => {
@@ -380,7 +372,7 @@ export const appSocket = (server) => {
 
     socket.on('disconnect', async (reason) => {
       try {
-        const arr = await userService.getUserSocketId(_userId);
+        const arr = await userService.getUserSocketId(user_id);
         const existSocketIdStr = getSocketIdHandle(arr);
         const toUserSocketIds = existSocketIdStr && existSocketIdStr.split(',') || [];
         const index = toUserSocketIds.indexOf(socketId);
@@ -389,7 +381,7 @@ export const appSocket = (server) => {
           toUserSocketIds.splice(index, 1);
         }
 
-        await userService.saveUserSocketId(_userId, toUserSocketIds.join(','));
+        await userService.saveUserSocketId(user_id, toUserSocketIds.join(','));
 
         // if (toUserSocketIds.length) {
         //   await userService.saveUserSocketId(_userId, toUserSocketIds.join(','));
@@ -400,7 +392,7 @@ export const appSocket = (server) => {
         //   ]);
         // }
 
-        console.log('disconnect.=>reason', reason, 'user_id=>', _userId, 'socket.id=>', socket.id, 'time=>', new Date().toLocaleString());
+        console.log('disconnect.=>reason', reason, 'user_id=>', user_id, 'socket.id=>', socket.id, 'time=>', new Date().toLocaleString());
       } catch (error) {
         console.log('error', error.message);
         io.to(socketId).emit('error', { code: 500, message: error.message });
