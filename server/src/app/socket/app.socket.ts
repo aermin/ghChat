@@ -54,7 +54,7 @@ export const appSocket = (server) => {
 
     // 获取群聊和私聊的数据
     await emitAsync(socket, 'initSocket', socketId, (userId, homePageList) => {
-      console.log('userId, clientHomePageLis111t', userId)
+      console.log('userId', userId)
       user_id = userId;
       clientHomePageList = homePageList;
     });

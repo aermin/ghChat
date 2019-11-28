@@ -209,10 +209,17 @@ class InitApp {
       await this._init();
       this.initialized = true;
       console.log('initialized');
+      let afterReconnecting = false;
       window.socket.on('error', (error) => {
         notification(error, 'error');
       });
-      window.socket.on('reconnect', async (attemptNumber) => {
+      window.socket.on('reconnect', (attemptNumber) => {
+        if (!afterReconnecting) {
+          window.socket.disconnect();
+          this._init();
+          afterReconnecting = true;
+          console.log('not reconnecting, open automatically time=>', new Date().toLocaleString());
+        }
         console.log(
           'reconnect successfully. attemptNumber =>',
           attemptNumber,
@@ -223,6 +230,7 @@ class InitApp {
         );
       });
       window.socket.on('reconnecting', (attemptNumber) => {
+        afterReconnecting = true;
         console.log(
           'reconnecting. attemptNumber =>',
           attemptNumber,
@@ -231,6 +239,7 @@ class InitApp {
         );
       });
       window.socket.on('disconnect', async (reason) => {
+        afterReconnecting = false;
         console.log(
           'disconnect in client, disconnect reason =>',
           reason,
@@ -239,6 +248,7 @@ class InitApp {
         );
       });
       window.socket.on('reconnect_error', (error) => {
+        afterReconnecting = false;
         console.log(
           'reconnect_error. error =>',
           error,
