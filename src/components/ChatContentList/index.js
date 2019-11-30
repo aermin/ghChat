@@ -24,7 +24,7 @@ export default class ChatContentList extends Component {
   }
 
   componentDidMount() {
-    this._chat.scrollToBottom();
+    this.scrollBottomRef.scrollIntoView();
   }
 
   componentDidUpdate(nextProps) {
@@ -34,8 +34,9 @@ export default class ChatContentList extends Component {
     if (this._scrollHeight && this._loadingNewMessages) {
       this._ulRef.scrollTop = this._ulRef.scrollHeight - this._scrollHeight;
       this._loadingNewMessages = false;
+      return;
     }
-    this._chat.scrollToBottom();
+    this.scrollBottomRef.scrollIntoView();
   }
 
   _lazyLoadMessage = () => {
@@ -111,7 +112,6 @@ export default class ChatContentList extends Component {
         message = beginWithName ? item.message.substring(item.name.length + 2) : item.message;
       }
       const time = toNormalTime(item.time);
-      // console.log('item.attachments', item.attachments);
       const attachments = item.attachments;
       if (item.tip) {
         return <li className="tip" key={index}>{item.message}</li>;
@@ -126,9 +126,10 @@ export default class ChatContentList extends Component {
             time={time}
             github_id={item.github_id}
             clickImage={this.clickImage}
-            shouldScrollIntoView={!(this._scrollHeight && this._loadingNewMessages) && !this._chat.isScrollInBottom}
+            shouldScrollIntoView={!(this._scrollHeight && this._loadingNewMessages)}
             clickAvatar={() => clickAvatar(item.from_user)}
-            attachments={attachments} />
+            attachments={attachments}
+            />
         </li>
       );
     }
@@ -136,7 +137,7 @@ export default class ChatContentList extends Component {
     return (
       <ul
         className="chat-content-list"
-        ref={(list) => { this._ulRef = list; }}
+        ref={(el) => { this._ulRef = el; }}
         onScroll={this._onScroll}
       >
         <Viewer
@@ -146,6 +147,10 @@ export default class ChatContentList extends Component {
           images={[{ src: this.state.imageUrl, alt: '' }]}
         />
         {listItems}
+        <div
+          style={{ float: 'left', clear: 'both' }}
+          ref={(el) => { this.scrollBottomRef = el; }}
+        />
       </ul>
     );
   }

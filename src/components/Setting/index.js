@@ -83,7 +83,7 @@ class Setting extends Component {
           </div>
         )}
         <Button clickFn={this._showModal} value="退出登录" />
-        <div className="version">Version: 2.2.7</div>
+        <div className="version">Version: 2.2.8</div>
       </div>
     );
   }

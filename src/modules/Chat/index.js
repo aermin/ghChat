@@ -23,15 +23,6 @@ export default class Chat {
     }));
   }
 
-  scrollToBottom(time = 0) {
-    const ulDom = document.querySelector('.chat-content-list');
-    if (ulDom) {
-      setTimeout(() => {
-        ulDom.scrollTop = ulDom.scrollHeight;
-      }, time);
-    }
-  }
-
   clearUnreadHandle({ homePageList, chatFromId }) {
     store.dispatch(clearUnreadAction({ homePageList, chatFromId }));
   }

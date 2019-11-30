@@ -12,15 +12,15 @@ import store from '../../redux/store';
 
 
 function getPlaceholder(isRobotChat) {
-  switch(true) {
+  switch (true) {
     case (/group_chat/.test(window.location.href)):
       return '支持Enter发信息/粘贴发图/@别人哦';
     case isRobotChat:
       return '支持Enter发信息哦';
     default:
-     return '支持Enter发信息/粘贴发图哦';
+      return '支持Enter发信息/粘贴发图哦';
   }
-};
+}
 
 export default class InputArea extends Component {
   constructor(props) {
@@ -86,20 +86,27 @@ export default class InputArea extends Component {
     this.nameInput.focus();
   }
 
+  _fetchUpLoadToken = async () => {
+    if (!this._uploadToken) {
+      this._uploadToken = await request.socketEmitAndGetResponse('getQiniuToken');
+    }
+  }
+
   _onSelectFile = (e) => {
     const file = e.target.files[0];
     if (!file) {
       return;
     }
     const reader = new FileReader();
-    reader.onloadend = (event) => {
+    reader.onloadend = async (event) => {
       const limitSize = 1000 * 1024 * 2; // 2 MB
       if (file.size > limitSize) {
         notification('发的文件不能超过2MB哦!', 'warn', 2);
         return;
       }
       if (event.target.readyState === FileReader.DONE) {
-        upload(file, (fileUrl) => {
+        await this._fetchUpLoadToken();
+        upload(file, this._uploadToken, (fileUrl) => {
           const type = file.type.split('/')[0];
           const attachments = [{ fileUrl, type, name: file.name }];
           this._sendMessage({ attachments });
@@ -167,11 +174,7 @@ export default class InputArea extends Component {
     );
   }
 
-  async uploadTokenHandle() {
-    this._uploadToken = await request.socketEmitAndGetResponse('getQiniuToken');
-  }
-
-  _paste = async(e) => {
+  _paste = async (e) => {
     const clipboardData = (e.clipboardData || e.originalEvent.clipboardData);
     const items = clipboardData && clipboardData.items;
     if (!items) return;
@@ -188,9 +191,7 @@ export default class InputArea extends Component {
           notification('发的文件不能超过2MB哦!', 'warn', 2);
           return;
         }
-        if (!this._uploadToken) {
-          this._uploadToken = await request.socketEmitAndGetResponse('getQiniuToken');
-        }
+        await this._fetchUpLoadToken();
         upload(file, this._uploadToken, (fileUrl) => {
           const type = file.type.split('/')[0];
           const attachments = [{ fileUrl, type, name: file.name }];

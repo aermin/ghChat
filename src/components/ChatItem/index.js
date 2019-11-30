@@ -65,9 +65,8 @@ class ChatItem extends Component {
     clearTimeout(this._scrollIntoView);
     this._scrollIntoView = setTimeout(() => {
       const imgDom = document.querySelectorAll('.image-render');
-      if (imgDom[imgDom.length - 1] && this.props.shouldScrollIntoView) {
+      if (imgDom[imgDom.length - 1] && this.props.shouldScrollIntoView && !this._chat.isScrollInBottom) {
         imgDom[imgDom.length - 1].scrollIntoView();
-        this._chat.scrollToBottom();
       }
     }, 0);
   }

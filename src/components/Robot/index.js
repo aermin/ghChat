@@ -18,13 +18,6 @@ export default class Robot extends Component {
     };
   }
 
-  scrollToBottom(time = 0) {
-    const ulDom = document.getElementsByClassName('chat-content-list')[0];
-    setTimeout(() => {
-      ulDom.scrollTop = ulDom.scrollHeight + 10000;
-    }, time);
-  }
-
   sendMessage = async (value) => {
     this.setState({
       inputMsg: value
@@ -34,20 +27,23 @@ export default class Robot extends Component {
       insertMsg(
         { message: inputMsg }
       );
-      this.scrollToBottom();
       await getRobotMsg(
         {
           message: inputMsg,
           user_id: this._userInfo.user_id
         }
       );
-      this.scrollToBottom();
     });
   }
 
   componentDidMount() {
-    this.scrollToBottom(200);
+    this.scrollBottomRef.scrollIntoView();
   }
+
+  componentDidUpdate() {
+    this.scrollBottomRef.scrollIntoView();
+  }
+
 
   shouldComponentUpdate(nextProps) {
     const { robotState } = this.props;
@@ -82,6 +78,10 @@ export default class Robot extends Component {
         <ChatHeader title="机器人聊天" chatType="robot" />
         <ul className="chat-content-list">
           {listItems}
+          <div
+            style={{ float: 'left', clear: 'both' }}
+            ref={(el) => { this.scrollBottomRef = el; }}
+        />
         </ul>
         <InputArea sendMessage={this.sendMessage} isRobotChat />
       </div>
