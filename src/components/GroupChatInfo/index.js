@@ -12,6 +12,7 @@ export default class GroupChatInfo extends Component {
       groupMember: [],
       onlineNumber: '--',
       modalVisible: false,
+      justShowOnlineMember: true,
     };
     this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this._isCreator = this._userInfo.user_id === parseInt(props.groupInfo.creator_id);
@@ -40,10 +41,12 @@ export default class GroupChatInfo extends Component {
   GroupMemberRender = groupMember => (
     <ul className="members">
       {groupMember.length > 0 && groupMember.map(e => (
-        <li key={e.user_id} className="member" onClick={() => this._clickMember(e.user_id)}>
-          <UserAdapter src={e.avatar} name={e.name} isGray={!e.status} showLogo={!!e.github_id} />
-          <span className="memberName">{e.name}</span>
-        </li>
+        (!this.state.justShowOnlineMember || !!e.status) && (
+          <li key={e.user_id} className="member" onClick={() => this._clickMember(e.user_id)}>
+            <UserAdapter src={e.avatar} name={e.name} isGray={!e.status} showLogo={!!e.github_id} />
+            <span className="memberName">{e.name}</span>
+          </li>
+        )
       ))}
     </ul>
   );
@@ -84,8 +87,16 @@ export default class GroupChatInfo extends Component {
     });
   }
 
+  _showAllMember = () => {
+    this.setState(({ justShowOnlineMember }) => ({
+      justShowOnlineMember: !justShowOnlineMember
+    }));
+  }
+
   render() {
-    const { groupMember, onlineNumber, modalVisible } = this.state;
+    const {
+      groupMember, onlineNumber, modalVisible, justShowOnlineMember
+    } = this.state;
     const { groupInfo, leaveGroup } = this.props;
     return (
       <div className="chatInformation">
@@ -107,6 +118,7 @@ export default class GroupChatInfo extends Component {
           <p className="noticeContent">{groupInfo.group_notice}</p>
           <p className="memberTitle">
             {`在线人数: ${onlineNumber}`}
+            <span className="showAllMember" onClick={this._showAllMember}>{ `${justShowOnlineMember ? '查看所有' : '只看在线'}` }</span>
           </p>
         </div>
         {this.GroupMemberRender(groupMember)}

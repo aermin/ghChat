@@ -33,6 +33,12 @@
         font-size: 14px;
         padding-top: 10px;
         color: $m-title;
+        display: flex;
+        justify-content: space-between;
+        .showAllMember {
+          color: $blue;
+          cursor: pointer;
+        }
       }
     }
     .members{
