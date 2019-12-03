@@ -16,8 +16,8 @@ function _openUrl(url) {
 }
 
 class userInfoRender extends Component {
-  render(){
-    const {  
+  render() {
+    const {
       userInfo, goToChat, isContact,
       deleteContact, showContactButton,
       showShareIcon, showShareModal
@@ -60,7 +60,7 @@ class userInfoRender extends Component {
         </svg>
         )}
       </div>
-      )
+    );
   }
 }
 
@@ -101,7 +101,7 @@ class PersonalInfo extends Component {
     const {
       userInfo, modalVisible,
       hide, showContactButton,
-      showShareIcon,showShareModal
+      showShareIcon, showShareModal
     } = this.props;
     return (
       <ModalRender

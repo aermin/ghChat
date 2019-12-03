@@ -61,12 +61,13 @@ class ChatItem extends Component {
   }
 
   _onloadImg = () => {
-    // TODO: just the latest image should scrollIntoView.
     clearTimeout(this._scrollIntoView);
     this._scrollIntoView = setTimeout(() => {
-      const imgDom = document.querySelectorAll('.image-render');
-      if (imgDom[imgDom.length - 1] && this.props.shouldScrollIntoView && !this._chat.isScrollInBottom) {
-        imgDom[imgDom.length - 1].scrollIntoView();
+      const imgDom = document.querySelectorAll('.image-render img');
+      const lastImgDom = imgDom[imgDom.length - 1];
+      if (this.props.shouldScrollIntoView && !this._chat.isScrollInBottom
+        && lastImgDom && lastImgDom.complete) {
+        lastImgDom.scrollIntoView();
       }
     }, 0);
   }
