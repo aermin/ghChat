@@ -107,7 +107,7 @@ export default class PrivateChat extends Component {
 
   _deletePrivateChat = () => {
     const { deletePrivateChat, allPrivateChats } = this.props;
-    deletePrivateChat({ allPrivateChats, chatId: this.chatId })
+    deletePrivateChat({ allPrivateChats, chatId: this.chatId });
   }
 
   _deleteHomePageList = () => {
@@ -120,7 +120,7 @@ export default class PrivateChat extends Component {
       allPrivateChats,
     } = this.props;
     const chatItem = allPrivateChats && allPrivateChats.get(this.chatId);
-    if (!chatItem) {
+    if (!chatItem && window.socket) {
       window.socket.emit('getUserInfo', this.chatId, (toUserInfo) => {
         this.setState({ toUserInfo });
       });
@@ -129,7 +129,7 @@ export default class PrivateChat extends Component {
 
   render() {
     const {
-      allPrivateChats, location, shareData,
+      allPrivateChats, shareData,
       homePageList, allGroupChats, deleteHomePageList,
       deletePrivateChat, initApp
     } = this.props;
