@@ -102,6 +102,7 @@ export default class SignInSignUp extends Component {
               />
         </div>
         <div className="center">
+          <p className="authTips">推荐使用GitHub登录</p>
           <a className="githubOAuth" href={OAuthHref}>
             <svg className="icon githubIcon" aria-hidden="true">
               <use xlinkHref="#icon-github" />

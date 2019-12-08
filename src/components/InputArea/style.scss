@@ -5,7 +5,7 @@
     position: relative;
     display: flex;
     width: 100%;
-    background-color: $gray-tab;
+    background-color: $grayTab;
     padding: 8px 10px ;
     .mask {
         position: fixed;
@@ -33,7 +33,7 @@
             border-bottom-width: 0;
         }
         .emoji-mart-category-label {
-            color: $m-title;
+            color: $title;
             font-size: 12px;
         }
     }
@@ -62,7 +62,7 @@
         bottom: 50px;
         left: 90px;
         z-index: 100;
-        background-color: $background-color;
+        background-color: $backgroundColor;
         padding: 4px 0;
         color: #3c415e;
         li:hover{

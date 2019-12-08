@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ShareModal from '../ShareModal';
-import './styles.scss';
 
 class ShareChatCard extends Component {
   state = {

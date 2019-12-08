@@ -5,13 +5,13 @@
     position: absolute;
     top: 50px;
     right: 0;
-    background-color: $background-color;
+    background-color: $backgroundColor;
     opacity: 0.97;
     z-index: 99;
     .info {
       padding: 10px 16px;
       .noticeTitle {
-        color: $m-title;
+        color: $title;
         padding-bottom: 10px;
         font-size: 14px;
         position: relative;
@@ -32,7 +32,7 @@
       .memberTitle {
         font-size: 14px;
         padding-top: 10px;
-        color: $m-title;
+        color: $title;
         display: flex;
         justify-content: space-between;
         .showAllMember {
@@ -72,7 +72,7 @@
       text-align: center;
       padding: 10px 0;
       font-size: 14px;
-      color: $warn-red;
+      color: $warnRed;
       cursor: pointer;
     }
 }

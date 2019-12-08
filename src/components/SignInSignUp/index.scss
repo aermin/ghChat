@@ -24,6 +24,11 @@
   .center {
     text-align: center;
     margin-top: 30px;
+    .authTips {
+      color: $lightGray;
+      font-size: 14px;
+      padding: 10px;
+    }
   }
   .userAvatarWrapper {
     margin: 10px 0 20px;
@@ -34,7 +39,7 @@
     text-transform: uppercase;
     display: inline-block;
     padding: 10px 10px 20px;
-    color: #cccccc;
+    color: $lightGray;
   }
 
   .active {
@@ -86,15 +91,15 @@
   }
 
   input[type=text]:placeholder {
-    color: #cccccc;
+    color: $lightGray;
   }
 
   input[type=password]:placeholder {
-    color: #cccccc;
+    color: $lightGray;
   }
 
   .githubOAuth {
     text-decoration: none;
-    font-size: 30px;
+    font-size: 36px;
   }
 }
