@@ -12,7 +12,7 @@
     "runWithNodemon": "nodemon --delay 80ms --exec 'fuser -k 56745/tcp; node --inspect=0.0.0.0:56745 ./dist/index.js'",
     "clean-dist": "rimraf dist",
     "build": "npm run clean-dist && webpack --config webpack.config.js --progress --colors",
-    "watch-build": "npm run clean-dist && webpack --config webpack.config.js --progress --colors -w",
+    "watch-build": "webpack --config webpack.config.js --progress --colors -w",
     "init_sql": "ts-node-dev --respawn --transpileOnly ./init/index.ts ",
     "build:prod": "npm run clean-dist && webpack --config webpack.config.js --progress --colors --prod",
     "start:prod": "pm2 start ecosystem.config.js --env production",
