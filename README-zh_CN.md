@@ -236,7 +236,8 @@ export default {
     accessKey: '',
     secretKey: '',
     bucket: ''
-  }
+  },
+  robot_key: '', // 机器人聊天用到的key => 请自己申请 http://www.tuling123.com/
 };
 ```
 
@@ -254,7 +255,7 @@ cd sever
 npm run build:prod
 ```
 3. 把步骤1，2产生的文件夹(build, dist)放到你的服务器上, 把dist/index.js文件跑起来
-(可以把ghChat/package.json，ghChat/server/ecosystem.config.js 两个文件一并拷到到你的服务器上，然后执行`npm run start:prod`)
+(可以把ghChat/server/package.json 一并拷到到你的服务器上，然后执行`npm run start:prod`)
 
 ### 文档
 

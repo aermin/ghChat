@@ -189,7 +189,8 @@ export default {
     accessKey: '',
     secretKey: '',
     bucket: ''
-  }
+  },
+  robot_key: '', // the key of robot chat api => If you want to use robot chat, pls apply this key from http://www.tuling123.com/
 };
 ```
 
@@ -208,7 +209,7 @@ npm run build:prod
 ```
 
 3. put the folders(build, dist) which built from step1, step2 into you server, and run dist/index.js file
-(here you can copy ghChat/package.json，ghChat/server/ecosystem.config.js two files to your sever as well，and run command `npm run start:prod`)
+(here you can copy ghChat/server/package.json to your sever as well，and run command `npm run start:prod`)
 
 ### License
 

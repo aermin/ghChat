@@ -18,4 +18,5 @@ export default {
     secretKey: '',
     bucket: ''
   },
+  robot_key: '', // 机器人聊天用到的key => 请自己申请http://www.tuling123.com/
 };

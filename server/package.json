@@ -6,17 +6,17 @@
   "private": true,
   "scripts": {
     "clean": "rimraf package-lock.json node_modules",
-    "cleanAndUpdate": "npm run clean && ncu -a &&  ncu -d -a && npm install",
+    "cleanAndUpdate": "npm run clean && ncu -a && ncu -d -a && npm install",
     "start": "npm run build && npm run watch",
     "watch": "concurrently -k -p \"[{name}]\" -n \"Node,TypeScript\" -c \"green.bold,cyan.bold,green.bold\" \"npm run runWithNodemon\" \"npm run watch-build\"",
-    "runWithNodemon": "nodemon --delay 80ms --exec 'fuser -k 56745/tcp; node --inspect=0.0.0.0:56745 ./dist/index.js'",
+    "runWithNodemon": "nodemon --delay 80ms --exec 'lsof -nti:9229 | xargs kill -9; node --inspect=0.0.0.0:9229 ./dist/index.js'",
     "clean-dist": "rimraf dist",
     "build": "npm run clean-dist && webpack --config webpack.config.js --progress --colors",
     "watch-build": "webpack --config webpack.config.js --progress --colors -w",
     "init_sql": "ts-node-dev --respawn --transpileOnly ./init/index.ts ",
     "build:prod": "npm run clean-dist && webpack --config webpack.config.js --progress --colors --prod",
-    "start:prod": "pm2 start ecosystem.config.js --env production",
-    "stop:prod": "pm2 stop ecosystem.config.js --env production"
+    "start:prod": "pm2 start ./dist/index.js --env production",
+    "stop:prod": "pm2 stop ./dist/index.js --env production"
   },
   "engines": {
     "node": ">= 0.10.0"

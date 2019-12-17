@@ -2,6 +2,7 @@ import * as request from 'request-promise';
 import * as socketIo from 'socket.io';
 import * as uuid from 'uuid/v1';
 
+import configs from '@configs';
 import { ServicesContext } from '../context';
 import { authVerify } from '../middlewares/verify';
 import { getUploadToken } from '../utils/qiniu';
@@ -333,7 +334,7 @@ export const appSocket = (server) => {
     socket.on('robotChat', async (data, fn) => {
       try {
         const date = {
-          key: '92febb91673740c2814911a6c16dbcc5',
+          key: configs.robot_key,
           info: data.message,
           userid: data.user_id
         };
@@ -343,7 +344,7 @@ export const appSocket = (server) => {
           body: date,
           json: true // Automatically stringifies the body to JSON
         };
-        const response = await request(options);
+        const response = configs.robot_key ? await request(options) : { text: '请在 http://www.tuling123.com/ 登录并注册个机器人, 取到apikey放到代码configs中'};
         console.log('robotChat data=>', data, 'time=>', new Date().toLocaleString());
         fn(response);
       } catch (error) {
