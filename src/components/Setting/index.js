@@ -1,102 +1,82 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  withRouter,
-  Link
-} from 'react-router-dom';
-// import axios from 'axios';
+import { withRouter } from 'react-router-dom';
+import axios from 'axios';
 import './styles.scss';
 import Button from '../Button';
 import Modal from '../Modal';
 
-class Setting extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      visible: false,
-      // githubStars: '--',
-    };
-  }
+function repoUrl() {
+  return process.env.NODE_ENV === 'production'
+    ? '/group_chat/ddbffd80-3663-11e9-a580-d119b23ef62e'
+    : 'https://im.aermin.top/group_chat/ddbffd80-3663-11e9-a580-d119b23ef62e';
+}
 
-   _showModal = () => {
-     this.setState({ visible: true });
-   }
+function Setting({ initApp, history }) {
+  const [logoutModalVisible, setLogoutModalVisible] = useState(false);
+  const [githubStars, setGithubStars] = useState('--');
 
-   _hideModal = () => {
-     this.setState({ visible: false });
-   };
+  const logout = () => {
+    window.socket.disconnect();
+    localStorage.removeItem('userInfo');
+    initApp(false);
+    history.push('/login');
+  };
 
-   logout = () => {
-     window.socket.disconnect();
-     localStorage.removeItem('userInfo');
-     this.props.initApp(false);
-     this.props.history.push('/login');
-   }
+  useEffect(() => {
+    axios.get('https://api.github.com/repos/aermin/ghChat').then((res) => {
+      setGithubStars(res.data.stargazers_count);
+    });
+  });
 
-   //  componentDidMount() {
-   //    axios.get('https://api.github.com/repos/aermin/ghChat').then((res) => {
-   //      this.setState({ githubStars: res.data.stargazers_count });
-   //    });
-   //  }
+  return (
+    <div className="setting">
+      <Modal
+        title="确定退出？"
+        visible={logoutModalVisible}
+        confirm={logout}
+        hasCancel
+        hasConfirm
+        cancel={() => setLogoutModalVisible(false)}
+      />
 
-  _openUrl = (url) => {
-    window.open(url);
-  }
-
-  get isProduction() {
-    return process.env.NODE_ENV === 'production';
-  }
-
-  render() {
-    const githubStarRender = (
-      <div className="githubStarRender" onClick={() => this._openUrl('https://github.com/aermin/ghChat')}>
+      <div
+        className="githubStarRender"
+        onClick={() => window.open('https://github.com/aermin/ghChat')}
+      >
         <svg className="icon githubIcon" aria-hidden="true">
           <use xlinkHref="#icon-github-copy" />
         </svg>
-        <span className="starTitle">
-          源码 & star
-        </span>
+        <span className="starTitle">{`${githubStars}  Stars`}</span>
       </div>
-    );
 
-    return (
-      <div className="setting">
-        <Modal
-          title="确定退出？"
-          visible={this.state.visible}
-          confirm={this.logout}
-          hasCancel
-          hasConfirm
-          cancel={this._hideModal}
-         />
-        {githubStarRender}
-        <div className="contact" onClick={() => this._openUrl('https://github.com/aermin/blog/issues/63')}>开启PWA(将ghChat安装到桌面)</div>
-        {this.isProduction ? (
-          <div>
-            {/* <Link className="contact" to="/private_chat/1">联系作者</Link> */}
-            <Link className="contact" to="/group_chat/ddbffd80-3663-11e9-a580-d119b23ef62e">项目交流群</Link>
-          </div>
-        ) : (
-          <div>
-            {/* <div className="contact" onClick={() => this._openUrl('https://im.aermin.top/private_chat/1')}>联系作者</div> */}
-            <div className="contact" onClick={() => this._openUrl('https://im.aermin.top/group_chat/ddbffd80-3663-11e9-a580-d119b23ef62e')}>项目交流群</div>
-          </div>
-        )}
-        <Button clickFn={this._showModal} value="退出登录" />
-        <div className="version">Version: 2.3.5</div>
+      <div
+        className="contact"
+        onClick={() => window.open('https://github.com/aermin/blog/issues/63')}
+      >
+        开启PWA(将ghChat安装到桌面)
       </div>
-    );
-  }
+      <div
+        className="contact"
+        onClick={() => window.open('https://github.com/aermin/ghChat')}
+      >
+        项目地址 & 欢迎star
+      </div>
+      <div className="contact" onClick={() => window.open(repoUrl())}>
+        项目交流群
+      </div>
+      <Button clickFn={() => setLogoutModalVisible(true)} value="退出登录" />
+      <div className="version">Version: 2.3.6</div>
+    </div>
+  );
 }
 
-
 Setting.propTypes = {
-  initApp: PropTypes.func,
+  initApp: PropTypes.func
 };
 
-
 Setting.defaultProps = {
-  initApp() {},
+  initApp() {}
 };
 
 export default withRouter(Setting);
