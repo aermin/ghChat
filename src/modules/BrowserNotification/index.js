@@ -1,4 +1,5 @@
 import notification from '../../components/Notification';
+import store from '../../redux/store';
 
 export default class BrowserNotification {
   constructor() {
@@ -31,7 +32,8 @@ export default class BrowserNotification {
   notify({
     title, text, icon, onClick, audio
   }) {
-    if (!this._notificationEnable) {
+    const { globalSettingsState: { notification } } = store.getState();
+    if (!this._notificationEnable || !notification) {
       return;
     }
     const n = new window.Notification(title, { body: text, icon });
@@ -43,10 +45,10 @@ export default class BrowserNotification {
   }
 
   _onPlay(src) {
-    let audio = document.createElement("audio");
+    const audio = document.createElement('audio');
     audio.setAttribute('src', src);
     audio.play();
- }
+  }
 
   get permission() {
     return this.notification.permission;

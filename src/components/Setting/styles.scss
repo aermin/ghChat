@@ -1,10 +1,22 @@
 @import "../../assets/base.scss";
+@import '~rc-switch/assets/index.css';
+
 .setting{
   width: 100%;
   height: 100%;
   padding-top: 100px;
   text-align: center;
   position: relative;
+  color: $gray;
+  .notificationConfig {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .rc-switch-checked {
+      border: 1px solid $blue;
+      background-color: $blue;
+    }
+  }
   .githubStarRender {
     color: #fff;
     display: flex;
@@ -47,7 +59,6 @@
     margin-top: 80px;
   }
   .contact, .contact a {
-    color: $gray;
     text-decoration:none; 
     margin: 40px 0;
     font-size: 14px;

@@ -68,6 +68,7 @@
     "prop-types": "^15.6.1",
     "qiniu-js": "^2.5.3",
     "rc-notification": "^3.1.1",
+    "rc-switch": "^1.9.0",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-markdown": "^4.0.6",
