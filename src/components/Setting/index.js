@@ -8,10 +8,12 @@ import './styles.scss';
 import Button from '../Button';
 import Modal from '../Modal';
 
-function repoUrl() {
-  return process.env.NODE_ENV === 'production'
-    ? '/group_chat/ddbffd80-3663-11e9-a580-d119b23ef62e'
-    : 'https://im.aermin.top/group_chat/ddbffd80-3663-11e9-a580-d119b23ef62e';
+function openRepoUrl(history) {
+  if (process.env.NODE_ENV === 'production') {
+    history.push('/group_chat/ddbffd80-3663-11e9-a580-d119b23ef62e');
+  } else {
+    window.open('https://im.aermin.top/group_chat/ddbffd80-3663-11e9-a580-d119b23ef62e')
+  }
 }
 
 function Setting({
@@ -77,11 +79,11 @@ function Setting({
       >
         项目地址 & 欢迎star
       </div>
-      <div className="contact" onClick={() => window.open(repoUrl())}>
+      <div className="contact" onClick={() => openRepoUrl(history)}>
         项目交流群
       </div>
       <Button clickFn={() => setLogoutModalVisible(true)} value="退出登录" />
-      <div className="version">Version: 2.3.7</div>
+      <div className="version">Version: 2.5.1</div>
     </div>
   );
 }

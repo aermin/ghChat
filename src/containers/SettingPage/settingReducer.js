@@ -9,7 +9,7 @@ const initialSettings = {
 };
 
 const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-const previousSettings = JSON.parse(localStorage.getItem(`settings-${userInfo.user_id}`));
+const previousSettings = userInfo && JSON.parse(localStorage.getItem(`settings-${userInfo.user_id}`));
 
 const setGlobalSettingsReducer = (
   previousState = previousSettings || initialSettings,

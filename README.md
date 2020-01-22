@@ -171,7 +171,7 @@ npm run start
 
 ### use in production
 
-Premise: pls create secrets.ts file to do configuration
+Premise: pls create secrets.ts file to do configuration inside ghChat/server/ folder
 
 ```
 export default {

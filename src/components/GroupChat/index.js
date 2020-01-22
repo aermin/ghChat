@@ -75,21 +75,16 @@ class GroupChat extends Component {
       }
     );
     const { messages, groupInfo } = response;
-    const name = groupInfo && groupInfo.name;
-    let lastContent;
-    if (messages.length > 1) {
-      lastContent = { ...messages[messages.length - 1], name };
-    } else {
-      lastContent = {
-        ...groupInfo,
-        message: '加入群成功，开始聊天吧:)',
-        time: Date.parse(new Date()) / 1000
-      };
-    }
+    const lastContent = {
+      name: '群助手',
+      message: '您已加群成功，可以开始聊天啦~',
+      time: Date.parse(new Date()) / 1000
+    };
+    messages.push(lastContent);
     addGroupMessageAndInfo({
       allGroupChats, messages, groupId: this.chatId, groupInfo
     });
-    updateHomePageList({ data: lastContent, homePageList });
+    updateHomePageList({ data: { ...lastContent, ...groupInfo }, homePageList });
   }
 
   _showLeaveModal = () => {
@@ -133,8 +128,9 @@ class GroupChat extends Component {
 
   _clickPersonAvatar = (user_id) => {
     const { allGroupChats } = this.props;
-    const { members } = allGroupChats.get(this.chatId).groupInfo;
+    const { members = [] } = allGroupChats.get(this.chatId) && allGroupChats.get(this.chatId).groupInfo || {};
     const personalInfo = members.filter(member => member.user_id === user_id)[0];
+    if (!members.length || !user_id) return;
     if (!personalInfo) {
       notification('此人已不在群中啦', 'warn', 1.5);
       return;

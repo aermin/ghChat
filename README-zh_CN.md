@@ -219,7 +219,7 @@ npm run start
 
 ### 生产环境使用
 
-前提：创建secrets.ts文件
+前提：在ghChat/server/ 文件夹下创建secrets.ts文件
 ```
 export default {
   port: '3000', // server 端口
