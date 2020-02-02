@@ -274,6 +274,7 @@ npm run build:prod
 <a href="https://github.com/AbbyJL"><img src="https://avatars2.githubusercontent.com/u/33203948?s=400&v=4" width="60" height="60" /></a>
 <a href="https://github.com/ZouYouShun"><img src="https://avatars0.githubusercontent.com/u/5878538?s=400&v=4" width="60" height="60" /></a>
 <a href="https://github.com/blackmatch"><img src="https://avatars1.githubusercontent.com/u/12443954?s=400&v=4" width="60" height="60" /></a>
+<a href="https://github.com/gaoac"><img src="https://avatars3.githubusercontent.com/u/15978393?s=400&v=4" width="60" height="60" /></a>
 
 
 ### 最后
