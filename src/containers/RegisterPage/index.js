@@ -12,8 +12,8 @@ export default class Register extends Component {
       name: '',
       password: '',
       modal: {
-        visible: false
-      }
+        visible: false,
+      },
     };
   }
 
@@ -30,14 +30,14 @@ export default class Register extends Component {
     try {
       const res = await Request.axios('post', '/api/v1/register', {
         name,
-        password
+        password,
       });
       if (res && res.success) {
         // 弹窗
         this.setState({
           modal: {
-            visible: true
-          }
+            visible: true,
+          },
         });
       } else {
         notification(res.message, 'error');
@@ -47,23 +47,23 @@ export default class Register extends Component {
     }
   };
 
-  setValue = (value) => {
+  setValue = value => {
     const { name, password } = value;
     this.setState(
       {
         name,
-        password
+        password,
       },
       async () => {
         await this.register();
-      }
+      },
     );
   };
 
   confirm = () => {
     this.setState({
       // eslint-disable-next-line react/no-unused-state
-      visible: false
+      visible: false,
     });
 
     // eslint-disable-next-line react/prop-types
@@ -74,13 +74,7 @@ export default class Register extends Component {
     const { visible } = this.state.modal;
     return (
       <div className="register">
-        <Modal
-          title="提示"
-          visible={visible}
-          hasConfirm
-          confirm={this.confirm}
-          hasCancel={false}
-        >
+        <Modal title="提示" visible={visible} hasConfirm confirm={this.confirm} hasCancel={false}>
           <p className="content">您已注册成功</p>
         </Modal>
         {/* <Message isShow = {this.state.message.isShow}  type = {this.state.message.type}  content = {this.state.message.content} /> */}

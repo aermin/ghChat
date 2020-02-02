@@ -1,4 +1,4 @@
-import * as fs from "fs";
+import * as fs from 'fs';
 import { getSqlMap } from './getSQLMap';
 
 const sqlContentMap = {};
@@ -9,7 +9,7 @@ const sqlContentMap = {};
  * @param  {string} path     文件所在的路径
  * @return {string}          脚本文件内容
  */
-function getSqlContent(fileName:string, path: string) {
+function getSqlContent(fileName: string, path: string) {
   const content = fs.readFileSync(path, 'binary');
   sqlContentMap[fileName] = content;
 }
@@ -20,6 +20,7 @@ function getSqlContent(fileName:string, path: string) {
  */
 export function getSqlContentMap(): object {
   const sqlMap = getSqlMap();
+  // eslint-disable-next-line guard-for-in
   for (const key in sqlMap) {
     getSqlContent(key, sqlMap[key]);
   }

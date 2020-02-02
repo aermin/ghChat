@@ -1,6 +1,8 @@
 import {
-  SET_HOME_PAGE_LIST, UPDATE_HOME_PAGE_LIST,
-  CLEAR_UNREAD, DELETE_CHAT_FROM_LIST,
+  SET_HOME_PAGE_LIST,
+  UPDATE_HOME_PAGE_LIST,
+  CLEAR_UNREAD,
+  DELETE_CHAT_FROM_LIST,
   SHOW_CALL_ME_TIP,
   RELATED_CURRENT_CHAT,
   UPDATE_LIST_GROUP_NAME,
@@ -33,7 +35,4 @@ const relatedCurrentChatReducer = (previousState = true, action) => {
   }
 };
 
-export {
-  getHomePageListReducer,
-  relatedCurrentChatReducer
-};
+export { getHomePageListReducer, relatedCurrentChatReducer };

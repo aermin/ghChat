@@ -1,10 +1,8 @@
 import { connect } from 'react-redux';
-import {
-  withRouter,
-} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import {
   updateHomePageListAction,
-  deleteHomePageListAction
+  deleteHomePageListAction,
 } from '../HomePageList/homePageListAction';
 import {
   addPrivateChatMessagesAction,
@@ -37,7 +35,7 @@ const mapDispatchToProps = dispatch => ({
   },
   deletePrivateChat(arg = {}) {
     dispatch(deletePrivateChatAction({ ...arg }));
-  }
+  },
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PrivateChat));

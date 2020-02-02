@@ -5,9 +5,7 @@ import ChatHeader from '../ChatHeader';
 import ChatItem from '../ChatItem';
 import InputArea from '../InputArea';
 
-import {
-  toNormalTime
-} from '../../utils/transformTime';
+import { toNormalTime } from '../../utils/transformTime';
 
 export default class Robot extends Component {
   constructor() {
@@ -18,23 +16,22 @@ export default class Robot extends Component {
     };
   }
 
-  sendMessage = async (value) => {
-    this.setState({
-      inputMsg: value
-    }, async () => {
-      const { insertMsg, getRobotMsg } = this.props;
-      const { inputMsg } = this.state;
-      insertMsg(
-        { message: inputMsg }
-      );
-      await getRobotMsg(
-        {
+  sendMessage = async value => {
+    this.setState(
+      {
+        inputMsg: value,
+      },
+      async () => {
+        const { insertMsg, getRobotMsg } = this.props;
+        const { inputMsg } = this.state;
+        insertMsg({ message: inputMsg });
+        await getRobotMsg({
           message: inputMsg,
-          user_id: this._userInfo.user_id
-        }
-      );
-    });
-  }
+          user_id: this._userInfo.user_id,
+        });
+      },
+    );
+  };
 
   componentDidMount() {
     this.scrollBottomRef.scrollIntoView();
@@ -43,7 +40,6 @@ export default class Robot extends Component {
   componentDidUpdate() {
     this.scrollBottomRef.scrollIntoView();
   }
-
 
   shouldComponentUpdate(nextProps) {
     const { robotState } = this.props;
@@ -61,7 +57,8 @@ export default class Robot extends Component {
           <ChatItem
             msg={msg.message}
             name={msg.user}
-            time={toNormalTime(Date.parse(new Date()) / 1000)} />
+            time={toNormalTime(Date.parse(new Date()) / 1000)}
+          />
         )}
         {!msg.user && (
           <ChatItem
@@ -69,7 +66,8 @@ export default class Robot extends Component {
             img={this._userInfo.avatar}
             msg={msg.message}
             name={this._userInfo.name}
-            time={toNormalTime(Date.parse(new Date()) / 1000)} />
+            time={toNormalTime(Date.parse(new Date()) / 1000)}
+          />
         )}
       </li>
     ));
@@ -80,8 +78,10 @@ export default class Robot extends Component {
           {listItems}
           <div
             style={{ float: 'left', clear: 'both' }}
-            ref={(el) => { this.scrollBottomRef = el; }}
-        />
+            ref={el => {
+              this.scrollBottomRef = el;
+            }}
+          />
         </ul>
         <InputArea sendMessage={this.sendMessage} isRobotChat />
       </div>

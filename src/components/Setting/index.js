@@ -12,13 +12,11 @@ function openRepoUrl(history) {
   if (process.env.NODE_ENV === 'production') {
     history.push('/group_chat/ddbffd80-3663-11e9-a580-d119b23ef62e');
   } else {
-    window.open('https://im.aermin.top/group_chat/ddbffd80-3663-11e9-a580-d119b23ef62e')
+    window.open('https://im.aermin.top/group_chat/ddbffd80-3663-11e9-a580-d119b23ef62e');
   }
 }
 
-function Setting({
-  initApp, history, globalSettings, setGlobalSettings
-}) {
+function Setting({ initApp, history, globalSettings, setGlobalSettings }) {
   const [logoutModalVisible, setLogoutModalVisible] = useState(false);
   const [githubStars, setGithubStars] = useState('--');
 
@@ -30,14 +28,14 @@ function Setting({
   };
 
   useEffect(() => {
-    axios.get('https://api.github.com/repos/aermin/ghChat').then((res) => {
+    axios.get('https://api.github.com/repos/aermin/ghChat').then(res => {
       setGithubStars(res.data.stargazers_count);
     });
   });
 
   const _onChange = (type, value) => {
     setGlobalSettings({
-      [type]: value
+      [type]: value,
     });
   };
 
@@ -54,7 +52,10 @@ function Setting({
 
       <div className="notificationConfig">
         <span>消息通知： </span>
-        <Switch onChange={value => _onChange(GLOBAL_SETTINGS.NOTIFICATION, value)} checked={globalSettings.notification} />
+        <Switch
+          onChange={value => _onChange(GLOBAL_SETTINGS.NOTIFICATION, value)}
+          checked={globalSettings.notification}
+        />
       </div>
 
       <div
@@ -73,10 +74,7 @@ function Setting({
       >
         开启PWA(将ghChat安装到桌面)
       </div>
-      <div
-        className="contact"
-        onClick={() => window.open('https://github.com/aermin/ghChat')}
-      >
+      <div className="contact" onClick={() => window.open('https://github.com/aermin/ghChat')}>
         项目地址 & 欢迎star
       </div>
       <div className="contact" onClick={() => openRepoUrl(history)}>

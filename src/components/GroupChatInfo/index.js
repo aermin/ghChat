@@ -15,88 +15,99 @@ export default class GroupChatInfo extends Component {
       justShowOnlineMember: true,
     };
     this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    this._isCreator = this._userInfo.user_id === parseInt(props.groupInfo.creator_id);
+    this._isCreator = this._userInfo.user_id === parseInt(props.groupInfo.creator_id, 10);
   }
 
   componentDidMount() {
     const groupId = this.props.chatId;
-    window.socket.emit('getGroupMember', groupId, (data) => {
+    window.socket.emit('getGroupMember', groupId, data => {
       data.sort((a, b) => b.status - a.status);
       const onlineMember = data.filter(e => e.status === 1);
       this.setState({
         groupMember: data,
-        onlineNumber: onlineMember.length
+        onlineNumber: onlineMember.length,
       });
     });
   }
 
-  _clickMember = (user_id) => {
+  _clickMember = user_id => {
     this.props.clickMember(user_id);
-  }
+  };
 
   _openEditorInfoModal = () => {
     this.setState({ modalVisible: true });
-  }
+  };
 
   GroupMemberRender = groupMember => (
     <ul className="members">
-      {groupMember.length > 0 && groupMember.map(e => (
-        (!this.state.justShowOnlineMember || !!e.status) && (
-          <li key={e.user_id} className="member" onClick={() => this._clickMember(e.user_id)}>
-            <UserAdapter src={e.avatar} name={e.name} isGray={!e.status} showLogo={!!e.github_id} />
-            <span className="memberName">{e.name}</span>
-          </li>
-        )
-      ))}
+      {groupMember.length > 0 &&
+        groupMember.map(
+          e =>
+            (!this.state.justShowOnlineMember || !!e.status) && (
+              <li key={e.user_id} className="member" onClick={() => this._clickMember(e.user_id)}>
+                <UserAdapter
+                  src={e.avatar}
+                  name={e.name}
+                  isGray={!e.status}
+                  showLogo={!!e.github_id}
+                />
+                <span className="memberName">{e.name}</span>
+              </li>
+            ),
+        )}
     </ul>
   );
 
   _confirm = ({ groupName, groupNotice }) => {
     this._closeModal();
     this._updateGroupInfo({ groupName, groupNotice });
-  }
+  };
 
   _closeModal = () => {
     this.setState({
-      modalVisible: false
+      modalVisible: false,
     });
-  }
+  };
 
   _updateGroupInfo = ({ groupName, groupNotice }) => {
     const {
-      groupInfo, allGroupChats,
+      groupInfo,
+      allGroupChats,
       updateGroupTitleNotice,
       updateListGroupName,
-      homePageList
+      homePageList,
     } = this.props;
     const { to_group_id } = groupInfo;
     const data = {
       name: groupName,
       group_notice: groupNotice,
-      to_group_id
+      to_group_id,
     };
-    window.socket.emit('updateGroupInfo', data, (res) => {
+    window.socket.emit('updateGroupInfo', data, res => {
       updateGroupTitleNotice({
-        allGroupChats, groupNotice, groupName, groupId: to_group_id
+        allGroupChats,
+        groupNotice,
+        groupName,
+        groupId: to_group_id,
       });
       updateListGroupName({
-        homePageList, name: groupName, to_group_id
+        homePageList,
+        name: groupName,
+        to_group_id,
       });
       notification(res, 'success');
       this._closeModal();
     });
-  }
+  };
 
   _showAllMember = () => {
     this.setState(({ justShowOnlineMember }) => ({
-      justShowOnlineMember: !justShowOnlineMember
+      justShowOnlineMember: !justShowOnlineMember,
     }));
-  }
+  };
 
   render() {
-    const {
-      groupMember, onlineNumber, modalVisible, justShowOnlineMember
-    } = this.state;
+    const { groupMember, onlineNumber, modalVisible, justShowOnlineMember } = this.state;
     const { groupInfo, leaveGroup } = this.props;
     return (
       <div className="chatInformation">
@@ -113,20 +124,31 @@ export default class GroupChatInfo extends Component {
         <div className="info">
           <p className="noticeTitle">
             群公告
-            {this._isCreator && <svg onClick={this._openEditorInfoModal} className="icon iconEditor" aria-hidden="true"><use xlinkHref="#icon-editor" /></svg>}
+            {this._isCreator && (
+              <svg
+                onClick={this._openEditorInfoModal}
+                className="icon iconEditor"
+                aria-hidden="true"
+              >
+                <use xlinkHref="#icon-editor" />
+              </svg>
+            )}
           </p>
           <p className="noticeContent">{groupInfo.group_notice}</p>
           <p className="memberTitle">
             {`在线人数: ${onlineNumber}`}
-            <span className="showAllMember" onClick={this._showAllMember}>{ `${justShowOnlineMember ? '查看所有' : '只看在线'}` }</span>
+            <span className="showAllMember" onClick={this._showAllMember}>
+              {`${justShowOnlineMember ? '查看所有' : '只看在线'}`}
+            </span>
           </p>
         </div>
         {this.GroupMemberRender(groupMember)}
-        <p className="leave" onClick={leaveGroup}>退出群聊</p>
+        <p className="leave" onClick={leaveGroup}>
+          退出群聊
+        </p>
       </div>
     );
   }
-
 
   get userInfo() {
     return JSON.parse(localStorage.getItem('userInfo'));
@@ -143,11 +165,10 @@ GroupChatInfo.propTypes = {
   homePageList: PropTypes.array,
 };
 
-
 GroupChatInfo.defaultProps = {
   groupInfo: {},
-  updateGroupTitleNotice() { },
-  updateListGroupName() { },
+  updateGroupTitleNotice() {},
+  updateListGroupName() {},
   allGroupChats: new Map(),
   homePageList: [],
 };

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {
-  withRouter,
-} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ChatHeader from '../ChatHeader';
 import InputArea from '../InputArea';
@@ -36,71 +34,68 @@ class GroupChat extends Component {
 
   sendMessage = async (inputMsg = '', attachments = []) => {
     if (inputMsg.trim() === '' && attachments.length === 0) return;
-    const {
-      user_id, avatar, name, github_id
-    } = this._userInfo;
-    const {
-      allGroupChats, homePageList,
-      updateHomePageList, addGroupMessages,
-    } = this.props;
+    const { user_id, avatar, name, github_id } = this._userInfo;
+    const { allGroupChats, homePageList, updateHomePageList, addGroupMessages } = this.props;
     const data = {
       from_user: user_id, // 自己的id
       avatar, // 自己的头像
       name,
       github_id,
       groupName: this.groupName,
-      message: inputMsg === '' ? `${name}: [${attachments[0].type || 'file'}]` : `${name}: ${inputMsg}`, // 消息内容
+      message:
+        inputMsg === '' ? `${name}: [${attachments[0].type || 'file'}]` : `${name}: ${inputMsg}`, // 消息内容
       attachments, // 附件
       to_group_id: this.chatId,
       // time: Date.parse(new Date()) / 1000 // 时间
     };
     this._sendByMe = true;
-    const response = await request.socketEmitAndGetResponse('sendGroupMsg', data, (error) => {
+    const response = await request.socketEmitAndGetResponse('sendGroupMsg', data, error => {
       notification('信息发送失败', 'error', 2);
     });
     addGroupMessages({ allGroupChats, message: response, groupId: this.chatId });
     updateHomePageList({ data: response, homePageList, myUserId: user_id });
-  }
+  };
 
   joinGroup = async () => {
     if (this.state.disableJoinButton) return;
     this.setState({ disableJoinButton: true });
-    const {
-      allGroupChats, homePageList, updateHomePageList, addGroupMessageAndInfo
-    } = this.props;
-    const response = await request.socketEmitAndGetResponse('joinGroup', { userInfo: this._userInfo, toGroupId: this.chatId },
-      (error) => {
+    const { allGroupChats, homePageList, updateHomePageList, addGroupMessageAndInfo } = this.props;
+    const response = await request.socketEmitAndGetResponse(
+      'joinGroup',
+      { userInfo: this._userInfo, toGroupId: this.chatId },
+      error => {
         notification('加群失败', 'error', 1.5);
         this.setState({ disableJoinButton: false });
-      }
+      },
     );
     const { messages, groupInfo } = response;
     const lastContent = {
       name: '群助手',
       message: '您已加群成功，可以开始聊天啦~',
-      time: Date.parse(new Date()) / 1000
+      time: Date.parse(new Date()) / 1000,
     };
     messages.push(lastContent);
     addGroupMessageAndInfo({
-      allGroupChats, messages, groupId: this.chatId, groupInfo
+      allGroupChats,
+      messages,
+      groupId: this.chatId,
+      groupInfo,
     });
     updateHomePageList({ data: { ...lastContent, ...groupInfo }, homePageList });
-  }
+  };
 
   _showLeaveModal = () => {
     this.setState(state => ({ showLeaveGroupModal: !state.showLeaveGroupModal }));
-  }
+  };
 
   leaveGroup = () => {
     const { user_id } = this._userInfo;
-    const {
-      homePageList, deleteHomePageList, allGroupChats, deleteGroupChat
-    } = this.props;
+    const { homePageList, deleteHomePageList, allGroupChats, deleteGroupChat } = this.props;
     window.socket.emit('leaveGroup', { user_id, toGroupId: this.chatId });
     deleteHomePageList({ homePageList, chatId: this.chatId });
     deleteGroupChat({ allGroupChats, groupId: this.chatId });
     this.props.history.push('/');
-  }
+  };
 
   _showGroupChatInfo(value) {
     this.setState({ showGroupChatInfo: value });
@@ -114,10 +109,12 @@ class GroupChat extends Component {
     }
 
     const { showGroupChatInfo, showPersonalInfo, showLeaveGroupModal } = nextState;
-    if (showGroupChatInfo !== this.state.showGroupChatInfo
-      || showPersonalInfo !== this.state.showPersonalInfo
-      || showLeaveGroupModal !== this.state.showLeaveGroupModal
-    ) return true;
+    if (
+      showGroupChatInfo !== this.state.showGroupChatInfo ||
+      showPersonalInfo !== this.state.showPersonalInfo ||
+      showLeaveGroupModal !== this.state.showLeaveGroupModal
+    )
+      return true;
 
     return false;
   }
@@ -126,9 +123,10 @@ class GroupChat extends Component {
     this.setState({ showPersonalInfo: value });
   }
 
-  _clickPersonAvatar = (user_id) => {
+  _clickPersonAvatar = user_id => {
     const { allGroupChats } = this.props;
-    const { members = [] } = allGroupChats.get(this.chatId) && allGroupChats.get(this.chatId).groupInfo || {};
+    const { members = [] } =
+      (allGroupChats.get(this.chatId) && allGroupChats.get(this.chatId).groupInfo) || {};
     const personalInfo = members.filter(member => member.user_id === user_id)[0];
     if (!members.length || !user_id) return;
     if (!personalInfo) {
@@ -138,16 +136,14 @@ class GroupChat extends Component {
     this.setState({ personalInfo }, () => {
       this._showPersonalInfo(true);
     });
-  }
+  };
 
   componentDidMount() {
-    const {
-      allGroupChats,
-    } = this.props;
+    const { allGroupChats } = this.props;
     const chatItem = allGroupChats && allGroupChats.get(this.chatId);
     // (产品设计) 当查找没加过的群，点击去没群内容，请求出群内容，避免不了解而加错群
     if (!chatItem) {
-      window.socket.emit('getOneGroupItem', { groupId: this.chatId, start: 1 }, (groupMsgAndInfo) => {
+      window.socket.emit('getOneGroupItem', { groupId: this.chatId, start: 1 }, groupMsgAndInfo => {
         this.setState({ groupMsgAndInfo });
       });
     }
@@ -160,21 +156,28 @@ class GroupChat extends Component {
 
   _showShareModal = () => {
     this.setState(state => ({ showShareModal: !state.showShareModal }));
-  }
+  };
 
   render() {
     const {
-      allGroupChats, updateGroupTitleNotice,
-      updateListGroupName, homePageList,
-      shareData, deleteHomePageList,
-      allPrivateChats, deletePrivateChat,
+      allGroupChats,
+      updateGroupTitleNotice,
+      updateListGroupName,
+      homePageList,
+      shareData,
+      deleteHomePageList,
+      allPrivateChats,
+      deletePrivateChat,
       initApp,
     } = this.props;
     const {
-      groupMsgAndInfo, showGroupChatInfo,
-      showLeaveGroupModal, personalInfo,
-      showPersonalInfo, showShareModal,
-      disableJoinButton
+      groupMsgAndInfo,
+      showGroupChatInfo,
+      showLeaveGroupModal,
+      personalInfo,
+      showPersonalInfo,
+      showShareModal,
+      disableJoinButton,
     } = this.state;
     if (!allGroupChats && !allGroupChats.size) return null;
     const chatItem = allGroupChats.get(this.chatId);
@@ -183,7 +186,7 @@ class GroupChat extends Component {
     return (
       <div className="chat-wrapper">
         <ChatHeader
-          title={groupInfo && groupInfo.name || '----'}
+          title={(groupInfo && groupInfo.name) || '----'}
           chatType="group"
           hasShowed={showGroupChatInfo}
           showShareModal={this._showShareModal}
@@ -225,7 +228,9 @@ class GroupChat extends Component {
           chatType="groupChat"
           clickAvatar={user_id => this._clickPersonAvatar(user_id)}
         />
-        {showGroupChatInfo && <div onClick={() => this._showGroupChatInfo(false)} className="groupChatInfoMask" />}
+        {showGroupChatInfo && (
+          <div onClick={() => this._showGroupChatInfo(false)} className="groupChatInfoMask" />
+        )}
         {showGroupChatInfo && (
           <GroupChatInfo
             groupInfo={groupInfo}
@@ -235,29 +240,31 @@ class GroupChat extends Component {
             clickMember={user_id => this._clickPersonAvatar(user_id)}
             updateGroupTitleNotice={updateGroupTitleNotice}
             updateListGroupName={updateListGroupName}
-            chatId={this.chatId} />
+            chatId={this.chatId}
+          />
         )}
         {chatItem ? (
           <InputArea
             shareData={shareData}
             sendMessage={this.sendMessage}
-            groupMembers={groupInfo.members} />
-        )
-          : initApp && (
+            groupMembers={groupInfo.members}
+          />
+        ) : (
+          initApp && (
             <Button
               clickFn={debounce(this.joinGroup, 2000, true)}
               value="加入群聊"
               disable={disableJoinButton}
               className="button"
             />
-          )}
+          )
+        )}
       </div>
     );
   }
 }
 
 export default withRouter(GroupChat);
-
 
 GroupChat.propTypes = {
   allGroupChats: PropTypes.instanceOf(Map),
@@ -275,19 +282,18 @@ GroupChat.propTypes = {
   initApp: PropTypes.bool,
 };
 
-
 GroupChat.defaultProps = {
   allGroupChats: new Map(),
   allPrivateChats: new Map(),
   homePageList: [],
-  updateHomePageList() { },
-  addGroupMessages() { },
-  addGroupMessageAndInfo() { },
-  deleteHomePageList() { },
-  deleteGroupChat() { },
-  updateGroupTitleNotice() { },
-  updateListGroupName() { },
+  updateHomePageList() {},
+  addGroupMessages() {},
+  addGroupMessageAndInfo() {},
+  deleteHomePageList() {},
+  deleteGroupChat() {},
+  updateGroupTitleNotice() {},
+  updateListGroupName() {},
   shareData: undefined,
-  deletePrivateChat() { },
+  deletePrivateChat() {},
   initApp: false,
 };

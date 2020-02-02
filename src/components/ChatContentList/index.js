@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Viewer from 'react-viewer';
@@ -19,7 +18,7 @@ export default class ChatContentList extends Component {
     this._executeNextLoad = true;
     this.state = {
       imageVisible: false,
-      imageUrl: null
+      imageUrl: null,
     };
   }
 
@@ -28,7 +27,8 @@ export default class ChatContentList extends Component {
   }
 
   componentDidUpdate(nextProps) {
-    if (nextProps.chatId !== this.props.chatId) { // go to another chat
+    if (nextProps.chatId !== this.props.chatId) {
+      // go to another chat
       this._loadingNewMessages = false;
     }
     if (this._scrollHeight && this._loadingNewMessages) {
@@ -41,42 +41,49 @@ export default class ChatContentList extends Component {
 
   _lazyLoadMessage = () => {
     this._executeNextLoad = false;
-    const {
-      chats, chatId, ChatContent, chatType
-    } = this.props;
+    const { chats, chatId, ChatContent, chatType } = this.props;
     if (chatType === 'groupChat') {
-      this._chat.lazyLoadGroupMessages({
-        chats, chatId, start: ChatContent.length + 1, count: 20
-      }).then(() => {
-        this._executeNextLoad = true;
-      }).catch((error) => {
-        if (error === 'try again later') {
-          sleep(3000).then(() => {
-            this._executeNextLoad = true;
-          });
-        }
-      });
+      this._chat
+        .lazyLoadGroupMessages({
+          chats,
+          chatId,
+          start: ChatContent.length + 1,
+          count: 20,
+        })
+        .then(() => {
+          this._executeNextLoad = true;
+        })
+        .catch(error => {
+          if (error === 'try again later') {
+            sleep(3000).then(() => {
+              this._executeNextLoad = true;
+            });
+          }
+        });
     } else if (chatType === 'privateChat') {
-      this._chat.lazyLoadPrivateChatMessages({
-        chats,
-        user_id: this._userInfo.user_id,
-        chatId,
-        start: ChatContent.length + 1,
-        count: 20
-      }).then(() => {
-        this._executeNextLoad = true;
-      }).catch((error) => {
-        if (error === 'try again later') {
-          sleep(3000).then(() => {
-            this._executeNextLoad = true;
-          });
-        }
-      });
+      this._chat
+        .lazyLoadPrivateChatMessages({
+          chats,
+          user_id: this._userInfo.user_id,
+          chatId,
+          start: ChatContent.length + 1,
+          count: 20,
+        })
+        .then(() => {
+          this._executeNextLoad = true;
+        })
+        .catch(error => {
+          if (error === 'try again later') {
+            sleep(3000).then(() => {
+              this._executeNextLoad = true;
+            });
+          }
+        });
     }
     this._loadingNewMessages = true;
-  }
+  };
 
-  _onScroll = (e) => {
+  _onScroll = e => {
     if (!this._ulRef) return;
     const { scrollTop, scrollHeight, clientHeight } = e && e.target;
     this._scrollHeight = scrollHeight;
@@ -87,24 +94,26 @@ export default class ChatContentList extends Component {
       }
       this._lazyLoadMessage();
     }
-  }
+  };
 
-  clickImage = (imageUrl) => {
+  clickImage = imageUrl => {
     this.setState({ imageUrl, imageVisible: true });
-  }
+  };
 
   _closeImageView = () => {
     this.setState({ imageVisible: false });
-  }
+  };
 
   render() {
     const { ChatContent, clickAvatar } = this.props;
     const listItems = ChatContent.map((item, index) => {
       let isMe;
-      if (item.to_user) { // is private chat
-        isMe = this._userInfo && (this._userInfo.user_id === item.from_user);
-      } else if (item.to_group_id) { // is group chat
-        isMe = this._userInfo && (this._userInfo.user_id === item.from_user);
+      if (item.to_user) {
+        // is private chat
+        isMe = this._userInfo && this._userInfo.user_id === item.from_user;
+      } else if (item.to_group_id) {
+        // is group chat
+        isMe = this._userInfo && this._userInfo.user_id === item.from_user;
       }
       let message;
       if (item.message) {
@@ -114,7 +123,11 @@ export default class ChatContentList extends Component {
       const time = toNormalTime(item.time);
       const attachments = item.attachments;
       if (item.tip) {
-        return <li className="tip" key={index}>{item.message}</li>;
+        return (
+          <li className="tip" key={index}>
+            {item.message}
+          </li>
+        );
       }
       return (
         <li key={index}>
@@ -129,15 +142,16 @@ export default class ChatContentList extends Component {
             shouldScrollIntoView={!(this._scrollHeight && this._loadingNewMessages)}
             clickAvatar={() => clickAvatar(item.from_user)}
             attachments={attachments}
-            />
+          />
         </li>
       );
-    }
-    );
+    });
     return (
       <ul
         className="chat-content-list"
-        ref={(el) => { this._ulRef = el; }}
+        ref={el => {
+          this._ulRef = el;
+        }}
         onScroll={this._onScroll}
       >
         <Viewer
@@ -149,13 +163,14 @@ export default class ChatContentList extends Component {
         {listItems}
         <div
           style={{ float: 'left', clear: 'both' }}
-          ref={(el) => { this.scrollBottomRef = el; }}
+          ref={el => {
+            this.scrollBottomRef = el;
+          }}
         />
       </ul>
     );
   }
 }
-
 
 ChatContentList.propTypes = {
   ChatContent: PropTypes.array,
@@ -165,7 +180,6 @@ ChatContentList.propTypes = {
   chats: PropTypes.instanceOf(Map),
   shouldScrollToFetchData: PropTypes.bool,
 };
-
 
 ChatContentList.defaultProps = {
   ChatContent: [],

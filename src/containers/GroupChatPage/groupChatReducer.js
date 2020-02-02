@@ -21,6 +21,4 @@ const fetchAllGroupChatsReducer = (previousState = new Map(), action) => {
   }
 };
 
-export {
-  fetchAllGroupChatsReducer,
-};
+export { fetchAllGroupChatsReducer };

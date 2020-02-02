@@ -1,12 +1,8 @@
 const INIT_APP = 'INIT_APP';
 
-
 const initAppAction = (status = false) => ({
   type: INIT_APP,
-  data: status
+  data: status,
 });
 
-export {
-  INIT_APP,
-  initAppAction,
-};
+export { INIT_APP, initAppAction };

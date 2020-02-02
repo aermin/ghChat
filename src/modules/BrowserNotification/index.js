@@ -18,7 +18,7 @@ export default class BrowserNotification {
       return;
     }
     if (this.permission && this.permission !== 'denied') {
-      this.notification.requestPermission((status) => {
+      this.notification.requestPermission(status => {
         if (this.permission !== status) {
           this.permission = status;
         }
@@ -29,10 +29,10 @@ export default class BrowserNotification {
     }
   }
 
-  notify({
-    title, text, icon, onClick, audio
-  }) {
-    const { globalSettingsState: { notification } } = store.getState();
+  notify({ title, text, icon, onClick, audio }) {
+    const {
+      globalSettingsState: { notification },
+    } = store.getState();
     if (!this._notificationEnable || !notification) {
       return;
     }
@@ -61,7 +61,7 @@ export default class BrowserNotification {
   }
 
   get hasPermission() {
-    return this.permission && (this.permission === 'granted');
+    return this.permission && this.permission === 'granted';
   }
 
   get notification() {

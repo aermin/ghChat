@@ -23,9 +23,8 @@ import Chat from '../Chat';
 
 class InitApp {
   constructor(props) {
-    this.WEBSITE_ADDRESS = process.env.NODE_ENV === 'production'
-      ? 'https://im.aermin.top'
-      : 'http://localhost:3000';
+    this.WEBSITE_ADDRESS =
+      process.env.NODE_ENV === 'production' ? 'https://im.aermin.top' : 'http://localhost:3000';
     this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this._hasCalledMe = false;
     this._browserNotification = new BrowserNotification();
@@ -34,7 +33,7 @@ class InitApp {
     this.initialized = false;
   }
 
-  _browserNotificationHandle = (data) => {
+  _browserNotificationHandle = data => {
     const { homePageListState } = store.getState();
     const { name, message, avatar } = data;
     const chatType = data.to_group_id ? 'group_chat' : 'private_chat';
@@ -51,14 +50,14 @@ class InitApp {
         window.focus();
         this._chat.clearUnreadHandle({
           homePageList: homePageListState,
-          chatFromId
+          chatFromId,
         });
-      }
+      },
     });
   };
 
   _listeningPrivateChatMsg() {
-    window.socket.on('getPrivateMsg', (data) => {
+    window.socket.on('getPrivateMsg', data => {
       const { homePageListState, allPrivateChatsState } = store.getState();
       // eslint-disable-next-line radix
       const chatId = parseInt(window.location.pathname.split('/').slice(-1)[0]);
@@ -66,28 +65,28 @@ class InitApp {
       const increaseUnread = isRelatedCurrentChat ? 0 : 1;
       store.dispatch(relatedCurrentChatAction(isRelatedCurrentChat));
       if (
-        !allPrivateChatsState.get(data.from_user)
-        || !allPrivateChatsState.get(data.from_user).userInfo
+        !allPrivateChatsState.get(data.from_user) ||
+        !allPrivateChatsState.get(data.from_user).userInfo
       ) {
         const userInfo = {
           ...data,
-          user_id: data.from_user
+          user_id: data.from_user,
         };
         store.dispatch(
           addPrivateChatMessageAndInfoAction({
             allPrivateChats: allPrivateChatsState,
             message: data,
             chatId: data.from_user,
-            userInfo
-          })
+            userInfo,
+          }),
         );
       } else {
         store.dispatch(
           addPrivateChatMessagesAction({
             allPrivateChats: allPrivateChatsState,
             message: data,
-            chatId: data.from_user
-          })
+            chatId: data.from_user,
+          }),
         );
       }
       store.dispatch(
@@ -95,8 +94,8 @@ class InitApp {
           data,
           homePageList: homePageListState,
           myUserId: this.user_id,
-          increaseUnread
-        })
+          increaseUnread,
+        }),
       );
       this._browserNotificationHandle(data);
       // TODO: mute notifications switch
@@ -104,7 +103,7 @@ class InitApp {
   }
 
   _listeningGroupChatMsg() {
-    window.socket.on('getGroupMsg', (data) => {
+    window.socket.on('getGroupMsg', data => {
       const { allGroupChatsState, homePageListState } = store.getState();
       // eslint-disable-next-line radix
       const chatId = window.location.pathname.split('/').slice(-1)[0];
@@ -116,22 +115,20 @@ class InitApp {
             allGroupChats: allGroupChatsState,
             groupId: data.to_group_id,
             message: data,
-            member: data
-          })
+            member: data,
+          }),
         );
       } else {
         store.dispatch(
           addGroupMessagesAction({
             allGroupChats: allGroupChatsState,
             message: data,
-            groupId: data.to_group_id
-          })
+            groupId: data.to_group_id,
+          }),
         );
       }
       if (data.message && !this._hasCalledMe) {
-        const regexp = new RegExp(
-          `@${this._userInfo.name}\\s\\S*|@${this._userInfo.name}$`
-        );
+        const regexp = new RegExp(`@${this._userInfo.name}\\s\\S*|@${this._userInfo.name}$`);
         this._hasCalledMe = regexp.test(data.message);
       }
       store.dispatch(
@@ -139,8 +136,8 @@ class InitApp {
           data,
           homePageList: homePageListState,
           increaseUnread: isRelatedCurrentChat ? 0 : 1,
-          showCallMeTip: this._hasCalledMe
-        })
+          showCallMeTip: this._hasCalledMe,
+        }),
       );
       this._browserNotificationHandle(data);
       // TODO: mute notifications switch
@@ -148,35 +145,25 @@ class InitApp {
   }
 
   _listeningBeDelete() {
-    window.socket.on('beDeleted', (from_user) => {
+    window.socket.on('beDeleted', from_user => {
       const homePageList = store.getState().homePageListState;
       const allPrivateChats = store.getState().allPrivateChats;
-      store.dispatch(
-        deleteHomePageListAction({ homePageList, chatId: from_user })
-      );
-      store.dispatch(
-        deletePrivateChatAction({ allPrivateChats, chatId: from_user })
-      );
+      store.dispatch(deleteHomePageListAction({ homePageList, chatId: from_user }));
+      store.dispatch(deletePrivateChatAction({ allPrivateChats, chatId: from_user }));
     });
   }
 
   _listeningInitMessage() {
-    window.socket.on('initSocketSuccess', (allMessage) => {
+    window.socket.on('initSocketSuccess', allMessage => {
       const privateChat = new Map(allMessage.privateChat);
       const groupChat = new Map(allMessage.groupChat);
       store.dispatch(setHomePageListAction(allMessage.homePageList));
       store.dispatch(setAllPrivateChatsAction({ data: privateChat }));
       store.dispatch(setAllGroupChatsAction({ data: groupChat }));
-      console.log(
-        'initMessage success. ',
-        'time=>',
-        new Date().toLocaleString()
-      );
+      console.log('initMessage success. ', 'time=>', new Date().toLocaleString());
     });
     window.socket.on('initSocket', (socketId, fn) => {
-      const clientHomePageList = JSON.parse(
-        localStorage.getItem(`homePageList-${this.user_id}`)
-      );
+      const clientHomePageList = JSON.parse(localStorage.getItem(`homePageList-${this.user_id}`));
       fn(this.user_id, clientHomePageList);
     });
   }
@@ -187,11 +174,7 @@ class InitApp {
     this._listeningPrivateChatMsg();
     this._listeningGroupChatMsg();
     this._listeningBeDelete();
-    console.log(
-      'subscribeSocket success. ',
-      'time=>',
-      new Date().toLocaleString()
-    );
+    console.log('subscribeSocket success. ', 'time=>', new Date().toLocaleString());
   }
 
   _connectSocket() {
@@ -210,10 +193,10 @@ class InitApp {
       this.initialized = true;
       console.log('initialized');
       let afterReconnecting = false;
-      window.socket.on('error', (error) => {
+      window.socket.on('error', error => {
         notification(error, 'error');
       });
-      window.socket.on('reconnect', (attemptNumber) => {
+      window.socket.on('reconnect', attemptNumber => {
         if (!afterReconnecting) {
           window.socket.disconnect();
           this._init();
@@ -226,35 +209,30 @@ class InitApp {
           'socket-id => ',
           window.socket.id,
           'time=>',
-          new Date().toLocaleString()
+          new Date().toLocaleString(),
         );
       });
-      window.socket.on('reconnecting', (attemptNumber) => {
+      window.socket.on('reconnecting', attemptNumber => {
         afterReconnecting = true;
         console.log(
           'reconnecting. attemptNumber =>',
           attemptNumber,
           'time=>',
-          new Date().toLocaleString()
+          new Date().toLocaleString(),
         );
       });
-      window.socket.on('disconnect', async (reason) => {
+      window.socket.on('disconnect', async reason => {
         afterReconnecting = false;
         console.log(
           'disconnect in client, disconnect reason =>',
           reason,
           'time=>',
-          new Date().toLocaleString()
+          new Date().toLocaleString(),
         );
       });
-      window.socket.on('reconnect_error', (error) => {
+      window.socket.on('reconnect_error', error => {
         afterReconnecting = false;
-        console.log(
-          'reconnect_error. error =>',
-          error,
-          'time=>',
-          new Date().toLocaleString()
-        );
+        console.log('reconnect_error. error =>', error, 'time=>', new Date().toLocaleString());
         notification(error, 'error');
       });
     }
