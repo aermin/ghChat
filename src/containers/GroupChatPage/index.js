@@ -1,7 +1,5 @@
 import { connect } from 'react-redux';
-import {
-  withRouter,
-} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import {
   updateHomePageListAction,
   deleteHomePageListAction,
@@ -14,9 +12,7 @@ import {
   addGroupMessageAndInfoAction,
   updateGroupTitleNoticeAction,
 } from './groupChatAction';
-import {
-  deletePrivateChatAction,
-} from '../PrivateChatPage/privateChatAction';
+import { deletePrivateChatAction } from '../PrivateChatPage/privateChatAction';
 import GroupChat from '../../components/GroupChat';
 
 const mapStateToProps = state => ({
@@ -55,7 +51,7 @@ const mapDispatchToProps = dispatch => ({
   },
   deletePrivateChat(arg = {}) {
     dispatch(deletePrivateChatAction({ ...arg }));
-  }
+  },
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(GroupChat));

@@ -5,9 +5,8 @@ export function getUploadToken() {
   const { accessKey, secretKey, bucket } = configs.qiniu;
   const mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
 
-
   const options = {
-    scope: bucket
+    scope: bucket,
   };
 
   const putPolicy = new qiniu.rs.PutPolicy(options);

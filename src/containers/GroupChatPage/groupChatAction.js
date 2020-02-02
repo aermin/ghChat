@@ -7,18 +7,24 @@ const UPDATE_GROUP_TITLE_NOTICE = 'UPDATE_GROUP_TITLE_NOTICE';
 
 const setAllGroupChatsAction = ({ data = new Map() }) => ({
   type: SET_ALL_GROUP_CHATS,
-  data
+  data,
 });
 
 const addGroupMessagesAction = ({
-  allGroupChats, messages, message, groupId, inLazyLoading = false
+  allGroupChats,
+  messages,
+  message,
+  groupId,
+  inLazyLoading = false,
 }) => {
   const allGroupChatsCopy = new Map(allGroupChats);
   const goalGroupChat = allGroupChatsCopy.get(groupId);
-  const originMessages = goalGroupChat && goalGroupChat.messages || [];
+  const originMessages = (goalGroupChat && goalGroupChat.messages) || [];
   const newMessages = messages || [message];
   if (goalGroupChat) {
-    const finalMessages = inLazyLoading ? [...newMessages, ...originMessages] : [...originMessages, ...newMessages];
+    const finalMessages = inLazyLoading
+      ? [...newMessages, ...originMessages]
+      : [...originMessages, ...newMessages];
     allGroupChatsCopy.get(groupId).messages = finalMessages;
   } else {
     allGroupChatsCopy.set(groupId, { messages: newMessages });
@@ -26,17 +32,16 @@ const addGroupMessagesAction = ({
   return { type: ADD_GROUP_MESSAGES, data: allGroupChatsCopy };
 };
 
-const addGroupInfoAction = ({
-  allGroupChats, member,
-  members, groupId, groupInfo,
-}) => {
+const addGroupInfoAction = ({ allGroupChats, member, members, groupId, groupInfo }) => {
   const membersArg = members || [member];
   const allGroupChatsCopy = new Map(allGroupChats);
   const goalGroupChat = allGroupChatsCopy.get(groupId);
-  const originGroupInfo = goalGroupChat && goalGroupChat.groupInfo || {};
-  const originMembers = originGroupInfo && originGroupInfo.members || [];
-  const newGroupMembers = originMembers.filter(m => m.user_id === (member && member.user_id)).length === 0
-    ? [...originMembers, ...membersArg] : originMembers;
+  const originGroupInfo = (goalGroupChat && goalGroupChat.groupInfo) || {};
+  const originMembers = (originGroupInfo && originGroupInfo.members) || [];
+  const newGroupMembers =
+    originMembers.filter(m => m.user_id === (member && member.user_id)).length === 0
+      ? [...originMembers, ...membersArg]
+      : originMembers;
   const newGroupInfo = groupInfo || { ...originGroupInfo, members: newGroupMembers };
   if (goalGroupChat) {
     allGroupChatsCopy.get(groupId).groupInfo = newGroupInfo;
@@ -46,38 +51,44 @@ const addGroupInfoAction = ({
   return { type: ADD_GROUP_INFO, data: allGroupChatsCopy };
 };
 
-const updateGroupTitleNoticeAction = ({
-  allGroupChats, groupNotice, groupName, groupId
-}) => {
+const updateGroupTitleNoticeAction = ({ allGroupChats, groupNotice, groupName, groupId }) => {
   const allGroupChatsCopy = new Map(allGroupChats);
   const goalGroupChat = allGroupChatsCopy.get(groupId);
   if (!goalGroupChat || !goalGroupChat.groupInfo) console.error('不存在此群的信息');
-  goalGroupChat.groupInfo = { ...goalGroupChat.groupInfo, group_notice: groupNotice, name: groupName };
+  goalGroupChat.groupInfo = {
+    ...goalGroupChat.groupInfo,
+    group_notice: groupNotice,
+    name: groupName,
+  };
   return { type: UPDATE_GROUP_TITLE_NOTICE, data: allGroupChatsCopy };
 };
 
-
 const addGroupMessageAndInfoAction = ({
-  allGroupChats, groupId, messages, message, member,
-  members, groupInfo
+  allGroupChats,
+  groupId,
+  messages,
+  message,
+  member,
+  members,
+  groupInfo,
 }) => {
   const res = addGroupMessagesAction({
-    allGroupChats, groupId, messages, message
+    allGroupChats,
+    groupId,
+    messages,
+    message,
   });
   const { data } = addGroupInfoAction({
     allGroupChats: res.data,
     groupId,
     member,
     members,
-    groupInfo
+    groupInfo,
   });
   return { type: ADD_GROUP_MESSAGE_AND_INFO, data };
 };
 
-
-const deleteGroupChatAction = ({
-  allGroupChats, groupId
-}) => {
+const deleteGroupChatAction = ({ allGroupChats, groupId }) => {
   const allGroupChatsCopy = new Map(allGroupChats);
   const goalGroupChat = allGroupChatsCopy.get(groupId);
   if (goalGroupChat) {

@@ -8,14 +8,14 @@ import { appRoutes } from './routes';
 import { Server } from './server';
 import { ChatService, GroupChatService, GroupService, UserService } from './services';
 
-export const App = Server
-  .init((app) => {
-    app.use(compress())
-      .use(cors())
-      .use(bodyParser())
-      .use(appRoutes.routes())
-      .use(appRoutes.allowedMethods())
-  })
+export const App = Server.init(app => {
+  app
+    .use(compress())
+    .use(cors())
+    .use(bodyParser())
+    .use(appRoutes.routes())
+    .use(appRoutes.allowedMethods());
+})
   .createServer()
   .createConnection()
   .then(() => {

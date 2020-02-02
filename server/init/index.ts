@@ -5,14 +5,9 @@ import { query } from './db';
 // 打印脚本执行日志
 const eventLog = (err, sqlFile, index) => {
   if (err) {
-    console.log(
-      `[ERROR] sql脚本文件: ${sqlFile} 第${index + 1}条脚本 执行失败 o(╯□╰)o ！`
-    );
+    console.log(`[ERROR] sql脚本文件: ${sqlFile} 第${index + 1}条脚本 执行失败 o(╯□╰)o ！`);
   } else {
-    console.log(
-      `[SUCCESS] sql脚本文件: ${sqlFile} 第${index
-        + 1}条脚本 执行成功 O(∩_∩)O !`
-    );
+    console.log(`[SUCCESS] sql脚本文件: ${sqlFile} 第${index + 1}条脚本 执行成功 O(∩_∩)O !`);
   }
 };
 

@@ -1,10 +1,14 @@
 import React from 'react';
-import {
-  BrowserRouter as Router, Route, Switch
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import loadable from '@loadable/component';
 
-const FUNCTION_ROUTERS = ['/', '/robot_chat', '/group_chat/:to_group_id', '/private_chat/:user_id', '/setting'];
+const FUNCTION_ROUTERS = [
+  '/',
+  '/robot_chat',
+  '/group_chat/:to_group_id',
+  '/private_chat/:user_id',
+  '/setting',
+];
 const AUTH_ROUTERS = ['/login', '/register'];
 
 function MainView(props) {
@@ -27,8 +31,13 @@ function MainView(props) {
       <Route
         path={['/', '/robot_chat', '/group_chat/:to_group_id', '/private_chat/:user_id']}
         exact
-        component={loadable(() => import('../containers/HomePageList'))} />
-      <Route path="/setting" exact component={loadable(() => import('../containers/SettingPage'))} />
+        component={loadable(() => import('../containers/HomePageList'))}
+      />
+      <Route
+        path="/setting"
+        exact
+        component={loadable(() => import('../containers/SettingPage'))}
+      />
     </div>
   );
 }
@@ -46,14 +55,21 @@ function RightView(props) {
   return (
     <div className={RightViewClassName}>
       <Route path="/robot_chat" component={loadable(() => import('../containers/RobotPage'))} />
-      <Route path="/group_chat/:to_group_id" component={loadable(() => import('../containers/GroupChatPage'))} />
-      <Route path="/private_chat/:user_id" component={loadable(() => import('../containers/PrivateChatPage'))} />
+      <Route
+        path="/group_chat/:to_group_id"
+        component={loadable(() => import('../containers/GroupChatPage'))}
+      />
+      <Route
+        path="/private_chat/:user_id"
+        component={loadable(() => import('../containers/PrivateChatPage'))}
+      />
       {['/', '/setting'].map((path, index) => (
         <Route
           path={path}
           exact
           component={loadable(() => import('../containers/WelcomePage'))}
-          key={index} />
+          key={index}
+        />
       ))}
     </div>
   );
@@ -64,8 +80,16 @@ export default function getRouter() {
     <Router>
       <div className="layout-wrapper">
         <Switch>
-          <Route path="/register" exact component={loadable(() => import('../containers/RegisterPage'))} />
-          <Route path="/login" exact component={loadable(() => import('../containers/LogInPage'))} />
+          <Route
+            path="/register"
+            exact
+            component={loadable(() => import('../containers/RegisterPage'))}
+          />
+          <Route
+            path="/login"
+            exact
+            component={loadable(() => import('../containers/LogInPage'))}
+          />
           <Route exact path={FUNCTION_ROUTERS}>
             <Route path={FUNCTION_ROUTERS} exact component={MainView} />
             <Route path={FUNCTION_ROUTERS} exact component={RightView} />

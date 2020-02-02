@@ -1,6 +1,5 @@
 import { SHARE } from '../actions/shareAction';
 
-
 const shareReducer = (previousState = null, action) => {
   switch (action.type) {
     case SHARE:
@@ -10,6 +9,4 @@ const shareReducer = (previousState = null, action) => {
   }
 };
 
-export {
-  shareReducer,
-};
+export { shareReducer };

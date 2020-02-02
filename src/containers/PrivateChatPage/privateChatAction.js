@@ -6,18 +6,24 @@ const DELETE_PRIVATE_CHAT = 'DELETE_PRIVATE_CHAT';
 
 const setAllPrivateChatsAction = ({ data = new Map() }) => ({
   type: SET_ALL_PRIVATE_CHATS,
-  data
+  data,
 });
 
 const addPrivateChatMessagesAction = ({
-  allPrivateChats, messages, message, chatId, inLazyLoading
+  allPrivateChats,
+  messages,
+  message,
+  chatId,
+  inLazyLoading,
 }) => {
   const allPrivateChatsCopy = new Map(allPrivateChats);
   const goalPrivateChat = allPrivateChatsCopy.get(chatId);
-  const originMessages = goalPrivateChat && goalPrivateChat.messages || [];
+  const originMessages = (goalPrivateChat && goalPrivateChat.messages) || [];
   const newMessages = messages || [message];
   if (goalPrivateChat) {
-    const finalMessages = inLazyLoading ? [...newMessages, ...originMessages] : [...originMessages, ...newMessages];
+    const finalMessages = inLazyLoading
+      ? [...newMessages, ...originMessages]
+      : [...originMessages, ...newMessages];
     allPrivateChatsCopy.get(chatId).messages = finalMessages;
   } else {
     allPrivateChatsCopy.set(chatId, { messages: newMessages });
@@ -25,9 +31,7 @@ const addPrivateChatMessagesAction = ({
   return { type: ADD_PRIVATE_CHAT_MESSAGES, data: allPrivateChatsCopy };
 };
 
-const addPrivateChatInfoAction = ({
-  allPrivateChats, chatId, userInfo,
-}) => {
+const addPrivateChatInfoAction = ({ allPrivateChats, chatId, userInfo }) => {
   if (!userInfo.user_id) throw new Error('not exist userInfo.user_id!');
   const allPrivateChatsCopy = new Map(allPrivateChats);
   const goalPrivateChat = allPrivateChatsCopy.get(chatId);
@@ -40,21 +44,27 @@ const addPrivateChatInfoAction = ({
 };
 
 const addPrivateChatMessageAndInfoAction = ({
-  allPrivateChats, messages, message, chatId, userInfo,
+  allPrivateChats,
+  messages,
+  message,
+  chatId,
+  userInfo,
 }) => {
   const res = addPrivateChatMessagesAction({
-    allPrivateChats, messages, message, chatId
+    allPrivateChats,
+    messages,
+    message,
+    chatId,
   });
   const { data } = addPrivateChatInfoAction({
-    allPrivateChats: res.data, chatId, userInfo,
+    allPrivateChats: res.data,
+    chatId,
+    userInfo,
   });
   return { type: ADD_PRIVATE_CHAT_MESSAGE_AND_INFO, data };
 };
 
-
-const deletePrivateChatAction = ({
-  allPrivateChats, chatId
-}) => {
+const deletePrivateChatAction = ({ allPrivateChats, chatId }) => {
   const allPrivateChatsCopy = new Map(allPrivateChats);
   const goalPrivateChat = allPrivateChatsCopy.get(chatId);
   if (goalPrivateChat) {

@@ -14,7 +14,7 @@ export default async function upload(file, uploadToken, completeEvent) {
       // console.log('qiniu observer complete', res);
       const fileUrl = `https://cdn.aermin.top/${res.key}`;
       completeEvent(fileUrl);
-    }
+    },
   };
 
   const config = { useCdnDomain: true };

@@ -12,20 +12,23 @@ export default class SignInSignUp extends Component {
     this.state = {
       name: '',
       password: '',
-      showSpinner: true
+      showSpinner: true,
     };
   }
 
-  handleChange = (event) => {
+  handleChange = event => {
     const { target } = event;
     this.setState({ [target.name]: target.value });
-  }
+  };
 
   async loginGithub() {
     const href = window.location.href;
     if (/\/login\?code/.test(href)) {
       const code = href.split('?code=')[1];
-      const response = await Request.axios('post', '/api/v1/github_oauth', { code, clientId: this.clientId });
+      const response = await Request.axios('post', '/api/v1/github_oauth', {
+        code,
+        clientId: this.clientId,
+      });
       localStorage.setItem('userInfo', JSON.stringify(response));
       window.location.reload();
       const originalLink = sessionStorage.getItem('originalLink');
@@ -46,7 +49,7 @@ export default class SignInSignUp extends Component {
 
   handleClick = () => {
     this.props.setValue(this.state);
-  }
+  };
 
   get clientId() {
     return '8c694af835d62f8fd490';
@@ -82,7 +85,7 @@ export default class SignInSignUp extends Component {
             value={name}
             onChange={this.handleChange}
             placeholder="用户名"
-              />
+          />
         </div>
         <div className="center">
           <input
@@ -91,15 +94,10 @@ export default class SignInSignUp extends Component {
             value={password}
             onChange={this.handleChange}
             placeholder="密码"
-              />
+          />
         </div>
         <div className="center">
-          <input
-            type="button"
-            onClick={this.handleClick}
-
-            value={buttonName}
-              />
+          <input type="button" onClick={this.handleClick} value={buttonName} />
         </div>
         <div className="center">
           <p className="authTips">推荐使用GitHub登录</p>
@@ -109,19 +107,15 @@ export default class SignInSignUp extends Component {
             </svg>
           </a>
         </div>
-
-
       </div>
     );
   }
 }
 
-
 SignInSignUp.propTypes = {
   setValue: PropTypes.func,
-  isLogin: PropTypes.bool
+  isLogin: PropTypes.bool,
 };
-
 
 SignInSignUp.defaultProps = {
   setValue() {},

@@ -11,17 +11,19 @@ const commonConfig = require('./webpack.common.config.js');
 const publicConfig = {
   devtool: 'cheap-module-source-map',
   module: {
-    rules: [{
-      test: /\.css$/,
-      use: ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use: 'css-loader'
-      })
-    },
-    {
-      test: /\.scss$/,
-      use: ['style-loader', 'css-loader', 'sass-loader', 'postcss-loader']
-    }]
+    rules: [
+      {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader',
+        }),
+      },
+      {
+        test: /\.scss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader', 'postcss-loader'],
+      },
+    ],
   },
   plugins: [
     new CleanWebpackPlugin(['build/*.*']),
@@ -29,19 +31,18 @@ const publicConfig = {
     new UglifyJSPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify('production')
-      }
+        NODE_ENV: JSON.stringify('production'),
+      },
     }),
     new ExtractTextPlugin({
       filename: '[name].[contenthash:5].css',
-      allChunks: true
+      allChunks: true,
     }),
     new CopyWebpackPlugin([
       { from: 'src/manifest.json', to: 'manifest.json' },
-      { from: 'src/service-worker.js', to: 'service-worker.js' }
+      { from: 'src/service-worker.js', to: 'service-worker.js' },
     ]),
-  ]
-
+  ],
 };
 
 module.exports = merge(commonConfig, publicConfig);
