@@ -12,7 +12,9 @@ export class ServicesContext {
 
   // user
   private _userService: UserService;
-  public get userService() { return this._userService; }
+  public get userService() {
+    return this._userService;
+  }
   public setuserService(service: UserService): ServicesContext {
     this._userService = service;
     return this;
@@ -20,7 +22,9 @@ export class ServicesContext {
 
   // group
   private _groupService: GroupService;
-  public get groupService() { return this._groupService; }
+  public get groupService() {
+    return this._groupService;
+  }
   public setGroupService(service: GroupService): ServicesContext {
     this._groupService = service;
     return this;
@@ -28,7 +32,9 @@ export class ServicesContext {
 
   // chat
   private _chatService: ChatService;
-  public get chatService() { return this._chatService; }
+  public get chatService() {
+    return this._chatService;
+  }
   public setChatService(service: ChatService): ServicesContext {
     this._chatService = service;
     return this;
@@ -36,10 +42,11 @@ export class ServicesContext {
 
   // groupChat
   private _groupChatService: GroupChatService;
-  public get groupChatService() { return this._groupChatService; }
+  public get groupChatService() {
+    return this._groupChatService;
+  }
   public setgroupChatService(service: GroupChatService): ServicesContext {
     this._groupChatService = service;
     return this;
   }
-
 }

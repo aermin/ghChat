@@ -7,9 +7,9 @@ import { walkFile } from './walkFile';
  */
 export function getSqlMap(): object {
   let basePath = __dirname;
-  basePath = basePath.replace(/\\/g, '\/');
+  basePath = basePath.replace(/\\/g, '/');
 
-  let pathArr = basePath.split('\/');
+  let pathArr = basePath.split('/');
   pathArr = pathArr.splice(0, pathArr.length - 1);
   basePath = `${pathArr.join('/')}/sql/`;
 

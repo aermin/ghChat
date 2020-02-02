@@ -9,8 +9,7 @@
     "build": "webpack --config webpack.dev.config.js",
     "build:prod": "webpack --config webpack.config.js",
     "lint": "eslint src",
-    "lint:create": "eslint --init",
-    "prettier": "prettier --write \"**/*.{js,jsx,json,md}\""
+    "prettier": "prettier --write \"**/*.{js,jsx,json,md,ts}\""
   },
   "repository": {
     "type": "git",
