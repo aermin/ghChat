@@ -5,11 +5,11 @@ export default {
   ...commonConfigs,
   port: '3000',
   dbConnection: {
-    host: '120.77.247.212', // 数据库IP
+    host: '127.0.0.1', // 数据库IP
     port: 3306, // 数据库端口
     database: 'ghchat', // 数据库名称
-    user: 'ghchat', // 数据库用户名
-    password: 'Ghchat@123', // 数据库密码
+    user: 'root', // 数据库用户名
+    password: 'ghchat@123', // 数据库密码
   },
   client_secret: '',
   jwt_secret: 'chat-sec',
