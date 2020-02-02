@@ -1,12 +1,8 @@
 const SHARE = 'SHARE';
 
-
 const shareAction = (data = null) => ({
   type: SHARE,
-  data
+  data,
 });
 
-export {
-  SHARE,
-  shareAction,
-};
+export { SHARE, shareAction };

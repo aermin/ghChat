@@ -11,23 +11,12 @@
     "outDir": "dist",
     "baseUrl": "./",
     "paths": {
-      "@configs": [
-        "src/configs/configs.dev"
-      ]
+      "@configs": ["src/configs/configs.dev"]
     },
-    "lib": [
-      "es2015",
-      "es6",
-      "esnext.asynciterable",
-      "dom"
-    ]
+    "lib": ["es2015", "es6", "esnext.asynciterable", "dom"]
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules"
-  ],
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"],
   "awesomeTypescriptLoaderOptions": {
     "forceIsolatedModules": true,
     "useBabel": true,
@@ -43,8 +32,6 @@
     // },
     "babelCore": "@babel/core",
     "useCache": true,
-    "reportFiles": [
-      "src/**/*.{ts,tsx}"
-    ]
+    "reportFiles": ["src/**/*.{ts,tsx}"]
   }
 }

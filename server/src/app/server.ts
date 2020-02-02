@@ -8,7 +8,6 @@ import { appSocket } from './socket/app.socket';
 const log = Logger('app:core:server');
 
 export class Server {
-
   static app: Koa;
   static server: http.Server;
 
@@ -16,7 +15,9 @@ export class Server {
     if (!Server.app) {
       Server.app = new Koa();
 
-      if (cb) { cb(Server.app); }
+      if (cb) {
+        cb(Server.app);
+      }
     }
     return Server;
   }
@@ -29,8 +30,7 @@ export class Server {
   static run(port: string) {
     appSocket(Server.server);
 
-    Server.server
-      .listen(this.normalizePort(port))
+    Server.server.listen(this.normalizePort(port));
     //   .on('listening', () => this.onListening(Server.server))
     //   .on('error', (error) => this.onError(Server.server, error));
 
@@ -44,10 +44,12 @@ export class Server {
 
   private static normalizePort(port: string): number | string | boolean {
     const parsedPort = parseInt(port, 10);
-    if (isNaN(parsedPort)) { // named pipe
+    if (isNaN(parsedPort)) {
+      // named pipe
       return port;
     }
-    if (parsedPort >= 0) { // port number
+    if (parsedPort >= 0) {
+      // port number
       return parsedPort;
     }
     return false;
@@ -78,12 +80,6 @@ export class Server {
   }
 
   private static bind(addr: string | any): string {
-    return typeof addr === 'string'
-      ? `pipe ${addr}`
-      : `port http://localhost:${addr.port}`;
+    return typeof addr === 'string' ? `pipe ${addr}` : `port http://localhost:${addr.port}`;
   }
-
-
-
-
 }

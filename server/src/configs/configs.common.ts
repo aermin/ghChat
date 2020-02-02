@@ -8,7 +8,7 @@ export default {
   logger: {
     debug: 'app*',
     console: {
-      level: 'error'
-    }
+      level: 'error',
+    },
   },
-}
+};

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {
-  withRouter,
-} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import Fuse from 'fuse.js';
 import PropTypes from 'prop-types';
 import { List } from 'immutable';
@@ -31,7 +29,7 @@ class ShareModal extends Component {
     document.execCommand('copy');
     document.body.removeChild(dummy);
     notification('你已复制了邀请链接，可以发给应用外的人啦', 'success');
-  }
+  };
 
   searchFieldChange(field) {
     this._filedStr = field.toString();
@@ -54,9 +52,7 @@ class ShareModal extends Component {
       distance: 100,
       maxPatternLength: 32,
       minMatchCharLength: 1,
-      keys: [
-        'name',
-      ]
+      keys: ['name'],
     };
     return options;
   }
@@ -64,12 +60,10 @@ class ShareModal extends Component {
   _clickItemHandle = () => {
     const { homePageList, chatId, userInfo } = this.props;
     this._chat.clickItemToShare({ chatId, homePageList, userInfo });
-  }
+  };
 
   render() {
-    const {
-      title, modalVisible, cancel, allGroupChats, homePageList
-    } = this.props;
+    const { title, modalVisible, cancel, allGroupChats, homePageList } = this.props;
     const { isSearching, contactedItems } = this.state;
     return (
       <Modal
@@ -77,7 +71,7 @@ class ShareModal extends Component {
         visible={modalVisible}
         cancel={cancel}
         modalWrapperClassName="shareModalWrapper"
-        >
+      >
         <SearchBox
           searchFieldChange={value => this.searchFieldChange(value)}
           isSearching={this.state.isSearching}
@@ -89,7 +83,9 @@ class ShareModal extends Component {
           clickItem={this._clickItemHandle}
         />
         <div className="shareShareLink" onClick={this._copyShareLink}>
-          <svg className="icon shareIcon" aria-hidden="true"><use xlinkHref="#icon-share1" /></svg>
+          <svg className="icon shareIcon" aria-hidden="true">
+            <use xlinkHref="#icon-share1" />
+          </svg>
           复制链接分享给应用外的人
         </div>
       </Modal>
@@ -108,7 +104,6 @@ ShareModal.propTypes = {
   chatId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   userInfo: PropTypes.object,
 };
-
 
 ShareModal.defaultProps = {
   title: '',

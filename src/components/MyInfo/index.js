@@ -15,22 +15,23 @@ class MyInfo extends Component {
     this._userInfo = JSON.parse(localStorage.getItem('userInfo'));
   }
 
-    _showPersonalInfo = () => {
-      this.setState(state => ({ showPersonalInfo: !state.showPersonalInfo }));
-    }
+  _showPersonalInfo = () => {
+    this.setState(state => ({ showPersonalInfo: !state.showPersonalInfo }));
+  };
 
   _showShareModal = () => {
-    this.setState(state => ({ showShareModal: !state.showShareModal, showPersonalInfo: false }));
-  }
+    this.setState(state => ({
+      showShareModal: !state.showShareModal,
+      showPersonalInfo: false,
+    }));
+  };
 
   _closeShareModal = () => {
     this.setState({ showShareModal: false });
-  }
+  };
 
   render() {
-    const {
-      name, avatar, github_id, user_id
-    } = this._userInfo;
+    const { name, avatar, github_id, user_id } = this._userInfo;
     const { allGroupChatsState, homePageListState } = store.getState();
     return (
       <div className="myInfo">
@@ -39,7 +40,8 @@ class MyInfo extends Component {
           src={avatar}
           size="36"
           clickAvatar={this._showPersonalInfo}
-          showLogo={!!github_id} />
+          showLogo={!!github_id}
+        />
         <PersonalInfo
           userInfo={this._userInfo}
           hide={this._showPersonalInfo}

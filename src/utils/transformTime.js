@@ -1,4 +1,3 @@
-
 /**
  *
  * @param   时间戳
@@ -16,16 +15,21 @@ function monthHandle(month) {
   return `${month + 1 < 10 ? `0${month + 1}` : month + 1}`;
 }
 
-export const toNormalTime = (timestamp) => {
+export const toNormalTime = timestamp => {
   const dateOfArg = new Date(timestamp * 1000);
   const [yearOfArg, monthOfArg, dayOfArg, hourOfArg, minuteOfArg] = [
-    dateOfArg.getFullYear(), dateOfArg.getMonth(), dateOfArg.getDate(),
-    dateOfArg.getHours(), dateOfArg.getMinutes()
+    dateOfArg.getFullYear(),
+    dateOfArg.getMonth(),
+    dateOfArg.getDate(),
+    dateOfArg.getHours(),
+    dateOfArg.getMinutes(),
   ];
   const date = new Date();
   const [today, yesterday, thisMonth, thisYear] = [
-    date.getDate(), new Date(new Date().setDate(new Date().getDate() - 1)).getDate(),
-    date.getMonth(), date.getFullYear()
+    date.getDate(),
+    new Date(new Date().setDate(new Date().getDate() - 1)).getDate(),
+    date.getMonth(),
+    date.getFullYear(),
   ];
 
   const isToday = thisYear === yearOfArg && thisMonth === monthOfArg && today === dayOfArg;

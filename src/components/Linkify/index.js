@@ -35,7 +35,12 @@ class LinkifyWithTargetBlank extends React.Component {
       const decoratedHref = this.props.hrefDecorator(match.url);
       const decoratedText = this.props.textDecorator(match.text);
       const target = match.schema === 'mailto:' ? '_self' : '_blank';
-      const decoratedComponent = this.props.componentDecorator(decoratedHref, decoratedText, i, target);
+      const decoratedComponent = this.props.componentDecorator(
+        decoratedHref,
+        decoratedText,
+        i,
+        target,
+      );
       elements.push(decoratedComponent);
 
       lastIndex = match.lastIndex;
@@ -46,15 +51,17 @@ class LinkifyWithTargetBlank extends React.Component {
       elements.push(string.substring(lastIndex));
     }
 
-    return (elements.length === 1) ? elements[0] : elements;
+    return elements.length === 1 ? elements[0] : elements;
   }
 
   parse(children, key = 0) {
     if (typeof children === 'string') {
       return this.parseString(children);
-    } if (React.isValidElement(children) && (children.type !== 'a') && (children.type !== 'button')) {
+    }
+    if (React.isValidElement(children) && children.type !== 'a' && children.type !== 'button') {
       return React.cloneElement(children, { key }, this.parse(children.props.children));
-    } if (Array.isArray(children)) {
+    }
+    if (Array.isArray(children)) {
       return children.map((child, i) => this.parse(child, i));
     }
 
@@ -62,11 +69,7 @@ class LinkifyWithTargetBlank extends React.Component {
   }
 
   render() {
-    return (
-      <React.Fragment>
-        {this.parse(this.props.children)}
-      </React.Fragment>
-    );
+    return <React.Fragment>{this.parse(this.props.children)}</React.Fragment>;
   }
 }
 

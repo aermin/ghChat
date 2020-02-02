@@ -6,11 +6,7 @@ const commonConfig = require('./webpack.common.config.js');
 const devConfig = {
   devtool: 'inline-source-map',
   entry: {
-    app: [
-      'babel-polyfill',
-      'react-hot-loader/patch',
-      path.join(__dirname, 'src/index.js')
-    ]
+    app: ['babel-polyfill', 'react-hot-loader/patch', path.join(__dirname, 'src/index.js')],
   },
   output: {
     /* 这里本来应该是[chunkhash]的，但是由于[chunkhash]和react-hot-loader不兼容。只能妥协 */
@@ -22,11 +18,13 @@ const devConfig = {
       {
         test: /\.css$/,
         include: /node_modules/,
-        loader: 'style!css'
-      }, {
+        loader: 'style!css',
+      },
+      {
         test: /\.scss$/,
-        use: ['style-loader', 'css-loader', 'sass-loader', 'postcss-loader']
-      }]
+        use: ['style-loader', 'css-loader', 'sass-loader', 'postcss-loader'],
+      },
+    ],
   },
   devServer: {
     contentBase: path.join(__dirname, './src'), // 让WEB服务器运行静态资源（index.html）
@@ -36,10 +34,10 @@ const devConfig = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify('development')
-      }
-    })
-  ]
+        NODE_ENV: JSON.stringify('development'),
+      },
+    }),
+  ],
 };
 
 module.exports = merge({
@@ -49,5 +47,5 @@ module.exports = merge({
       return b;
     }
     return undefined;
-  }
+  },
 })(commonConfig, devConfig);

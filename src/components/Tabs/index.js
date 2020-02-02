@@ -1,8 +1,6 @@
+/* eslint-disable react/no-unused-prop-types */
 import React, { Component } from 'react';
-import {
-  withRouter,
-  Link
-} from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './style.scss';
 import MyInfo from '../MyInfo';
@@ -17,7 +15,8 @@ class Tabs extends Component {
 
   render() {
     const { pathname } = this.props.location;
-    const showMessageIcon = pathname === '/' || /\/group_chat|\/private_chat|\/robot_chat/.test(pathname);
+    const showMessageIcon =
+      pathname === '/' || /\/group_chat|\/private_chat|\/robot_chat/.test(pathname);
     return (
       <div className="tabs-wrapper">
         <MyInfo />
@@ -42,13 +41,11 @@ class Tabs extends Component {
 
 export default withRouter(Tabs);
 
-
 Tabs.propTypes = {
   location: PropTypes.object,
   initializedApp: PropTypes.bool,
   initApp: PropTypes.func,
 };
-
 
 Tabs.defaultProps = {
   location: { pathname: '/' },

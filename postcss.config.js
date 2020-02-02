@@ -1,5 +1,4 @@
-module.exports = {  
-    plugins: [  
-        require('autoprefixer')  
-    ]  
-}  
+module.exports = {
+  // eslint-disable-next-line global-require
+  plugins: [require('autoprefixer')],
+};

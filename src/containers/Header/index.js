@@ -1,11 +1,7 @@
 import { connect } from 'react-redux';
-import {
-  withRouter
-} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { updateHomePageListAction } from '../HomePageList/homePageListAction';
-import {
-  addGroupMessageAndInfoAction,
-} from '../GroupChatPage/groupChatAction';
+import { addGroupMessageAndInfoAction } from '../GroupChatPage/groupChatAction';
 import Header from '../../components/Header';
 
 const mapStateToProps = state => ({
@@ -19,7 +15,7 @@ const mapDispatchToProps = dispatch => ({
   },
   updateHomePageList(arg = {}) {
     dispatch(updateHomePageListAction({ ...arg }));
-  }
+  },
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

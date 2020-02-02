@@ -1,15 +1,11 @@
-import {
-  withRouter
-} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Setting from '../../components/Setting';
 import { initAppAction } from '../../redux/actions/initAppAction';
-import {
-  setGlobalSettingsAction,
-} from './settingAction';
+import { setGlobalSettingsAction } from './settingAction';
 
 const mapStateToProps = state => ({
-  globalSettings: state.globalSettingsState
+  globalSettings: state.globalSettingsState,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -18,7 +14,7 @@ const mapDispatchToProps = dispatch => ({
   },
   setGlobalSettings(arg) {
     dispatch(setGlobalSettingsAction(arg));
-  }
+  },
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Setting));

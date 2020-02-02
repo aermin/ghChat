@@ -14,7 +14,7 @@ class LogIn extends Component {
       password: '',
       modal: {
         visible: false,
-      }
+      },
     };
   }
 
@@ -36,7 +36,7 @@ class LogIn extends Component {
         this.setState({
           modal: {
             visible: true,
-          }
+          },
         });
       } else {
         notification(res.message, 'error');
@@ -46,21 +46,18 @@ class LogIn extends Component {
     }
   }
 
-  setValue = (value) => {
+  setValue = value => {
     const { name, password } = value;
-    this.setState({
-      name,
-      password
-    }, async () => {
+    this.setState({ name, password }, async () => {
       await this.login();
     });
-  }
+  };
 
   confirm = () => {
     this.setState({
       modal: {
         visible: true,
-      }
+      },
     });
     window.location.reload();
     const originalLink = sessionStorage.getItem('originalLink');
@@ -76,15 +73,8 @@ class LogIn extends Component {
     const { visible } = this.state.modal;
     return (
       <div className="login">
-        <Modal
-          title="提示"
-          visible={visible}
-          confirm={this.confirm}
-          hasConfirm
-        >
-          <p className="content">
-            {'您已登录成功'}
-          </p>
+        <Modal title="提示" visible={visible} confirm={this.confirm} hasConfirm>
+          <p className="content">您已登录成功</p>
         </Modal>
         <SignInSignUp setValue={this.setValue} isLogin />
       </div>

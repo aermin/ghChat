@@ -6,23 +6,19 @@ export const INSERT_MSG = 'robot/INSERT_MSG';
 
 export const insertMsgAction = data => ({
   type: INSERT_MSG,
-  data
+  data,
 });
 
-export const getRobotMsgAction = async (data) => {
-  const response = await request.socketEmitAndGetResponse(
-    'robotChat',
-    data,
-    (error) => {
-      notification('消息发送失败', 'error', 2);
-    }
-  );
+export const getRobotMsgAction = async data => {
+  const response = await request.socketEmitAndGetResponse('robotChat', data, error => {
+    notification('消息发送失败', 'error', 2);
+  });
   const { text, code, url } = response;
   return {
     type: INSERT_MSG,
     data: {
       message: code === 200000 ? text + url : text,
-      user: '机器人小R'
-    }
+      user: '机器人小R',
+    },
   };
 };

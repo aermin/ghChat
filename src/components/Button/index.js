@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import './styles.scss';
 
-export default function Button({
-  clickFn, value, className, disable
-}) {
+export default function Button({ clickFn, value, className, disable }) {
   return (
     <input
       type="button"
@@ -23,7 +21,6 @@ Button.propTypes = {
   className: PropTypes.string,
   disable: PropTypes.bool,
 };
-
 
 Button.defaultProps = {
   clickFn: undefined,

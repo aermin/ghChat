@@ -10,7 +10,7 @@ export default class SearchBox extends Component {
     };
   }
 
-  _searchFieldChange = (event) => {
+  _searchFieldChange = event => {
     const { name, value } = event.target;
     this.setState({ [name]: value });
     const { searchFieldChange } = this.props;
@@ -30,18 +30,17 @@ export default class SearchBox extends Component {
           name="searchField"
           value={isSearching ? searchField : ''}
           placeholder="搜索用户/群"
-          onChange={this._searchFieldChange} />
+          onChange={this._searchFieldChange}
+        />
       </div>
     );
   }
 }
 
-
 SearchBox.propTypes = {
   searchFieldChange: PropTypes.func,
   isSearching: PropTypes.bool,
 };
-
 
 SearchBox.defaultProps = {
   searchFieldChange: undefined,

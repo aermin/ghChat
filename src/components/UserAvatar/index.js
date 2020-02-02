@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import './style.scss';
 
-
 const defaultColors = [
   '#2ecc71', // emerald
   '#3498db', // peter river
@@ -17,7 +16,7 @@ const defaultColors = [
 
 function sumChars(str) {
   let sum = 0;
-  for (let i = 0; i < str.length; i++) {
+  for (let i = 0; i < str.length; i += 1) {
     sum += str.charCodeAt(i);
   }
 
@@ -36,7 +35,7 @@ export default function UserAvatar(props) {
     size,
     borderRadius,
     showLogo,
-    className
+    className,
   } = props;
 
   const innerStyle = {
@@ -74,11 +73,15 @@ export default function UserAvatar(props) {
   }
 
   return (
-    <div className={classnames(className, isGray ? 'userAvatar gray' : 'userAvatar')} style={innerStyle} onClick={clickAvatar}>
+    <div
+      className={classnames(className, isGray ? 'userAvatar gray' : 'userAvatar')}
+      style={innerStyle}
+      onClick={clickAvatar}
+    >
       {showLogo && (
-      <svg className="icon viaGithub" aria-hidden="true">
-        <use xlinkHref="#icon-github" />
-      </svg>
+        <svg className="icon viaGithub" aria-hidden="true">
+          <use xlinkHref="#icon-github" />
+        </svg>
       )}
       {inner}
     </div>
@@ -97,7 +100,6 @@ UserAvatar.propTypes = {
   showLogo: PropTypes.bool,
   className: PropTypes.string,
 };
-
 
 UserAvatar.defaultProps = {
   src: undefined,

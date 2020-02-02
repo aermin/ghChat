@@ -1,7 +1,10 @@
 import { combineReducers } from 'redux';
 
 import robotReducer from '../containers/RobotPage/robotReducer';
-import { getHomePageListReducer, relatedCurrentChatReducer } from '../containers/HomePageList/homePageListReducer';
+import {
+  getHomePageListReducer,
+  relatedCurrentChatReducer,
+} from '../containers/HomePageList/homePageListReducer';
 import { initAppReducer } from './reducers/initAppReducer';
 import { shareReducer } from './reducers/shareReducer';
 import { fetchAllGroupChatsReducer } from '../containers/GroupChatPage/groupChatReducer';

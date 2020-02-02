@@ -3,11 +3,8 @@ import PropTypes from 'prop-types';
 import './style.scss';
 import ModalBase from '../ModalBase';
 
-
 function confirmCancelRender(props) {
-  const {
-    hasCancel, hasConfirm, confirm, cancel
-  } = props;
+  const { hasCancel, hasConfirm, confirm, cancel } = props;
   if (hasCancel && hasConfirm) {
     return (
       <div className="twoButton">
@@ -15,7 +12,8 @@ function confirmCancelRender(props) {
         <p onClick={confirm}>确定</p>
       </div>
     );
-  } if (hasConfirm || hasCancel) {
+  }
+  if (hasConfirm || hasCancel) {
     return (
       <div className="oneButton">
         {hasCancel && <p onClick={cancel}>取消</p>}
@@ -44,9 +42,7 @@ function dialogRender(props) {
   const { title, children } = props;
   return (
     <div className="dialogRender">
-      <h3 className="title">
-        {title}
-      </h3>
+      <h3 className="title">{title}</h3>
       {children}
       {confirmCancelRender({ ...props })}
     </div>
@@ -66,7 +62,5 @@ dialogRender.defaultProps = {
 const ModalDialogRender = ModalBase(dialogRender);
 // TODO: （refactor）take thinner component
 export default function Modal(props) {
-  return (
-    <ModalDialogRender {...props} />
-  );
+  return <ModalDialogRender {...props} />;
 }

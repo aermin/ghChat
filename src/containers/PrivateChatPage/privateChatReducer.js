@@ -19,6 +19,4 @@ const fetchAllPrivateChatsReducer = (previousState = new Map(), action) => {
   }
 };
 
-export {
-  fetchAllPrivateChatsReducer,
-};
+export { fetchAllPrivateChatsReducer };

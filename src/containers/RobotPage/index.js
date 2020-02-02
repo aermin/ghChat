@@ -3,7 +3,7 @@ import { getRobotMsgAction, insertMsgAction } from './robotAction';
 import Robot from '../../components/Robot';
 
 const mapStateToProps = state => ({
-  robotState: state.robotState
+  robotState: state.robotState,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -12,8 +12,7 @@ const mapDispatchToProps = dispatch => ({
   },
   async getRobotMsg(data) {
     dispatch(await getRobotMsgAction(data));
-  }
+  },
 });
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Robot);

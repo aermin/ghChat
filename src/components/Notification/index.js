@@ -7,25 +7,28 @@ function addIcon(msg, type) {
   if (type === 'success') {
     content = (
       <div className="all-icon">
-        <svg className="icon " aria-hidden="true"><use xlinkHref="#icon-success1" /></svg>
-        {' '}
-        { msg }
+        <svg className="icon " aria-hidden="true">
+          <use xlinkHref="#icon-success1" />
+        </svg>{' '}
+        {msg}
       </div>
     );
   } else if (type === 'warn') {
     content = (
       <div className="all-icon">
-        <svg className="icon" aria-hidden="true"><use xlinkHref="#icon-warn1" /></svg>
-        {' '}
-        { msg }
+        <svg className="icon" aria-hidden="true">
+          <use xlinkHref="#icon-warn1" />
+        </svg>{' '}
+        {msg}
       </div>
     );
   } else if (type === 'error') {
     content = (
       <div className="all-icon">
-        <svg className="icon" aria-hidden="true"><use xlinkHref="#icon-error1" /></svg>
-        {' '}
-        { msg }
+        <svg className="icon" aria-hidden="true">
+          <use xlinkHref="#icon-error1" />
+        </svg>{' '}
+        {msg}
       </div>
     );
   }
@@ -34,10 +37,10 @@ function addIcon(msg, type) {
 
 export default function notification(msg, type, duration) {
   const content = addIcon(msg, type);
-  Notification.newInstance({}, (notification) => {
+  Notification.newInstance({}, notification => {
     notification.notice({
       content,
-      duration
+      duration,
     });
   });
 }
