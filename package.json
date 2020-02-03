@@ -50,6 +50,7 @@
     "node-sass": "^4.12.0",
     "postcss-loader": "^2.1.5",
     "prettier": "^1.19.1",
+    "progress-bar-webpack-plugin": "^2.1.0",
     "react-hot-loader": "^4.12.15",
     "redux-devtools-extension": "^2.13.2",
     "sass-loader": "^7.0.2",
