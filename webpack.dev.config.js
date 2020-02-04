@@ -5,6 +5,7 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const commonConfig = require('./webpack.common.config.js');
 
 const devConfig = {
+  mode: 'development',
   devtool: 'inline-source-map',
   entry: {
     app: ['babel-polyfill', 'react-hot-loader/patch', path.join(__dirname, 'src/index.js')],

@@ -49,14 +49,12 @@ const commonConfig = {
       template: path.join(__dirname, 'src/index.html'),
     }),
     new webpack.HashedModuleIdsPlugin(),
-    new webpack.optimize.CommonsChunkPlugin({
-      // 提取并缓存公共库
-      name: 'vendor',
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'runtime',
-    }),
   ],
+  optimization: {
+    runtimeChunk: {
+      name: entrypoint => `runtime~${entrypoint.name}`,
+    },
+  },
 };
 
 module.exports = commonConfig;
