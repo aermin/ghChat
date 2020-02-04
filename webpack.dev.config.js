@@ -5,6 +5,7 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const commonConfig = require('./webpack.common.config.js');
 
 const devConfig = {
+  mode: 'development',
   devtool: 'inline-source-map',
   entry: {
     app: ['babel-polyfill', 'react-hot-loader/patch', path.join(__dirname, 'src/index.js')],
@@ -34,14 +35,7 @@ const devConfig = {
     compress: true,
     stats: 'errors-only', // 只在发生错误时输出
   },
-  plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('development'),
-      },
-    }),
-    new ProgressBarPlugin(),
-  ],
+  plugins: [new ProgressBarPlugin()],
 };
 
 module.exports = merge({

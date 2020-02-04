@@ -75,7 +75,7 @@ function RightView(props) {
   );
 }
 
-export default function getRouter() {
+export default function App() {
   return (
     <Router>
       <div className="layout-wrapper">
