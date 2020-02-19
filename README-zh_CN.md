@@ -1,8 +1,9 @@
 ![ghChat](https://user-images.githubusercontent.com/24861316/54087066-55783580-438a-11e9-9a5d-14288e84a3f9.png)
 
-Node 版本: 8.12.0
-Npm 版本: 6.4.1
-MySQL 版本: 5.7.22
+[![Node.js](https://img.shields.io/badge/Node.js-10.15.3-brightgreen.svg)](https://nodejs.org/en/download/)
+[![MySQL](https://img.shields.io/badge/MySQL-5.7.22-lightgrey.svg)](https://www.mysql.com/downloads/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/aermin/ghChat/blob/master/LICENSE)
+[![Author](https://img.shields.io/badge/Author-aermin-blue.svg)](https://github.com/aermin)
 
 [English](./README.md) | 简体中文
 
