@@ -140,7 +140,7 @@ export default class PrivateChat extends Component {
       initApp,
     } = this.props;
     const { showPersonalInfo, showShareModal, toUserInfo, disableJoinButton } = this.state;
-    if (!allPrivateChats && !allPrivateChats.size) return null;
+    if ((!allPrivateChats && !allPrivateChats.size) || !this.chatId) return null;
     const chatItem = allPrivateChats.get(this.chatId);
     const messages = chatItem ? chatItem.messages : [];
     const userInfo = chatItem ? chatItem.userInfo : toUserInfo;
