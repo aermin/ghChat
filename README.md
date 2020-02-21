@@ -110,7 +110,7 @@ Just some functions
   - [x] Lazy load chat messages. Fetch twenty messages by one time in every chat.
   - [x] lazy load components
   - [x] API request frequency limit
-  - [ ] css files build separately
+  - [x] Build file Split Chunks
   - [ ] SQL optimization
 
 - Others

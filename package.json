@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --config webpack.dev.config.js --color  --hot",
     "build": "webpack --config webpack.dev.config.js",
-    "build:prod": "webpack --config webpack.config.js",
+    "build:prod": "webpack --config webpack.prod.config.js",
     "lint": "eslint src",
     "prettier": "prettier --write \"**/*.{js,jsx,json,md,ts}\""
   },
@@ -44,10 +44,12 @@
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.11.1",
-    "extract-text-webpack-plugin": "^3.0.2",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "file-loader": "^1.1.11",
     "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.13.1",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-loader": "^2.1.5",
     "prettier": "^1.19.1",
     "progress-bar-webpack-plugin": "^2.1.0",
@@ -55,11 +57,12 @@
     "redux-devtools-extension": "^2.13.2",
     "sass-loader": "^7.0.2",
     "style-loader": "^0.21.0",
+    "terser-webpack-plugin": "^2.3.5",
     "url-loader": "^1.1.2",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.2",
-    "webpack-merge": "^4.1.2"
+    "webpack-dev-server": "^3.10.3",
+    "webpack-merge": "^4.2.2"
   },
   "dependencies": {
     "@loadable/component": "^5.7.0",

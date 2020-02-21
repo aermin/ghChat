@@ -2,16 +2,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 
-const commonConfig = {
-  /* 入口 */
-  entry: {
-    app: ['babel-polyfill', path.join(__dirname, 'src/index.js')],
-    vendor: ['react', 'react-router-dom', 'redux', 'react-dom', 'react-redux'], // 把react等库生成打包到vendor.hash.js里面去。
-  },
-  /* 输出到build文件夹，输出文件名字为[name].[chunkhash].js */
+module.exports = {
   output: {
-    path: path.join(__dirname, './build'),
-    filename: '[name].[chunkhash].js',
     chunkFilename: '[name].[chunkhash].js',
     publicPath: '/',
   },
@@ -22,12 +14,7 @@ const commonConfig = {
       {
         test: /\.(js|jsx)$/,
         use: ['babel-loader?cacheDirectory=true'],
-        include: path.join(__dirname, 'src'),
-      },
-      {
-        test: /\.(js|jsx)$/,
-        use: 'react-hot-loader/webpack',
-        include: /node_modules/,
+        include: path.resolve(__dirname, 'src'),
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
@@ -46,15 +33,7 @@ const commonConfig = {
     new HtmlWebpackPlugin({
       // 每次自动把js插入到模板index.html里面去
       filename: 'index.html',
-      template: path.join(__dirname, 'src/index.html'),
+      template: path.resolve(__dirname, 'src/index.html'),
     }),
-    new webpack.HashedModuleIdsPlugin(),
   ],
-  optimization: {
-    runtimeChunk: {
-      name: entrypoint => `runtime~${entrypoint.name}`,
-    },
-  },
 };
-
-module.exports = commonConfig;
