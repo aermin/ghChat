@@ -1,137 +1,163 @@
 ![ghChat](https://user-images.githubusercontent.com/24861316/54087066-55783580-438a-11e9-9a5d-14288e84a3f9.png)
 
-
 [![Node.js](https://img.shields.io/badge/Node.js-10.15.3-brightgreen.svg)](https://nodejs.org/en/download/)
 [![MySQL](https://img.shields.io/badge/MySQL-5.7.22-lightgrey.svg)](https://www.mysql.com/downloads/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/aermin/ghChat/blob/master/LICENSE)
 [![Author](https://img.shields.io/badge/Author-aermin-blue.svg)](https://github.com/aermin)
 
-English | [简体中文](./README-zh_CN.md)
+[English](./README-en.md) | 简体中文
 
-## ghChat(react version)
+## ghChat(react版)
 
-I hope that this project can be a chat tool for GitHub. So I will try to make it do some integration with GitHub. At present，it just support logging in with GitHub authorization and look GitHub user public information in ghChat. You can create group in ghChat for your github project and post the group link in the readme to convenient for the users' communication.
+之所以叫ghChat，是想着以后做一些GitHub的集成，希望让这个即时通讯工具成为chat tool for github。目前只支持github授权登录，和展示github用户公开的信息，然后可以方便地在ghChat中为自己的github项目建个项目群，然后贴群链接到readme中，方便项目即时交流。
 
-If you have anything idea about integration, welcome to create issues about feature suggestion, bug feedback or send pull requests.
+[应用线上地址(也是项目的群链接)，支持直接github授权登录](https://im.aermin.top/group_chat/ddbffd80-3663-11e9-a580-d119b23ef62e)
 
-### Address
+> [建议开启PWA](https://github.com/aermin/blog/issues/63)
 
-[GitHub address](https://github.com/aermin/ghChat)
+### 技术栈
 
-[Project online address(also this project's group address)，support logging in with GitHub authorization](https://im.aermin.top/group_chat/ddbffd80-3663-11e9-a580-d119b23ef62e)
+前端React全家桶，PWA，后端node.js(koa2)，后端支持并写了点TS(大多类型还没补 T^T)
+, 数据库MySQL, SocKetIO, JWT等等，具体看package.json。另外生产环境用了Nginx, SSL, Pm2等。欢迎加ghChat群交流哦，我每天都在线，也可以[点击私聊我](https://im.aermin.top/private_chat/1)
 
-Welcome to [ click this link](https://im.aermin.top/private_chat/1) to contact me.
+![pic](https://user-images.githubusercontent.com/24861316/75103650-7cca2000-5638-11ea-8518-03eb95deb87b.png)
 
 
-### What technology do ghChat use?
+### 详细的项目展示图
 
-Front-End : React+Redux+React-router+axios+scss；
-Back-end: node(koa2)+mysql+JWT(Json web token);
-use socket.io to send messages with each other.
-And get other technology please follow the package.json file.
+<details><summary><b>点开查看</b></summary><br>
 
-### Demo with photo：
+![pic1](https://user-images.githubusercontent.com/24861316/75103301-ff9cac00-5633-11ea-89b0-f54fa90b71ea.png)
 
-Just some functions
+![pic2](https://user-images.githubusercontent.com/24861316/75103299-fa3f6180-5633-11ea-9598-1f2852e5aa19.png)
 
-![image](https://user-images.githubusercontent.com/24861316/55677334-2f599d00-5918-11e9-8eb9-ab74a56572b1.png)
+![pic3](https://user-images.githubusercontent.com/24861316/57188951-5e285a80-6f3a-11e9-8def-ef932c4abc8b.png)
 
-![image](https://user-images.githubusercontent.com/24861316/57189039-caf02480-6f3b-11e9-85b0-59f107b9b26f.png)
+![pic4](https://user-images.githubusercontent.com/24861316/75103530-979b9500-5636-11ea-9334-bac68924005b.png)
+</details>
 
-![image](https://user-images.githubusercontent.com/24861316/57188951-5e285a80-6f3a-11e9-8def-ef932c4abc8b.png)
+### 目前进度
 
-### Suggest to open PWA: [How to turn on PWA in chrome?](https://github.com/aermin/blog/issues/63)
+<details><summary>点开查看</summary><br>
 
-### Features && Progress
+- 账户
 
-- Account system
+登录/ 注册/ 退出登录/ 多设备同时登录
 
-  - [x] Log in
-  - [x] Resister
-  - [x] Log out
-  - [x] log in multiple devices at the same time
+- 对github的集成
 
-- Integrate with github
-
-  - [x] Log in with github authorization
-  - [x] show github user public information
+支持github授权登录/ 展示github用户公开的信息
 
 - UI
-    - [x] Basic UI components: modal，notification ...
-    - [x] Responsive layout.
 
-- Private chat
+响应式布局, 适配桌面端和移动端/ 大部分UI组件自己写
 
-  - [x] Chat with my contacts
-  - [x] Add contact
-  - [x] Contact information card
-  - [x] Delete contact
+- 私聊
 
-- Group chat
+私聊/ 添加联系人/好友资料展示/ 删除联系人
 
-  - [x] Chat together in a group
-  - [x] Create a group
-  - [x] Join a group
-  - [x] Group information view, include group members, group notice, group name...
-  - [x] Quit the group
-  - [x] Editor group information
-  - [x] Prompt when some one join group
+- 群聊
 
-- Search
+群聊/ 建群/ 加群/ 群资料展示/ 退群/ 编辑群资料/ 新人进群通知
 
-  - [x] Search users and groups in local or online obscurely
+- 查询
 
-- Rich chat mode
+用户搜索&&群搜索： 支持前端模糊搜索和后端模糊搜索
 
-  - [x] Chat list sort by time every time
-  - [x] Send photo
-  - [x] Send emoji
-  - [x] Send file
-  - [x] Download file
-  - [x] Press enter key to send message
-  - [x] @somebody
-  - [x] Full view photo
-  - [x] Send photo from copy
-  - [x] share user/group in the internal or external
-  - [ ] Search expression online
-  - [ ] Markdown
-  - [ ] Quote
+- 丰富聊天方式
 
-- Message notification
+发图/ 发表情/ 发文件/ 下载文件/ Enter快捷键发送信息/ @某人/ 图片查看/
+发送copy的图片(如截图后粘贴可直接发图)/ 根据时间降序展示聊天页表/
+分享群|联系人给其他的人|群（应用内|外都支持）
 
-  - [x] Browser notification
-  - [x] Browser notification switch
-  - [x] Show chat messages unread number in the chat list
-  - [x] chat messages unread number still show accurately when user refresh, reopen page or (different accounts)login again
+- 新消息提示
 
-- Performance
+浏览器桌面通知/ 消息是否提示的开关设置/ 列表未读消息数目提示/
+刷新|重开|(不同账号)重登页面，列表未读消息的数目将仍然且准确显示
 
-  - [x] Open gzip to compress static resource
-  - [x] Lazy load chat messages. Fetch twenty messages by one time in every chat.
-  - [x] lazy load components
-  - [x] API request frequency limit
-  - [x] Build file Split Chunks
-  - [ ] SQL optimization
+- 不断的重构和优化
 
-- Others
+gzip 压缩/ 分包build文件/ 聊天内容懒加载/
+路由按需加载/ 接口请求频率限制/ WebSocket管理机制
 
-  - [x] Robot smart reply (just support Chinese)
-  - [x] Add SSL for website
-  - [x] PWA
-  - [x] Rewrite back end code with TS
-  - [ ] Multilingual solution with I18
-  - [ ] encapsulate back end code as sdk.
-  - [ ] CI/CD
 
-### Development
+- 其他
 
-1. clone project code
+机器人智能聊天回复/ 部署SSL证书/ 支持PWA/ 后端支持TS
+
+- TODO
+
+支持Markdown/ 支持引用聊天内容/ 后端封装成sdk/ 国际化/ CI CD
+
+</details>
+
+### 项目结构图
+
+<details><summary>点开查看</summary><br>
+
+```
+├── LICENSE
+├── README-zh_CN.md
+├── README.md
+├── package-lock.json
+├── package.json
+├── postcss.config.js
+├── server // 后端代码
+│   ├── ecosystem.config.js
+│   ├── init // 初始化mysql数据库的脚本
+│   ├── nodemon.json
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── secrets.ts // 放一些非公开的secret
+│   ├── src
+│     ├── app
+│     ├── context
+|     ├── controllers
+|     ├── index.ts
+|     ├── middlewares
+|     ├── routes // 后端路由，跟登录注册模块有关
+|     ├── server.ts
+|     ├── services
+|     ├── socket // 除了登录注册，其他都用socket 来通信
+|     └── utils
+|     ├── configs
+|       ├── configs.common.ts // 后端通用配置
+|       ├── configs.dev.ts // 后端开发配置
+|       └── configs.prod.ts // 后端生产配置
+    └── main.ts
+│   ├── tsconfig.json
+│   ├── tslint.json
+│   └── webpack.config.js
+├── src // 前端代码
+│   ├── App.js
+│   ├── app.scss
+│   ├── assets
+│   ├── components
+│   ├── containers
+│   ├── index.html
+│   ├── index.js
+│   ├── manifest.json // PWA需要
+│   ├── modules
+│   ├── redux
+│   ├── router
+│   ├── service-worker.js // PWA需要
+│   └── utils
+├── webpack.common.config.js  // 通用webpack设置
+├── webpack.prod.config.js //生产相关的webpack配置
+└── webpack.dev.config.js //开发相关的webpack配置
+```
+</details>
+
+### 本地开发
+
+<details><summary>点开查看</summary><br>
+
+1. 项目拉到本地
 ```
 git clone https://github.com/aermin/ghChat.git
 ```
 
-2. download npm module for front end
-
+2. 下载前端的npm包
 ```
 cd ghChat
 ```
@@ -140,7 +166,7 @@ cd ghChat
 npm i
 ```
 
-3. download npm module for the back end
+3. 下载后端的npm包
 ```
 cd ghChat/server
 ```
@@ -149,36 +175,42 @@ cd ghChat/server
 npm i
 ```
 
-4. init DB
-```
-// You should create a MySQL DB which name ghchat in local
-DB configuration follows 'ghChat/server/src/configs/configs.dev.ts'
-
-npm run init_sql // then check if it inits successfully
-```
-ps: if you want to use github authorization to log in and use qiniu cdn which provides storage to send photo and file, you should follow the file(ghChat/server/src/configs/configs.dev.ts) to configure. The default won't be able to use.
-
-
-5. run front end and back end code
-```
-npm run start
-```
+4. 初始化数据库
 
 ```
-cd ..
+//需要先在本地建一个名为ghchat的mysql数据库
+数据库配置参考如下(ghChat/server/src/configs/configs.dev.ts) 的dbConnection
+
+npm run init_sql    //然后查看下数据库是否init成功
 ```
 
+ps: 如果要使用github授权登录，发图片和发文件(使用七牛云cdn)，就要在文件(ghChat/server/src/configs/configs.dev.ts)填充相应的配置了，否则默认无法使用
+
+
+5. 跑起前端和后端的代码
 ```
 npm run start
 ```
 
-### use in production
+```
+cd ..      // 返回到ghChat/目录
+```
 
-Premise: pls create secrets.ts file to do configuration inside ghChat/server/ folder
+```
+npm run start
+```
 
+</details>
+
+
+### 生产环境使用
+
+<details><summary>点开查看</summary><br>
+
+前提：在ghChat/server/ 文件夹下创建secrets.ts文件
 ```
 export default {
-  port: '3000', // server port
+  port: '3000', // server 端口
   dbConnection: {
     host: '', // 数据库IP
     port: 3306, // 数据库端口
@@ -186,44 +218,65 @@ export default {
     user: '', // 数据库用户名
     password: '', // 数据库密码
   },
-  client_secret: '', // client_secret of github authorization:  github-> settings ->  Developer settings to get
-  jwt_secret: '', // secret of json web token
-  qiniu: { // qiniu cdn configuration
+  client_secret: '', // github的client_secret
+  jwt_secret: '', // jwt的secret
+  qiniu: { // 七牛云cdn配置
     accessKey: '',
     secretKey: '',
     bucket: ''
   },
-  robot_key: '', // the key of robot chat api => If you want to use robot chat, pls apply this key from http://www.tuling123.com/
+  robot_key: '', // 机器人聊天用到的key => 请自己申请 http://www.tuling123.com/
 };
 ```
 
-1.build front end code
+1.build前端代码
 
 ```
 cd src
 npm run build:prod
 ```
 
-2.build server code
+2.build后端代码
 
 ```
 cd sever
 npm run build:prod
 ```
+3. 把步骤1，2产生的文件夹(build, dist)放到你的服务器上, 把dist/index.js文件跑起来
+(可以把ghChat/server/package.json 一并拷到到你的服务器上，然后执行`npm run start:prod`)
 
-3. put the folders(build, dist) which built from step1, step2 into you server, and run dist/index.js file
-(here you can copy ghChat/server/package.json to your sever as well，and run command `npm run start:prod`)
+</details>
+
+
+这边开坑了一篇[ghChat开发历程](https://github.com/aermin/blog/issues/60) ，将不断地更新总结做这个全栈项目时会遇到的问题，知识点，和坑。
+
 
 ### License
 
 [MIT](https://opensource.org/licenses/MIT)
 
-***Please indicate the source if you use the code of this project***
+> 码代码不易，引用借鉴请注明出处
 
 ### Contributors
+
+<details><summary>感谢大佬们的pr</summary><br>
+
 
 <a href="https://github.com/aermin"><img src="https://avatars2.githubusercontent.com/u/24861316?s=460&v=4" width="60" height="60" /></a>
 <a href="https://github.com/AbbyJL"><img src="https://avatars2.githubusercontent.com/u/33203948?s=400&v=4" width="60" height="60" /></a>
 <a href="https://github.com/ZouYouShun"><img src="https://avatars0.githubusercontent.com/u/5878538?s=400&v=4" width="60" height="60" /></a>
 <a href="https://github.com/blackmatch"><img src="https://avatars1.githubusercontent.com/u/12443954?s=400&v=4" width="60" height="60" /></a>
 <a href="https://github.com/gaoac"><img src="https://avatars3.githubusercontent.com/u/15978393?s=400&v=4" width="60" height="60" /></a>
+
+</details>
+
+
+### 最后
+
+对你有帮助或者觉得还不错可以star或者打赏下(〃'▽'〃)
+
+<details><summary>打赏二维吗</summary><br>
+
+![donate](https://cdn.aermin.top/WechatIMG20.png)
+
+</details>
