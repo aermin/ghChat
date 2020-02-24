@@ -25,19 +25,31 @@ export default class SignInSignUp extends Component {
     const href = window.location.href;
     if (/\/login\?code/.test(href)) {
       const code = href.split('?code=')[1];
-      const response = await Request.axios('post', '/api/v1/github_oauth', {
+      Request.axios('post', '/api/v1/github_oauth', {
         code,
         clientId: this.clientId,
-      });
-      localStorage.setItem('userInfo', JSON.stringify(response));
-      window.location.reload();
-      const originalLink = sessionStorage.getItem('originalLink');
-      if (originalLink) {
-        sessionStorage.removeItem('originalLink');
-        window.location.href = originalLink;
-        return;
-      }
-      window.location.href = '/';
+      })
+        .then(response => {
+          localStorage.setItem('userInfo', JSON.stringify(response));
+          window.location.reload();
+          const originalLink = sessionStorage.getItem('originalLink');
+          if (originalLink) {
+            sessionStorage.removeItem('originalLink');
+            window.location.href = originalLink;
+            return;
+          }
+          window.location.href = '/';
+        })
+        .catch(error => {
+          console.log(
+            '使用github登录前请确定你的github设置了public的email，否则可能会失败 error => ',
+            error,
+          );
+          window.open(
+            'https://user-images.githubusercontent.com/24861316/75133098-6b564600-5714-11ea-824a-b367ed55b1a1.png',
+          );
+          window.location.href = '/login';
+        });
     }
   }
 
@@ -107,6 +119,7 @@ export default class SignInSignUp extends Component {
             </svg>
           </a>
         </div>
+        <div className="version">Version: 2.5.5</div>
       </div>
     );
   }

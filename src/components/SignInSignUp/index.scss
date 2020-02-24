@@ -30,6 +30,13 @@
       padding: 10px;
     }
   }
+  .version {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    color: $lightGray;
+    font-size: 12px;
+  }
   .userAvatarWrapper {
     margin: 10px 0 20px;
   }

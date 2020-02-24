@@ -81,7 +81,6 @@ function Setting({ initApp, history, globalSettings, setGlobalSettings }) {
         项目交流群
       </div>
       <Button clickFn={() => setLogoutModalVisible(true)} value="退出登录" />
-      <div className="version">Version: 2.5.2</div>
     </div>
   );
 }

@@ -13,6 +13,16 @@
 
 [应用线上地址(也是项目的群链接)，支持直接github授权登录](https://im.aermin.top/group_chat/ddbffd80-3663-11e9-a580-d119b23ef62e)
 
+***倘若github登录失败***
+
+<details><summary><b>查看如何设置</b></summary><br>
+
+很可能是你的github没有设置public的email
+
+![ACF5CEB66E47AEE81B5ABD21592A3827](https://user-images.githubusercontent.com/24861316/75132311-76f43d80-5711-11ea-8f9d-8d609b754516.jpg)
+</details>
+
+
 > [建议开启PWA](https://github.com/aermin/blog/issues/63)
 
 ### 技术栈
