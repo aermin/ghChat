@@ -9,7 +9,7 @@
     "cleanAndUpdate": "npm run clean && ncu -a && ncu -d -a && npm install",
     "start": "npm run build && npm run watch",
     "watch": "concurrently -k -p \"[{name}]\" -n \"Node,TypeScript\" -c \"green.bold,cyan.bold,green.bold\" \"npm run runWithNodemon\" \"npm run watch-build\"",
-    "runWithNodemon": "nodemon --delay 80ms --exec 'lsof -nti:9229 | xargs kill -9; node --inspect=0.0.0.0:9229 ./dist/index.js'",
+    "runWithNodemon": "nodemon --delay 80ms node --inspect=0.0.0.0:9229 ./dist/index.js",
     "clean-dist": "rimraf dist",
     "build": "npm run clean-dist && webpack --config webpack.config.js --progress --colors",
     "watch-build": "webpack --config webpack.config.js --progress --colors -w",
