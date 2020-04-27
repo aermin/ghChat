@@ -36,7 +36,9 @@ export default class ChatContentList extends Component {
       this._loadingNewMessages = false;
       return;
     }
-    this.scrollBottomRef.scrollIntoView();
+    if (nextProps.ChatContent !== this.props.ChatContent) {
+      this.scrollBottomRef.scrollIntoView();
+    }
   }
 
   _lazyLoadMessage = () => {

@@ -119,7 +119,7 @@ export default class SignInSignUp extends Component {
             </svg>
           </a>
         </div>
-        <div className="version">Version: 2.5.5</div>
+        <div className="version">Version: 2.5.6</div>
       </div>
     );
   }
