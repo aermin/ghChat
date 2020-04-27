@@ -30,6 +30,10 @@ class MyInfo extends Component {
     this.setState({ showShareModal: false });
   };
 
+  get shareLink() {
+    return `${window.location.origin}/private_chat/${this._userInfo.user_id}`;
+  }
+
   render() {
     const { name, avatar, github_id, user_id } = this._userInfo;
     const { allGroupChatsState, homePageListState } = store.getState();
@@ -58,6 +62,7 @@ class MyInfo extends Component {
           allGroupChats={allGroupChatsState}
           homePageList={homePageListState}
           userInfo={this._userInfo}
+          shareLink={this.shareLink}
         />
       </div>
     );

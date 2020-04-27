@@ -22,7 +22,7 @@ class ShareModal extends Component {
 
   _copyShareLink = () => {
     const dummy = document.createElement('input');
-    const text = `${window.location.origin}${window.location.pathname}`;
+    const text = this.props.shareLink || `${window.location.origin}${window.location.pathname}`;
     document.body.appendChild(dummy);
     dummy.value = text;
     dummy.select();
@@ -103,6 +103,7 @@ ShareModal.propTypes = {
   cancel: PropTypes.func,
   chatId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   userInfo: PropTypes.object,
+  shareLink: PropTypes.string,
 };
 
 ShareModal.defaultProps = {
@@ -113,4 +114,5 @@ ShareModal.defaultProps = {
   cancel() {},
   chatId: null,
   userInfo: undefined,
+  shareLink: undefined,
 };
