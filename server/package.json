@@ -67,6 +67,7 @@
     "ts-node-dev": "^1.0.0-pre.43",
     "webpack": "^4.29.0",
     "webpack-cli": "^3.2.1",
-    "webpack-node-externals": "^1.7.2"
+    "webpack-node-externals": "^1.7.2",
+    "rimraf": "^2.5.4"
   }
 }
