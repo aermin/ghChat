@@ -37,7 +37,7 @@
     "qiniu": "^7.2.1",
     "request": "^2.87.0",
     "request-promise": "^4.2.2",
-    "socket.io": "^2.0.3",
+    "socket.io": "^2.4.0",
     "typescript": "^3.4.3",
     "uuid": "^3.2.1",
     "winston": "^3.2.1"
