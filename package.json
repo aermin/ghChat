@@ -66,7 +66,7 @@
   },
   "dependencies": {
     "@loadable/component": "^5.7.0",
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "classnames": "^2.2.6",
     "emoji-mart": "^2.9.2",
     "fuse.js": "^3.3.0",
