@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@koa/cors": "^2.2.3",
-    "async": "0.2.9",
+    "async": "2.6.4",
     "jsonwebtoken": "^8.1.0",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
