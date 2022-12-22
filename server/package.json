@@ -24,7 +24,7 @@
   "dependencies": {
     "@koa/cors": "^2.2.3",
     "async": "0.2.9",
-    "jsonwebtoken": "^8.1.0",
+    "jsonwebtoken": "^9.0.0",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
     "koa-compress": "^3.0.0",
